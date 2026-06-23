@@ -1,0 +1,12 @@
+/node_modules/
+/vendor/
+/build/
+/playwright-report/
+/test-results/
+.phpunit.result.cache
+.DS_Store
+.wp-env.override.json
+/.conductor/settings.local.toml
+/.worktrees/
+/.context/
+/docs/superpowers/
