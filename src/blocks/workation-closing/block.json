@@ -1,0 +1,71 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-closing",
+  "title": "Workation Closing CTA",
+  "category": "design",
+  "description": "Homepage closing call-to-action section.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "headline": {
+      "type": "string",
+      "default": ""
+    },
+    "lead": {
+      "type": "string",
+      "default": ""
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "primaryText": {
+      "type": "string",
+      "default": ""
+    },
+    "primaryUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "secondaryText": {
+      "type": "string",
+      "default": ""
+    },
+    "secondaryUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "linkUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "items": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

@@ -1,28 +1,17 @@
 <?php
 
 /**
- * Guards that the child theme does NOT mask the parent's Pediment tokens.
+ * Guards the Workation Castle child-theme reskin.
  *
- * Runs in the child wp-env base (:8890/:8891), which mounts this child
- * checkout plus ../pediment (the parent). With the child theme
- * active and no `settings` block in the child theme.json, the resolved
- * global settings must be the parent's Pediment palette/typography.
- *
- * IMPORTANT (harness quirk): the WP test bootstrap primes
- * WP_Theme_JSON_Resolver's static caches before switching the theme, and
- * touching the theme object (`wp_get_theme()`) before the resolver read
- * re-poisons them in a way `clean_cached_data()` alone does not undo. So
- * every test here must `clean_cached_data()` and read the merged data
- * FIRST, and only then assert the active theme via the lightweight
- * `get_stylesheet()` string accessor. Do not introduce a `set_up()` that
- * calls `wp_get_theme()`.
+ * The child theme intentionally forks the parent's palette and typography
+ * subtrees. These tests make sure we keep the full Pediment slug surface
+ * while applying the Workation Castle brand.
  */
 class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 
 	/**
 	 * Clean the resolver caches and return the freshly merged
-	 * (parent ⊕ child) global settings. Must be the first thing a test
-	 * does — before any theme-object access.
+	 * (parent ⊕ child) global settings.
 	 *
 	 * @return array<string,mixed>
 	 */
@@ -32,10 +21,10 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 	}
 
 	private function assert_child_theme_active() {
-		$this->assertSame(
-			'pediment-child-theme',
+		$this->assertContains(
 			get_stylesheet(),
-			'These Pediment-inheritance guards are only meaningful with the child theme active.'
+			array( 'pediment-child-theme', 'accra' ),
+			'These theme-json guards are only meaningful with this child theme active.'
 		);
 	}
 
@@ -57,55 +46,63 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 		return $by_slug;
 	}
 
-	public function test_child_inherits_pediment_palette() {
+	public function test_workation_castle_palette_preserves_required_slugs() {
 		$by_slug = $this->theme_palette();
 		$this->assertSame(
-			'#0E7490',
-			isset( $by_slug['accent'] ) ? $by_slug['accent'] : null,
-			'Child must inherit the Pediment accent, not the legacy indigo #4F46E5.'
-		);
-		$this->assertSame(
-			'#0A1B33',
-			isset( $by_slug['primary'] ) ? $by_slug['primary'] : null,
-			'Child must inherit the Pediment primary, not the legacy #0F172A.'
-		);
-		$this->assertArrayHasKey(
-			'accent-tint',
-			$by_slug,
-			'The Pediment accent-tint slug must be inherited (the legacy child palette omitted it).'
+			array(
+				'primary',
+				'accent',
+				'accent-hover',
+				'accent-tint',
+				'surface',
+				'surface-elevated',
+				'surface-sunken',
+				'foreground',
+				'foreground-muted',
+				'border',
+				'border-strong',
+			),
+			array_keys( $by_slug ),
+			'The child palette must keep the full Pediment slug surface.'
 		);
 	}
 
-	public function test_child_inherits_plus_jakarta_sans_body_font() {
+	public function test_workation_castle_palette_applies_brand_colors() {
+		$by_slug = $this->theme_palette();
+		$this->assertSame( '#FEC601', $by_slug['accent'] );
+		$this->assertSame( '#E5A800', $by_slug['accent-hover'] );
+		$this->assertSame( '#FAF6EE', $by_slug['surface'] );
+		$this->assertSame( '#F2EADA', $by_slug['surface-sunken'] );
+		$this->assertSame( '#241C12', $by_slug['foreground'] );
+	}
+
+	public function test_workation_castle_typography_uses_inria_families() {
 		$settings = $this->fresh_settings();
 		$this->assert_child_theme_active();
 		$families = isset( $settings['typography']['fontFamilies']['theme'] )
 			? $settings['typography']['fontFamilies']['theme']
 			: array();
-		$body = '';
+		$by_slug = array();
 		foreach ( $families as $family ) {
-			if ( isset( $family['slug'] ) && 'body' === $family['slug'] ) {
-				$body = isset( $family['fontFamily'] ) ? $family['fontFamily'] : '';
+			if ( isset( $family['slug'], $family['fontFamily'] ) ) {
+				$by_slug[ $family['slug'] ] = $family['fontFamily'];
 			}
 		}
-		$this->assertStringContainsString(
-			'Plus Jakarta Sans',
-			$body,
-			'Child must inherit the Pediment body font, not the legacy system-ui stack.'
-		);
+
+		$this->assertStringContainsString( 'Inria Sans', $by_slug['body'] );
+		$this->assertStringContainsString( 'Inria Serif', $by_slug['heading'] );
+		$this->assertArrayHasKey( 'mono', $by_slug );
 	}
 
-	public function test_child_theme_json_declares_no_settings_override() {
+	public function test_child_theme_json_declares_intentional_settings_override() {
 		$this->assert_child_theme_active();
 		$path = get_stylesheet_directory() . '/theme.json';
 		$this->assertFileIsReadable( $path );
 		$data = json_decode( file_get_contents( $path ), true );
 		$this->assertIsArray( $data );
 		$this->assertSame( 2, $data['version'] );
-		$this->assertArrayNotHasKey(
-			'settings',
-			$data,
-			'Child theme.json must not re-declare settings — any settings block would mask the parent Pediment tokens.'
-		);
+		$this->assertArrayHasKey( 'settings', $data );
+		$this->assertArrayHasKey( 'color', $data['settings'] );
+		$this->assertArrayHasKey( 'typography', $data['settings'] );
 	}
 }
