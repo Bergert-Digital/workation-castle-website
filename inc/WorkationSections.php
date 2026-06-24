@@ -74,6 +74,41 @@ function pediment_child_workation_activities_chrome( $attributes, $content ) {
 }
 
 /**
+ * Render the gallery section shell around pre-rendered photo blocks.
+ *
+ * @param array  $attributes Block attributes (chrome).
+ * @param string $content    Pre-rendered inner blocks.
+ * @return string
+ */
+function pediment_child_workation_gallery_chrome( $attributes, $content ) {
+	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
+	$primary_url  = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
+	$wrapper      = get_block_wrapper_attributes( array( 'class' => 'band band-deep' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="gallery">
+		<div class="sec-head">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+		</div>
+		<div class="wc-wrap">
+			<div class="gallery"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+			<?php if ( '' !== $primary_text ) : ?>
+				<div class="gallery-foot"><a class="wc-btn wc-btn-ghost-dark" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?></a></div>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Return default content for Workation Castle section blocks.
  *
  * @param string $section Section key.

@@ -52,4 +52,25 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$html = $this->render( '<!-- wp:pediment-child/workation-activities /-->' );
 		$this->assertStringContainsString( 'When laptops close', $html );
 	}
+
+	public function test_gallery_photo_variant_class() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-gallery -->'
+			. '<!-- wp:pediment-child/workation-photo {"imageUrl":"https://example.com/g.jpg","imageAlt":"Room","variant":"wide"} /-->'
+			. '<!-- /wp:pediment-child/workation-gallery -->'
+		);
+		$this->assertStringContainsString( 'class="gallery', $html );
+		$this->assertStringContainsString( 'g-wide', $html );
+		$this->assertStringContainsString( 'https://example.com/g.jpg', $html );
+	}
+
+	public function test_gallery_photo_no_variant_has_no_g_class() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-gallery -->'
+			. '<!-- wp:pediment-child/workation-photo {"imageUrl":"https://example.com/g.jpg","imageAlt":"Room"} /-->'
+			. '<!-- /wp:pediment-child/workation-gallery -->'
+		);
+		$this->assertStringNotContainsString( 'g-tall', $html );
+		$this->assertStringNotContainsString( 'g-wide', $html );
+	}
 }
