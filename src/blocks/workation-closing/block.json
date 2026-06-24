@@ -7,58 +7,16 @@
   "description": "Homepage closing call-to-action section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": {
-      "type": "string",
-      "default": ""
-    },
-    "headline": {
-      "type": "string",
-      "default": ""
-    },
-    "lead": {
-      "type": "string",
-      "default": ""
-    },
-    "imageUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "imageAlt": {
-      "type": "string",
-      "default": ""
-    },
-    "imageId": {
-      "type": "number",
-      "default": 0
-    },
-    "primaryText": {
-      "type": "string",
-      "default": ""
-    },
-    "primaryUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "secondaryText": {
-      "type": "string",
-      "default": ""
-    },
-    "secondaryUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "linkText": {
-      "type": "string",
-      "default": ""
-    },
-    "linkUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "items": {
-      "type": "array",
-      "default": []
-    }
+    "headline": { "type": "string", "default": "Bring your next week of work somewhere memorable." },
+    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2023/08/IMG_2019.jpeg" },
+    "imageAlt": { "type": "string", "default": "Garden terrace at Workation Castle" },
+    "imageId": { "type": "number", "default": 0 },
+    "primaryText": { "type": "string", "default": "Check availability" },
+    "primaryUrl": { "type": "string", "default": "#book" },
+    "secondaryText": { "type": "string", "default": "Ask for a custom offer" },
+    "secondaryUrl": { "type": "string", "default": "#book" },
+    "linkText": { "type": "string", "default": "Follow on Instagram" },
+    "linkUrl": { "type": "string", "default": "https://www.instagram.com/workationcastle/" }
   },
   "supports": {
     "html": false,

@@ -167,6 +167,20 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'work, gather', $html );
 	}
 
+	public function test_intro_default_and_clear() {
+		$d = $this->render( '<!-- wp:pediment-child/workation-intro /-->' );
+		$this->assertStringContainsString( 'Why here', $d );
+		$c = $this->render( '<!-- wp:pediment-child/workation-intro {"eyebrow":""} -->' . '<!-- /wp:pediment-child/workation-intro -->' );
+		$this->assertStringNotContainsString( 'Why here', $c );
+	}
+
+	public function test_closing_renders_instagram_link() {
+		$html = $this->render( '<!-- wp:pediment-child/workation-closing /-->' );
+		$this->assertStringContainsString( 'class="closing', $html );
+		$this->assertStringContainsString( 'Follow on Instagram', $html );
+		$this->assertStringContainsString( 'instagram.com/workationcastle', $html );
+	}
+
 	/**
 	 * Idempotency: calling pediment_child_workation_mark_reverse_rows() twice on
 	 * its own output yields the SAME string as calling it once (no growth of " reverse").

@@ -1,9 +1,5 @@
 import { registerBlockType } from '@wordpress/blocks';
 import metadata from './block.json';
-import WorkationSectionEdit from '../workation-sections';
-
-function Edit( props ) {
-	return <WorkationSectionEdit section="closing" { ...props } />;
-}
+import Edit from './edit';
 
 registerBlockType( metadata.name, { edit: Edit } );

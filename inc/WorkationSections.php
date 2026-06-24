@@ -292,6 +292,79 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 }
 
 /**
+ * Render the intro section from attributes.
+ *
+ * @param array $attributes Block attributes.
+ * @return string
+ */
+function pediment_child_workation_intro_chrome( $attributes ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead     = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream intro' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+		<div class="wc-wrap">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+			<?php if ( '' !== $lead ) : ?>
+				<p><?php echo wp_kses_post( $lead ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
+ * Render the closing CTA section from attributes.
+ *
+ * @param array $attributes Block attributes.
+ * @return string
+ */
+function pediment_child_workation_closing_chrome( $attributes ) {
+	$headline       = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$image_url      = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_alt      = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+	$primary_text   = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
+	$primary_url    = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
+	$secondary_text = isset( $attributes['secondaryText'] ) ? (string) $attributes['secondaryText'] : '';
+	$secondary_url  = isset( $attributes['secondaryUrl'] ) ? (string) $attributes['secondaryUrl'] : '';
+	$link_text      = isset( $attributes['linkText'] ) ? (string) $attributes['linkText'] : '';
+	$link_url       = isset( $attributes['linkUrl'] ) ? (string) $attributes['linkUrl'] : '';
+	$wrapper        = get_block_wrapper_attributes( array( 'class' => 'closing' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+		<img class="bg" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>">
+		<div class="grad"></div>
+		<div class="closing-inner">
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+			<div class="actions">
+				<?php if ( '' !== $primary_text ) : ?>
+					<a class="wc-btn wc-btn-yellow" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a>
+				<?php endif; ?>
+				<?php if ( '' !== $secondary_text ) : ?>
+					<a class="wc-btn wc-btn-ghost-light" href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?></a>
+				<?php endif; ?>
+			</div>
+			<?php if ( '' !== $link_text ) : ?>
+				<a class="insta" href="<?php echo esc_url( $link_url ); ?>" target="_blank" rel="noreferrer"><?php echo esc_html( $link_text ); ?> <span class="arr">→</span></a>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Return default content for Workation Castle section blocks.
  *
  * @param string $section Section key.
