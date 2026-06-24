@@ -13,7 +13,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 			. '<!-- /wp:pediment-child/workation-reviews -->'
 		);
 		$this->assertStringContainsString( 'reviews-grid', $html );
-		$this->assertStringContainsString( 'class="review', $html );
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-review', $html );
 		$this->assertStringContainsString( 'Loved it', $html );
 		$this->assertStringContainsString( 'Jane Doe', $html );
 		$this->assertStringContainsString( 'Guest', $html );
@@ -32,7 +32,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 
 	public function test_empty_review_renders_nothing() {
 		$html = $this->render( '<!-- wp:pediment-child/workation-review /-->' );
-		$this->assertStringNotContainsString( 'class="review', $html );
+		$this->assertStringNotContainsString( 'wp-block-pediment-child-workation-review', $html );
 	}
 
 	public function test_activities_renders_tile_with_image_and_title() {
@@ -42,7 +42,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 			. '<!-- /wp:pediment-child/workation-activities -->'
 		);
 		$this->assertStringContainsString( 'act-grid', $html );
-		$this->assertStringContainsString( 'class="act', $html );
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-tile', $html );
 		$this->assertStringContainsString( 'https://example.com/a.jpg', $html );
 		$this->assertStringContainsString( 'alt="Lake"', $html );
 		$this->assertStringContainsString( 'Swim', $html );
@@ -60,6 +60,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 			. '<!-- /wp:pediment-child/workation-gallery -->'
 		);
 		$this->assertStringContainsString( 'class="gallery', $html );
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-photo', $html );
 		$this->assertStringContainsString( 'g-wide', $html );
 		$this->assertStringContainsString( 'https://example.com/g.jpg', $html );
 	}
@@ -70,6 +71,9 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 			. '<!-- wp:pediment-child/workation-photo {"imageUrl":"https://example.com/g.jpg","imageAlt":"Room"} /-->'
 			. '<!-- /wp:pediment-child/workation-gallery -->'
 		);
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-photo', $html );
+		$this->assertStringNotContainsString( 'class="g-"', $html );
+		$this->assertStringNotContainsString( ' g-"', $html );
 		$this->assertStringNotContainsString( 'g-tall', $html );
 		$this->assertStringNotContainsString( 'g-wide', $html );
 	}
@@ -81,7 +85,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 			. '<!-- /wp:pediment-child/workation-audience -->'
 		);
 		$this->assertStringContainsString( 'ways-grid', $html );
-		$this->assertStringContainsString( 'class="way', $html );
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-card', $html );
 		$this->assertStringContainsString( 'way-body', $html );
 		$this->assertStringContainsString( 'way-num', $html );
 		$this->assertStringContainsString( 'Team retreats', $html );
@@ -124,7 +128,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 	public function test_location_renders_map_and_modes() {
 		// Use non-default values for the child block so the test can only pass
 		// if workation-mode/render.php actually processed the passed attributes
-		// (not a legacy-default leak from pediment_child_workation_section_defaults).
+		// (not a legacy default-content leak).
 		$html = $this->render(
 			'<!-- wp:pediment-child/workation-location {"imageUrl":"https://example.com/themap.png","imageAlt":"Map"} -->'
 			. '<!-- wp:pediment-child/workation-mode {"title":"Helicopter","text":"Pad on roof","icon":"plane"} /-->'
@@ -137,7 +141,9 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'themap.png', $html );
 		// modes region wrapper.
 		$this->assertStringContainsString( 'class="modes', $html );
-		// Child block rendered: non-default title and text from passed attributes.
+		// Child block rendered: block wrapper class proves the child render path ran.
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-mode', $html );
+		// Non-default title and text from passed attributes.
 		$this->assertStringContainsString( 'Helicopter', $html );
 		$this->assertStringContainsString( 'Pad on roof', $html );
 		// Bare mode-icon span is present (render.php emits <span class="mode-icon">).
@@ -152,14 +158,14 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 	public function test_hero_renders_form_and_chip() {
 		$html = $this->render(
 			'<!-- wp:pediment-child/workation-hero -->'
-			. '<!-- wp:pediment-child/workation-chip {"title":"Up to 9 guests"} /-->'
+			. '<!-- wp:pediment-child/workation-chip {"title":"Rooftop helipad"} /-->'
 			. '<!-- /wp:pediment-child/workation-hero -->'
 		);
 		$this->assertStringContainsString( 'class="hero', $html );
 		$this->assertStringContainsString( '<form class="avail"', $html );
 		$this->assertStringContainsString( 'hero-chips', $html );
-		$this->assertStringContainsString( 'class="chip', $html );
-		$this->assertStringContainsString( 'Up to 9 guests', $html );
+		$this->assertStringContainsString( 'wp-block-pediment-child-workation-chip', $html );
+		$this->assertStringContainsString( 'Rooftop helipad', $html );
 	}
 
 	public function test_hero_default_headline() {
