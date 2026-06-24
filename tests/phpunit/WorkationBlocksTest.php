@@ -63,6 +63,9 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'wp-block-pediment-child-workation-photo', $html );
 		$this->assertStringContainsString( 'g-wide', $html );
 		$this->assertStringContainsString( 'https://example.com/g.jpg', $html );
+		// Tile must be an anchor linking to the image (restores .gallery a styling).
+		$this->assertStringContainsString( '<a ', $html );
+		$this->assertStringContainsString( 'href="https://example.com/g.jpg"', $html );
 	}
 
 	public function test_gallery_photo_no_variant_has_no_g_class() {

@@ -18,6 +18,6 @@ $class   = '' !== $variant ? 'g-' . sanitize_html_class( $variant ) : '';
 $wrapper = get_block_wrapper_attributes( $class ? array( 'class' => $class ) : array() );
 ob_start();
 ?>
-<span <?php echo $wrapper; ?>><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></span>
+<a <?php echo $wrapper; ?> href="<?php echo esc_url( $image_url ); ?>"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></a>
 <?php
 echo ob_get_clean();

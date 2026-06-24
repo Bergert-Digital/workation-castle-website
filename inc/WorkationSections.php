@@ -142,6 +142,9 @@ function pediment_child_workation_audience_chrome( $attributes, $content ) {
  * Add a class to every even-positioned (0-based 1,3,…) space-row in the
  * pre-rendered inner-block markup, preserving the alternating layout.
  *
+ * Note: `reverse` is positional-only — derived at render time by counting
+ * space-row occurrences in order — and is never a stored child block attribute.
+ *
  * @param string $content Rendered inner blocks.
  * @return string
  */
