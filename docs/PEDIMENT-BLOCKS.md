@@ -39,16 +39,6 @@
   - `eyebrow` (string)
   - `headline` (string)
   - `lead` (string)
-  - `imageUrl` (string)
-  - `imageAlt` (string)
-  - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
@@ -62,19 +52,35 @@
 **Attributes:**
   - `eyebrow` (string)
   - `headline` (string)
-  - `lead` (string)
+
+**Align:** full
+
+## pediment-child/workation-card
+
+**Workation Audience Card** — A single audience card: image, eyebrow, title, text, link.
+
+**Source:** child
+**Use when:** adding one audience card (image, eyebrow, title, text, link) inside a Workation Audience section.
+
+**Attributes:**
+  - `eyebrow` (string)
+  - `title` (string)
+  - `text` (string)
+  - `linkText` (string)
+  - `linkUrl` (string)
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
-**Align:** full
+## pediment-child/workation-chip
+
+**Workation Hero Chip** — A single hero feature pill.
+
+**Source:** child
+**Use when:** adding one feature pill inside the Workation Hero section.
+
+**Attributes:**
+  - `title` (string)
 
 ## pediment-child/workation-closing
 
@@ -84,9 +90,7 @@
 **Use when:** ending the Workation Castle homepage with a full-bleed image CTA and Instagram link.
 
 **Attributes:**
-  - `eyebrow` (string)
   - `headline` (string)
-  - `lead` (string)
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
@@ -96,7 +100,6 @@
   - `secondaryUrl` (string)
   - `linkText` (string)
   - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
@@ -110,17 +113,8 @@
 **Attributes:**
   - `eyebrow` (string)
   - `headline` (string)
-  - `lead` (string)
-  - `imageUrl` (string)
-  - `imageAlt` (string)
-  - `imageId` (number)
   - `primaryText` (string)
   - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
@@ -142,9 +136,6 @@
   - `primaryUrl` (string)
   - `secondaryText` (string)
   - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
@@ -159,16 +150,6 @@
   - `eyebrow` (string)
   - `headline` (string)
   - `lead` (string)
-  - `imageUrl` (string)
-  - `imageAlt` (string)
-  - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
@@ -186,19 +167,49 @@
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
 
 **Align:** full
 
+## pediment-child/workation-mode
+
+**Workation Travel Mode** — A single way to get here: icon, label, detail.
+
+**Source:** child
+**Use when:** adding one travel mode (car/train/plane) inside a Workation Location section.
+
+**Attributes:**
+  - `title` (string)
+  - `text` (string)
+  - `icon` (string)
+
+## pediment-child/workation-photo
+
+**Workation Gallery Photo** — A single gallery photo.
+
+**Source:** child
+**Use when:** adding one photo (optionally tall/wide) inside a Workation Gallery section.
+
+**Attributes:**
+  - `imageUrl` (string)
+  - `imageAlt` (string)
+  - `imageId` (number)
+  - `variant` (string)
+
+## pediment-child/workation-review
+
+**Workation Review** — A single guest review card.
+
+**Source:** child
+**Use when:** adding one guest review card inside a Workation Reviews section.
+
+**Attributes:**
+  - `text` (string)
+  - `title` (string)
+  - `role` (string)
+
 ## pediment-child/workation-reviews
 
-**Workation Reviews** — Guest reviews section.
+**Workation Reviews** — Guest reviews card grid.
 
 **Source:** child
 **Use when:** presenting curated Workation Castle guest reviews in a responsive card grid.
@@ -206,19 +217,25 @@
 **Attributes:**
   - `eyebrow` (string)
   - `headline` (string)
-  - `lead` (string)
+
+**Align:** full
+
+## pediment-child/workation-space
+
+**Workation Space** — A single space row: image, eyebrow, title, text, link.
+
+**Source:** child
+**Use when:** adding one alternating space row (image + text + link) inside a Workation Spaces section.
+
+**Attributes:**
+  - `eyebrow` (string)
+  - `title` (string)
+  - `text` (string)
+  - `linkText` (string)
+  - `linkUrl` (string)
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
-
-**Align:** full
 
 ## pediment-child/workation-spaces
 
@@ -231,18 +248,21 @@
   - `eyebrow` (string)
   - `headline` (string)
   - `lead` (string)
+
+**Align:** full
+
+## pediment-child/workation-tile
+
+**Workation Activity Tile** — A single activity image tile.
+
+**Source:** child
+**Use when:** adding one activity image tile inside a Workation Activities section.
+
+**Attributes:**
+  - `title` (string)
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
-  - `primaryText` (string)
-  - `primaryUrl` (string)
-  - `secondaryText` (string)
-  - `secondaryUrl` (string)
-  - `linkText` (string)
-  - `linkUrl` (string)
-  - `items` (array)
-
-**Align:** full
 
 ## pediment/blog-index
 
