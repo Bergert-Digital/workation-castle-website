@@ -10,6 +10,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Render the reviews section shell around pre-rendered inner blocks.
+ *
+ * @param array  $attributes Block attributes (chrome).
+ * @param string $content    Pre-rendered inner blocks.
+ * @return string
+ */
+function pediment_child_workation_reviews_chrome( $attributes, $content ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="reviews">
+		<div class="sec-head">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+		</div>
+		<div class="wc-wrap">
+			<div class="reviews-grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Return default content for Workation Castle section blocks.
  *
  * @param string $section Section key.
