@@ -149,6 +149,24 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'Free parking', $html );
 	}
 
+	public function test_hero_renders_form_and_chip() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-hero -->'
+			. '<!-- wp:pediment-child/workation-chip {"title":"Up to 9 guests"} /-->'
+			. '<!-- /wp:pediment-child/workation-hero -->'
+		);
+		$this->assertStringContainsString( 'class="hero', $html );
+		$this->assertStringContainsString( '<form class="avail"', $html );
+		$this->assertStringContainsString( 'hero-chips', $html );
+		$this->assertStringContainsString( 'class="chip', $html );
+		$this->assertStringContainsString( 'Up to 9 guests', $html );
+	}
+
+	public function test_hero_default_headline() {
+		$html = $this->render( '<!-- wp:pediment-child/workation-hero /-->' );
+		$this->assertStringContainsString( 'work, gather', $html );
+	}
+
 	/**
 	 * Idempotency: calling pediment_child_workation_mark_reverse_rows() twice on
 	 * its own output yields the SAME string as calling it once (no growth of " reverse").
