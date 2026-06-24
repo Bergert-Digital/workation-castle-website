@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import {
-	InnerBlocks,
+	ButtonBlockAppender,
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
@@ -43,9 +43,11 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 export default function Edit( {
 	attributes,
 	setAttributes,
+	clientId,
 }: {
 	attributes: Attrs;
 	setAttributes: ( a: Partial< Attrs > ) => void;
+	clientId: string;
 } ) {
 	const blockProps = useBlockProps( { className: 'band band-cream' } );
 	const innerProps = useInnerBlocksProps(
@@ -54,7 +56,9 @@ export default function Edit( {
 			allowedBlocks: ALLOWED,
 			template: TEMPLATE,
 			templateLock: false,
-			renderAppender: InnerBlocks.ButtonBlockAppender,
+			renderAppender: () => (
+				<ButtonBlockAppender rootClientId={ clientId } />
+			),
 		}
 	);
 	return (
