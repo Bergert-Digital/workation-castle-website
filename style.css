@@ -636,6 +636,27 @@ nav.main-nav a:hover::after {
 	-webkit-backdrop-filter: blur(4px);
 }
 
+/*
+ * Editor only: keep the native InnerBlocks "+" appender visible on every band.
+ * `.block-editor-button-block-appender` exists only in the block editor, so
+ * these rules are inert on the front end. Accent-yellow reads on both the dark
+ * hero/deep bands and the light cream bands.
+ */
+.hero-chips .block-editor-button-block-appender,
+.ways-grid .block-editor-button-block-appender,
+.act-grid .block-editor-button-block-appender,
+.gallery .block-editor-button-block-appender,
+.reviews-grid .block-editor-button-block-appender,
+.modes .block-editor-button-block-appender,
+.wc-wrap > .block-editor-button-block-appender {
+	background: var(--wc-yellow);
+	border-radius: 999px;
+	color: var(--wc-ink);
+	min-height: 40px;
+	min-width: 40px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+}
+
 .band {
 	padding-block: 78px;
 	position: relative;
