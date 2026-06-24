@@ -139,6 +139,62 @@ function pediment_child_workation_audience_chrome( $attributes, $content ) {
 }
 
 /**
+ * Add a class to every even-positioned (0-based 1,3,…) space-row in the
+ * pre-rendered inner-block markup, preserving the alternating layout.
+ *
+ * @param string $content Rendered inner blocks.
+ * @return string
+ */
+function pediment_child_workation_mark_reverse_rows( $content ) {
+	$index = -1;
+	return (string) preg_replace_callback(
+		'/class="([^"]*\bspace-row\b[^"]*)"/',
+		function ( $matches ) use ( &$index ) {
+			$index++;
+			if ( 1 === $index % 2 ) {
+				$new_class = preg_replace( '/\bspace-row\b/', 'space-row reverse', $matches[1] );
+				return 'class="' . $new_class . '"';
+			}
+			return $matches[0];
+		},
+		$content
+	);
+}
+
+/**
+ * Render the spaces section shell around pre-rendered space rows.
+ *
+ * @param array  $attributes Block attributes (chrome).
+ * @param string $content    Pre-rendered inner blocks.
+ * @return string
+ */
+function pediment_child_workation_spaces_chrome( $attributes, $content ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead     = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$content  = pediment_child_workation_mark_reverse_rows( $content );
+	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="spaces">
+		<div class="sec-head">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+			<?php if ( '' !== $lead ) : ?>
+				<p><?php echo wp_kses_post( $lead ); ?></p>
+			<?php endif; ?>
+		</div>
+		<div class="wc-wrap"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Return default content for Workation Castle section blocks.
  *
  * @param string $section Section key.

@@ -88,4 +88,17 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'href="#book"', $html );
 		$this->assertStringContainsString( 'https://example.com/c.jpg', $html );
 	}
+
+	public function test_spaces_first_row_not_reversed_second_reversed() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-spaces -->'
+			. '<!-- wp:pediment-child/workation-space {"title":"Workspace","text":"Focus.","imageUrl":"https://example.com/1.jpg"} /-->'
+			. '<!-- wp:pediment-child/workation-space {"title":"Homes","text":"Stay.","imageUrl":"https://example.com/2.jpg"} /-->'
+			. '<!-- /wp:pediment-child/workation-spaces -->'
+		);
+		$this->assertStringContainsString( 'space-row', $html );
+		$this->assertStringContainsString( 'space-row reverse', $html );
+		// Exactly one reversed row for two items.
+		$this->assertSame( 1, substr_count( $html, 'space-row reverse' ) );
+	}
 }

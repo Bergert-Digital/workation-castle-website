@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-space",
+  "title": "Workation Space",
+  "category": "design",
+  "description": "A single space row: image, eyebrow, title, text, link.",
+  "parent": [ "pediment-child/workation-spaces" ],
+  "textdomain": "pediment-child",
+  "supports": { "html": false, "inserter": false },
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "" },
+    "title": { "type": "string", "default": "" },
+    "text": { "type": "string", "default": "" },
+    "linkText": { "type": "string", "default": "" },
+    "linkUrl": { "type": "string", "default": "" },
+    "imageUrl": { "type": "string", "default": "" },
+    "imageAlt": { "type": "string", "default": "" },
+    "imageId": { "type": "number", "default": 0 }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
