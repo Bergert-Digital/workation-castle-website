@@ -122,18 +122,31 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 	}
 
 	public function test_location_renders_map_and_modes() {
+		// Use non-default values for the child block so the test can only pass
+		// if workation-mode/render.php actually processed the passed attributes
+		// (not a legacy-default leak from pediment_child_workation_section_defaults).
 		$html = $this->render(
-			'<!-- wp:pediment-child/workation-location {"imageUrl":"https://example.com/map.png","imageAlt":"Map"} -->'
-			. '<!-- wp:pediment-child/workation-mode {"title":"By car","text":"Free parking","icon":"car"} /-->'
+			'<!-- wp:pediment-child/workation-location {"imageUrl":"https://example.com/themap.png","imageAlt":"Map"} -->'
+			. '<!-- wp:pediment-child/workation-mode {"title":"Helicopter","text":"Pad on roof","icon":"plane"} /-->'
 			. '<!-- /wp:pediment-child/workation-location -->'
 		);
+		// Structural: location chrome renders correctly.
 		$this->assertStringContainsString( 'loc-grid', $html );
 		$this->assertStringContainsString( 'loc-map', $html );
-		$this->assertStringContainsString( 'https://example.com/map.png', $html );
+		// Parent-level map image URL (distinctive, passed via block attributes).
+		$this->assertStringContainsString( 'themap.png', $html );
+		// modes region wrapper.
 		$this->assertStringContainsString( 'class="modes', $html );
+		// Child block rendered: non-default title and text from passed attributes.
+		$this->assertStringContainsString( 'Helicopter', $html );
+		$this->assertStringContainsString( 'Pad on roof', $html );
+		// Bare mode-icon span is present (render.php emits <span class="mode-icon">).
 		$this->assertStringContainsString( 'mode-icon', $html );
-		$this->assertStringContainsString( 'By car', $html );
-		$this->assertStringContainsString( 'Free parking', $html );
+		// No per-icon class leaked (render.php must NOT emit mode-icon--* classes).
+		$this->assertStringNotContainsString( 'mode-icon--', $html );
+		// Negative: default-path strings must NOT appear (proves no legacy-default leak).
+		$this->assertStringNotContainsString( 'By car', $html );
+		$this->assertStringNotContainsString( 'Free parking', $html );
 	}
 
 	/**
