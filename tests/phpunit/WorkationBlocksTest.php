@@ -73,4 +73,19 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'g-tall', $html );
 		$this->assertStringNotContainsString( 'g-wide', $html );
 	}
+
+	public function test_audience_card_renders_full_card() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-audience -->'
+			. '<!-- wp:pediment-child/workation-card {"eyebrow":"01 — Team","title":"Team retreats","text":"Beds for all.","linkText":"Plan","linkUrl":"#book","imageUrl":"https://example.com/c.jpg","imageAlt":"Room"} /-->'
+			. '<!-- /wp:pediment-child/workation-audience -->'
+		);
+		$this->assertStringContainsString( 'ways-grid', $html );
+		$this->assertStringContainsString( 'class="way', $html );
+		$this->assertStringContainsString( 'way-body', $html );
+		$this->assertStringContainsString( 'way-num', $html );
+		$this->assertStringContainsString( 'Team retreats', $html );
+		$this->assertStringContainsString( 'href="#book"', $html );
+		$this->assertStringContainsString( 'https://example.com/c.jpg', $html );
+	}
 }

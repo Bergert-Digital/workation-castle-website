@@ -1,9 +1,9 @@
 import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
 import metadata from './block.json';
-import WorkationSectionEdit from '../workation-sections';
+import Edit from './edit';
 
-function Edit( props ) {
-	return <WorkationSectionEdit section="audience" { ...props } />;
-}
-
-registerBlockType( metadata.name, { edit: Edit } );
+registerBlockType( metadata.name, {
+	edit: Edit,
+	save: () => <InnerBlocks.Content />,
+} );
