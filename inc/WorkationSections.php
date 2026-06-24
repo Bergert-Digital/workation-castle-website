@@ -198,6 +198,51 @@ function pediment_child_workation_spaces_chrome( $attributes, $content ) {
 }
 
 /**
+ * Render the location section shell around pre-rendered travel modes.
+ *
+ * @param array  $attributes Block attributes (chrome + map).
+ * @param string $content    Pre-rendered inner blocks.
+ * @return string
+ */
+function pediment_child_workation_location_chrome( $attributes, $content ) {
+	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$image_url = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+	$wrapper   = get_block_wrapper_attributes( array( 'class' => 'band band-deep' ) );
+	ob_start();
+	?>
+	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="location">
+		<div class="sec-head">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h2><?php echo wp_kses_post( $headline ); ?></h2>
+			<?php endif; ?>
+		</div>
+		<div class="wc-wrap">
+			<div class="loc-grid">
+				<div class="loc-map">
+					<?php if ( '' !== $image_url ) : ?>
+						<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>">
+					<?php endif; ?>
+				</div>
+				<div class="loc-text">
+					<?php if ( '' !== $lead ) : ?>
+						<p><?php echo wp_kses_post( $lead ); ?></p>
+					<?php endif; ?>
+					<div class="modes"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Return default content for Workation Castle section blocks.
  *
  * @param string $section Section key.

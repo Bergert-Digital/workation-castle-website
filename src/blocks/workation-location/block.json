@@ -7,65 +7,14 @@
   "description": "Location and getting-here section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": {
-      "type": "string",
-      "default": ""
-    },
-    "headline": {
-      "type": "string",
-      "default": ""
-    },
-    "lead": {
-      "type": "string",
-      "default": ""
-    },
-    "imageUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "imageAlt": {
-      "type": "string",
-      "default": ""
-    },
-    "imageId": {
-      "type": "number",
-      "default": 0
-    },
-    "primaryText": {
-      "type": "string",
-      "default": ""
-    },
-    "primaryUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "secondaryText": {
-      "type": "string",
-      "default": ""
-    },
-    "secondaryUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "linkText": {
-      "type": "string",
-      "default": ""
-    },
-    "linkUrl": {
-      "type": "string",
-      "default": ""
-    },
-    "items": {
-      "type": "array",
-      "default": []
-    }
+    "eyebrow": { "type": "string", "default": "Location & getting here" },
+    "headline": { "type": "string", "default": "Between two lakes, near the Swiss border." },
+    "lead": { "type": "string", "default": "In an Italian valley near the Swiss border, between Lake Lugano and Lake Como — with the little Lago di Piano a short walk away. Restaurants, a bakery and shops are within walking distance; most guests leave the car parked all week." },
+    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2022/12/Castello-Map-Screenshot.png" },
+    "imageAlt": { "type": "string", "default": "Map showing the castle's location between Lake Lugano and Lake Como" },
+    "imageId": { "type": "number", "default": 0 }
   },
-  "supports": {
-    "html": false,
-    "align": [
-      "full"
-    ]
-  },
+  "supports": { "html": false, "align": [ "full" ] },
   "editorScript": "file:./index.js",
   "render": "file:./render.php"
 }

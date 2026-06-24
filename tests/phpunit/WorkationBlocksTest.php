@@ -121,6 +121,21 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'space-row reverse reverse', $html );
 	}
 
+	public function test_location_renders_map_and_modes() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-location {"imageUrl":"https://example.com/map.png","imageAlt":"Map"} -->'
+			. '<!-- wp:pediment-child/workation-mode {"title":"By car","text":"Free parking","icon":"car"} /-->'
+			. '<!-- /wp:pediment-child/workation-location -->'
+		);
+		$this->assertStringContainsString( 'loc-grid', $html );
+		$this->assertStringContainsString( 'loc-map', $html );
+		$this->assertStringContainsString( 'https://example.com/map.png', $html );
+		$this->assertStringContainsString( 'class="modes', $html );
+		$this->assertStringContainsString( 'mode-icon', $html );
+		$this->assertStringContainsString( 'By car', $html );
+		$this->assertStringContainsString( 'Free parking', $html );
+	}
+
 	/**
 	 * Idempotency: calling pediment_child_workation_mark_reverse_rows() twice on
 	 * its own output yields the SAME string as calling it once (no growth of " reverse").
