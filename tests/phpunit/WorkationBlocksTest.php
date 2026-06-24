@@ -34,4 +34,22 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$html = $this->render( '<!-- wp:pediment-child/workation-review /-->' );
 		$this->assertStringNotContainsString( 'class="review', $html );
 	}
+
+	public function test_activities_renders_tile_with_image_and_title() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-activities -->'
+			. '<!-- wp:pediment-child/workation-tile {"title":"Swim","imageUrl":"https://example.com/a.jpg","imageAlt":"Lake"} /-->'
+			. '<!-- /wp:pediment-child/workation-activities -->'
+		);
+		$this->assertStringContainsString( 'act-grid', $html );
+		$this->assertStringContainsString( 'class="act', $html );
+		$this->assertStringContainsString( 'https://example.com/a.jpg', $html );
+		$this->assertStringContainsString( 'alt="Lake"', $html );
+		$this->assertStringContainsString( 'Swim', $html );
+	}
+
+	public function test_activities_uses_default_lead_when_absent() {
+		$html = $this->render( '<!-- wp:pediment-child/workation-activities /-->' );
+		$this->assertStringContainsString( 'When laptops close', $html );
+	}
 }
