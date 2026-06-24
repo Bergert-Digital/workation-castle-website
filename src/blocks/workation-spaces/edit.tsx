@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import {
+	InnerBlocks,
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
@@ -49,7 +50,12 @@ export default function Edit( {
 	const blockProps = useBlockProps( { className: 'band band-cream' } );
 	const innerProps = useInnerBlocksProps(
 		{ className: 'wc-wrap' },
-		{ allowedBlocks: ALLOWED, template: TEMPLATE, templateLock: false }
+		{
+			allowedBlocks: ALLOWED,
+			template: TEMPLATE,
+			templateLock: false,
+			renderAppender: InnerBlocks.ButtonBlockAppender,
+		}
 	);
 	return (
 		<section { ...blockProps }>

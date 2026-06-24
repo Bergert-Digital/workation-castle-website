@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import {
+	InnerBlocks,
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
@@ -47,6 +48,7 @@ export default function Edit( {
 			template: TEMPLATE,
 			templateLock: false,
 			orientation: 'horizontal',
+			renderAppender: InnerBlocks.ButtonBlockAppender,
 		}
 	);
 	return (

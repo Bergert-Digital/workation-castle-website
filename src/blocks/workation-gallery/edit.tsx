@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import {
+	InnerBlocks,
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
@@ -87,7 +88,12 @@ export default function Edit( {
 	const blockProps = useBlockProps( { className: 'band band-deep' } );
 	const innerProps = useInnerBlocksProps(
 		{ className: 'gallery' },
-		{ allowedBlocks: ALLOWED, template: TEMPLATE, templateLock: false }
+		{
+			allowedBlocks: ALLOWED,
+			template: TEMPLATE,
+			templateLock: false,
+			renderAppender: InnerBlocks.ButtonBlockAppender,
+		}
 	);
 	return (
 		<section { ...blockProps }>
