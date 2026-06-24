@@ -101,4 +101,44 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		// Exactly one reversed row for two items.
 		$this->assertSame( 1, substr_count( $html, 'space-row reverse' ) );
 	}
+
+	/**
+	 * A 4-row spaces render produces exactly 2 occurrences of "space-row reverse"
+	 * (indices 1 and 3) and ZERO occurrences of "space-row reverse reverse".
+	 */
+	public function test_spaces_four_rows_produce_two_reversed_no_double_reverse() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-spaces -->'
+			. '<!-- wp:pediment-child/workation-space {"title":"A","text":"a","imageUrl":"https://example.com/1.jpg"} /-->'
+			. '<!-- wp:pediment-child/workation-space {"title":"B","text":"b","imageUrl":"https://example.com/2.jpg"} /-->'
+			. '<!-- wp:pediment-child/workation-space {"title":"C","text":"c","imageUrl":"https://example.com/3.jpg"} /-->'
+			. '<!-- wp:pediment-child/workation-space {"title":"D","text":"d","imageUrl":"https://example.com/4.jpg"} /-->'
+			. '<!-- /wp:pediment-child/workation-spaces -->'
+		);
+		// Exactly 2 reversed rows (indices 1 and 3).
+		$this->assertSame( 2, substr_count( $html, 'space-row reverse' ) );
+		// No double-reverse.
+		$this->assertStringNotContainsString( 'space-row reverse reverse', $html );
+	}
+
+	/**
+	 * Idempotency: calling pediment_child_workation_mark_reverse_rows() twice on
+	 * its own output yields the SAME string as calling it once (no growth of " reverse").
+	 */
+	public function test_mark_reverse_rows_is_idempotent() {
+		// Build a synthetic 4-row spaces HTML that mimics what the block renders.
+		$input = '<div class="space-row"><p>Row 0</p></div>'
+			. '<div class="space-row"><p>Row 1</p></div>'
+			. '<div class="space-row"><p>Row 2</p></div>'
+			. '<div class="space-row"><p>Row 3</p></div>';
+
+		$once  = pediment_child_workation_mark_reverse_rows( $input );
+		$twice = pediment_child_workation_mark_reverse_rows( $once );
+
+		// Second pass must not grow the string.
+		$this->assertSame( $once, $twice, 'pediment_child_workation_mark_reverse_rows() must be idempotent' );
+		// Confirm the correct rows ARE reversed after one pass.
+		$this->assertSame( 2, substr_count( $once, 'space-row reverse' ) );
+		$this->assertStringNotContainsString( 'space-row reverse reverse', $twice );
+	}
 }

@@ -148,11 +148,14 @@ function pediment_child_workation_audience_chrome( $attributes, $content ) {
 function pediment_child_workation_mark_reverse_rows( $content ) {
 	$index = -1;
 	return (string) preg_replace_callback(
-		'/class="([^"]*\bspace-row\b[^"]*)"/',
+		'/class="([^"]*(?<![\w-])space-row(?![\w-])[^"]*)"/',
 		function ( $matches ) use ( &$index ) {
+			// Skip already-reversed rows so the counter still increments for each
+			// genuine space-row but the class is not applied twice (idempotency).
+			$already_reversed = (bool) preg_match( '/(?<![\w-])space-row reverse(?! reverse)(?![\w-])/', $matches[1] );
 			$index++;
-			if ( 1 === $index % 2 ) {
-				$new_class = preg_replace( '/\bspace-row\b/', 'space-row reverse', $matches[1] );
+			if ( 1 === $index % 2 && ! $already_reversed ) {
+				$new_class = preg_replace( '/(?<![\w-])space-row(?![\w-])/', 'space-row reverse', $matches[1] );
 				return 'class="' . $new_class . '"';
 			}
 			return $matches[0];
