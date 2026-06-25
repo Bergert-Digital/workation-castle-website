@@ -170,6 +170,55 @@ add_filter(
 	}
 );
 
+/**
+ * Keep the theme-file `header` template part canonical.
+ *
+ * The parent theme's seed (pediment_seed_header_template_part) unconditionally
+ * inserts an editable, DB-backed `header` wp_template_part, which otherwise
+ * shadows this child's parts/header.html — the branded header with the
+ * transparent-on-scroll behaviour. The parent exposes no hook to skip that
+ * step, so instead of deleting DB rows (which a re-seed would recreate) we
+ * hide the DB copy from template-part resolution. parts/header.html then wins
+ * in every environment, surviving re-seeds and stray Site Editor edits.
+ *
+ * Two paths resolve a template part, so both are intercepted:
+ *  - the front end (render_block_core_template_part) runs its own WP_Query
+ *    keyed on post_name__in — caught via `posts_pre_query`;
+ *  - get_block_template() (REST / editor single fetch) — caught via
+ *    `pre_get_block_template`.
+ */
+add_filter(
+	'posts_pre_query',
+	function ( $posts, $query ) {
+		if ( 'wp_template_part' !== $query->get( 'post_type' ) ) {
+			return $posts;
+		}
+		if ( in_array( 'header', (array) $query->get( 'post_name__in' ), true ) ) {
+			return array(); // No DB row -> core falls back to parts/header.html.
+		}
+		return $posts;
+	},
+	10,
+	2
+);
+
+add_filter(
+	'pre_get_block_template',
+	function ( $block_template, $id, $template_type ) {
+		if ( 'wp_template_part' !== $template_type ) {
+			return $block_template;
+		}
+		$parts = explode( '//', $id, 2 );
+		if ( count( $parts ) < 2 || get_stylesheet() !== $parts[0] || 'header' !== $parts[1] ) {
+			return $block_template;
+		}
+		$file_template = get_block_file_template( $id, $template_type );
+		return $file_template ? $file_template : $block_template;
+	},
+	10,
+	3
+);
+
 add_action(
 	'enqueue_block_editor_assets',
 	function () {
