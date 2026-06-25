@@ -27,7 +27,9 @@ ob_start();
 		<span class="dot"><?php echo esc_html( $initial ); ?></span>
 		<div>
 			<b><?php echo wp_kses_post( $title ); ?></b>
-			<span><?php echo wp_kses_post( $role ); ?></span>
+			<?php if ( '' !== $role ) : ?>
+				<span><?php echo wp_kses_post( $role ); ?></span>
+			<?php endif; ?>
 		</div>
 	</div>
 </article>

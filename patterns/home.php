@@ -57,9 +57,9 @@
 <!-- /wp:pediment-child/workation-gallery -->
 
 <!-- wp:pediment-child/workation-reviews -->
-<!-- wp:pediment-child/workation-review {"text":"The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes from the location. The co-working space exceeds expectations.","title":"Alexander M.","role":"Workation guest"} /-->
-<!-- wp:pediment-child/workation-review {"text":"Ein toller und sehr entspannter Ort zum Arbeiten oder Urlaub machen. Das Haus und die gemeinsamen Arbeitsräume sind super ausgestattet.","title":"Simone S.","role":"Workation stay"} /-->
-<!-- wp:pediment-child/workation-review {"text":"Die Atmosphäre des alten Gemäuers, den Ausblick von der Terrasse. Tolles und durchdachtes Konzept, auch für größere Familien, Gruppen und zum Arbeiten.","title":"Manuelle B.","role":"Group stay"} /-->
+<!-- wp:pediment-child/workation-review {"text":"The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes from the location. The co-working space exceeds expectations.","title":"Alexander M."} /-->
+<!-- wp:pediment-child/workation-review {"text":"A wonderful and very relaxing place to work or take a holiday. The house and the shared workspaces are superbly equipped.","title":"Simone S."} /-->
+<!-- wp:pediment-child/workation-review {"text":"We loved the atmosphere of the old stone walls and the view from the terrace. A great, well-thought-out concept — also for larger families, groups, and for working.","title":"Manuelle B."} /-->
 <!-- /wp:pediment-child/workation-reviews -->
 
 <!-- wp:pediment-child/workation-closing /-->
