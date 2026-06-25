@@ -14,7 +14,11 @@
     "imageAlt": { "type": "string", "default": "Aerial view of the castle hamlet above Lago di Piano with the mountains beyond" },
     "imageId": { "type": "number", "default": 0 },
     "primaryText": { "type": "string", "default": "Check availability" },
-    "primaryUrl": { "type": "string", "default": "#book" },
+    "bookingUrl": { "type": "string", "default": "https://workationcastle.holiduhost.com/" },
+    "checkInParam": { "type": "string", "default": "checkIn" },
+    "checkOutParam": { "type": "string", "default": "checkOut" },
+    "adultsParam": { "type": "string", "default": "adults" },
+    "childrenAgesParam": { "type": "string", "default": "childrenAges" },
     "secondaryText": { "type": "string", "default": "Ask for a custom offer" },
     "secondaryUrl": { "type": "string", "default": "#book" }
   },

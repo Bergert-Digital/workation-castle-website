@@ -26,6 +26,10 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 require_once __DIR__ . '/inc/ThemeUpdater.php';
 \PedimentChild\ThemeUpdater::register();
 
+// Content seed: rebuild pages from theme block patterns (`wp pediment-child seed`
+// or Tools → Seed content). Keeps the homepage in version control, not just the DB.
+require_once __DIR__ . '/inc/seed.php';
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
@@ -100,6 +104,24 @@ add_action(
 		add_editor_style( 'style.css' );
 	}
 );
+
+/**
+ * Output the site favicon (the Workation Castle logo mark).
+ *
+ * Emitted on the front end, the admin and the login screen so the brand mark
+ * shows everywhere. Uses the SVG mark, which scales crisply at any size.
+ */
+function pediment_child_favicon() {
+	$href = get_theme_file_uri( 'assets/images/favicon.svg' );
+	printf(
+		'<link rel="icon" href="%1$s?v=%2$s" type="image/svg+xml">' . "\n",
+		esc_url( $href ),
+		esc_attr( PEDIMENT_CHILD_VERSION )
+	);
+}
+add_action( 'wp_head', 'pediment_child_favicon' );
+add_action( 'admin_head', 'pediment_child_favicon' );
+add_action( 'login_head', 'pediment_child_favicon' );
 
 add_action(
 	'enqueue_block_editor_assets',

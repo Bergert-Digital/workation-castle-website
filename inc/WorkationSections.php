@@ -259,7 +259,11 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 	$image_url      = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
 	$image_alt      = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text   = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
-	$primary_url    = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
+	$booking_url     = ! empty( $attributes['bookingUrl'] ) ? (string) $attributes['bookingUrl'] : 'https://workationcastle.holiduhost.com/';
+	$check_in_param  = ! empty( $attributes['checkInParam'] ) ? (string) $attributes['checkInParam'] : 'checkIn';
+	$check_out_param = ! empty( $attributes['checkOutParam'] ) ? (string) $attributes['checkOutParam'] : 'checkOut';
+	$adults_param    = ! empty( $attributes['adultsParam'] ) ? (string) $attributes['adultsParam'] : 'adults';
+	$children_param  = ! empty( $attributes['childrenAgesParam'] ) ? (string) $attributes['childrenAgesParam'] : 'childrenAges';
 	$secondary_text = isset( $attributes['secondaryText'] ) ? (string) $attributes['secondaryText'] : '';
 	$secondary_url  = isset( $attributes['secondaryUrl'] ) ? (string) $attributes['secondaryUrl'] : '';
 	$wrapper        = get_block_wrapper_attributes( array( 'class' => 'hero' ) );
@@ -279,10 +283,11 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 				<?php if ( '' !== $lead ) : ?>
 					<p class="lede"><?php echo wp_kses_post( $lead ); ?></p>
 				<?php endif; ?>
-				<form class="avail" action="<?php echo esc_url( $primary_url ); ?>" aria-label="<?php esc_attr_e( 'Check availability', 'pediment-child' ); ?>">
-					<div class="avail-field"><label for="arrival"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Arrival', 'pediment-child' ); ?></label><input type="date" id="arrival" name="arrival"></div>
-					<div class="avail-field"><label for="departure"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Departure', 'pediment-child' ); ?></label><input type="date" id="departure" name="departure"></div>
-					<div class="avail-field select-wrap"><label for="guests"><span class="avail-icon avail-icon--guest" aria-hidden="true"></span> <?php esc_html_e( 'Guests', 'pediment-child' ); ?></label><select id="guests" name="guests"><option value="2"><?php esc_html_e( '2 guests', 'pediment-child' ); ?></option><option value="1"><?php esc_html_e( '1 guest', 'pediment-child' ); ?></option><option value="3"><?php esc_html_e( '3 guests', 'pediment-child' ); ?></option><option value="4"><?php esc_html_e( '4 guests', 'pediment-child' ); ?></option><option value="5"><?php esc_html_e( '5 guests', 'pediment-child' ); ?></option><option value="6"><?php esc_html_e( '6 guests', 'pediment-child' ); ?></option><option value="7"><?php esc_html_e( '7 guests', 'pediment-child' ); ?></option><option value="8"><?php esc_html_e( '8 guests', 'pediment-child' ); ?></option><option value="9"><?php esc_html_e( '9 guests', 'pediment-child' ); ?></option></select></div>
+				<form class="avail" method="get" action="<?php echo esc_url( $booking_url ); ?>" aria-label="<?php esc_attr_e( 'Check availability', 'pediment-child' ); ?>">
+					<div class="avail-field"><label for="arrival"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Arrival', 'pediment-child' ); ?></label><input type="date" id="arrival" name="<?php echo esc_attr( $check_in_param ); ?>"></div>
+					<div class="avail-field"><label for="departure"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Departure', 'pediment-child' ); ?></label><input type="date" id="departure" name="<?php echo esc_attr( $check_out_param ); ?>"></div>
+					<div class="avail-field select-wrap"><label for="guests"><span class="avail-icon avail-icon--guest" aria-hidden="true"></span> <?php esc_html_e( 'Guests', 'pediment-child' ); ?></label><select id="guests" name="<?php echo esc_attr( $adults_param ); ?>"><option value="2"><?php esc_html_e( '2 guests', 'pediment-child' ); ?></option><option value="1"><?php esc_html_e( '1 guest', 'pediment-child' ); ?></option><option value="3"><?php esc_html_e( '3 guests', 'pediment-child' ); ?></option><option value="4"><?php esc_html_e( '4 guests', 'pediment-child' ); ?></option><option value="5"><?php esc_html_e( '5 guests', 'pediment-child' ); ?></option><option value="6"><?php esc_html_e( '6 guests', 'pediment-child' ); ?></option><option value="7"><?php esc_html_e( '7 guests', 'pediment-child' ); ?></option><option value="8"><?php esc_html_e( '8 guests', 'pediment-child' ); ?></option><option value="9"><?php esc_html_e( '9 guests', 'pediment-child' ); ?></option></select></div>
+					<input type="hidden" name="<?php echo esc_attr( $children_param ); ?>" value="">
 					<div class="avail-submit"><button type="submit" class="wc-btn wc-btn-yellow"><?php echo esc_html( $primary_text ); ?> <span class="arr" aria-hidden="true">→</span></button></div>
 				</form>
 				<div class="hero-secondary"><a href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?></a></div>
