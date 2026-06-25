@@ -148,6 +148,28 @@ add_action( 'wp_head', 'pediment_child_favicon' );
 add_action( 'admin_head', 'pediment_child_favicon' );
 add_action( 'login_head', 'pediment_child_favicon' );
 
+/**
+ * Resolve the %PEDIMENT_CHILD_THEME_URI% placeholder in static template parts.
+ *
+ * Template-part HTML files (header, footer) can't run PHP, so they reference
+ * theme assets such as the brand logo through this token. Swapping it for the
+ * real stylesheet URI at render time keeps the markup portable: the theme
+ * directory is named after the deploy, never hard-coded.
+ */
+add_filter(
+	'render_block_core/html',
+	function ( $content ) {
+		if ( false === strpos( $content, '%PEDIMENT_CHILD_THEME_URI%' ) ) {
+			return $content;
+		}
+		return str_replace(
+			'%PEDIMENT_CHILD_THEME_URI%',
+			esc_url( get_stylesheet_directory_uri() ),
+			$content
+		);
+	}
+);
+
 add_action(
 	'enqueue_block_editor_assets',
 	function () {
