@@ -253,20 +253,20 @@ function pediment_child_workation_location_chrome( $attributes, $content ) {
  * @return string
  */
 function pediment_child_workation_hero_chrome( $attributes, $content ) {
-	$eyebrow        = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
-	$headline       = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
-	$lead           = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url      = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
-	$image_alt      = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
-	$primary_text   = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
+	$eyebrow         = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline        = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead            = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$image_url       = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_alt       = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+	$primary_text    = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$booking_url     = ! empty( $attributes['bookingUrl'] ) ? (string) $attributes['bookingUrl'] : 'https://workationcastle.holiduhost.com/';
 	$check_in_param  = ! empty( $attributes['checkInParam'] ) ? (string) $attributes['checkInParam'] : 'checkIn';
 	$check_out_param = ! empty( $attributes['checkOutParam'] ) ? (string) $attributes['checkOutParam'] : 'checkOut';
 	$adults_param    = ! empty( $attributes['adultsParam'] ) ? (string) $attributes['adultsParam'] : 'adults';
 	$children_param  = ! empty( $attributes['childrenAgesParam'] ) ? (string) $attributes['childrenAgesParam'] : 'childrenAges';
-	$secondary_text = isset( $attributes['secondaryText'] ) ? (string) $attributes['secondaryText'] : '';
-	$secondary_url  = isset( $attributes['secondaryUrl'] ) ? (string) $attributes['secondaryUrl'] : '';
-	$wrapper        = get_block_wrapper_attributes( array( 'class' => 'hero' ) );
+	$secondary_text  = isset( $attributes['secondaryText'] ) ? (string) $attributes['secondaryText'] : '';
+	$secondary_url   = isset( $attributes['secondaryUrl'] ) ? (string) $attributes['secondaryUrl'] : '';
+	$wrapper         = get_block_wrapper_attributes( array( 'class' => 'hero' ) );
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="book">

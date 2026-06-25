@@ -70,7 +70,7 @@ class Seed {
 	 */
 	public static function seed(): array {
 		list( $ids, $page_log ) = self::upsert_pages();
-		$log = $page_log;
+		$log                    = $page_log;
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
