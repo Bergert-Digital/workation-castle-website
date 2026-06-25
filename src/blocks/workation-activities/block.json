@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-activities",
+  "title": "Workation Activities",
+  "category": "design",
+  "description": "Activities image-tile section.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "When laptops close" },
+    "headline": { "type": "string", "default": "Lakes, trails and mountain air are part of the stay." },
+    "lead": { "type": "string", "default": "Swim before dinner, walk the nature reserve, chase waterfalls or head into the mountains — without turning the trip into logistics." }
+  },
+  "supports": { "html": false, "align": [ "full" ] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

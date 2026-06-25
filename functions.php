@@ -69,10 +69,47 @@ add_action(
 	'wp_enqueue_scripts',
 	function () {
 		wp_enqueue_style(
+			'workation-castle-fonts',
+			'https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inria+Sans:wght@300;400;700&display=swap',
+			array(),
+			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google Fonts CSS2 uses repeated family params; WP versioning collapses them.
+			null
+		);
+
+		wp_enqueue_style(
 			'pediment-child',
 			get_stylesheet_directory_uri() . '/style.css',
-			array(),
+			array( 'workation-castle-fonts' ),
 			wp_get_theme()->get( 'Version' )
+		);
+
+		wp_enqueue_script(
+			'workation-castle-header',
+			get_stylesheet_directory_uri() . '/assets/js/header.js',
+			array(),
+			wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
+);
+
+add_action(
+	'after_setup_theme',
+	function () {
+		add_theme_support( 'editor-styles' );
+		add_editor_style( 'style.css' );
+	}
+);
+
+add_action(
+	'enqueue_block_editor_assets',
+	function () {
+		wp_enqueue_style(
+			'workation-castle-editor-fonts',
+			'https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inria+Sans:wght@300;400;700&display=swap',
+			array(),
+			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google Fonts CSS2 uses repeated family params; WP versioning collapses them.
+			null
 		);
 	}
 );

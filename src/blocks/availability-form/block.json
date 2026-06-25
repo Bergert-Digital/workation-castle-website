@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/availability-form",
+  "title": "Availability Form",
+  "category": "design",
+  "description": "Compact Workation Castle availability form with arrival, departure, and guest fields.",
+  "textdomain": "pediment-child",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "actionUrl": { "type": "string", "default": "#" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

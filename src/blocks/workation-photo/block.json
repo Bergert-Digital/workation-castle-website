@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-photo",
+  "title": "Workation Gallery Photo",
+  "category": "design",
+  "description": "A single gallery photo.",
+  "parent": [ "pediment-child/workation-gallery" ],
+  "textdomain": "pediment-child",
+  "supports": { "html": false },
+  "attributes": {
+    "imageUrl": { "type": "string", "default": "" },
+    "imageAlt": { "type": "string", "default": "" },
+    "imageId": { "type": "number", "default": 0 },
+    "variant": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

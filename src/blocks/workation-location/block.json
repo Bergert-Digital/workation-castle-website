@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-location",
+  "title": "Workation Location",
+  "category": "design",
+  "description": "Location and getting-here section.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Location & getting here" },
+    "headline": { "type": "string", "default": "Between two lakes, near the Swiss border." },
+    "lead": { "type": "string", "default": "In an Italian valley near the Swiss border, between Lake Lugano and Lake Como — with the little Lago di Piano a short walk away. Restaurants, a bakery and shops are within walking distance; most guests leave the car parked all week." },
+    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2022/12/Castello-Map-Screenshot.png" },
+    "imageAlt": { "type": "string", "default": "Map showing the castle's location between Lake Lugano and Lake Como" },
+    "imageId": { "type": "number", "default": 0 }
+  },
+  "supports": { "html": false, "align": [ "full" ] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

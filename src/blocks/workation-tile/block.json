@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-tile",
+  "title": "Workation Activity Tile",
+  "category": "design",
+  "description": "A single activity image tile.",
+  "parent": [ "pediment-child/workation-activities" ],
+  "textdomain": "pediment-child",
+  "supports": { "html": false },
+  "attributes": {
+    "title": { "type": "string", "default": "" },
+    "imageUrl": { "type": "string", "default": "" },
+    "imageAlt": { "type": "string", "default": "" },
+    "imageId": { "type": "number", "default": 0 }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

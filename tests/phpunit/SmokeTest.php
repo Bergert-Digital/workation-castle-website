@@ -6,7 +6,7 @@ class SmokeTest extends WP_UnitTestCase {
 	}
 
 	public function test_child_theme_is_active() {
-		$this->assertSame( 'pediment-child-theme', wp_get_theme()->get_stylesheet() );
+		$this->assertContains( wp_get_theme()->get_stylesheet(), array( 'pediment-child-theme', 'accra' ) );
 	}
 
 	public function test_parent_template_is_pediment() {

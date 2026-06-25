@@ -3,6 +3,7 @@
   <description>Coding standards for pediment-child-theme.</description>
 
   <file>functions.php</file>
+  <file>inc/</file>
   <file>src/blocks/</file>
 
   <exclude-pattern>build/*</exclude-pattern>

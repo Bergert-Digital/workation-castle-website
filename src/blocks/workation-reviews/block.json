@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-reviews",
+  "title": "Workation Reviews",
+  "category": "design",
+  "description": "Guest reviews card grid.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Guest reviews" },
+    "headline": { "type": "string", "default": "People come for focus, family time and the quiet." }
+  },
+  "supports": { "html": false, "align": [ "full" ] },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

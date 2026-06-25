@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-audience",
+  "title": "Workation Audience Cards",
+  "category": "design",
+  "description": "Team retreats, workations, and family stays section.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Three ways to stay" },
+    "headline": { "type": "string", "default": "One castle, made for the way you want to be together." }
+  },
+  "supports": {
+    "html": false,
+    "align": [ "full" ]
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

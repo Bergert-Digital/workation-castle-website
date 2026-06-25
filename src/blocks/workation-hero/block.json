@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/workation-hero",
+  "title": "Workation Hero",
+  "category": "design",
+  "description": "Workation Castle homepage hero section.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Castello di Carlazzo · Northern Italy" },
+    "headline": { "type": "string", "default": "An Italian castle to <span class=\"hl\">work, gather</span> and unwind." },
+    "lead": { "type": "string", "default": "Centuries-old walls and bright, modern interiors on a hill between Lake Como and Lake Lugano — with a full co-working space built for teams who'd rather work somewhere extraordinary." },
+    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg" },
+    "imageAlt": { "type": "string", "default": "Aerial view of the castle hamlet above Lago di Piano with the mountains beyond" },
+    "imageId": { "type": "number", "default": 0 },
+    "primaryText": { "type": "string", "default": "Check availability" },
+    "primaryUrl": { "type": "string", "default": "#book" },
+    "secondaryText": { "type": "string", "default": "Ask for a custom offer" },
+    "secondaryUrl": { "type": "string", "default": "#book" }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
