@@ -52,6 +52,8 @@
 <!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2247.jpeg","imageAlt":"Castle room with modern furnishings"} /-->
 <!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2113.jpeg","imageAlt":"Stone stairway inside the castle"} /-->
 <!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Roofs.jpeg","imageAlt":"Castle roofs and surrounding hills","variant":"wide"} /-->
+<!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2186.jpeg","imageAlt":"Meeting room with a view over the landscape"} /-->
+<!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room with a bright yellow armchair"} /-->
 <!-- /wp:pediment-child/workation-gallery -->
 
 <!-- wp:pediment-child/workation-reviews -->

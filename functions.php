@@ -80,18 +80,29 @@ add_action(
 			null
 		);
 
+		$style_path = get_stylesheet_directory() . '/style.css';
 		wp_enqueue_style(
 			'pediment-child',
 			get_stylesheet_directory_uri() . '/style.css',
 			array( 'workation-castle-fonts' ),
-			wp_get_theme()->get( 'Version' )
+			file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' )
 		);
 
+		$header_js_path = get_stylesheet_directory() . '/assets/js/header.js';
 		wp_enqueue_script(
 			'workation-castle-header',
 			get_stylesheet_directory_uri() . '/assets/js/header.js',
 			array(),
-			wp_get_theme()->get( 'Version' ),
+			file_exists( $header_js_path ) ? (string) filemtime( $header_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
+		$reveal_js_path = get_stylesheet_directory() . '/assets/js/reveal.js';
+		wp_enqueue_script(
+			'workation-castle-reveal',
+			get_stylesheet_directory_uri() . '/assets/js/reveal.js',
+			array(),
+			file_exists( $reveal_js_path ) ? (string) filemtime( $reveal_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
 	}
@@ -103,6 +114,20 @@ add_action(
 		add_theme_support( 'editor-styles' );
 		add_editor_style( 'style.css' );
 	}
+);
+
+/**
+ * Mark the document as JS-enabled before paint so entrance animations can hide
+ * their targets without a flash of content. Printed early in <head>; the
+ * reveal stylesheet only hides elements under `html.js`, and reveal.js removes
+ * the class again if it can't animate (no IntersectionObserver / reduced motion).
+ */
+add_action(
+	'wp_head',
+	function () {
+		echo "<script>document.documentElement.classList.add('js');</script>\n";
+	},
+	1
 );
 
 /**

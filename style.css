@@ -565,6 +565,17 @@ nav.main-nav a:hover::after {
 	opacity: .8;
 }
 
+.avail-field select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	padding-right: 2.4em;
+}
+
+.avail-field select::-ms-expand {
+	display: none;
+}
+
 .avail-field select option {
 	color: var(--wc-ink);
 }
@@ -1101,14 +1112,20 @@ nav.main-nav a:hover::after {
 	box-shadow: 0 16px 36px -26px rgba(58, 38, 22, .5);
 	display: block;
 	overflow: hidden;
+	position: relative;
 	width: auto !important;
 }
 
+/* Fill the cell absolutely so the image never dictates the cell's height.
+   The squares' 1/1 ratio sets a uniform row height; tall/wide cells then
+   stretch to the grid area and the image covers it — no gaps from photos
+   imposing their natural (taller) height on a row. */
 .gallery img,
 .wp-block-gallery.gallery.has-nested-images figure.wp-block-image img {
-	block-size: 100%;
-	inline-size: 100%;
+	height: 100%;
+	inset: 0;
 	object-fit: cover;
+	position: absolute;
 	transition: transform .8s var(--wc-ease);
 	width: 100%;
 }
@@ -1555,6 +1572,11 @@ nav.main-nav a:hover::after {
 	}
 
 	.gallery .g-wide {
+		/* Span 2 columns and 1 row. aspect-ratio: auto (mirroring .g-tall)
+		   lets the photo take the row's height instead of inheriting the
+		   1/1 ratio, which would otherwise make it 2 cells tall and leave
+		   gaps beside it. */
+		aspect-ratio: auto;
 		grid-column: span 2;
 	}
 
@@ -1578,5 +1600,100 @@ nav.main-nav a:hover::after {
 	.reviews-grid {
 		gap: 24px;
 		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+/* ============================================================
+   Entrance animations — reveal on scroll
+   Elements start hidden (only when JS is active and the visitor
+   has not asked to reduce motion) and fade/slide up once they
+   enter the viewport. `.is-in` is added by assets/js/reveal.js.
+   `:where()` keeps the hidden rule at low specificity so the
+   `.is-in` rule always wins.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+	html.js :where(
+		.sec-head,
+		.hero .wc-wrap > *,
+		.intro .wc-wrap > *,
+		.ways-grid > .way,
+		.wc-wrap > .space-row,
+		.modes > .mode,
+		.act-grid > .act,
+		.gallery > .wp-block-pediment-child-workation-photo,
+		.reviews-grid > .review,
+		.gallery-foot,
+		.closing-inner
+	) {
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity 0.7s cubic-bezier(0.16, 0.84, 0.44, 1),
+			transform 0.7s cubic-bezier(0.16, 0.84, 0.44, 1);
+		will-change: opacity, transform;
+	}
+
+	html.js .is-in {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* Stagger items within a group as it reveals. */
+	html.js
+		:where(
+			.hero .wc-wrap > *,
+			.intro .wc-wrap > *,
+			.ways-grid > .way,
+			.wc-wrap > .space-row,
+			.modes > .mode,
+			.act-grid > .act,
+			.gallery > .wp-block-pediment-child-workation-photo,
+			.reviews-grid > .review
+		):nth-child(2) {
+		transition-delay: 0.07s;
+	}
+	html.js
+		:where(
+			.hero .wc-wrap > *,
+			.intro .wc-wrap > *,
+			.ways-grid > .way,
+			.wc-wrap > .space-row,
+			.modes > .mode,
+			.act-grid > .act,
+			.gallery > .wp-block-pediment-child-workation-photo,
+			.reviews-grid > .review
+		):nth-child(3) {
+		transition-delay: 0.14s;
+	}
+	html.js
+		:where(
+			.hero .wc-wrap > *,
+			.ways-grid > .way,
+			.modes > .mode,
+			.act-grid > .act,
+			.gallery > .wp-block-pediment-child-workation-photo
+		):nth-child(4) {
+		transition-delay: 0.21s;
+	}
+	html.js
+		:where(
+			.hero .wc-wrap > *,
+			.act-grid > .act,
+			.gallery > .wp-block-pediment-child-workation-photo
+		):nth-child(5) {
+		transition-delay: 0.28s;
+	}
+	html.js
+		:where(
+			.hero .wc-wrap > *,
+			.gallery > .wp-block-pediment-child-workation-photo
+		):nth-child(6) {
+		transition-delay: 0.35s;
+	}
+	html.js
+		:where(.gallery > .wp-block-pediment-child-workation-photo):nth-child(
+			7
+		) {
+		transition-delay: 0.42s;
 	}
 }
