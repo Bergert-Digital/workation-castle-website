@@ -330,6 +330,95 @@ function pediment_child_workation_intro_chrome( $attributes ) {
 }
 
 /**
+ * Render the filterable photo gallery from the wc_photo CPT.
+ *
+ * Queries every published photo ordered by menu_order and outputs a tab bar
+ * (All + each category in use) plus a grid of lightbox-able anchors. The
+ * photo image comes from each post's featured image.
+ *
+ * @param array $attributes Block attributes (eyebrow, headline).
+ * @return string
+ */
+function pediment_child_photo_gallery_chrome( $attributes ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => PEDIMENT_CHILD_PHOTO_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		)
+	);
+
+	$used_terms = array();
+	$cards      = array();
+
+	foreach ( $query->posts as $post ) {
+		$full = wp_get_attachment_image_url( get_post_thumbnail_id( $post->ID ), 'full' );
+		if ( ! $full ) {
+			continue;
+		}
+		$terms = get_the_terms( $post->ID, PEDIMENT_CHILD_PHOTO_TAX );
+		$slugs = array();
+		if ( is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$slugs[]                   = $term->slug;
+				$used_terms[ $term->slug ] = $term->name;
+			}
+		}
+		$img     = wp_get_attachment_image(
+			get_post_thumbnail_id( $post->ID ),
+			'large',
+			false,
+			array(
+				'alt'     => get_the_title( $post->ID ),
+				'loading' => 'lazy',
+			)
+		);
+		$cards[] = sprintf(
+			'<a class="photo" href="%1$s" data-category="%2$s">%3$s</a>',
+			esc_url( $full ),
+			esc_attr( implode( ' ', $slugs ) ),
+			$img
+		);
+	}
+
+	wp_reset_postdata();
+
+	ob_start();
+	?>
+	<section class="band photos" id="photos">
+		<?php if ( '' !== $eyebrow || '' !== $headline ) : ?>
+			<div class="sec-head">
+				<?php if ( '' !== $eyebrow ) : ?>
+					<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+				<?php endif; ?>
+				<?php if ( '' !== $headline ) : ?>
+					<h2><?php echo wp_kses_post( $headline ); ?></h2>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+		<div class="wc-wrap">
+			<div class="photo-tabs" role="group" aria-label="<?php esc_attr_e( 'Filter photos', 'pediment-child' ); ?>">
+				<button type="button" class="photo-tab is-active" data-filter="*" aria-pressed="true"><?php esc_html_e( 'All', 'pediment-child' ); ?></button>
+				<?php foreach ( $used_terms as $slug => $name ) : ?>
+					<button type="button" class="photo-tab" data-filter="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><?php echo esc_html( $name ); ?></button>
+				<?php endforeach; ?>
+			</div>
+			<div class="photo-grid">
+				<?php echo implode( "\n", $cards ); // phpcs:ignore WordPress.Security.EscapeOutput -- anchors built from escaped parts above. ?>
+			</div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Render the closing CTA section from attributes.
  *
  * @param array $attributes Block attributes.

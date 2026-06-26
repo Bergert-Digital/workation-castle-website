@@ -33,6 +33,11 @@ require_once __DIR__ . '/inc/seed.php';
 // Photo gallery: custom post type + taxonomy for the filterable /photos grid.
 require_once __DIR__ . '/inc/Photos.php';
 
+// Section block render helpers (also loaded by individual block render.php files,
+// but required here so helpers are available outside the block rendering path,
+// e.g. in unit tests and direct template includes).
+require_once __DIR__ . '/inc/WorkationSections.php';
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
