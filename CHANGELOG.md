@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.5.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.4.0...v0.5.0) (2026-06-26)
+
+
+### Features
+
+* **blocks:** activities section uses native InnerBlocks (workation-tile child) ([28d9284](https://github.com/Bergert-Digital/workation-castle-website/commit/28d92847fa39e9e06a4a53e7c21e93f2b337fde6))
+* **blocks:** audience section uses native InnerBlocks (workation-card child) ([5606f77](https://github.com/Bergert-Digital/workation-castle-website/commit/5606f777b5c0abc2d7db3affb9e2fe158be856cb))
+* **blocks:** gallery section uses native InnerBlocks (workation-photo child, variant select) ([8061b0a](https://github.com/Bergert-Digital/workation-castle-website/commit/8061b0aebc856ecb7b12905048b07b6959371fb2))
+* **blocks:** hero section chips use native InnerBlocks (workation-chip child) ([cf8be29](https://github.com/Bergert-Digital/workation-castle-website/commit/cf8be29db87b5a73fc8270ca62135048abaaab14))
+* **blocks:** location section uses native InnerBlocks (workation-mode child, icon select) ([3312091](https://github.com/Bergert-Digital/workation-castle-website/commit/331209146d9c713a2a5d98b245c525656e750e23))
+* **blocks:** persistent + appender on all workation InnerBlocks sections ([0ddd8eb](https://github.com/Bergert-Digital/workation-castle-website/commit/0ddd8ebc6e5bda8617a36c329545356899bc7b37))
+* **blocks:** reviews section uses native InnerBlocks (workation-review child) ([059023b](https://github.com/Bergert-Digital/workation-castle-website/commit/059023b0c3cd8aba4a3023e77c17df53a39b4b76))
+* **blocks:** spaces section uses native InnerBlocks (workation-space child, positional reverse) ([471341c](https://github.com/Bergert-Digital/workation-castle-website/commit/471341c46b0b820cfa8a8c363d243009057d99a2))
+* Holidu booking form, favicon, and durable homepage seed ([5e10bc7](https://github.com/Bergert-Digital/workation-castle-website/commit/5e10bc7bebe812b69505e1986f8d745613d4ced9))
+* **homepage:** add entrance animations and fix gallery layout ([28c807a](https://github.com/Bergert-Digital/workation-castle-website/commit/28c807a08d412bb192405c1f208b75c5ac2304c3))
+
+
+### Bug Fixes
+
+* **blocks:** drop inserter:false on child blocks so the appender works ([64ec6de](https://github.com/Bergert-Digital/workation-castle-website/commit/64ec6de448365c87912e6398fb4e0b251f5f9ef0))
+* **blocks:** intro & closing render attributes directly (clearable fields) ([f0bb263](https://github.com/Bergert-Digital/workation-castle-website/commit/f0bb263ca55af279367aa8de3bc1f63b7a45caed))
+* **blocks:** make space-row reverse marking idempotent and full-token-safe ([51ebdb4](https://github.com/Bergert-Digital/workation-castle-website/commit/51ebdb4d07acde0b538295ec06dbd5d762cf7b1f))
+* **blocks:** render gallery photos as anchors to restore .gallery a styling (frontend parity) ([ad0f332](https://github.com/Bergert-Digital/workation-castle-website/commit/ad0f3321bee7aa90d6da5cfc5b601263b5b08ecd))
+* **blocks:** use named ButtonBlockAppender export for persistent appender ([1559ced](https://github.com/Bergert-Digital/workation-castle-website/commit/1559cedc83717693019dc0ef719a7427214ed484))
+* **homepage:** travel-mode icons and english reviews ([8358922](https://github.com/Bergert-Digital/workation-castle-website/commit/83589225e5b9b8457405a6ef5b5c2f0efb77e2ac))
+* **theme:** make file-based header win over seeded DB copy ([4171486](https://github.com/Bergert-Digital/workation-castle-website/commit/417148622e3d1ae2f09719ae7eddfca1507f8d47))
+* **theme:** resolve broken header/footer logo path ([782f401](https://github.com/Bergert-Digital/workation-castle-website/commit/782f4014508ddbf8bbe713499799a856644c76c4))
+
+
+### Refactors
+
+* **blocks:** remove workation-sections monolith and obsolete defaults/merge PHP ([abe8183](https://github.com/Bergert-Digital/workation-castle-website/commit/abe818360b2b7aebd251e79ee29d0619883c39c0))
+
 ## [0.4.0](https://github.com/Bergert-Digital/Pediment-Child-Theme/compare/v0.3.2...v0.4.0) (2026-06-23)
 
 
