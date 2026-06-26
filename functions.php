@@ -105,6 +105,15 @@ add_action(
 			file_exists( $reveal_js_path ) ? (string) filemtime( $reveal_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
+
+		$lightbox_js_path = get_stylesheet_directory() . '/assets/js/lightbox.js';
+		wp_enqueue_script(
+			'workation-castle-lightbox',
+			get_stylesheet_directory_uri() . '/assets/js/lightbox.js',
+			array(),
+			file_exists( $lightbox_js_path ) ? (string) filemtime( $lightbox_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
 	}
 );
 

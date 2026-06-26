@@ -1116,6 +1116,17 @@ nav.main-nav a:hover::after {
 	width: auto !important;
 }
 
+/* Clicking a photo shouldn't leave a ring. Keyboard users still get a
+   branded (not default-blue) ring via :focus-visible. */
+.gallery a:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.gallery a:focus:not(:focus-visible) {
+	outline: none;
+}
+
 /* Fill the cell absolutely so the image never dictates the cell's height.
    The squares' 1/1 ratio sets a uniform row height; tall/wide cells then
    stretch to the grid area and the image covers it — no gaps from photos
@@ -1144,6 +1155,126 @@ nav.main-nav a:hover::after {
 	display: flex;
 	justify-content: center;
 	margin-top: 30px;
+}
+
+/* ============================================================
+   Gallery lightbox — modal photo viewer (assets/js/lightbox.js)
+   ============================================================ */
+.wc-lightbox-lock {
+	overflow: hidden;
+}
+
+.wc-lightbox {
+	align-items: center;
+	background: rgba(28, 18, 10, .92);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	opacity: 0;
+	padding: clamp(16px, 4vw, 56px);
+	/* pointer-events flips instantly (it isn't transitioned), so a closed
+	   overlay stops intercepting clicks immediately — independent of the
+	   opacity fade. visibility hides it from focus/a11y once the fade-out
+	   finishes; on open both flip instantly so the fade-in is visible. */
+	pointer-events: none;
+	position: fixed;
+	transition: opacity .3s var(--wc-ease), visibility 0s linear .3s;
+	visibility: hidden;
+	z-index: 1000;
+}
+
+.wc-lightbox.is-open {
+	opacity: 1;
+	pointer-events: auto;
+	transition: opacity .3s var(--wc-ease);
+	visibility: visible;
+}
+
+.wc-lightbox-stage {
+	margin: 0;
+	max-block-size: 100%;
+	max-inline-size: min(1100px, 100%);
+	text-align: center;
+}
+
+.wc-lightbox-img {
+	border-radius: var(--wc-radius);
+	box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8);
+	display: block;
+	margin: 0 auto;
+	max-block-size: 82vh;
+	max-inline-size: 100%;
+	object-fit: contain;
+	transform: scale(.97);
+	transition: transform .3s var(--wc-ease);
+}
+
+.wc-lightbox.is-open .wc-lightbox-img {
+	transform: scale(1);
+}
+
+.wc-lightbox-cap {
+	color: rgba(255, 255, 255, .82);
+	font-size: 14px;
+	margin-top: 14px;
+}
+
+.wc-lightbox-close,
+.wc-lightbox-nav {
+	align-items: center;
+	background: rgba(255, 255, 255, .12);
+	border: 0;
+	border-radius: 999px;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	line-height: 1;
+	padding: 0;
+	position: absolute;
+	transition: background .2s var(--wc-ease), transform .2s var(--wc-ease);
+}
+
+.wc-lightbox-close:hover,
+.wc-lightbox-nav:hover {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.wc-lightbox-close {
+	block-size: 44px;
+	font-size: 28px;
+	inline-size: 44px;
+	inset-block-start: clamp(12px, 3vw, 28px);
+	inset-inline-end: clamp(12px, 3vw, 28px);
+}
+
+.wc-lightbox-nav {
+	block-size: 52px;
+	font-size: 32px;
+	inline-size: 52px;
+	inset-block-start: 50%;
+	transform: translateY(-50%);
+}
+
+.wc-lightbox-nav:hover {
+	transform: translateY(-50%) scale(1.08);
+}
+
+.wc-lightbox-prev {
+	inset-inline-start: clamp(8px, 2vw, 28px);
+}
+
+.wc-lightbox-next {
+	inset-inline-end: clamp(8px, 2vw, 28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wc-lightbox,
+	.wc-lightbox.is-open,
+	.wc-lightbox-img {
+		transition: none;
+	}
 }
 
 .reviews-grid {
