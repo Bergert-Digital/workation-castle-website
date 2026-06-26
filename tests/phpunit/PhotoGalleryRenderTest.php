@@ -57,4 +57,20 @@ class PhotoGalleryRenderTest extends WP_UnitTestCase {
 		$html = pediment_child_photo_gallery_chrome( array( 'headline' => 'Our spaces' ) );
 		$this->assertStringContainsString( 'Our spaces', $html );
 	}
+
+	public function test_thumbnail_shows_category_and_description() {
+		$this->make_photo( 'The courtyard', 'casa-galbiga', 10 );
+		$html = pediment_child_photo_gallery_chrome( array() );
+		$this->assertStringContainsString( 'photo-meta', $html );
+		$this->assertStringContainsString( '<span class="photo-cat">Casa-galbiga</span>', $html );
+		$this->assertStringContainsString( '<span class="photo-title">The courtyard</span>', $html );
+	}
+
+	public function test_thumbnail_omits_description_when_it_repeats_category() {
+		// Title equal to the category name should not render twice.
+		$this->make_photo( 'Casa-galbiga', 'casa-galbiga', 10 );
+		$html = pediment_child_photo_gallery_chrome( array() );
+		$this->assertStringContainsString( '<span class="photo-cat">Casa-galbiga</span>', $html );
+		$this->assertStringNotContainsString( 'photo-title', $html );
+	}
 }

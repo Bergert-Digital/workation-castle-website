@@ -28,6 +28,7 @@ Update URI: https://github.com/Bergert-Digital/Pediment-Child-Theme
 	--wc-radius-lg: 28px;
 	--wc-maxw: 1280px;
 	--wc-ease: cubic-bezier(.2, .7, .2, 1);
+	--wc-header-h: 96px;
 }
 
 html {
@@ -373,6 +374,39 @@ nav.main-nav a:hover::after {
 
 .site-header.scrolled .menu-toggle span {
 	background: var(--wc-ink);
+}
+
+/* ------------------------------------------------------------
+   Pages with no cinematic hero behind the fixed header.
+   `body.no-hero` is added by pediment_child_body_class() when the page has
+   no workation-hero block. Render the header solid (legible) from the top
+   and pad the content clear of the fixed header — a generic fix, not per-page.
+   ------------------------------------------------------------ */
+body.no-hero header.site-header,
+body.no-hero header.site-header:not(.scrolled) {
+	background: rgba(250, 246, 238, .92);
+	box-shadow: 0 8px 30px -18px rgba(58, 38, 22, .4);
+}
+
+body.no-hero .brand img {
+	filter: none;
+}
+
+body.no-hero nav.main-nav a {
+	color: var(--wc-ink);
+}
+
+body.no-hero .menu-toggle {
+	background: rgba(58, 38, 22, .06);
+	border-color: rgba(58, 38, 22, .2);
+}
+
+body.no-hero .menu-toggle span {
+	background: var(--wc-ink);
+}
+
+body.no-hero .wp-site-blocks > main {
+	padding-block-start: calc(var(--wc-header-h) + 24px);
 }
 
 .hero {
@@ -1869,7 +1903,19 @@ nav.main-nav a:hover::after {
 .photo-grid {
 	display: grid;
 	gap: 18px;
-	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+	.photo-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 980px) {
+	.photo-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
 .photo-grid .photo {
@@ -1900,4 +1946,33 @@ nav.main-nav a:hover::after {
 
 .photo-grid .photo.is-hidden {
 	display: none;
+}
+
+/* Always-on caption: category + description over a bottom scrim. */
+.photo-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	inset-inline: 0;
+	inset-block-end: 0;
+	padding: 32px 18px 16px;
+	position: absolute;
+	z-index: 2;
+	background: linear-gradient(to top, rgba(28, 18, 10, .82), rgba(28, 18, 10, 0));
+	color: #fff;
+	pointer-events: none;
+}
+
+.photo-cat {
+	color: var(--wc-yellow);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.photo-title {
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.2;
 }

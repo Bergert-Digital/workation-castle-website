@@ -362,28 +362,48 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 		if ( ! $full ) {
 			continue;
 		}
-		$terms = get_the_terms( $post->ID, PEDIMENT_CHILD_PHOTO_TAX );
-		$slugs = array();
+		$terms     = get_the_terms( $post->ID, PEDIMENT_CHILD_PHOTO_TAX );
+		$slugs     = array();
+		$cat_label = '';
 		if ( is_array( $terms ) ) {
 			foreach ( $terms as $term ) {
 				$slugs[]                   = $term->slug;
 				$used_terms[ $term->slug ] = $term->name;
 			}
+			if ( ! empty( $terms ) ) {
+				$cat_label = reset( $terms )->name;
+			}
 		}
-		$img     = wp_get_attachment_image(
+		$title = get_the_title( $post->ID );
+		$img   = wp_get_attachment_image(
 			get_post_thumbnail_id( $post->ID ),
 			'large',
 			false,
 			array(
-				'alt'     => get_the_title( $post->ID ),
+				'alt'     => $title,
 				'loading' => 'lazy',
 			)
 		);
+
+		// Caption overlay: category + description. Skip the description when it
+		// merely repeats the category (some photos are titled after their room).
+		$meta = '';
+		if ( '' !== $cat_label ) {
+			$meta .= '<span class="photo-cat">' . esc_html( $cat_label ) . '</span>';
+		}
+		if ( '' !== $title && strtolower( $title ) !== strtolower( $cat_label ) ) {
+			$meta .= '<span class="photo-title">' . esc_html( $title ) . '</span>';
+		}
+		if ( '' !== $meta ) {
+			$meta = '<span class="photo-meta">' . $meta . '</span>';
+		}
+
 		$cards[] = sprintf(
-			'<a class="photo" href="%1$s" data-category="%2$s">%3$s</a>',
+			'<a class="photo" href="%1$s" data-category="%2$s">%3$s%4$s</a>',
 			esc_url( $full ),
 			esc_attr( implode( ' ', $slugs ) ),
-			$img
+			$img,
+			$meta
 		);
 	}
 

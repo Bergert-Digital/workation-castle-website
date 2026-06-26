@@ -175,6 +175,36 @@ add_action( 'admin_head', 'pediment_child_favicon' );
 add_action( 'login_head', 'pediment_child_favicon' );
 
 /**
+ * Flag pages that have no full-bleed hero behind the fixed header.
+ *
+ * The site header is designed to overlay the homepage's cinematic hero —
+ * white logo and nav on a transparent background. On pages without such a
+ * hero (most inner pages, archives, 404, search) that white-on-light is
+ * unreadable, and the content slides up under the fixed header. This adds a
+ * `no-hero` body class that the stylesheet keys both fixes off (solid header
+ * + top padding), so the behaviour is generic and content-driven rather than
+ * configured per page. A page counts as having a hero when its content
+ * contains the workation-hero block.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function pediment_child_body_class( $classes ) {
+	$has_hero = false;
+	if ( is_singular() ) {
+		$post = get_queried_object();
+		if ( $post instanceof WP_Post ) {
+			$has_hero = has_block( 'pediment-child/workation-hero', $post );
+		}
+	}
+	if ( ! $has_hero ) {
+		$classes[] = 'no-hero';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'pediment_child_body_class' );
+
+/**
  * Resolve the %PEDIMENT_CHILD_THEME_URI% placeholder in static template parts.
  *
  * Template-part HTML files (header, footer) can't run PHP, so they reference
