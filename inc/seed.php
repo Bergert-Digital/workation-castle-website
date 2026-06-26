@@ -33,9 +33,13 @@ class Seed {
 	 * post_name values must match header/footer nav URLs exactly.
 	 */
 	const PAGES = array(
-		'home' => array(
+		'home'   => array(
 			'title'        => 'Home',
 			'pattern_file' => 'patterns/home.php',
+		),
+		'photos' => array(
+			'title'        => 'Photos',
+			'pattern_file' => 'patterns/photos.php',
 		),
 	);
 
@@ -62,6 +66,13 @@ class Seed {
 	// Core (context-agnostic)
 	// -------------------------------------------------------------------------
 
+	/** Category slug => label for the photo taxonomy. */
+	const PHOTO_TERMS = array(
+		'casa-galbiga'                         => 'Casa Galbiga',
+		'casa-tremezzo'                        => 'Casa Tremezzo',
+		'workspace-garden-castle-surroundings' => 'Workspace Garden & Castle Surroundings',
+	);
+
 	/**
 	 * Run the full seed. Returns a structured result instead of printing, so
 	 * both the CLI command and the admin handler can present it.
@@ -69,8 +80,11 @@ class Seed {
 	 * @return array{ok:bool,summary:string,log:string[]}
 	 */
 	public static function seed(): array {
+		self::seed_photo_terms();
+		$photo_log = self::seed_photos( self::photo_manifest() );
+
 		list( $ids, $page_log ) = self::upsert_pages();
-		$log                    = $page_log;
+		$log                    = array_merge( $page_log, $photo_log );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -174,6 +188,107 @@ class Seed {
 
 		wp_safe_redirect( add_query_arg( 'page', 'pediment-child-seed', admin_url( 'tools.php' ) ) );
 		exit;
+	}
+
+	// -------------------------------------------------------------------------
+	// Photo seed helpers
+	// -------------------------------------------------------------------------
+
+	/** Read the version-controlled photo manifest. */
+	public static function photo_manifest(): array {
+		$path = get_theme_file_path( 'inc/photos-manifest.php' );
+		return file_exists( $path ) ? (array) require $path : array();
+	}
+
+	/** Ensure the photo category terms exist. Returns slug => term_id. */
+	public static function seed_photo_terms(): array {
+		$map = array();
+		foreach ( self::PHOTO_TERMS as $slug => $label ) {
+			$existing = get_term_by( 'slug', $slug, PEDIMENT_CHILD_PHOTO_TAX );
+			if ( $existing ) {
+				$map[ $slug ] = (int) $existing->term_id;
+				continue;
+			}
+			$res = wp_insert_term( $label, PEDIMENT_CHILD_PHOTO_TAX, array( 'slug' => $slug ) );
+			if ( ! is_wp_error( $res ) ) {
+				$map[ $slug ] = (int) $res['term_id'];
+			}
+		}
+		return $map;
+	}
+
+	/**
+	 * Sideload + upsert photos from a manifest. Idempotent via the
+	 * _wc_photo_source_url meta marker.
+	 *
+	 * @param array $manifest List of [url, alt, category, order].
+	 * @return string[] Log lines.
+	 */
+	public static function seed_photos( array $manifest ): array {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$log = array();
+		foreach ( $manifest as $item ) {
+			$url = isset( $item['url'] ) ? (string) $item['url'] : '';
+			if ( '' === $url ) {
+				continue;
+			}
+
+			$existing = get_posts(
+				array(
+					'post_type'   => PEDIMENT_CHILD_PHOTO_CPT,
+					'post_status' => 'any',
+					'numberposts' => 1,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key'    => '_wc_photo_source_url',
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					'meta_value'  => $url,
+					'fields'      => 'ids',
+				)
+			);
+			if ( $existing ) {
+				$log[] = "  skipped (exists): {$url}";
+				continue;
+			}
+
+			$alt   = isset( $item['alt'] ) ? (string) $item['alt'] : '';
+			$order = isset( $item['order'] ) ? (int) $item['order'] : 0;
+
+			$post_id = wp_insert_post(
+				array(
+					'post_type'   => PEDIMENT_CHILD_PHOTO_CPT,
+					'post_status' => 'publish',
+					'post_title'  => '' !== $alt ? $alt : wp_basename( $url ),
+					'menu_order'  => $order,
+				),
+				true
+			);
+			if ( is_wp_error( $post_id ) ) {
+				$log[] = "  Warning: post failed for {$url}: " . $post_id->get_error_message();
+				continue;
+			}
+
+			$att_id = media_sideload_image( $url, $post_id, $alt, 'id' );
+			if ( is_wp_error( $att_id ) ) {
+				$log[] = "  Warning: sideload failed for {$url}: " . $att_id->get_error_message();
+				wp_delete_post( $post_id, true );
+				continue;
+			}
+			set_post_thumbnail( $post_id, $att_id );
+			update_post_meta( $post_id, '_wc_photo_source_url', $url );
+			if ( '' !== $alt ) {
+				update_post_meta( $att_id, '_wp_attachment_image_alt', $alt );
+			}
+
+			if ( ! empty( $item['category'] ) ) {
+				wp_set_object_terms( $post_id, array( (string) $item['category'] ), PEDIMENT_CHILD_PHOTO_TAX );
+			}
+
+			$log[] = "  created photo: {$post_id} ({$url})";
+		}
+		return $log;
 	}
 
 	// -------------------------------------------------------------------------
