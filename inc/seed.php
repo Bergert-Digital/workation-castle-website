@@ -68,9 +68,11 @@ class Seed {
 
 	/** Category slug => label for the photo taxonomy. */
 	const PHOTO_TERMS = array(
-		'casa-galbiga'                         => 'Casa Galbiga',
-		'casa-tremezzo'                        => 'Casa Tremezzo',
-		'workspace-garden-castle-surroundings' => 'Workspace Garden & Castle Surroundings',
+		'casa-galbiga'  => 'Casa Galbiga',
+		'casa-tremezzo' => 'Casa Tremezzo',
+		'workspace'     => 'Workspace',
+		'garden-castle' => 'Garden & Castle',
+		'surroundings'  => 'Surroundings',
 	);
 
 	/**

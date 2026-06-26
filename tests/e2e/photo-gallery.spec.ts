@@ -8,15 +8,24 @@ test( 'photo gallery filters and opens lightbox', async ( { page } ) => {
 	const total = await photos.count();
 	expect( total ).toBeGreaterThan( 0 );
 
-	// Click the second tab (first category) and expect a subset to remain.
+	// Click a category tab and expect a strict, matching subset to remain.
 	const tabs = page.locator( '.photo-tab' );
-	if ( ( await tabs.count() ) > 1 ) {
-		await tabs.nth( 1 ).click();
-		await expect( tabs.nth( 1 ) ).toHaveClass( /is-active/ );
-		const visible = page.locator( '.photo-grid .photo:not(.is-hidden)' );
-		expect( await visible.count() ).toBeLessThanOrEqual( total );
-		expect( await visible.count() ).toBeGreaterThan( 0 );
-	}
+	expect( await tabs.count() ).toBeGreaterThan( 1 );
+	const tab = tabs.nth( 1 );
+	const slug = await tab.getAttribute( 'data-filter' );
+	await tab.click();
+	await expect( tab ).toHaveClass( /is-active/ );
+
+	const visible = page.locator( '.photo-grid .photo:not(.is-hidden)' );
+	const visibleCount = await visible.count();
+	expect( visibleCount ).toBeGreaterThan( 0 );
+	// A real filter narrows the set: fewer than the full gallery...
+	expect( visibleCount ).toBeLessThan( total );
+	// ...and every remaining photo carries the selected category.
+	const mismatched = page.locator(
+		`.photo-grid .photo:not(.is-hidden):not([data-category~="${ slug }"])`
+	);
+	expect( await mismatched.count() ).toBe( 0 );
 
 	// Open the lightbox on the first visible photo.
 	await page.locator( '.photo-grid .photo:not(.is-hidden)' ).first().click();
