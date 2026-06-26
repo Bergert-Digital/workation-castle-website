@@ -371,7 +371,10 @@ nav.main-nav a:hover::after {
 	position: absolute;
 }
 
-.nav-dropdown a {
+/* Scoped under .main-nav so the dark panel text beats the base
+   `nav.main-nav a { color:#fff }` rule (specificity 0,1,2), which otherwise
+   wins over a bare `.nav-dropdown a` and renders the links white on cream. */
+.main-nav .nav-dropdown a {
 	border-radius: 9px;
 	color: #2a2420;
 	font-size: .9rem;
@@ -381,17 +384,17 @@ nav.main-nav a:hover::after {
 }
 
 /* Neutralize the inherited animated underline inside the panel. */
-.nav-dropdown a::after {
+.main-nav .nav-dropdown a::after {
 	display: none;
 }
 
 /* The caret + panel are the affordance — no animated underline on the trigger. */
-.nav-dropdown-trigger::after {
+.main-nav .nav-dropdown-trigger::after {
 	display: none;
 }
 
-.nav-dropdown a:hover,
-.nav-dropdown a:focus-visible {
+.main-nav .nav-dropdown a:hover,
+.main-nav .nav-dropdown a:focus-visible {
 	background: rgba(0, 0, 0, .06);
 	color: #000;
 }

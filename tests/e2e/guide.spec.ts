@@ -32,4 +32,15 @@ test.describe('Guest Guide', () => {
     await expect(items.nth(2)).toHaveAttribute('href', 'https://workationcastle.com/guide/map/');
     await expect(items.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');
   });
+
+  test('dropdown links have dark, legible text on the cream panel', async ({ page }) => {
+    await page.setViewportSize({ width: 1200, height: 900 });
+    await page.goto('/guide/');
+    // Reveal the panel (CSS :hover/:focus-within) so the link is rendered.
+    await page.locator('.main-nav .has-dropdown').hover();
+    const firstItem = page.locator('.main-nav .nav-dropdown a').first();
+    const color = await firstItem.evaluate((el) => getComputedStyle(el).color);
+    // Must be the dark panel colour (#2a2420 → rgb(42, 36, 32)), never white.
+    expect(color).toBe('rgb(42, 36, 32)');
+  });
 });
