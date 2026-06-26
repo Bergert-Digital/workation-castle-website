@@ -18,7 +18,11 @@ type Attrs = {
 	imageAlt: string;
 	imageId: number;
 	primaryText: string;
-	primaryUrl: string;
+	bookingUrl: string;
+	checkInParam: string;
+	checkOutParam: string;
+	adultsParam: string;
+	childrenAgesParam: string;
 	secondaryText: string;
 	secondaryUrl: string;
 };
@@ -100,15 +104,55 @@ export default function Edit( {
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Primary URL', 'pediment-child' ) }
-						value={ attributes.primaryUrl }
-						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
-					/>
-					<TextControl
 						label={ __( 'Secondary URL', 'pediment-child' ) }
 						value={ attributes.secondaryUrl }
 						onChange={ ( v ) =>
 							setAttributes( { secondaryUrl: v } )
+						}
+					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Booking link', 'pediment-child' ) }
+					initialOpen={ false }
+				>
+					<TextControl
+						label={ __( 'Booking base URL', 'pediment-child' ) }
+						help={ __(
+							'The “Check availability” form submits to this URL with the dates and guests appended as query parameters.',
+							'pediment-child'
+						) }
+						value={ attributes.bookingUrl }
+						onChange={ ( v ) => setAttributes( { bookingUrl: v } ) }
+					/>
+					<TextControl
+						label={ __( 'Arrival parameter', 'pediment-child' ) }
+						value={ attributes.checkInParam }
+						onChange={ ( v ) =>
+							setAttributes( { checkInParam: v } )
+						}
+					/>
+					<TextControl
+						label={ __( 'Departure parameter', 'pediment-child' ) }
+						value={ attributes.checkOutParam }
+						onChange={ ( v ) =>
+							setAttributes( { checkOutParam: v } )
+						}
+					/>
+					<TextControl
+						label={ __( 'Guests parameter', 'pediment-child' ) }
+						value={ attributes.adultsParam }
+						onChange={ ( v ) =>
+							setAttributes( { adultsParam: v } )
+						}
+					/>
+					<TextControl
+						label={ __(
+							'Children ages parameter',
+							'pediment-child'
+						) }
+						value={ attributes.childrenAgesParam }
+						onChange={ ( v ) =>
+							setAttributes( { childrenAgesParam: v } )
 						}
 					/>
 				</PanelBody>
