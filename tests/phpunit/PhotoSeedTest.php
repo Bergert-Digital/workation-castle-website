@@ -32,11 +32,13 @@ class PhotoSeedTest extends WP_UnitTestCase {
 		);
 	}
 
-	public function test_seed_terms_creates_three_categories() {
+	public function test_seed_terms_creates_categories() {
 		\PedimentChild\Seed::seed_photo_terms();
 		$this->assertNotFalse( get_term_by( 'slug', 'casa-galbiga', 'wc_photo_category' ) );
 		$this->assertNotFalse( get_term_by( 'slug', 'casa-tremezzo', 'wc_photo_category' ) );
-		$this->assertNotFalse( get_term_by( 'slug', 'workspace-garden-castle-surroundings', 'wc_photo_category' ) );
+		$this->assertNotFalse( get_term_by( 'slug', 'workspace', 'wc_photo_category' ) );
+		$this->assertNotFalse( get_term_by( 'slug', 'garden-castle', 'wc_photo_category' ) );
+		$this->assertNotFalse( get_term_by( 'slug', 'surroundings', 'wc_photo_category' ) );
 	}
 
 	public function test_seed_photos_creates_posts_with_thumbnail_and_term() {
