@@ -439,6 +439,53 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 }
 
 /**
+ * Default page-hero background — the homepage hero image. Mirrors the
+ * workation-hero block.json default so interior heroes share the homepage's
+ * cinematic photo unless a page overrides it.
+ */
+const PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE = 'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg';
+
+/**
+ * Render the interior-page hero from attributes.
+ *
+ * A reusable cinematic hero for non-home pages: a full-bleed photo with the
+ * same gradient family as the homepage hero, headline anchored bottom-left.
+ * When no image is set it falls back to the homepage hero image, so the header
+ * always overlays a dark photo (transparent/white, like the homepage).
+ *
+ * @param array $attributes Block attributes (eyebrow, headline, lead, imageUrl,
+ *                          imageAlt).
+ * @return string
+ */
+function pediment_child_page_hero_chrome( $attributes ) {
+	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE;
+	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+
+	ob_start();
+	?>
+	<section class="page-hero">
+		<div class="page-hero-img"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></div>
+		<div class="page-hero-grad"></div>
+		<div class="page-hero-inner wc-wrap">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="eyebrow"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h1><?php echo wp_kses_post( $headline ); ?></h1>
+			<?php endif; ?>
+			<?php if ( '' !== $lead ) : ?>
+				<p class="page-hero-lede"><?php echo wp_kses_post( $lead ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Render the closing CTA section from attributes.
  *
  * @param array $attributes Block attributes.

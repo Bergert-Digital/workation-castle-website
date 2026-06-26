@@ -407,6 +407,71 @@ body.no-hero .wp-site-blocks > main {
 	padding-block-start: calc(var(--wc-header-h) + 24px);
 }
 
+/* ------------------------------------------------------------
+   Interior page hero (pediment-child/page-hero).
+   A cinematic full-bleed photo with the homepage hero's gradient; the
+   transparent header overlays it. Defaults to the homepage image.
+   ------------------------------------------------------------ */
+.page-hero {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	min-block-size: 54svh;
+	overflow: hidden;
+	color: #fff;
+	background: var(--wc-brown);
+}
+
+.page-hero-img,
+.page-hero-grad {
+	position: absolute;
+	inset: 0;
+}
+
+.page-hero-img {
+	z-index: 0;
+}
+
+.page-hero-img img {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.page-hero-grad {
+	z-index: 1;
+	background:
+		linear-gradient(180deg, rgba(36, 20, 8, .6) 0%, rgba(36, 20, 8, .05) 28%, rgba(58, 30, 12, .25) 55%, rgba(58, 28, 10, .92) 100%),
+		radial-gradient(120% 90% at 16% 120%, rgba(169, 98, 31, .7) 0%, rgba(169, 98, 31, 0) 55%);
+}
+
+.page-hero-inner {
+	position: relative;
+	z-index: 2;
+	inline-size: 100%;
+	padding-block: calc(var(--wc-header-h) + 40px) 46px;
+}
+
+.page-hero .eyebrow {
+	color: #fff;
+}
+
+.page-hero h1 {
+	color: #fff;
+	font-size: clamp(2.4rem, 6vw, 4.4rem);
+	max-inline-size: 16ch;
+	text-shadow: 0 2px 30px rgba(20, 10, 2, .35);
+	text-wrap: balance;
+}
+
+.page-hero .page-hero-lede {
+	color: rgba(255, 255, 255, .92);
+	font-weight: 300;
+	font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+	margin-block-start: 20px;
+	max-inline-size: 52ch;
+}
+
 .hero {
 	align-items: flex-end;
 	color: #fff;

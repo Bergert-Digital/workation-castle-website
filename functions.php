@@ -177,14 +177,14 @@ add_action( 'login_head', 'pediment_child_favicon' );
 /**
  * Flag pages that have no full-bleed hero behind the fixed header.
  *
- * The site header is designed to overlay the homepage's cinematic hero —
- * white logo and nav on a transparent background. On pages without such a
- * hero (most inner pages, archives, 404, search) that white-on-light is
- * unreadable, and the content slides up under the fixed header. This adds a
- * `no-hero` body class that the stylesheet keys both fixes off (solid header
- * + top padding), so the behaviour is generic and content-driven rather than
- * configured per page. A page counts as having a hero when its content
- * contains the workation-hero block.
+ * The site header is designed to overlay a cinematic hero — white logo and nav
+ * on a transparent background. On pages without such a hero (most inner pages,
+ * archives, 404, search) that white-on-light is unreadable, and the content
+ * slides up under the fixed header. This adds a `no-hero` body class that the
+ * stylesheet keys both fixes off (solid header + top padding), so the behaviour
+ * is generic and content-driven rather than configured per page. A page counts
+ * as having a hero when it contains the workation-hero or page-hero block —
+ * both render a full-bleed photo the transparent header can overlay.
  *
  * @param string[] $classes Body classes.
  * @return string[]
@@ -194,7 +194,8 @@ function pediment_child_body_class( $classes ) {
 	if ( is_singular() ) {
 		$post = get_queried_object();
 		if ( $post instanceof WP_Post ) {
-			$has_hero = has_block( 'pediment-child/workation-hero', $post );
+			$has_hero = has_block( 'pediment-child/workation-hero', $post )
+				|| has_block( 'pediment-child/page-hero', $post );
 		}
 	}
 	if ( ! $has_hero ) {
