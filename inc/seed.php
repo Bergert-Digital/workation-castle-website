@@ -41,6 +41,10 @@ class Seed {
 			'title'        => 'Photos',
 			'pattern_file' => 'patterns/photos.php',
 		),
+		'guide'  => array(
+			'title'        => 'Guide',
+			'pattern_file' => 'patterns/guide.php',
+		),
 	);
 
 	/** Register the WP-CLI command. */
