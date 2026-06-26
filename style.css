@@ -385,6 +385,11 @@ nav.main-nav a:hover::after {
 	display: none;
 }
 
+/* The caret + panel are the affordance — no animated underline on the trigger. */
+.nav-dropdown-trigger::after {
+	display: none;
+}
+
 .nav-dropdown a:hover,
 .nav-dropdown a:focus-visible {
 	background: rgba(0, 0, 0, .06);

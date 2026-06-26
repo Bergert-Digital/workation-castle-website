@@ -27,5 +27,9 @@ test.describe('Guest Guide', () => {
     await expect(trigger).toContainText('Guest Guide');
     const items = page.locator('.main-nav .nav-dropdown a');
     await expect(items).toHaveCount(4);
+    await expect(items.nth(0)).toHaveAttribute('href', 'https://workationcastle.com/guide/arrival/');
+    await expect(items.nth(1)).toHaveAttribute('href', 'https://workationcastle.com/registration/');
+    await expect(items.nth(2)).toHaveAttribute('href', 'https://workationcastle.com/guide/map/');
+    await expect(items.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');
   });
 });
