@@ -198,14 +198,12 @@ body {
 
 .wc-btn-yellow {
 	background: var(--wc-yellow);
-	box-shadow: 0 10px 30px -10px rgba(254, 198, 1, .7);
 	color: var(--wc-ink);
 }
 
 .wc-btn-yellow:hover,
 .wc-btn-yellow:focus-visible {
 	background: var(--wc-yellow-hover);
-	box-shadow: 0 18px 40px -12px rgba(254, 198, 1, .85);
 	color: var(--wc-ink);
 	transform: translateY(-3px);
 }
