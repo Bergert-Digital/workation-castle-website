@@ -328,6 +328,73 @@ nav.main-nav a:hover::after {
 	inset-inline-end: 0;
 }
 
+/* Guest Guide dropdown ----------------------------------------------------- */
+.nav-item.has-dropdown {
+	position: relative;
+}
+
+.nav-dropdown-trigger .caret {
+	font-size: .8em;
+	transition: transform .3s var(--wc-ease);
+}
+
+.has-dropdown:hover .nav-dropdown-trigger .caret,
+.has-dropdown:focus-within .nav-dropdown-trigger .caret {
+	transform: rotate(180deg);
+}
+
+.nav-dropdown {
+	background: var(--wc-cream, #f7f3ec);
+	border-radius: 14px;
+	box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
+	display: none;
+	flex-direction: column;
+	inset-block-start: calc(100% + 14px);
+	inset-inline-start: 0;
+	min-inline-size: 230px;
+	padding: 10px;
+	position: absolute;
+	z-index: 60;
+}
+
+.has-dropdown:hover .nav-dropdown,
+.has-dropdown:focus-within .nav-dropdown {
+	display: flex;
+}
+
+/* Bridge the gap so the menu doesn't close while moving the cursor down. */
+.nav-dropdown::before {
+	content: "";
+	inset-block-start: -14px;
+	inset-inline: 0;
+	block-size: 14px;
+	position: absolute;
+}
+
+.nav-dropdown a {
+	border-radius: 9px;
+	color: #2a2420;
+	font-size: .9rem;
+	opacity: 1;
+	padding: 9px 12px;
+	transition: background .2s, color .2s;
+}
+
+/* Neutralize the inherited animated underline inside the panel. */
+.nav-dropdown a::after {
+	display: none;
+}
+
+.nav-dropdown a:hover,
+.nav-dropdown a:focus-visible {
+	background: rgba(0, 0, 0, .06);
+	color: #000;
+}
+
+.starter-feature-grid {
+	margin-block: clamp(2.5rem, 6vw, 5rem);
+}
+
 .header-cta {
 	display: none;
 }
