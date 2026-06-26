@@ -30,6 +30,9 @@ require_once __DIR__ . '/inc/ThemeUpdater.php';
 // or Tools → Seed content). Keeps the homepage in version control, not just the DB.
 require_once __DIR__ . '/inc/seed.php';
 
+// Photo gallery: custom post type + taxonomy for the filterable /photos grid.
+require_once __DIR__ . '/inc/Photos.php';
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
