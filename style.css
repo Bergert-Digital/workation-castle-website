@@ -1828,3 +1828,76 @@ nav.main-nav a:hover::after {
 		transition-delay: 0.42s;
 	}
 }
+
+/* ============================================================
+   Photo gallery (CPT) — filter tabs + grid (assets/js/photo-filter.js)
+   ============================================================ */
+.photos .photo-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin: 0 auto 32px;
+}
+
+.photo-tab {
+	background: transparent;
+	border: 1px solid var(--wc-border);
+	border-radius: 999px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font: inherit;
+	padding: 8px 18px;
+	transition: background .2s var(--wc-ease), color .2s var(--wc-ease), border-color .2s var(--wc-ease);
+}
+
+.photo-tab:hover {
+	border-color: var(--wc-ink);
+}
+
+.photo-tab.is-active {
+	background: var(--wc-yellow);
+	border-color: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.photo-tab:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.photo-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.photo-grid .photo {
+	aspect-ratio: 1 / 1;
+	border-radius: 18px;
+	display: block;
+	overflow: hidden;
+	position: relative;
+}
+
+.photo-grid .photo img {
+	height: 100%;
+	inset: 0;
+	object-fit: cover;
+	position: absolute;
+	transition: transform .8s var(--wc-ease);
+	width: 100%;
+}
+
+.photo-grid .photo:hover img {
+	transform: scale(1.06);
+}
+
+.photo-grid .photo:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.photo-grid .photo.is-hidden {
+	display: none;
+}

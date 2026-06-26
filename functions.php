@@ -122,6 +122,15 @@ add_action(
 			file_exists( $lightbox_js_path ) ? (string) filemtime( $lightbox_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
+
+		$photo_filter_js_path = get_stylesheet_directory() . '/assets/js/photo-filter.js';
+		wp_enqueue_script(
+			'workation-castle-photo-filter',
+			get_stylesheet_directory_uri() . '/assets/js/photo-filter.js',
+			array(),
+			file_exists( $photo_filter_js_path ) ? (string) filemtime( $photo_filter_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
 	}
 );
 
