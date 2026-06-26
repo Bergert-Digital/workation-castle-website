@@ -1871,7 +1871,7 @@ body.no-hero .wp-site-blocks > main {
 	flex-wrap: wrap;
 	gap: 10px;
 	justify-content: center;
-	margin: 0 auto 32px;
+	margin: clamp(28px, 4vw, 44px) auto 32px;
 }
 
 .photo-tab {
