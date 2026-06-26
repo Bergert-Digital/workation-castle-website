@@ -12,7 +12,7 @@
 ( function () {
 	'use strict';
 
-	var LINK_SELECTOR = '.gallery a';
+	var LINK_SELECTOR = '.gallery a, .photo-grid .photo';
 
 	var links = [];
 	var current = 0;
@@ -62,11 +62,23 @@
 		document.body.appendChild( overlay );
 	}
 
-	/** Display the image at index i (wraps around the ends). */
+	/** Visible (not filtered-out) links, in document order. */
+	function visibleLinks() {
+		return links.filter( function ( link ) {
+			return ! link.classList.contains( 'is-hidden' )
+				&& link.offsetParent !== null;
+		} );
+	}
+
+	/** Display the image at index i within the visible set (wraps). */
 	function show( i ) {
-		var count = links.length;
+		var vis = visibleLinks();
+		if ( ! vis.length ) {
+			return;
+		}
+		var count = vis.length;
 		current = ( ( i % count ) + count ) % count;
-		var link = links[ current ];
+		var link = vis[ current ];
 		var thumb = link.querySelector( 'img' );
 
 		imgEl.src = link.getAttribute( 'href' );
@@ -119,9 +131,9 @@
 	function onKey( e ) {
 		if ( 'Escape' === e.key ) {
 			close();
-		} else if ( 'ArrowLeft' === e.key && links.length > 1 ) {
+		} else if ( 'ArrowLeft' === e.key && visibleLinks().length > 1 ) {
 			show( current - 1 );
-		} else if ( 'ArrowRight' === e.key && links.length > 1 ) {
+		} else if ( 'ArrowRight' === e.key && visibleLinks().length > 1 ) {
 			show( current + 1 );
 		}
 	}
@@ -134,13 +146,15 @@
 			return;
 		}
 
-		links.forEach( function ( link, i ) {
+		links.forEach( function ( link ) {
 			link.addEventListener( 'click', function ( e ) {
 				e.preventDefault();
 				// detail 0 => activated via the keyboard (Enter); a real
 				// pointer click reports a click count >= 1.
 				openedByKeyboard = 0 === e.detail;
-				open( i );
+				var vis = visibleLinks();
+				var idx = vis.indexOf( link );
+				open( idx === -1 ? 0 : idx );
 			} );
 		} );
 	}
