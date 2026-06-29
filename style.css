@@ -406,12 +406,32 @@ nav.main-nav a:hover::after {
 	padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
-/* Guide cards: solid amber icon tile with a dark glyph, matching the
-   homepage travel-mode icons (.mode-icon) instead of the parent block's
-   light accent-tint default. */
-.guide-cards .starter-feature__ic {
+/* Feature cards (global): a white panel with a soft drop shadow, left-aligned
+   content and a solid-amber icon tile with a dark glyph (matching the homepage
+   travel-mode icons) instead of the parent block's centred, cream, light-tint
+   default. */
+.starter-feature {
+	background: var(--wp--preset--color--surface-elevated);
+	border-color: transparent;
+	border-radius: 24px;
+	box-shadow: 0 18px 40px -22px rgba(58, 38, 22, .4);
+	text-align: left;
+}
+
+.starter-feature:hover {
+	border-color: transparent;
+	box-shadow: 0 24px 50px -20px rgba(58, 38, 22, .5);
+}
+
+.starter-feature__ic {
 	background: var(--wc-yellow);
 	color: var(--wc-ink);
+	margin-inline: 0;
+}
+
+/* Restore the title→text gap the global heading/paragraph margin reset flattens. */
+.wp-site-blocks .starter-feature__text {
+	margin-top: 10px;
 }
 
 /* Whole card is the click target. The parent block renders a `__more` link;
@@ -943,6 +963,111 @@ body.no-hero .wp-site-blocks > main {
 	font-size: 1.05rem;
 	margin-top: 16px;
 	max-inline-size: 54ch;
+}
+
+/* pediment/prose — restore the vertical rhythm and link affordance that the
+   global .wp-site-blocks heading/paragraph reset (margin:0) otherwise flattens.
+   Scoped to .starter-prose so the bespoke .wc-* blocks keep their own spacing. */
+.wp-site-blocks .starter-prose > * + * {
+	margin-block-start: var(--wp--preset--spacing--30);
+}
+
+.wp-site-blocks .starter-prose > h2,
+.wp-site-blocks .starter-prose > h3 {
+	margin-block-start: var(--wp--preset--spacing--60);
+}
+
+.wp-site-blocks .starter-prose > :first-child {
+	margin-block-start: 0;
+}
+
+.wp-site-blocks .starter-prose li + li {
+	margin-block-start: .35rem;
+}
+
+.wp-site-blocks .starter-prose a {
+	color: var(--wc-ink);
+	text-decoration: underline;
+	text-decoration-color: var(--wc-amber);
+	text-decoration-thickness: 2px;
+	text-underline-offset: .18em;
+}
+
+.wp-site-blocks .starter-prose a:hover {
+	text-decoration-color: currentColor;
+}
+
+/* pediment/cta — make the block legible outside the homepage .closing wrapper:
+   the global .wp-site-blocks a{color:inherit} reset otherwise flattens the
+   button label to the band colour (cream on cream). Values match the .closing
+   treatment, so the homepage CTA is unaffected. */
+.wp-site-blocks .starter-cta__body {
+	color: rgba(250, 246, 238, .82);
+	margin-inline: auto;
+}
+
+.wp-site-blocks .starter-cta__btn--primary,
+.wp-site-blocks .starter-cta__btn--primary:hover {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.wp-site-blocks .starter-cta__btn--secondary {
+	color: #fff;
+}
+
+/* Deep-cream band variant (surface-sunken), so guide pages can alternate
+   between two cream tones like the homepage instead of cream-and-white. */
+.is-style-band-sunken {
+	background: var(--wp--preset--color--surface-sunken);
+}
+
+/* Guide sub-page in-page anchors (e.g. the Arrival mode cards → #by-car …):
+   the site header is fixed (76px), and the theme's global smooth scroll stalls
+   on long jumps. Jump instantly and clear the header so the heading is visible. */
+html:has(body.parent-pageid-179) {
+	scroll-behavior: auto;
+}
+
+body.parent-pageid-179 .starter-band,
+body.parent-pageid-179 .starter-prose [id] {
+	scroll-margin-top: 96px;
+}
+
+/* Intro + mode-card grid spacing. The shared .guide-cards block reserves 112px
+   of block padding to sit under the hero on /guide; here it follows an intro
+   paragraph, so even that out: breathing room below the hero, the cards close
+   to the intro they belong to, and a calmer gap before the first band. */
+body.parent-pageid-179 .wp-block-group.wc-wrap {
+	padding-block: 3.5rem 0;
+}
+
+body.parent-pageid-179 .guide-cards {
+	padding-block: 2.5rem 4rem;
+}
+
+/* Lift the app-purchase steps into a cream card (matching the mode cards' chrome)
+   so the numbered flow reads as a distinct module, not run-on body copy. */
+body.parent-pageid-179 .starter-steps {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 20px;
+	padding: clamp(1.5rem, 3.5vw, 2.25rem);
+	margin-block: var(--wp--preset--spacing--50);
+}
+
+/* Embedded Google Maps inside guide bands. */
+.wc-map {
+	margin: var(--wp--preset--spacing--40) 0 0;
+}
+
+.wc-map iframe {
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 16px;
+	box-shadow: 0 18px 40px -28px rgba(58, 38, 22, .6);
+	display: block;
+	inline-size: 100%;
 }
 
 .intro h2 {
