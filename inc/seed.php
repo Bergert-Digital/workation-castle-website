@@ -33,11 +33,11 @@ class Seed {
 	 * post_name values must match header/footer nav URLs exactly.
 	 */
 	const PAGES = array(
-		'home'   => array(
+		'home'       => array(
 			'title'        => 'Home',
 			'pattern_file' => 'patterns/home.php',
 		),
-		'photos' => array(
+		'photos'     => array(
 			'title'        => 'Photos',
 			'pattern_file' => 'patterns/photos.php',
 		),
@@ -45,11 +45,11 @@ class Seed {
 			'title'        => 'Activities',
 			'pattern_file' => 'patterns/activities.php',
 		),
-		'guide'  => array(
+		'guide'      => array(
 			'title'        => 'Guide',
 			'pattern_file' => 'patterns/guide.php',
 		),
-		'arrival' => array(
+		'arrival'    => array(
 			'title'        => 'Arrival',
 			'pattern_file' => 'patterns/arrival.php',
 			'parent'       => 'guide',
