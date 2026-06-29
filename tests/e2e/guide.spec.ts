@@ -37,6 +37,17 @@ test.describe('Guest Guide', () => {
     expect(box!.x).toBeGreaterThan(40);
   });
 
+  test('cards have generous vertical padding (not cramped against hero/footer)', async ({ page }) => {
+    await page.goto('/guide/');
+    const grid = page.locator('.guide-cards');
+    const { top, bottom } = await grid.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { top: parseFloat(cs.paddingTop), bottom: parseFloat(cs.paddingBottom) };
+    });
+    expect(top).toBeGreaterThanOrEqual(48);
+    expect(bottom).toBeGreaterThanOrEqual(48);
+  });
+
   test('topic links point at the live sub-pages', async ({ page }) => {
     await page.goto('/guide/');
     const links = page.locator('.starter-feature-grid .starter-feature__more');

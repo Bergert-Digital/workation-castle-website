@@ -399,8 +399,11 @@ nav.main-nav a:hover::after {
 	color: #000;
 }
 
-.starter-feature-grid {
-	margin-block: clamp(2.5rem, 6vw, 5rem);
+/* Vertical breathing room around the guide cards. Uses padding, not margin:
+   the grid is a direct child of a flow-layout group, and WordPress's flow
+   layout zeroes child block margins (padding is left alone). */
+.guide-cards {
+	padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
 /* Guide cards: solid amber icon tile with a dark glyph, matching the
