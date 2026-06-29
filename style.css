@@ -2358,6 +2358,22 @@ body.parent-pageid-179 .starter-steps {
 	margin-block-start: 0;
 }
 
+/* Embedded Komoot route maps inside an activity writeup. */
+.activity-map {
+	margin-block: clamp(20px, 3vw, 32px);
+}
+.activity-map iframe {
+	display: block;
+	width: 100%;
+	height: clamp(360px, 60vw, 600px);
+	border: 0;
+	border-radius: var(--r-lg, 14px);
+}
+.activity-map figcaption {
+	margin-block-start: 8px;
+	font-size: 0.9rem;
+}
+
 .back-to-activities {
 	margin-block-start: clamp(32px, 4vw, 48px);
 	padding-block-end: clamp(64px, 7vw, 96px);

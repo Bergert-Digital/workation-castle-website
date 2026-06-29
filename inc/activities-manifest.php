@@ -132,17 +132,19 @@ return array(
 
 <!-- wp:paragraph --><p>Especially when starting in Menaggio it will make sense to take the bus there, so you can simply walk back. The <a href="https://maps.app.goo.gl/b7gM4xtoWdFZ74CZ9">bus stop</a> is at the intersection on the main street and it passes at around 10 am and 12 am (please refer to the time tables for <a href="https://www.asfautolinee.it/orari_pdf/estivo/C12.pdf">summer</a> and <a href="https://www.asfautolinee.it/orari_pdf/invernale/C12.pdf">winter</a>).</p><!-- /wp:paragraph -->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link" href="https://www.komoot.de/tour/1081450697?ref=wtd&amp;share_token=aaTOd4zSMo6OgCPbzfs5qG0KXvxQYJNsay80mP9GgM9C6O3Amr">Open the Short Canyon Tour on Komoot</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->
+<!-- wp:html -->
+<figure class="wp-block-embed activity-map">
+<iframe src="https://www.komoot.com/tour/1081450697/embed?profile=1&amp;share_token=aaTOd4zSMo6OgCPbzfs5qG0KXvxQYJNsay80mP9GgM9C6O3Amr" width="640" height="600" frameborder="0" scrolling="no" loading="lazy" title="Short Canyon Tour on Komoot"></iframe>
+<figcaption><a href="https://www.komoot.de/tour/1081450697?ref=wtd&amp;share_token=aaTOd4zSMo6OgCPbzfs5qG0KXvxQYJNsay80mP9GgM9C6O3Amr">Open the Short Canyon Tour on Komoot &#8599;</a></figcaption>
+</figure>
+<!-- /wp:html -->
 
-<!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link" href="https://www.komoot.de/tour/1222180623?ref=wtd&amp;share_token=a7jREelaAQ3H3XQpmRVhA7RElNNQjpekhqZzpWZ2cX3ZryDxJf">Open the Long Canyon Tour on Komoot (Menaggio to Castle)</a></div>
-<!-- /wp:button --></div>
-<!-- /wp:buttons -->',
+<!-- wp:html -->
+<figure class="wp-block-embed activity-map">
+<iframe src="https://www.komoot.com/tour/1222180623/embed?profile=1&amp;share_token=a7jREelaAQ3H3XQpmRVhA7RElNNQjpekhqZzpWZ2cX3ZryDxJf" width="640" height="600" frameborder="0" scrolling="no" loading="lazy" title="Long Canyon Tour on Komoot (Menaggio to Castle)"></iframe>
+<figcaption><a href="https://www.komoot.de/tour/1222180623?ref=wtd&amp;share_token=a7jREelaAQ3H3XQpmRVhA7RElNNQjpekhqZzpWZ2cX3ZryDxJf">Open the Long Canyon Tour on Komoot (Menaggio to Castle) &#8599;</a></figcaption>
+</figure>
+<!-- /wp:html -->',
 	),
 	array(
 		'source_url' => 'https://workationcastle.com/activities/swimming-at-lago-di-lugano/',

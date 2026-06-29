@@ -239,6 +239,12 @@ class Seed {
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 
+		// The manifest is a trusted theme file whose content may include raw
+		// HTML (e.g. the Komoot map <iframe>s on the Canyon Tour). KSES would
+		// strip that under WP-CLI — no current user means no `unfiltered_html`
+		// cap — so disable content filtering for the duration of the insert.
+		kses_remove_filters();
+
 		$log = array();
 		foreach ( $manifest as $item ) {
 			$source = isset( $item['source_url'] ) ? (string) $item['source_url'] : '';
@@ -299,6 +305,9 @@ class Seed {
 
 			$log[] = "  created activity: {$post_id} ({$slug})";
 		}
+
+		kses_init_filters();
+
 		return $log;
 	}
 
