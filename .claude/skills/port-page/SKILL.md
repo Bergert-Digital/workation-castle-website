@@ -1,6 +1,6 @@
 ---
 name: port-page
-description: Rebuild an existing (Elementor) page live in wp-env using Pediment blocks, looping on an independent fidelity critic until every section matches the source. Requires a branded theme.json (run /port-site first if absent). Produces a live draft page + final.html export.
+description: Rebuild an existing (Elementor) page live in wp-env using Pediment blocks, looping on an independent fidelity critic until every section matches the source. Requires a branded theme.json (run /port-site first if absent). Produces a live draft page + final.html export, then optionally persists it to version control as a seed pattern so it survives a DB reset.
 ---
 
 # Port a page to Pediment (fidelity-first, build-in-wp-env)
@@ -255,6 +255,54 @@ Once `overallPass: true`:
    - Export path: `.context/port/<slug>/final.html`
    - Fidelity-gate summary: rounds taken, any sections that required > 1 round
    - Any declined-section TODOs from `coverage.md`
+   - Offer step 9: the page so far lives only in the wp-env DB and is lost on a
+     DB reset / re-seed. Ask whether to persist it to version control.
+
+---
+
+### 9. Persist to version control (make it permanent)
+
+The built page lives only in the wp-env database — a re-seed (`npm run
+env:setup`, or `wp pediment-child seed`, which runs on env setup) rebuilds every
+page from `patterns/*.php` and **overwrites/loses** DB-only edits. To make the
+port survive, add it to the seed:
+
+1. **Write `patterns/<slug>.php`** — the final block markup, adapted to be
+   **seed-safe** (a fresh seed has no Media Library, and the WP-CLI seed runs
+   with no user, so KSES is active):
+   - **Images by remote URL, not attachment ID.** `page-hero` → `imageUrl` (the
+     original source URL) with **no** `imageId`. Replace every
+     `pediment/image-caption {"mediaId":N}` with a `core/image` block whose
+     `<img src>` is the remote source URL (keep the caption + a rounded style to
+     match). Any block that *only* renders from an attachment ID must be swapped
+     for a URL-based equivalent — it renders blank when seeded otherwise.
+   - **Keep raw-HTML blocks** (`wp:html` map `<iframe>`s, etc.) verbatim.
+   - File header: `Title`, `Slug: pediment-child/<slug>`,
+     `Categories: pediment-child`, `Inserter: no`, then
+     `// phpcs:ignoreFile` and the markup (mirror `patterns/guide.php`).
+2. **Register it in `inc/seed.php`** — add to the `PAGES` map:
+   `'<slug>' => [ 'title' => '<Title>', 'pattern_file' => 'patterns/<slug>.php',
+   'parent' => '<parent-slug>' ]`. The `parent` key is optional (omit for a
+   top-level page); a nested page lands at `/<parent>/<slug>/`. **List a child
+   after its parent** in the map — the parent's ID must already be resolved.
+3. **Ensure the seed supports your page.** `upsert_pages()` must:
+   - honour `post_parent` (look the existing page up by full path
+     `"<parent>/<slug>"`, set `post_parent`), and
+   - wrap the upsert loop in `kses_remove_filters()` / `kses_init_filters()` so
+     trusted pattern HTML (iframes) survives a CLI seed.
+   Add these if missing (both are small, idempotent additions).
+4. **Update any linking pattern** — e.g. point the hub/index card from the
+   remote source URL to the local path (`/<parent>/<slug>/`).
+5. **Confirm `tools/setup-env.mjs` seeds via `wp pediment-child seed`** (the
+   child command), not a stale `wp pediment seed`.
+6. **Verify the from-scratch path:** delete the page, run
+   `npx wp-env run cli wp pediment-child seed`, and confirm it is **re-created**
+   at the right URL with images and iframes intact. Then re-render and eyeball.
+7. **Commit** the pattern + `inc/seed.php` (+ any linking pattern / setup-env)
+   per the commit convention.
+
+> The `final.html` export from step 8 stays as the verbatim record of what was
+> built; `patterns/<slug>.php` is its seed-safe (remote-URL) twin.
 
 ---
 
@@ -266,7 +314,7 @@ Once `overallPass: true`:
 | **No CSS force-fit** | Never patch a structurally-wrong block with CSS to fake the source (that produced white cards on navy). Structure mismatch ⇒ NEW BLOCK, not a CSS patch. |
 | **Entrance animation delay** | Pediment fades sections in on scroll. Always wait ≥ 1.5 s after a section enters the viewport before any screenshot or capture. An early capture appears blank or grey. |
 | **`is-style-band-navy` scope** | Only valid on `stat`, `pull-quote`, and `social-links` blocks. Text bands (`section-head`, `prose`, `feature`) must use `surface` or `elevated` — never `is-style-band-navy` on a text band. |
-| **Media references** | All images must be imported via `npx wp-env run cli wp media import --porcelain` and referenced by their returned attachment ID. Never hotlink the original source URL in final markup. |
+| **Media references** | In the **live wp-env build**, import every image via `npx wp-env run cli wp media import --porcelain` and reference it by the returned attachment ID — don't hotlink the source URL. In the **seed pattern** (step 9) it is the opposite: reference images by their remote source URL, since a fresh seed has no Media Library to import into. |
 | **CSS token discipline** | Any new block CSS must use `var(--wp--preset--…)` only. No color literals, no hard-coded hex values. |
 | **Theme slug** | Resolve dynamically: `basename $(pwd)`. Do not hard-code. |
 | **Commit convention** | Conventional commit, ≤ 60-char summary, stage files by name, trailer: `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>` |
