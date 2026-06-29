@@ -130,6 +130,15 @@ add_action(
 			true
 		);
 
+		$booking_newtab_js_path = get_stylesheet_directory() . '/assets/js/booking-newtab.js';
+		wp_enqueue_script(
+			'workation-castle-booking-newtab',
+			get_stylesheet_directory_uri() . '/assets/js/booking-newtab.js',
+			array(),
+			file_exists( $booking_newtab_js_path ) ? (string) filemtime( $booking_newtab_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
 		// Activity locator maps (Leaflet) — only on single activity pages.
 		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
 			wp_enqueue_style(

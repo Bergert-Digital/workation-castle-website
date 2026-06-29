@@ -438,9 +438,11 @@ nav.main-nav a:hover::after {
 	display: none;
 }
 
-/* The caret + panel are the affordance — no animated underline on the trigger. */
-.main-nav .nav-dropdown-trigger::after {
-	display: none;
+/* Keep the trigger's animated yellow underline expanded while its panel is
+   open, so the underline doesn't retract as the cursor moves into the menu. */
+.has-dropdown:hover .nav-dropdown-trigger::after,
+.has-dropdown:focus-within .nav-dropdown-trigger::after {
+	inset-inline-end: 0;
 }
 
 .main-nav .nav-dropdown a:hover,
@@ -1151,6 +1153,10 @@ body.parent-pageid-179 .starter-steps {
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
+	/* Own stacking context so the image/gradient can sit at negative z-index
+	   (behind the in-flow text) while .way stays the containing block for the
+	   stretched .link::after that makes the whole card clickable. */
+	isolation: isolate;
 	justify-content: flex-end;
 	min-block-size: 440px;
 	overflow: hidden;
@@ -1170,7 +1176,7 @@ body.parent-pageid-179 .starter-steps {
 	object-fit: cover;
 	position: absolute;
 	transition: transform .8s var(--wc-ease);
-	z-index: 0;
+	z-index: -2;
 }
 
 .way:hover img {
@@ -1181,7 +1187,7 @@ body.parent-pageid-179 .starter-steps {
 	inset: 0;
 	margin: 0;
 	position: absolute;
-	z-index: 0;
+	z-index: -2;
 }
 
 .way::after {
@@ -1189,13 +1195,11 @@ body.parent-pageid-179 .starter-steps {
 	content: "";
 	inset: 0;
 	position: absolute;
-	z-index: 1;
+	z-index: -1;
 }
 
 .way-body {
 	padding: 30px 28px 32px;
-	position: relative;
-	z-index: 2;
 }
 
 .way-num {
@@ -1225,6 +1229,16 @@ body.parent-pageid-179 .starter-steps {
 	font-weight: 700;
 	gap: .5em;
 	margin-top: 18px;
+}
+
+/* Stretch the card's link over the whole card so it's clickable anywhere
+   (matches the pointer cursor already set on .way). Sits above .way-body
+   (z-index 2) so clicks across the card resolve to this single link. */
+.way .link::after {
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: 3;
 }
 
 .way .link .arr {

@@ -187,7 +187,7 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$html = $this->render( '<!-- wp:pediment-child/workation-closing /-->' );
 		$this->assertStringContainsString( 'class="closing', $html );
 		$this->assertStringContainsString( 'Follow on Instagram', $html );
-		$this->assertStringContainsString( 'instagram.com/workationcastle', $html );
+		$this->assertStringContainsString( 'instagram.com/workation_castle', $html );
 	}
 
 	/**
