@@ -76,10 +76,13 @@ test.describe('Guest Guide', () => {
   test('header has a Guest Guide dropdown with four items', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
-    const trigger = page.locator('.main-nav .has-dropdown > a.nav-dropdown-trigger');
+    const guideDropdown = page
+      .locator('.main-nav .has-dropdown')
+      .filter({ hasText: 'Guest Guide' });
+    const trigger = guideDropdown.locator('> a.nav-dropdown-trigger');
     await expect(trigger).toHaveAttribute('href', '/guide/');
     await expect(trigger).toContainText('Guest Guide');
-    const items = page.locator('.main-nav .nav-dropdown a');
+    const items = guideDropdown.locator('.nav-dropdown a');
     await expect(items).toHaveCount(4);
     await expect(items.nth(0)).toHaveAttribute('href', 'https://workationcastle.com/guide/arrival/');
     await expect(items.nth(1)).toHaveAttribute('href', 'https://workationcastle.com/registration/');
@@ -90,9 +93,12 @@ test.describe('Guest Guide', () => {
   test('dropdown links have dark, legible text on the cream panel', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
+    const guideDropdown = page
+      .locator('.main-nav .has-dropdown')
+      .filter({ hasText: 'Guest Guide' });
     // Reveal the panel (CSS :hover/:focus-within) so the link is rendered.
-    await page.locator('.main-nav .has-dropdown').hover();
-    const firstItem = page.locator('.main-nav .nav-dropdown a').first();
+    await guideDropdown.hover();
+    const firstItem = guideDropdown.locator('.nav-dropdown a').first();
     const color = await firstItem.evaluate((el) => getComputedStyle(el).color);
     // Must be the dark panel colour (#2a2420 → rgb(42, 36, 32)), never white.
     expect(color).toBe('rgb(42, 36, 32)');

@@ -45,6 +45,25 @@ class Seed {
 			'title'        => 'Activities',
 			'pattern_file' => 'patterns/activities.php',
 		),
+		'ways-to-stay'      => array(
+			'title'        => 'Ways to Stay',
+			'pattern_file' => 'patterns/ways-to-stay.php',
+		),
+		'team-retreats'     => array(
+			'title'        => 'Team retreats',
+			'pattern_file' => 'patterns/ways-team-retreats.php',
+			'parent'       => 'ways-to-stay',
+		),
+		'workations'        => array(
+			'title'        => 'Workations',
+			'pattern_file' => 'patterns/ways-workations.php',
+			'parent'       => 'ways-to-stay',
+		),
+		'family-and-groups' => array(
+			'title'        => 'Family & group stays',
+			'pattern_file' => 'patterns/ways-family-and-groups.php',
+			'parent'       => 'ways-to-stay',
+		),
 		'guide'      => array(
 			'title'        => 'Guide',
 			'pattern_file' => 'patterns/guide.php',

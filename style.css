@@ -945,6 +945,10 @@ body.no-hero .wp-site-blocks > main {
 .band {
 	padding-block: 78px;
 	position: relative;
+	/* Full-bleed colour bands must abut. Cancel the editor block-gap margin so
+	   the body background never shows as a stripe between two bands (e.g. a deep
+	   band directly under the hero, where the gap isn't masked by a cream band). */
+	margin-block: 0;
 }
 
 .band-cream {
