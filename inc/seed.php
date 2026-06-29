@@ -41,6 +41,10 @@ class Seed {
 			'title'        => 'Photos',
 			'pattern_file' => 'patterns/photos.php',
 		),
+		'activities' => array(
+			'title'        => 'Activities',
+			'pattern_file' => 'patterns/activities.php',
+		),
 		'guide'  => array(
 			'title'        => 'Guide',
 			'pattern_file' => 'patterns/guide.php',
