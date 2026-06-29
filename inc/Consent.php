@@ -164,3 +164,40 @@ function pediment_child_consent_filter_block( $block_content, $block ) {
 	return $block_content;
 }
 add_filter( 'render_block', 'pediment_child_consent_filter_block', 20, 2 );
+
+/**
+ * Enqueue the consent manager (CSS + JS) on every front-end view, and pass its
+ * runtime config (cookie name, schema version, PostHog key) to JS.
+ */
+function pediment_child_consent_enqueue() {
+	$css_path = get_stylesheet_directory() . '/assets/css/consent.css';
+	wp_enqueue_style(
+		'workation-castle-consent',
+		get_stylesheet_directory_uri() . '/assets/css/consent.css',
+		array(),
+		file_exists( $css_path ) ? (string) filemtime( $css_path ) : wp_get_theme()->get( 'Version' )
+	);
+
+	$js_path = get_stylesheet_directory() . '/assets/js/consent.js';
+	wp_enqueue_script(
+		'workation-castle-consent',
+		get_stylesheet_directory_uri() . '/assets/js/consent.js',
+		array(),
+		file_exists( $js_path ) ? (string) filemtime( $js_path ) : wp_get_theme()->get( 'Version' ),
+		true
+	);
+
+	$config = array(
+		'cookieName'  => PEDIMENT_CHILD_CONSENT_COOKIE,
+		'version'     => (int) PEDIMENT_CHILD_CONSENT_VERSION,
+		'days'        => (int) PEDIMENT_CHILD_CONSENT_DAYS,
+		'posthogKey'  => (string) PEDIMENT_CHILD_POSTHOG_KEY,
+		'posthogHost' => (string) PEDIMENT_CHILD_POSTHOG_HOST,
+	);
+	wp_scripts()->add_data(
+		'workation-castle-consent',
+		'data',
+		'var wcConsentConfig = ' . wp_json_encode( $config ) . ';'
+	);
+}
+add_action( 'wp_enqueue_scripts', 'pediment_child_consent_enqueue' );
