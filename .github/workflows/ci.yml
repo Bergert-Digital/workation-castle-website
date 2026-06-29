@@ -111,6 +111,7 @@ jobs:
       - run: cd pediment-child-theme && npm run env:start
       - run: cd pediment-child-theme && npm run build
       - run: cd pediment-child-theme && npx wp-env run cli wp theme activate pediment-child-theme
+      - run: cd pediment-child-theme && npx wp-env run cli wp pediment-child seed
       - run: cd pediment-child-theme && npm run e2e
       - if: always()
         run: cd pediment-child-theme && npm run env:stop
