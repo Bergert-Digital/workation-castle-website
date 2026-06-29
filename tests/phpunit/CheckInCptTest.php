@@ -11,6 +11,45 @@ class CheckInCptTest extends WP_UnitTestCase {
 		$this->assertTrue( $obj->show_ui );
 	}
 
+	public function test_cpt_is_admin_only() {
+		// WP 6.1+ emits a _doing_it_wrong notice when map_meta_cap resolves
+		// delete_post without a post ID during internal cap checks. This is a
+		// known WP quirk with custom CPT capability mappings; suppress it so the
+		// test can focus on the actual access-control assertions.
+		$this->setExpectedIncorrectUsage( 'map_meta_cap' );
+
+		$cpt     = \PedimentChild\CheckIn::CPT;
+		$post_id = self::factory()->post->create(
+			array(
+				'post_type'   => $cpt,
+				'post_status' => 'private',
+			)
+		);
+
+		$editor_id = self::factory()->user->create( array( 'role' => 'editor' ) );
+		$admin_id  = self::factory()->user->create( array( 'role' => 'administrator' ) );
+
+		// Editor must be locked out of per-post and type-level caps.
+		$this->assertFalse(
+			user_can( $editor_id, 'edit_post', $post_id ),
+			'Editor must not have edit_post on wc_checkin.'
+		);
+		$this->assertFalse(
+			user_can( $editor_id, 'read_post', $post_id ),
+			'Editor must not have read_post on wc_checkin.'
+		);
+		$this->assertFalse(
+			user_can( $editor_id, get_post_type_object( $cpt )->cap->edit_posts ),
+			'Editor must not have the type-level edit_posts cap for wc_checkin.'
+		);
+
+		// Administrator must have access.
+		$this->assertTrue(
+			user_can( $admin_id, 'edit_post', $post_id ),
+			'Administrator must have edit_post on wc_checkin.'
+		);
+	}
+
 	public function test_config_exposes_caps_and_allowlists() {
 		$config = \PedimentChild\CheckIn::config();
 		$this->assertSame( 20, $config['caps']['maxGuests'] );

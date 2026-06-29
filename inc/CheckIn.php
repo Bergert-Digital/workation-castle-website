@@ -64,6 +64,18 @@ class CheckIn {
 				'menu_icon'           => 'dashicons-id',
 				'capability_type'     => 'post',
 				'map_meta_cap'        => true,
+				'capabilities'        => array(
+					'create_posts'        => 'manage_options',
+					'edit_post'           => 'manage_options',
+					'read_post'           => 'manage_options',
+					'delete_post'         => 'manage_options',
+					'edit_posts'          => 'manage_options',
+					'edit_others_posts'   => 'manage_options',
+					'publish_posts'       => 'manage_options',
+					'read_private_posts'  => 'manage_options',
+					'delete_posts'        => 'manage_options',
+					'delete_others_posts' => 'manage_options',
+				),
 				'supports'            => array( 'title' ),
 			)
 		);
