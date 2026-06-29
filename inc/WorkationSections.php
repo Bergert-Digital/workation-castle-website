@@ -441,6 +441,81 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 }
 
 /**
+ * Render the activities grid: one linked card per published wc_activity.
+ *
+ * @param array $attributes Block attributes (eyebrow, headline, align).
+ * @return string
+ */
+function pediment_child_activity_list_chrome( $attributes ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => PEDIMENT_CHILD_ACTIVITY_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		)
+	);
+
+	$cards = array();
+	foreach ( $query->posts as $post ) {
+		$title   = get_the_title( $post->ID );
+		$excerpt = has_excerpt( $post->ID ) ? get_the_excerpt( $post->ID ) : '';
+		$img     = '';
+		$thumb   = get_post_thumbnail_id( $post->ID );
+		if ( $thumb ) {
+			$img = wp_get_attachment_image(
+				$thumb,
+				'medium_large',
+				false,
+				array(
+					'alt'     => $title,
+					'loading' => 'lazy',
+				)
+			);
+		}
+
+		$cards[] = sprintf(
+			'<a class="activity-card" href="%1$s"><span class="activity-card__media">%2$s</span><span class="activity-card__body"><span class="activity-card__title">%3$s</span>%4$s</span></a>',
+			esc_url( get_permalink( $post->ID ) ),
+			$img,
+			esc_html( $title ),
+			'' !== $excerpt ? '<span class="activity-card__text">' . esc_html( $excerpt ) . '</span>' : ''
+		);
+	}
+
+	wp_reset_postdata();
+
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
+	ob_start();
+	?>
+	<section class="band band-cream activities<?php echo esc_attr( $align_class ); ?>" id="activities">
+		<?php if ( '' !== $eyebrow || '' !== $headline ) : ?>
+			<div class="sec-head">
+				<?php if ( '' !== $eyebrow ) : ?>
+					<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+				<?php endif; ?>
+				<?php if ( '' !== $headline ) : ?>
+					<h2><?php echo wp_kses_post( $headline ); ?></h2>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+		<div class="wc-wrap">
+			<div class="activity-grid">
+				<?php echo implode( "\n", $cards ); // phpcs:ignore WordPress.Security.EscapeOutput -- cards built from escaped parts above. ?>
+			</div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Default page-hero background — the homepage hero image. Mirrors the
  * workation-hero block.json default so interior heroes share the homepage's
  * cinematic photo unless a page overrides it.
