@@ -157,6 +157,44 @@ these for one site, prefer:
 
 Editing the parent's SCSS source affects *every* Pediment site and is an upstream change.
 
+## Page width & content layout
+
+**The page content area does not constrain block width for you.** The page
+templates (`templates/front-page.html`, and the parent's `page.html`) render
+`wp:post-content` as **`is-layout-flow`**, not `is-layout-constrained`. So a
+block set to `align:wide` / `align:full` is **not** clamped to `theme.json`'s
+`wideSize` / `contentSize` — it runs the full viewport width.
+
+Width in this theme comes from one container class, **`.wc-wrap`**
+(`style.css`): `max-inline-size: var(--wc-maxw)` (1280px), centered with
+`margin-inline: auto`, `padding-inline: 22px`.
+
+What this means when you compose a page pattern:
+
+- **Child section blocks** (`pediment-child/workation-*`, `page-hero`,
+  `photo-gallery`) are full-bleed `<section>`s that render their **own** inner
+  `.wc-wrap` (see `inc/WorkationSections.php`). Drop them in directly — they
+  manage their own width.
+- **Parent `pediment/*` blocks** (`feature-grid`, `cta`, `prose`, `stat-grid`,
+  …) render a bare wrapper and rely on the WordPress layout system for width.
+  On this theme's flow content area that system isn't active, so they bleed
+  edge-to-edge with no padding. **Wrap them in a `.wc-wrap` group:**
+
+  ```html
+  <!-- wp:group {"className":"wc-wrap"} -->
+  <div class="wp-block-group wc-wrap">
+    <!-- wp:pediment/feature-grid --> … <!-- /wp:pediment/feature-grid -->
+  </div>
+  <!-- /wp:group -->
+  ```
+
+  Don't bother setting `align:wide` on the inner block — it's a no-op here; the
+  `.wc-wrap` group is what controls width.
+
+Always confirm the result by **rendering the page and looking at it** (a desktop
+screenshot, or measure the container's `boundingBox().width` in an e2e test),
+not just by checking that the block markup is present.
+
 ## Cascade summary (for reference)
 
 ```
