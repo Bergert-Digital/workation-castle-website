@@ -38,6 +38,9 @@ class CheckIn {
 	public static function register(): void {
 		add_action( 'init', array( __CLASS__, 'register_cpt' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'register_rest' ) );
+		add_filter( 'manage_' . self::CPT . '_posts_columns', array( __CLASS__, 'admin_columns' ) );
+		add_action( 'manage_' . self::CPT . '_posts_custom_column', array( __CLASS__, 'render_column' ), 10, 2 );
+		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
 	}
 
 	/** Register the private, admin-only submission CPT. */
@@ -327,6 +330,83 @@ class CheckIn {
 		$sanitized['consent'] = true;
 
 		return array( $sanitized, $errors );
+	}
+
+	/** Admin list columns: title, guests, houses, email status, date. */
+	public static function admin_columns( array $cols ): array {
+		$out = array();
+		foreach ( $cols as $key => $label ) {
+			$out[ $key ] = $label;
+			if ( 'title' === $key ) {
+				$out['wc_guests'] = __( 'Guests', 'pediment-child' );
+				$out['wc_houses'] = __( 'Houses', 'pediment-child' );
+				$out['wc_email']  = __( 'Email', 'pediment-child' );
+			}
+		}
+		return $out;
+	}
+
+	/** Render a custom admin column cell. */
+	public static function render_column( string $col, int $post_id ): void {
+		$meta = get_post_meta( $post_id, '_wc_meta', true );
+		$meta = is_array( $meta ) ? $meta : array();
+		switch ( $col ) {
+			case 'wc_guests':
+				echo esc_html( (string) ( $meta['guest_count'] ?? '' ) );
+				break;
+			case 'wc_houses':
+				echo esc_html( (string) ( $meta['house_count'] ?? '' ) );
+				break;
+			case 'wc_email':
+				echo esc_html( (string) ( $meta['email_status'] ?? '' ) );
+				break;
+		}
+	}
+
+	/** Register the read-only submission meta box. */
+	public static function add_meta_box(): void {
+		add_meta_box(
+			'wc_checkin_data',
+			__( 'Check-in details', 'pediment-child' ),
+			array( __CLASS__, 'render_meta_box' ),
+			self::CPT,
+			'normal',
+			'high'
+		);
+	}
+
+	/** Render the full submission as read-only HTML. */
+	public static function render_meta_box( \WP_Post $post ): void {
+		$guests = get_post_meta( $post->ID, '_wc_guests', true );
+		$ids    = get_post_meta( $post->ID, '_wc_ids', true );
+		$guests = is_array( $guests ) ? $guests : array();
+		$ids    = is_array( $ids ) ? $ids : array();
+
+		echo '<h3>' . esc_html__( 'Guests', 'pediment-child' ) . '</h3><ol>';
+		foreach ( $guests as $g ) {
+			printf(
+				'<li>%s %s — %s, %s, %s %s, %s %s</li>',
+				esc_html( $g['first_name'] ?? '' ),
+				esc_html( $g['last_name'] ?? '' ),
+				esc_html( Brevo::gender_label( $g['gender'] ?? '' ) ),
+				esc_html( $g['nationality'] ?? '' ),
+				esc_html__( 'born', 'pediment-child' ) . ' ' . esc_html( $g['birthdate'] ?? '' ),
+				esc_html__( 'in', 'pediment-child' ) . ' ' . esc_html( $g['birth_city'] ?? '' ),
+				esc_html__( 'residing in', 'pediment-child' ),
+				esc_html( $g['residence_city'] ?? '' )
+			);
+		}
+		echo '</ol>';
+
+		echo '<h3>' . esc_html__( 'Identity documents (one per house)', 'pediment-child' ) . '</h3><ol>';
+		foreach ( $ids as $id ) {
+			printf(
+				'<li>%s — %s</li>',
+				esc_html( Brevo::doc_type_label( $id['doc_type'] ?? '' ) ),
+				esc_html( $id['doc_number'] ?? '' )
+			);
+		}
+		echo '</ol>';
 	}
 
 	/** True for a real YYYY-MM-DD calendar date. */
