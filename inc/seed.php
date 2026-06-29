@@ -45,6 +45,11 @@ class Seed {
 			'title'        => 'Guide',
 			'pattern_file' => 'patterns/guide.php',
 		),
+		'arrival' => array(
+			'title'        => 'Arrival',
+			'pattern_file' => 'patterns/arrival.php',
+			'parent'       => 'guide',
+		),
 	);
 
 	/** Register the WP-CLI command. */
@@ -310,6 +315,12 @@ class Seed {
 		$ids = array();
 		$log = array();
 
+		// Patterns are trusted theme files and may contain raw HTML (e.g. the
+		// map <iframe>s on the Arrival page). KSES would strip that under
+		// WP-CLI — no current user means no `unfiltered_html` cap — so disable
+		// content filtering for the duration of the upsert.
+		kses_remove_filters();
+
 		foreach ( self::PAGES as $slug => $info ) {
 			$pattern_path = get_theme_file_path( $info['pattern_file'] );
 
@@ -324,12 +335,21 @@ class Seed {
 			include $pattern_path;
 			$content = trim( (string) ob_get_clean() );
 
-			$existing = get_page_by_path( $slug );
+			// Optional nesting: a page with a 'parent' slug becomes that page's
+			// child (e.g. arrival → /guide/arrival/). The parent is listed
+			// earlier in PAGES, so its ID is already resolved.
+			$parent_id = ( ! empty( $info['parent'] ) && ! empty( $ids[ $info['parent'] ] ) )
+				? (int) $ids[ $info['parent'] ]
+				: 0;
+			$path      = $parent_id ? "{$info['parent']}/{$slug}" : $slug;
+
+			$existing = get_page_by_path( $path );
 			$postarr  = array(
 				'post_type'    => 'page',
 				'post_status'  => 'publish',
 				'post_title'   => $info['title'],
 				'post_name'    => $slug,
+				'post_parent'  => $parent_id,
 				'post_content' => $content,
 			);
 
@@ -350,6 +370,8 @@ class Seed {
 			$ids[ $slug ] = $id;
 			$log[]        = "  {$verb} page: {$slug} (#{$id})";
 		}
+
+		kses_init_filters();
 
 		return array( $ids, $log );
 	}
