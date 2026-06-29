@@ -112,6 +112,11 @@ jobs:
       - run: cd pediment-child-theme && npm run build
       - run: cd pediment-child-theme && npx wp-env run cli wp theme activate pediment-child-theme
       - run: cd pediment-child-theme && npx wp-env run cli wp pediment-child seed
+      # Write .htaccess so Apache serves pretty permalinks. The seed's
+      # flush_rewrite_rules() runs under WP-CLI where got_mod_rewrite() is false,
+      # so it never writes .htaccess; without it every /slug/ URL 404s at Apache
+      # (and WP canonical-redirects ?page_id= URLs to those 404ing pretty URLs).
+      - run: cd pediment-child-theme && npx wp-env run cli wp rewrite flush --hard
       - run: cd pediment-child-theme && npm run e2e
       - if: always()
         run: cd pediment-child-theme && npm run env:stop
