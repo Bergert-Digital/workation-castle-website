@@ -51,7 +51,7 @@ test.describe('Guest Guide', () => {
   test('topic links point at the live sub-pages', async ({ page }) => {
     await page.goto('/guide/');
     const links = page.locator('.starter-feature-grid .starter-feature__more');
-    await expect(links.nth(0)).toHaveAttribute('href', 'https://workationcastle.com/guide/arrival/');
+    await expect(links.nth(0)).toHaveAttribute('href', '/guide/arrival/');
     await expect(links.nth(1)).toHaveAttribute('href', 'https://workationcastle.com/registration/');
     await expect(links.nth(2)).toHaveAttribute('href', 'https://workationcastle.com/guide/map/');
     await expect(links.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');

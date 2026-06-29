@@ -409,9 +409,11 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 
 	wp_reset_postdata();
 
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
 	ob_start();
 	?>
-	<section class="band photos" id="photos">
+	<section class="band photos<?php echo esc_attr( $align_class ); ?>" id="photos">
 		<?php if ( '' !== $eyebrow || '' !== $headline ) : ?>
 			<div class="sec-head">
 				<?php if ( '' !== $eyebrow ) : ?>
@@ -464,9 +466,11 @@ function pediment_child_page_hero_chrome( $attributes ) {
 	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE;
 	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
 	ob_start();
 	?>
-	<section class="page-hero">
+	<section class="page-hero<?php echo esc_attr( $align_class ); ?>">
 		<div class="page-hero-img"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></div>
 		<div class="page-hero-grad"></div>
 		<div class="page-hero-inner wc-wrap">
