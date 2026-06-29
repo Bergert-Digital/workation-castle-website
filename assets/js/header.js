@@ -11,10 +11,4 @@
 
 	window.addEventListener( 'scroll', updateHeader, { passive: true } );
 	updateHeader();
-
-	document.querySelectorAll( '.avail' ).forEach( ( form ) => {
-		form.addEventListener( 'submit', ( event ) => {
-			event.preventDefault();
-		} );
-	} );
 }() );
