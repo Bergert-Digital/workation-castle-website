@@ -39,6 +39,10 @@ require_once __DIR__ . '/inc/Photos.php';
 // Activities: public custom post type for the /activities/ page and its singles.
 require_once __DIR__ . '/inc/Activities.php';
 
+// Check-in: private CPT + REST endpoint + Brevo email for guest registration.
+require_once __DIR__ . '/inc/CheckIn.php';
+\PedimentChild\CheckIn::register();
+
 // Section block render helpers (also loaded by individual block render.php files,
 // but required here so helpers are available outside the block rendering path,
 // e.g. in unit tests and direct template includes).
