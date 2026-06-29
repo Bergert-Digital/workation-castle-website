@@ -1,0 +1,151 @@
+/* GDPR consent manager — blocking modal, category rows, embed placeholders. */
+
+html.wc-consent-locked,
+html.wc-consent-locked body {
+	overflow: hidden;
+}
+
+.wc-consent-modal[hidden] {
+	display: none;
+}
+
+.wc-consent-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: "Inria Sans", system-ui, sans-serif;
+}
+
+.wc-consent-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba( 20, 14, 8, 0.62 );
+}
+
+.wc-consent-modal__panel {
+	position: relative;
+	max-width: 520px;
+	width: calc( 100% - 2rem );
+	max-height: calc( 100vh - 2rem );
+	overflow: auto;
+	background: var( --wc-cream, #fbf7ef );
+	color: var( --wc-ink, #221b12 );
+	border-radius: var( --wc-radius, 22px );
+	padding: 1.75rem;
+	box-shadow: 0 20px 60px rgba( 0, 0, 0, 0.35 );
+}
+
+.wc-consent-modal__title {
+	font-family: "Inria Serif", Georgia, serif;
+	margin: 0 0 0.5rem;
+	font-size: 1.5rem;
+}
+
+.wc-consent-modal__intro {
+	margin: 0 0 1rem;
+	color: var( --wc-ink-soft, #6b5d49 );
+	font-size: 0.95rem;
+}
+
+.wc-consent-row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.75rem 0;
+	border-top: 1px solid var( --wc-border, #e7ded0 );
+}
+
+.wc-consent-row__text span {
+	display: block;
+	color: var( --wc-ink-soft, #6b5d49 );
+	font-size: 0.85rem;
+}
+
+.wc-consent-toggle {
+	margin-top: 0.25rem;
+	width: 1.15rem;
+	height: 1.15rem;
+	flex: 0 0 auto;
+}
+
+.wc-consent-modal__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1.25rem;
+}
+
+.wc-consent-modal__actions button {
+	flex: 1 1 auto;
+	cursor: pointer;
+	border-radius: 999px;
+	border: 1px solid var( --wc-border, #e7ded0 );
+	padding: 0.6rem 1rem;
+	font: inherit;
+	background: #fff;
+	color: var( --wc-ink, #221b12 );
+}
+
+.wc-consent-modal__accept-all {
+	background: var( --wc-yellow, #f2c200 );
+	border-color: var( --wc-yellow, #f2c200 );
+	font-weight: 700;
+}
+
+/* Embed placeholders (defused iframes). */
+
+.wc-consent-embed {
+	position: relative;
+	min-height: 220px;
+}
+
+.wc-consent-embed__overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	text-align: center;
+	padding: 1.5rem;
+	background: var( --wc-cream-deep, #f1e9da );
+	border: 1px dashed var( --wc-border, #e7ded0 );
+	border-radius: var( --wc-radius, 22px );
+	font-family: "Inria Sans", system-ui, sans-serif;
+	color: var( --wc-ink-soft, #6b5d49 );
+}
+
+.wc-consent-embed__load {
+	cursor: pointer;
+	border-radius: 999px;
+	border: none;
+	padding: 0.55rem 1.1rem;
+	font: inherit;
+	font-weight: 700;
+	background: var( --wc-yellow, #f2c200 );
+	color: var( --wc-ink, #221b12 );
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.wc-consent-modal,
+	.wc-consent-modal * {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+.wc-consent-settings-link {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	text-decoration: underline;
+}
