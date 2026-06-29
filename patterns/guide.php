@@ -11,7 +11,7 @@
 <!-- wp:pediment-child/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Everything for your stay","lead":"Practical info for your time at Workation Castle — how to arrive, check in, find your way around, and sort the waste.","imageUrl":"https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Roofs.jpeg","imageAlt":"Castle roofs and the surrounding hills above Lake Como"} /-->
 <!-- wp:group {"className":"wc-wrap"} -->
 <div class="wp-block-group wc-wrap">
-<!-- wp:pediment/feature-grid -->
+<!-- wp:pediment/feature-grid {"className":"guide-cards"} -->
 <!-- wp:pediment/feature {"icon":"signpost","title":"How to get here","text":"Directions by car, train and plane — plus where to park.","linkText":"Open","linkUrl":"https://workationcastle.com/guide/arrival/"} /-->
 <!-- wp:pediment/feature {"icon":"key","title":"Checking in","text":"Register by your arrival day. Here's the form and what we need.","linkText":"Open","linkUrl":"https://workationcastle.com/registration/"} /-->
 <!-- wp:pediment/feature {"icon":"map-trifold","title":"Find your way around","text":"A map of the two houses, the workspace and the grounds.","linkText":"Open","linkUrl":"https://workationcastle.com/guide/map/"} /-->

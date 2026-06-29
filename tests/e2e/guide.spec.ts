@@ -10,6 +10,18 @@ test.describe('Guest Guide', () => {
     await expect(cards.nth(3)).toContainText('Sorting the waste');
   });
 
+  test('card icons are solid amber tiles with a dark glyph', async ({ page }) => {
+    await page.goto('/guide/');
+    const tile = page.locator('.guide-cards .starter-feature__ic').first();
+    const { bg, glyph } = await tile.evaluate((el) => ({
+      bg: getComputedStyle(el).backgroundColor,
+      glyph: getComputedStyle(el.querySelector('svg')!).color,
+    }));
+    // Solid accent amber tile (not the light accent-tint), dark ink glyph.
+    expect(bg).toBe('rgb(254, 198, 1)');
+    expect(glyph).toBe('rgb(36, 28, 18)');
+  });
+
   test('cards are width-constrained and centered, not full-bleed', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1100 });
     await page.goto('/guide/');

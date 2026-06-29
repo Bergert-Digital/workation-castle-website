@@ -403,6 +403,14 @@ nav.main-nav a:hover::after {
 	margin-block: clamp(2.5rem, 6vw, 5rem);
 }
 
+/* Guide cards: solid amber icon tile with a dark glyph, matching the
+   homepage travel-mode icons (.mode-icon) instead of the parent block's
+   light accent-tint default. */
+.guide-cards .starter-feature__ic {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
 .header-cta {
 	display: none;
 }
