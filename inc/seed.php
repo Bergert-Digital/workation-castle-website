@@ -92,10 +92,11 @@ class Seed {
 	 */
 	public static function seed(): array {
 		self::seed_photo_terms();
-		$photo_log = self::seed_photos( self::photo_manifest() );
+		$photo_log    = self::seed_photos( self::photo_manifest() );
+		$activity_log = self::seed_activities( self::activities_manifest() );
 
 		list( $ids, $page_log ) = self::upsert_pages();
-		$log                    = array_merge( $page_log, $photo_log );
+		$log                    = array_merge( $page_log, $photo_log, $activity_log );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -209,6 +210,87 @@ class Seed {
 	public static function photo_manifest(): array {
 		$path = get_theme_file_path( 'inc/photos-manifest.php' );
 		return file_exists( $path ) ? (array) require $path : array();
+	}
+
+	/** Read the version-controlled activities manifest. */
+	public static function activities_manifest(): array {
+		$path = get_theme_file_path( 'inc/activities-manifest.php' );
+		return file_exists( $path ) ? (array) require $path : array();
+	}
+
+	/**
+	 * Sideload + upsert activities from a manifest. Idempotent via the
+	 * _wc_activity_source_url meta marker.
+	 *
+	 * @param array $manifest List of [source_url, slug, title, url, alt, excerpt, order, content].
+	 * @return string[] Log lines.
+	 */
+	public static function seed_activities( array $manifest ): array {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$log = array();
+		foreach ( $manifest as $item ) {
+			$source = isset( $item['source_url'] ) ? (string) $item['source_url'] : '';
+			$url    = isset( $item['url'] ) ? (string) $item['url'] : '';
+			$slug   = isset( $item['slug'] ) ? (string) $item['slug'] : '';
+			if ( '' === $source || '' === $slug ) {
+				continue;
+			}
+
+			$existing = get_posts(
+				array(
+					'post_type'   => PEDIMENT_CHILD_ACTIVITY_CPT,
+					'post_status' => 'any',
+					'numberposts' => 1,
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key'    => '_wc_activity_source_url',
+					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+					'meta_value'  => $source,
+					'fields'      => 'ids',
+				)
+			);
+			if ( $existing ) {
+				$log[] = "  skipped (exists): {$slug}";
+				continue;
+			}
+
+			$post_id = wp_insert_post(
+				array(
+					'post_type'    => PEDIMENT_CHILD_ACTIVITY_CPT,
+					'post_status'  => 'publish',
+					'post_title'   => isset( $item['title'] ) ? (string) $item['title'] : $slug,
+					'post_name'    => $slug,
+					'post_excerpt' => isset( $item['excerpt'] ) ? (string) $item['excerpt'] : '',
+					'post_content' => isset( $item['content'] ) ? (string) $item['content'] : '',
+					'menu_order'   => isset( $item['order'] ) ? (int) $item['order'] : 0,
+				),
+				true
+			);
+			if ( is_wp_error( $post_id ) ) {
+				$log[] = "  Warning: post failed for {$slug}: " . $post_id->get_error_message();
+				continue;
+			}
+
+			update_post_meta( $post_id, '_wc_activity_source_url', $source );
+
+			$alt = isset( $item['alt'] ) ? (string) $item['alt'] : '';
+			if ( '' !== $url ) {
+				$att_id = media_sideload_image( $url, $post_id, $alt, 'id' );
+				if ( is_wp_error( $att_id ) ) {
+					$log[] = "  Warning: sideload failed for {$url}: " . $att_id->get_error_message();
+				} else {
+					set_post_thumbnail( $post_id, $att_id );
+					if ( '' !== $alt ) {
+						update_post_meta( $att_id, '_wp_attachment_image_alt', $alt );
+					}
+				}
+			}
+
+			$log[] = "  created activity: {$post_id} ({$slug})";
+		}
+		return $log;
 	}
 
 	/** Ensure the photo category terms exist. Returns slug => term_id. */
