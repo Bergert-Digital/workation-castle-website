@@ -2,7 +2,7 @@
 /**
  * Brevo transactional email for check-in submissions.
  *
- * build_checkin_payload() is pure (no network) so it is unit-testable;
+ * Build_checkin_payload() is pure (no network) so it is unit-testable;
  * send_checkin_notification() (added in the next task) performs the HTTP call.
  *
  * @package PedimentChild
@@ -22,7 +22,12 @@ class Brevo {
 
 	const ENDPOINT = 'https://api.brevo.com/v3/smtp/email';
 
-	/** Human label for a doc_type allowlist value. */
+	/**
+	 * Human label for a doc_type allowlist value.
+	 *
+	 * @param string $value Allowlist value (e.g. 'identity_card').
+	 * @return string Human-readable label.
+	 */
 	public static function doc_type_label( string $value ): string {
 		$map = array(
 			'identity_card'   => __( 'Identity card', 'pediment-child' ),
@@ -32,7 +37,12 @@ class Brevo {
 		return $map[ $value ] ?? $value;
 	}
 
-	/** Human label for a gender allowlist value. */
+	/**
+	 * Human label for a gender allowlist value.
+	 *
+	 * @param string $value Allowlist value (e.g. 'male').
+	 * @return string Human-readable label.
+	 */
 	public static function gender_label( string $value ): string {
 		$map = array(
 			'male'   => __( 'Male', 'pediment-child' ),
@@ -77,6 +87,7 @@ class Brevo {
 				$g['nationality'] ?? '',
 				$g['birthdate'] ?? '',
 				$g['birth_city'] ?? '',
+				/* translators: %s: city of residence. */
 				sprintf( __( 'residing in %s', 'pediment-child' ), $g['residence_city'] ?? '' )
 			);
 		}

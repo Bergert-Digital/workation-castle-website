@@ -13,7 +13,7 @@ if ( ! class_exists( '\PedimentChild\CheckIn' ) ) {
 	return;
 }
 
-$config = \PedimentChild\CheckIn::config();
+$config            = \PedimentChild\CheckIn::config();
 $config['restUrl'] = esc_url_raw( rest_url( 'pediment-child/v1/check-in' ) );
 $config['nonce']   = wp_create_nonce( 'wp_rest' );
 

@@ -157,22 +157,22 @@ class CheckIn {
 			),
 			'consentText' => __( 'I agree that Workation Castle processes and forwards my personal data to the Italian authorities.', 'pediment-child' ),
 			'strings'     => array(
-				'countsHeading'   => __( 'Who’s checking in?', 'pediment-child' ),
-				'guestsLabel'     => __( 'How many guests are checking in (including children)?', 'pediment-child' ),
-				'housesLabel'     => __( 'How many houses did you book?', 'pediment-child' ),
+				'countsHeading' => __( 'Who’s checking in?', 'pediment-child' ),
+				'guestsLabel'   => __( 'How many guests are checking in (including children)?', 'pediment-child' ),
+				'housesLabel'   => __( 'How many houses did you book?', 'pediment-child' ),
 				/* translators: 1: current guest number, 2: total guests. */
-				'guestHeading'    => __( 'Guest %1$d of %2$d', 'pediment-child' ),
+				'guestHeading'  => __( 'Guest %1$d of %2$d', 'pediment-child' ),
 				/* translators: 1: current house number, 2: total houses. */
-				'houseHeading'    => __( 'House %1$d of %2$d', 'pediment-child' ),
-				'idTypeLabel'     => __( 'Type of identity document', 'pediment-child' ),
-				'idNumberLabel'   => __( 'Document number', 'pediment-child' ),
-				'reviewHeading'   => __( 'Review and submit', 'pediment-child' ),
-				'back'            => __( 'Back', 'pediment-child' ),
-				'next'            => __( 'Next', 'pediment-child' ),
-				'submit'          => __( 'Submit check-in', 'pediment-child' ),
-				'thankYou'        => __( 'Thank you — your check-in details have been received.', 'pediment-child' ),
-				'errorRequired'   => __( 'This field is required.', 'pediment-child' ),
-				'errorSubmit'     => __( 'Something went wrong submitting the form. Please try again or email info@workationcastle.com.', 'pediment-child' ),
+				'houseHeading'  => __( 'House %1$d of %2$d', 'pediment-child' ),
+				'idTypeLabel'   => __( 'Type of identity document', 'pediment-child' ),
+				'idNumberLabel' => __( 'Document number', 'pediment-child' ),
+				'reviewHeading' => __( 'Review and submit', 'pediment-child' ),
+				'back'          => __( 'Back', 'pediment-child' ),
+				'next'          => __( 'Next', 'pediment-child' ),
+				'submit'        => __( 'Submit check-in', 'pediment-child' ),
+				'thankYou'      => __( 'Thank you — your check-in details have been received.', 'pediment-child' ),
+				'errorRequired' => __( 'This field is required.', 'pediment-child' ),
+				'errorSubmit'   => __( 'Something went wrong submitting the form. Please try again or email info@workationcastle.com.', 'pediment-child' ),
 			),
 		);
 	}
@@ -190,12 +190,22 @@ class CheckIn {
 		);
 	}
 
-	/** Nonce gate. Guests aren't logged in, so we verify the wp_rest nonce. */
+	/**
+	 * Nonce gate. Guests aren't logged in, so we verify the wp_rest nonce.
+	 *
+	 * @param \WP_REST_Request $request Incoming REST request.
+	 * @return bool
+	 */
 	public static function verify_nonce( \WP_REST_Request $request ): bool {
 		return (bool) wp_verify_nonce( (string) $request->get_header( 'X-WP-Nonce' ), 'wp_rest' );
 	}
 
-	/** Handle a submission: honeypot, validate, persist, email. */
+	/**
+	 * Handle a submission: honeypot, validate, persist, email.
+	 *
+	 * @param \WP_REST_Request $request Incoming REST request.
+	 * @return \WP_REST_Response
+	 */
 	public static function handle_submit( \WP_REST_Request $request ): \WP_REST_Response {
 		$raw = $request->get_json_params();
 		if ( ! is_array( $raw ) ) {
@@ -219,7 +229,7 @@ class CheckIn {
 			);
 		}
 
-		$submission = $sanitized;
+		$submission                 = $sanitized;
 		$submission['submitted_at'] = current_time( 'c' );
 
 		$post_id = self::persist( $submission );
@@ -233,9 +243,9 @@ class CheckIn {
 			);
 		}
 
-		$email = Brevo::send_checkin_notification( $submission );
-		$meta  = get_post_meta( $post_id, '_wc_meta', true );
-		$meta  = is_array( $meta ) ? $meta : array();
+		$email                = Brevo::send_checkin_notification( $submission );
+		$meta                 = get_post_meta( $post_id, '_wc_meta', true );
+		$meta                 = is_array( $meta ) ? $meta : array();
 		$meta['email_status'] = $email['status'];
 		if ( ! empty( $email['error'] ) ) {
 			$meta['email_error'] = $email['error'];
@@ -323,7 +333,7 @@ class CheckIn {
 			$errors['consent'] = __( 'Consent is required.', 'pediment-child' );
 		}
 
-		$sanitized['counts'] = array(
+		$sanitized['counts']  = array(
 			'guests' => $guest_count,
 			'houses' => $house_count,
 		);
@@ -332,7 +342,12 @@ class CheckIn {
 		return array( $sanitized, $errors );
 	}
 
-	/** Admin list columns: title, guests, houses, email status, date. */
+	/**
+	 * Admin list columns: title, guests, houses, email status, date.
+	 *
+	 * @param array $cols Existing column definitions.
+	 * @return array
+	 */
 	public static function admin_columns( array $cols ): array {
 		$out = array();
 		foreach ( $cols as $key => $label ) {
@@ -346,7 +361,12 @@ class CheckIn {
 		return $out;
 	}
 
-	/** Render a custom admin column cell. */
+	/**
+	 * Render a custom admin column cell.
+	 *
+	 * @param string $col     Column key.
+	 * @param int    $post_id Post ID.
+	 */
 	public static function render_column( string $col, int $post_id ): void {
 		$meta = get_post_meta( $post_id, '_wc_meta', true );
 		$meta = is_array( $meta ) ? $meta : array();
@@ -375,7 +395,11 @@ class CheckIn {
 		);
 	}
 
-	/** Render the full submission as read-only HTML. */
+	/**
+	 * Render the full submission as read-only HTML.
+	 *
+	 * @param \WP_Post $post Post object for the check-in submission.
+	 */
 	public static function render_meta_box( \WP_Post $post ): void {
 		$guests = get_post_meta( $post->ID, '_wc_guests', true );
 		$ids    = get_post_meta( $post->ID, '_wc_ids', true );
@@ -409,7 +433,12 @@ class CheckIn {
 		echo '</ol>';
 	}
 
-	/** True for a real YYYY-MM-DD calendar date. */
+	/**
+	 * True for a real YYYY-MM-DD calendar date.
+	 *
+	 * @param string $value Date string to validate.
+	 * @return bool
+	 */
 	private static function is_valid_date( string $value ): bool {
 		if ( ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ) {
 			return false;

@@ -115,8 +115,8 @@ function pediment_child_consent_defuse_iframes( $content ) {
 				$attrs,
 				1
 			);
-			$iframe   = '<iframe' . $new_attrs . '>' . $m[2] . '</iframe>';
-			$provider = pediment_child_consent_provider_label( $src );
+			$iframe    = '<iframe' . $new_attrs . '>' . $m[2] . '</iframe>';
+			$provider  = pediment_child_consent_provider_label( $src );
 
 			return '<div class="wc-consent-embed" data-consent-category="functional">'
 				. $iframe
@@ -139,7 +139,7 @@ function pediment_child_consent_defuse_iframes( $content ) {
 }
 
 /**
- * the_content / render_block hook: defuse gated iframes at render time.
+ * Defuse gated iframes at the_content / render_block render time.
  *
  * @param string $content Block or post content HTML.
  * @return string
@@ -150,8 +150,10 @@ function pediment_child_consent_filter_content( $content ) {
 add_filter( 'the_content', 'pediment_child_consent_filter_content', 20 );
 
 /**
- * render_block hook for core/html blocks (the Komoot embeds are raw HTML blocks,
- * which do not pass through the_content's wpautop path the same way).
+ * Defuse gated iframes inside core/html blocks via the render_block hook.
+ *
+ * Core/html blocks (the Komoot embeds are raw HTML blocks)
+ * do not pass through the_content's wpautop path the same way.
  *
  * @param string $block_content Rendered block HTML.
  * @param array  $block         Parsed block.
