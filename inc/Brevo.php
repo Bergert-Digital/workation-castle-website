@@ -131,4 +131,70 @@ class Brevo {
 			'textContent' => $text,
 		);
 	}
+
+	/** Resolve the Brevo API key: constant first, then environment. */
+	public static function api_key(): string {
+		if ( defined( 'WORKATION_BREVO_API_KEY' ) && WORKATION_BREVO_API_KEY ) {
+			return (string) WORKATION_BREVO_API_KEY;
+		}
+		$env = getenv( 'BREVO_API_KEY' );
+		return $env ? (string) $env : '';
+	}
+
+	/**
+	 * Send the check-in notification email. Never throws; a missing key or a
+	 * failed call returns a status the caller records — the submission is
+	 * already persisted by then.
+	 *
+	 * @param array $submission guests, ids, counts, submitted_at.
+	 * @return array{status:string,error:?string}
+	 */
+	public static function send_checkin_notification( array $submission ): array {
+		$key = self::api_key();
+		if ( '' === $key ) {
+			error_log( '[check-in] Brevo API key missing; email skipped.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return array(
+				'status' => 'skipped',
+				'error'  => null,
+			);
+		}
+
+		$payload  = self::build_checkin_payload( $submission );
+		$response = wp_remote_post(
+			self::ENDPOINT,
+			array(
+				'timeout' => 15,
+				'headers' => array(
+					'accept'       => 'application/json',
+					'content-type' => 'application/json',
+					'api-key'      => $key,
+				),
+				'body'    => wp_json_encode( $payload ),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$msg = $response->get_error_message();
+			error_log( '[check-in] Brevo request error: ' . $msg ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return array(
+				'status' => 'failed',
+				'error'  => $msg,
+			);
+		}
+
+		$code = (int) wp_remote_retrieve_response_code( $response );
+		if ( $code < 200 || $code >= 300 ) {
+			$body = wp_remote_retrieve_body( $response );
+			error_log( '[check-in] Brevo non-2xx (' . $code . '): ' . $body ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			return array(
+				'status' => 'failed',
+				'error'  => 'HTTP ' . $code,
+			);
+		}
+
+		return array(
+			'status' => 'sent',
+			'error'  => null,
+		);
+	}
 }
