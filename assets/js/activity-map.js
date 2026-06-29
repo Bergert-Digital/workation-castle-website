@@ -68,9 +68,22 @@
 		} );
 	}
 
-	if ( document.readyState === 'loading' ) {
-		document.addEventListener( 'DOMContentLoaded', init );
-	} else {
-		init();
+	function ready( fn ) {
+		if ( document.readyState === 'loading' ) {
+			document.addEventListener( 'DOMContentLoaded', fn );
+		} else {
+			fn();
+		}
 	}
+
+	function maybeInit() {
+		// Only initialize (and request OSM tiles) once Functional consent exists.
+		if ( window.wcConsent && window.wcConsent.functional ) {
+			init();
+		}
+	}
+
+	ready( maybeInit );
+	// React to a later opt-in via the consent manager.
+	document.addEventListener( 'wc-consent-change', maybeInit );
 } )();
