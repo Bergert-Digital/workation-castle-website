@@ -7,6 +7,12 @@
  * Content is seeded from inc/activities-manifest.php; after the one-time seed,
  * activities are managed in wp-admin.
  *
+ * Unlike the Photos CPT (rewrite=false, no single pages), this CPT is public
+ * with browsable singles. The WordPress page with post_name "activities" and
+ * the CPT rewrite base "activities" intentionally coexist: the page handles
+ * /activities/ (the landing/archive view) while CPT singles resolve to
+ * /activities/<slug>/.
+ *
  * @package PedimentChild
  */
 

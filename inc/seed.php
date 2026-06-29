@@ -110,9 +110,14 @@ class Seed {
 
 		if ( '' === get_option( 'permalink_structure' ) ) {
 			update_option( 'permalink_structure', '/%postname%/' );
-			flush_rewrite_rules( true );
 			$log[] = 'Permalink structure set to /%postname%/.';
 		}
+
+		// Always flush so newly registered CPT rewrite rules (e.g. the public
+		// wc_activity singles at /activities/<slug>/) take effect on existing
+		// installs, not only on a virgin one.
+		flush_rewrite_rules( true );
+		$log[] = 'Rewrite rules flushed.';
 
 		return array(
 			'ok'      => true,
