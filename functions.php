@@ -42,6 +42,7 @@ require_once __DIR__ . '/inc/Activities.php';
 // Check-in: private CPT + REST endpoint + Brevo email for guest registration.
 require_once __DIR__ . '/inc/CheckIn.php';
 \PedimentChild\CheckIn::register();
+require_once __DIR__ . '/inc/Brevo.php';
 
 // Section block render helpers (also loaded by individual block render.php files,
 // but required here so helpers are available outside the block rendering path,
