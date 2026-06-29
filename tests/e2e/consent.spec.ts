@@ -54,4 +54,22 @@ test.describe('GDPR consent manager', () => {
     // Detail view with toggles is shown on reopen.
     await expect(page.locator('.wc-consent-toggle[data-category="analytics"]')).toBeVisible();
   });
+
+  test('ESC does not dismiss the blocking first-visit modal', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('.wc-consent-modal[role="dialog"]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    // No valid consent yet => ESC must NOT close it (dismissal is not a valid choice).
+    await expect(page.locator('.wc-consent-modal[role="dialog"]')).toBeVisible();
+  });
+
+  test('ESC closes the modal once consent exists (reopened via footer)', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.wc-consent-modal__accept-all').click();
+    await expect(page.locator('.wc-consent-modal')).toBeHidden();
+    await page.locator('.wc-consent-settings-link').click();
+    await expect(page.locator('.wc-consent-modal[role="dialog"]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.wc-consent-modal')).toBeHidden();
+  });
 });

@@ -290,9 +290,12 @@
 		showDetail( !! ( opts && opts.detail ) );
 		modal.hidden = false;
 		lockScroll( true );
-		var first = modal.querySelector(
-			'button, [href], input:not([disabled])'
+		var focusables = modal.querySelectorAll(
+			'button:not([hidden]), [href], input:not([disabled])'
 		);
+		var first = Array.prototype.filter.call( focusables, function ( el ) {
+			return ! el.closest( '[hidden]' );
+		} )[ 0 ];
 		if ( first ) {
 			first.focus();
 		}
@@ -319,8 +322,11 @@
 		if ( modal.hidden || 'Tab' !== e.key ) {
 			return;
 		}
-		var f = modal.querySelectorAll(
-			'button:not([hidden]), input:not([disabled])'
+		var f = Array.prototype.filter.call(
+			modal.querySelectorAll( 'button:not([hidden]), input:not([disabled])' ),
+			function ( el ) {
+				return ! el.closest( '[hidden]' );
+			}
 		);
 		if ( ! f.length ) {
 			return;
