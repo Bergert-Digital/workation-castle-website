@@ -33,6 +33,9 @@ require_once __DIR__ . '/inc/seed.php';
 // Photo gallery: custom post type + taxonomy for the filterable /photos grid.
 require_once __DIR__ . '/inc/Photos.php';
 
+// Activities: public custom post type for the /activities/ page and its singles.
+require_once __DIR__ . '/inc/Activities.php';
+
 // Section block render helpers (also loaded by individual block render.php files,
 // but required here so helpers are available outside the block rendering path,
 // e.g. in unit tests and direct template includes).
