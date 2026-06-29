@@ -14,6 +14,50 @@ Text Domain: pediment-child
 Update URI: https://github.com/Bergert-Digital/Pediment-Child-Theme
 */
 
+/* Self-hosted Inria families — no third-party (Google Fonts) request, GDPR-clean. */
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-300.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-700.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-300.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-700.woff2") format("woff2");
+}
+
 :root {
 	--wc-cream: var(--wp--preset--color--surface);
 	--wc-cream-deep: var(--wp--preset--color--surface-sunken);
