@@ -357,6 +357,11 @@ class Wizard {
 			if ( ok ) {
 				this.guestCount = g;
 				this.houseCount = h;
+				this.guests.length = Math.min(
+					this.guests.length,
+					this.guestCount
+				);
+				this.ids.length = Math.min( this.ids.length, this.houseCount );
 			}
 			return ok;
 		}
@@ -431,6 +436,13 @@ class Wizard {
 		if ( ! this.capture() || ! this.consent ) {
 			return;
 		}
+		const btn =
+			this.root.querySelector< HTMLButtonElement >(
+				'.wc-checkin-submit'
+			);
+		if ( btn ) {
+			btn.disabled = true;
+		}
 		const payload = {
 			website: '',
 			consent: true,
@@ -468,6 +480,13 @@ class Wizard {
 	}
 
 	private fail(): void {
+		const btn =
+			this.root.querySelector< HTMLButtonElement >(
+				'.wc-checkin-submit'
+			);
+		if ( btn ) {
+			btn.disabled = false;
+		}
 		const existing = this.root.querySelector( '.wc-checkin-fail' );
 		if ( existing ) {
 			return;

@@ -52,6 +52,54 @@ test( 'completes the multi-step check-in', async ( { page } ) => {
 	await expect( page.locator( '.wc-checkin-done' ) ).toBeVisible();
 } );
 
+test( 'truncates stale guest data when count is reduced after going Back', async ( { page } ) => {
+	let capturedBody: { counts: { guests: number; houses: number }; guests: unknown[] } | null = null;
+
+	await page.route( '**/pediment-child/v1/check-in', async ( route ) => {
+		capturedBody = route.request().postDataJSON();
+		await route.fulfill( {
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify( { ok: true } ),
+		} );
+	} );
+
+	await page.goto( '/check-in/' );
+
+	// Step 1: set 2 guests.
+	await page.fill( 'input[name="guest_count"]', '2' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+
+	// Step 2: fill guest 1 (so slot 0 gets data).
+	await fillGuest( page, 'Extra', 'Person' );
+	await page.click( '.wc-checkin-back' );
+
+	// Back on step 1: reduce to 1 guest.
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+
+	// Step 2 (guest 1 of 1): fill the single guest.
+	await fillGuest( page, 'Jane', 'Doe' );
+	await page.click( '.wc-checkin-next' );
+
+	// Step 3: ID for house 1.
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', 'X1234567' );
+	await page.click( '.wc-checkin-next' );
+
+	// Review: consent and submit.
+	await page.check( '.wc-checkin-consent input[type="checkbox"]' );
+	await page.click( '.wc-checkin-submit' );
+
+	await expect( page.locator( '.wc-checkin-done' ) ).toBeVisible();
+
+	// Assert payload was truncated: counts.guests===1, guests.length===1.
+	expect( capturedBody ).not.toBeNull();
+	expect( capturedBody!.counts.guests ).toBe( 1 );
+	expect( capturedBody!.guests.length ).toBe( 1 );
+} );
+
 test( 'step validation blocks advancing with empty required fields', async ( { page } ) => {
 	await page.goto( '/check-in/' );
 	await page.fill( 'input[name="guest_count"]', '1' );
