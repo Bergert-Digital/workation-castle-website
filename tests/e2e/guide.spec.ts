@@ -10,6 +10,21 @@ test.describe('Guest Guide', () => {
     await expect(cards.nth(3)).toContainText('Sorting the waste');
   });
 
+  test('cards are width-constrained and centered, not full-bleed', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1100 });
+    await page.goto('/guide/');
+    // The feature grid must live inside the theme's .wc-wrap container so it
+    // gets a max-width and horizontal padding instead of bleeding edge-to-edge.
+    const wrap = page.locator('.wp-block-group.wc-wrap', { has: page.locator('.starter-feature-grid') });
+    await expect(wrap).toHaveCount(1);
+    const box = await wrap.boundingBox();
+    expect(box).not.toBeNull();
+    // Capped near --wc-maxw (1280px), well below the 1440px viewport...
+    expect(box!.width).toBeLessThanOrEqual(1300);
+    // ...and centered (meaningful left/right gutters, not touching the edge).
+    expect(box!.x).toBeGreaterThan(40);
+  });
+
   test('topic links point at the live sub-pages', async ({ page }) => {
     await page.goto('/guide/');
     const links = page.locator('.starter-feature-grid .starter-feature__more');
