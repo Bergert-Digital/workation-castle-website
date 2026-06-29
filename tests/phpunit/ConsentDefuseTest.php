@@ -35,4 +35,12 @@ class ConsentDefuseTest extends WP_UnitTestCase {
 		$html = '<p>Just a paragraph with a <a href="https://www.komoot.com/">Komoot link</a>.</p>';
 		$this->assertSame( $html, pediment_child_consent_defuse_iframes( $html ) );
 	}
+
+	public function test_defuse_is_idempotent() {
+		$html  = '<iframe src="https://www.komoot.com/tour/123/embed?profile=1" title="Tour"></iframe>';
+		$once  = pediment_child_consent_defuse_iframes( $html );
+		$twice = pediment_child_consent_defuse_iframes( $once );
+
+		$this->assertSame( $once, $twice, 'defusing already-defused content is a no-op' );
+	}
 }
