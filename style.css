@@ -2374,6 +2374,15 @@ body.parent-pageid-179 .starter-steps {
 	font-size: 0.9rem;
 }
 
+/* Leaflet locator map (castle + destination) on activity pages. */
+.wc-activity-map {
+	height: clamp(320px, 45vw, 460px);
+	margin-block: clamp(20px, 3vw, 32px);
+	border-radius: var(--r-lg, 14px);
+	overflow: hidden;
+	z-index: 0;
+}
+
 .back-to-activities {
 	margin-block-start: clamp(32px, 4vw, 48px);
 	padding-block-end: clamp(64px, 7vw, 96px);

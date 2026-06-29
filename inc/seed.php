@@ -271,6 +271,22 @@ class Seed {
 				continue;
 			}
 
+			$content = isset( $item['content'] ) ? (string) $item['content'] : '';
+
+			// Append a Leaflet locator map (castle + destination) when the
+			// manifest carries destination coordinates, mirroring the
+			// wp-map-block maps on the live activity pages.
+			if ( isset( $item['dest_lat'], $item['dest_lng'] ) ) {
+				$content .= "\n\n<!-- wp:html -->\n"
+					. sprintf(
+						'<div class="wc-activity-map" data-lat="%1$s" data-lng="%2$s" data-title="%3$s"></div>',
+						esc_attr( (string) $item['dest_lat'] ),
+						esc_attr( (string) $item['dest_lng'] ),
+						esc_attr( isset( $item['dest_title'] ) ? (string) $item['dest_title'] : '' )
+					)
+					. "\n<!-- /wp:html -->";
+			}
+
 			$post_id = wp_insert_post(
 				array(
 					'post_type'    => PEDIMENT_CHILD_ACTIVITY_CPT,
@@ -278,7 +294,7 @@ class Seed {
 					'post_title'   => isset( $item['title'] ) ? (string) $item['title'] : $slug,
 					'post_name'    => $slug,
 					'post_excerpt' => isset( $item['excerpt'] ) ? (string) $item['excerpt'] : '',
-					'post_content' => isset( $item['content'] ) ? (string) $item['content'] : '',
+					'post_content' => $content,
 					'menu_order'   => isset( $item['order'] ) ? (int) $item['order'] : 0,
 				),
 				true

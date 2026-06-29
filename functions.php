@@ -134,6 +134,32 @@ add_action(
 			file_exists( $photo_filter_js_path ) ? (string) filemtime( $photo_filter_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
+
+		// Activity locator maps (Leaflet) — only on single activity pages.
+		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
+			wp_enqueue_style(
+				'leaflet',
+				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+				array(),
+				'1.9.4'
+			);
+			wp_enqueue_script(
+				'leaflet',
+				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+				array(),
+				'1.9.4',
+				true
+			);
+
+			$activity_map_js_path = get_stylesheet_directory() . '/assets/js/activity-map.js';
+			wp_enqueue_script(
+				'workation-castle-activity-map',
+				get_stylesheet_directory_uri() . '/assets/js/activity-map.js',
+				array( 'leaflet' ),
+				file_exists( $activity_map_js_path ) ? (string) filemtime( $activity_map_js_path ) : wp_get_theme()->get( 'Version' ),
+				true
+			);
+		}
 	}
 );
 
