@@ -411,6 +411,27 @@ nav.main-nav a:hover::after {
 	color: var(--wc-ink);
 }
 
+/* Whole card is the click target. The parent block renders a `__more` link;
+   stretch it to cover the card and hide its visible "Open →" text — the link
+   text stays as the anchor's accessible name (per-card, so each link is
+   distinct). */
+.guide-cards .starter-feature {
+	position: relative;
+}
+
+.guide-cards .starter-feature__more {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	/* Invisible but still the accessible name of the link. */
+	color: transparent;
+	font-size: 0;
+}
+
+.guide-cards .starter-feature__more svg {
+	display: none;
+}
+
 .header-cta {
 	display: none;
 }

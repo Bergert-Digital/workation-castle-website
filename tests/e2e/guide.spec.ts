@@ -46,6 +46,22 @@ test.describe('Guest Guide', () => {
     await expect(links.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');
   });
 
+  test('whole card is the click target, with no visible "Open" button', async ({ page }) => {
+    await page.goto('/guide/');
+    // No visible "Open" call-to-action anywhere in the grid.
+    await expect(page.locator('.guide-cards')).not.toContainText('Open');
+    const card = page.locator('.guide-cards .starter-feature').first();
+    const link = card.locator('.starter-feature__more');
+    // The link has a distinct, descriptive accessible name (not "Open").
+    await expect(link).toHaveAccessibleName('How to get here');
+    // The link is stretched to overlay (essentially) the whole card.
+    const cardBox = await card.boundingBox();
+    const linkBox = await link.boundingBox();
+    expect(linkBox).not.toBeNull();
+    expect(linkBox!.width).toBeGreaterThan(cardBox!.width - 4);
+    expect(linkBox!.height).toBeGreaterThan(cardBox!.height - 4);
+  });
+
   test('header has a Guest Guide dropdown with four items', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
