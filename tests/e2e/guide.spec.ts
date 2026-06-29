@@ -25,14 +25,14 @@ test.describe('Guest Guide', () => {
   test('cards are width-constrained and centered, not full-bleed', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1100 });
     await page.goto('/guide/');
-    // The feature grid must live inside the theme's .wc-wrap container so it
-    // gets a max-width and horizontal padding instead of bleeding edge-to-edge.
-    const wrap = page.locator('.wp-block-group.wc-wrap', { has: page.locator('.starter-feature-grid') });
-    await expect(wrap).toHaveCount(1);
-    const box = await wrap.boundingBox();
+    // The grid is align:wide inside a native constrained group, so it caps at
+    // theme.json's wideSize (1200px) — driven by the layout system, not a
+    // hardcoded width — instead of bleeding edge-to-edge.
+    const box = await page.locator('.guide-cards').boundingBox();
     expect(box).not.toBeNull();
-    // Capped near --wc-maxw (1280px), well below the 1440px viewport...
-    expect(box!.width).toBeLessThanOrEqual(1300);
+    // ~wideSize 1200px, well below the 1440px viewport...
+    expect(box!.width).toBeLessThanOrEqual(1210);
+    expect(box!.width).toBeGreaterThan(1000);
     // ...and centered (meaningful left/right gutters, not touching the edge).
     expect(box!.x).toBeGreaterThan(40);
   });
