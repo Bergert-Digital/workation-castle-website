@@ -464,7 +464,7 @@ function pediment_child_activity_list_chrome( $attributes ) {
 	$cards = array();
 	foreach ( $query->posts as $post ) {
 		$title   = get_the_title( $post->ID );
-		$excerpt = has_excerpt( $post->ID ) ? get_the_excerpt( $post->ID ) : '';
+		$excerpt = has_excerpt( $post ) ? get_the_excerpt( $post ) : '';
 		$img     = '';
 		$thumb   = get_post_thumbnail_id( $post->ID );
 		if ( $thumb ) {
