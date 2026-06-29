@@ -26,7 +26,10 @@ Update URI: https://github.com/Bergert-Digital/Pediment-Child-Theme
 	--wc-border: var(--wp--preset--color--border);
 	--wc-radius: 22px;
 	--wc-radius-lg: 28px;
-	--wc-maxw: 1280px;
+	/* Width comes from theme.json (single source of truth), not hardcoded here.
+	   The matching gutter token (--wc-gutter) is declared on `body` below,
+	   because WordPress emits the root-padding var on `body`, not `:root`. */
+	--wc-maxw: var(--wp--style--global--wide-size, 1280px);
 	--wc-ease: cubic-bezier(.2, .7, .2, 1);
 	--wc-header-h: 96px;
 }
@@ -36,6 +39,9 @@ html {
 }
 
 body {
+	/* Bespoke band container gutter, sourced from theme.json's root padding
+	   (declared on body by WP, so this must live here, not on :root). */
+	--wc-gutter: var(--wp--style--root--padding-right, 22px);
 	background: var(--wc-cream);
 	color: var(--wc-ink);
 	font-family: "Inria Sans", system-ui, sans-serif;
@@ -167,7 +173,7 @@ body {
 	inline-size: 100%;
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
 }
 
 .wc-kicker,
@@ -911,7 +917,7 @@ body.no-hero .wp-site-blocks > main {
 	gap: 16px;
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
 }
 
 .sec-head h2 {
@@ -937,7 +943,7 @@ body.no-hero .wp-site-blocks > main {
 .starter-section-head {
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
 }
 
 .starter-section-head__eyebrow {
