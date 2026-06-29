@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/check-in-form",
+  "title": "Check-in Form",
+  "category": "design",
+  "description": "Multi-step guest check-in wizard that collects guest and ID data and submits it to the site.",
+  "textdomain": "pediment-child",
+  "supports": {
+    "html": false
+  },
+  "attributes": {},
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
