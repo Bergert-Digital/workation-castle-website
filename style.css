@@ -2328,3 +2328,36 @@ body.parent-pageid-179 .starter-steps {
 	font-weight: 700;
 	line-height: 1.2;
 }
+
+/* ============================================================
+   Single activity page (single-wc_activity.html)
+   ============================================================ */
+
+.activity-single-masthead {
+	padding-bottom: clamp(48px, 5vw, 72px);
+}
+
+.wp-block-post-featured-image.activity-single-featured {
+	max-width: min(960px, calc(100vw - var(--wp--style--root--padding-left, 20px) - var(--wp--style--root--padding-right, 20px)));
+	margin-inline: auto;
+	margin-block-start: 0;
+	margin-block-end: clamp(40px, 5vw, 64px);
+	border-radius: var(--r-lg, 20px);
+	overflow: hidden;
+	box-shadow: var(--wp--preset--shadow--medium);
+}
+
+.wp-block-post-featured-image.activity-single-featured img {
+	display: block;
+	width: 100%;
+	object-fit: cover;
+}
+
+.activity-single-content {
+	margin-block-start: 0;
+}
+
+.back-to-activities {
+	margin-block-start: clamp(32px, 4vw, 48px);
+	padding-block-end: clamp(64px, 7vw, 96px);
+}
