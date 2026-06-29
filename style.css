@@ -1456,6 +1456,7 @@ body.parent-pageid-179 .starter-steps {
 .activity-card__media img {
 	display: block;
 	width: 100%;
+	height: auto;
 	aspect-ratio: 4 / 3;
 	object-fit: cover;
 }
