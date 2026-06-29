@@ -73,6 +73,10 @@ class Seed {
 			'pattern_file' => 'patterns/arrival.php',
 			'parent'       => 'guide',
 		),
+		'check-in'   => array(
+			'title'        => 'Check-in',
+			'pattern_file' => 'patterns/check-in.php',
+		),
 	);
 
 	/** Register the WP-CLI command. */
