@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { seedConsent } from './utils';
+
+test.beforeEach(async ({ page }) => {
+  await seedConsent(page);
+});
 
 test( 'grid shows activity cards linking to single pages', async ( { page } ) => {
 	await page.goto( '/activities/' );

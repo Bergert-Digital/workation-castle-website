@@ -1,4 +1,9 @@
 import { test, expect } from '@playwright/test';
+import { seedConsent } from './utils';
+
+test.beforeEach(async ({ page }) => {
+  await seedConsent(page);
+});
 
 test( 'photo gallery filters and opens lightbox', async ( { page } ) => {
 	await page.goto( '/photos/' );
