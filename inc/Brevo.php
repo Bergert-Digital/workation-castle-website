@@ -75,8 +75,8 @@ class Brevo {
 		$hc     = (int) ( $submission['counts']['houses'] ?? count( $ids ) );
 
 		$subject = sprintf(
-			/* translators: 1: guest count, 2: house count. */
-			__( 'New check-in: %1$d guests, %2$d houses', 'pediment-child' ),
+			/* translators: 1: guest count, 2: accommodation count. */
+			__( 'New check-in: %1$d guests, %2$d accommodations', 'pediment-child' ),
 			$gc,
 			$hc
 		);
@@ -102,7 +102,7 @@ class Brevo {
 			);
 		}
 		$lines[] = '';
-		$lines[] = __( 'Identity documents (one per house)', 'pediment-child' );
+		$lines[] = __( 'Identity documents (one per accommodation)', 'pediment-child' );
 		$lines[] = '------';
 		foreach ( $ids as $i => $id ) {
 			$gi      = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
@@ -133,7 +133,7 @@ class Brevo {
 				)
 			) . '</li>';
 		}
-		$html .= '</ol><h3>' . esc_html__( 'Identity documents (one per house)', 'pediment-child' ) . '</h3><ol>';
+		$html .= '</ol><h3>' . esc_html__( 'Identity documents (one per accommodation)', 'pediment-child' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
 			$gi    = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			$html .= '<li>' . esc_html(

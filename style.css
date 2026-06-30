@@ -2464,9 +2464,11 @@ body.parent-pageid-179 .starter-steps {
 
 /* Check-in wizard
    ------------------------------------------------------------------ */
-.wc-checkin { max-width: 640px; }
+/* scroll-margin-top so step-change scrolls clear the fixed site header. */
+.wc-checkin { max-width: 640px; scroll-margin-top: calc(var(--wc-header-h) + 1.5rem); }
 .wc-checkin-progress { color: var(--wp--preset--color--muted, #777); font-size: 0.85rem; margin: 0 0 1rem; }
 .wc-checkin-step h2 { margin-top: 0; }
+.wc-checkin-intro { margin: 0 0 1.5rem; color: var(--wp--preset--color--muted, #777); }
 .wc-checkin-field { margin-bottom: 1rem; }
 .wc-checkin-field label,
 .wc-checkin-radio legend { display: block; font-weight: 600; margin-bottom: 0.35rem; }

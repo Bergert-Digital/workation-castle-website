@@ -37,7 +37,7 @@ test( 'completes the multi-step check-in', async ( { page } ) => {
 	await fillGuest( page, 'Jane', 'Doe' );
 	await page.click( '.wc-checkin-next' );
 
-	// Step 3: house 1 ID.
+	// Step 3: accommodation 1 ID.
 	await page.selectOption( 'select[name="guest_index"]', '0' );
 	await page.selectOption( 'select[name="doc_type"]', 'passport' );
 	await page.fill( 'input[name="doc_number"]', 'X1234567' );
@@ -70,6 +70,14 @@ test( 'associates an ID with a chosen guest and shows it in review', async ( { p
 	await page.click( '.wc-checkin-next' );
 	await fillGuest( page, 'Bob', 'Brown' );
 	await page.click( '.wc-checkin-next' );
+
+	// The ID step is headed "Accommodation" and explains one ID per accommodation.
+	await expect( page.locator( '.wc-checkin-step h2' ) ).toHaveText(
+		'Accommodation 1 of 1'
+	);
+	await expect( page.locator( '.wc-checkin-intro' ) ).toContainText(
+		'one identity document'
+	);
 
 	// The ID step lists both entered guests by name; pick the second (Bob).
 	const guestSelect = page.locator( 'select[name="guest_index"]' );
@@ -120,7 +128,7 @@ test( 'truncates stale guest data when count is reduced after going Back', async
 	await fillGuest( page, 'Jane', 'Doe' );
 	await page.click( '.wc-checkin-next' );
 
-	// Step 3: ID for house 1.
+	// Step 3: ID for accommodation 1.
 	await page.selectOption( 'select[name="guest_index"]', '0' );
 	await page.selectOption( 'select[name="doc_type"]', 'passport' );
 	await page.fill( 'input[name="doc_number"]', 'X1234567' );

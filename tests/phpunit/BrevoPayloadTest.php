@@ -44,7 +44,7 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 		$this->assertSame( 'noreply@workationcastle.com', $p['sender']['email'] );
 		$this->assertSame( 'info@workationcastle.com', $p['to'][0]['email'] );
 		$this->assertStringContainsString( '2 guest', $p['subject'] );
-		$this->assertStringContainsString( '1 house', $p['subject'] );
+		$this->assertStringContainsString( '1 accommodation', $p['subject'] );
 	}
 
 	public function test_payload_lists_every_guest_and_id_in_both_bodies() {

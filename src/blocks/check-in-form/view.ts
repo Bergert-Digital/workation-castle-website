@@ -267,6 +267,7 @@ class Wizard {
 			el( 'h2', {}, [
 				sprintf2( s.houseHeading, index + 1, this.houseCount ),
 			] ),
+			el( 'p', { class: 'wc-checkin-intro' }, [ s.idIntro ] ),
 		] );
 
 		// Which entered guest does this document belong to?
@@ -362,6 +363,7 @@ class Wizard {
 			back.addEventListener( 'click', () => {
 				this.step--;
 				this.render();
+				this.scrollToTop();
 			} );
 			nav.appendChild( back );
 		}
@@ -520,6 +522,13 @@ class Wizard {
 		}
 		this.step++;
 		this.render();
+		this.scrollToTop();
+	}
+
+	/** Scroll the form back to its top after a step change. */
+	private scrollToTop(): void {
+		const target = this.root.closest( '.wc-checkin' ) || this.root;
+		target.scrollIntoView( { block: 'start' } );
 	}
 
 	private async submit(): Promise< void > {
@@ -602,6 +611,7 @@ class Wizard {
 
 		this.step = targetStep;
 		this.render();
+		this.scrollToTop();
 		if ( fieldName ) {
 			this.showError( fieldName, message );
 		} else {
@@ -617,6 +627,7 @@ class Wizard {
 				el( 'p', {}, [ this.cfg.strings.thankYou ] ),
 			] )
 		);
+		this.scrollToTop();
 	}
 
 	private fail(): void {

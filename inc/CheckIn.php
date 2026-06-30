@@ -171,11 +171,12 @@ class CheckIn {
 			'strings'     => array(
 				'countsHeading'  => __( 'Who’s checking in?', 'pediment-child' ),
 				'guestsLabel'    => __( 'How many guests are checking in (including children)?', 'pediment-child' ),
-				'housesLabel'    => __( 'How many houses did you book?', 'pediment-child' ),
+				'housesLabel'    => __( 'How many accommodations did you book?', 'pediment-child' ),
 				/* translators: 1: current guest number, 2: total guests. */
 				'guestHeading'   => __( 'Guest %1$d of %2$d', 'pediment-child' ),
-				/* translators: 1: current house number, 2: total houses. */
-				'houseHeading'   => __( 'House %1$d of %2$d', 'pediment-child' ),
+				/* translators: 1: current accommodation number, 2: total accommodations. */
+				'houseHeading'   => __( 'Accommodation %1$d of %2$d', 'pediment-child' ),
+				'idIntro'        => __( 'We need one identity document for each accommodation you booked.', 'pediment-child' ),
 				'idGuestLabel'   => __( 'Which guest does this document belong to?', 'pediment-child' ),
 				'idTypeLabel'    => __( 'Type of identity document', 'pediment-child' ),
 				'idNumberLabel'  => __( 'Document number', 'pediment-child' ),
@@ -298,7 +299,7 @@ class CheckIn {
 			count( $guests ) !== $guest_count ||
 			count( $ids ) !== $house_count
 		) {
-			$errors['counts'] = __( 'Invalid number of guests or houses.', 'pediment-child' );
+			$errors['counts'] = __( 'Invalid number of guests or accommodations.', 'pediment-child' );
 		}
 
 		$today = current_time( 'Y-m-d' );
@@ -375,7 +376,7 @@ class CheckIn {
 			$out[ $key ] = $label;
 			if ( 'title' === $key ) {
 				$out['wc_guests'] = __( 'Guests', 'pediment-child' );
-				$out['wc_houses'] = __( 'Houses', 'pediment-child' );
+				$out['wc_houses'] = __( 'Accommodations', 'pediment-child' );
 				$out['wc_email']  = __( 'Email', 'pediment-child' );
 			}
 		}
@@ -443,7 +444,7 @@ class CheckIn {
 		}
 		echo '</ol>';
 
-		echo '<h3>' . esc_html__( 'Identity documents (one per house)', 'pediment-child' ) . '</h3><ol>';
+		echo '<h3>' . esc_html__( 'Identity documents (one per accommodation)', 'pediment-child' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
 			$gi = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			printf(
@@ -480,8 +481,8 @@ class CheckIn {
 		$gc    = (int) $submission['counts']['guests'];
 		$hc    = (int) $submission['counts']['houses'];
 		$title = sprintf(
-			/* translators: 1: guest count, 2: house count, 3: date/time. */
-			__( 'Check-in — %1$d guests, %2$d houses — %3$s', 'pediment-child' ),
+			/* translators: 1: guest count, 2: accommodation count, 3: date/time. */
+			__( 'Check-in — %1$d guests, %2$d accommodations — %3$s', 'pediment-child' ),
 			$gc,
 			$hc,
 			$submission['submitted_at']
