@@ -12,7 +12,7 @@ class CheckInAdminTest extends WP_UnitTestCase {
 				'birth_city' => 'Leeds', 'gender' => 'female',
 			),
 		) );
-		update_post_meta( $id, '_wc_ids', array( array( 'doc_type' => 'passport', 'doc_number' => 'X1' ) ) );
+		update_post_meta( $id, '_wc_ids', array( array( 'guest_index' => 0, 'doc_type' => 'passport', 'doc_number' => 'X1' ) ) );
 		update_post_meta( $id, '_wc_meta', array( 'guest_count' => 1, 'house_count' => 1, 'email_status' => 'sent' ) );
 		return $id;
 	}

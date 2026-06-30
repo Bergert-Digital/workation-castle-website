@@ -45,7 +45,7 @@ class CheckInRestTest extends WP_UnitTestCase {
 				),
 			),
 			'ids'     => array(
-				array( 'doc_type' => 'passport', 'doc_number' => 'X1234567' ),
+				array( 'guest_index' => 0, 'doc_type' => 'passport', 'doc_number' => 'X1234567' ),
 			),
 		);
 	}
@@ -77,8 +77,25 @@ class CheckInRestTest extends WP_UnitTestCase {
 		$this->assertSame( 'Jane', $guests[0]['first_name'] );
 		$ids = get_post_meta( $posts[0]->ID, '_wc_ids', true );
 		$this->assertSame( 'X1234567', $ids[0]['doc_number'] );
+		$this->assertSame( 0, $ids[0]['guest_index'] );
 		$meta = get_post_meta( $posts[0]->ID, '_wc_meta', true );
 		$this->assertSame( 'skipped', $meta['email_status'] );
+	}
+
+	public function test_rejects_out_of_range_guest_index() {
+		$body = $this->valid_body();
+		$body['ids'][0]['guest_index'] = 5; // only 2 guests (valid 0-1)
+		$res  = $this->request( $body );
+		$this->assertSame( 400, $res->get_status() );
+		$this->assertArrayHasKey( 'ids.0.guest_index', $res->get_data()['errors'] );
+	}
+
+	public function test_rejects_missing_guest_index() {
+		$body = $this->valid_body();
+		unset( $body['ids'][0]['guest_index'] );
+		$res = $this->request( $body );
+		$this->assertSame( 400, $res->get_status() );
+		$this->assertArrayHasKey( 'ids.0.guest_index', $res->get_data()['errors'] );
 	}
 
 	public function test_rejects_bad_gender() {

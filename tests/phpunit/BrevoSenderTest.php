@@ -16,7 +16,7 @@ class BrevoSenderTest extends WP_UnitTestCase {
 					'gender'         => 'female',
 				),
 			),
-			'ids'    => array( array( 'doc_type' => 'passport', 'doc_number' => 'X1' ) ),
+			'ids'    => array( array( 'guest_index' => 0, 'doc_type' => 'passport', 'doc_number' => 'X1' ) ),
 			'counts' => array( 'guests' => 1, 'houses' => 1 ),
 		);
 	}

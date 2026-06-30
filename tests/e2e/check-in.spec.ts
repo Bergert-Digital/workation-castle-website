@@ -38,6 +38,7 @@ test( 'completes the multi-step check-in', async ( { page } ) => {
 	await page.click( '.wc-checkin-next' );
 
 	// Step 3: house 1 ID.
+	await page.selectOption( 'select[name="guest_index"]', '0' );
 	await page.selectOption( 'select[name="doc_type"]', 'passport' );
 	await page.fill( 'input[name="doc_number"]', 'X1234567' );
 	await page.click( '.wc-checkin-next' );
@@ -50,6 +51,42 @@ test( 'completes the multi-step check-in', async ( { page } ) => {
 	await submit.click();
 
 	await expect( page.locator( '.wc-checkin-done' ) ).toBeVisible();
+} );
+
+test( 'associates an ID with a chosen guest and shows it in review', async ( { page } ) => {
+	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+		route.fulfill( {
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify( { ok: true } ),
+		} )
+	);
+
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '2' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Alice', 'Anderson' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Bob', 'Brown' );
+	await page.click( '.wc-checkin-next' );
+
+	// The ID step lists both entered guests by name; pick the second (Bob).
+	const guestSelect = page.locator( 'select[name="guest_index"]' );
+	await expect( guestSelect.locator( 'option' ) ).toHaveText( [
+		'—',
+		'Alice Anderson',
+		'Bob Brown',
+	] );
+	await guestSelect.selectOption( '1' );
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', 'P999' );
+	await page.click( '.wc-checkin-next' );
+
+	// Review shows the document belongs to Bob Brown.
+	const reviewIds = page.locator( '.wc-checkin-review-ids' );
+	await expect( reviewIds ).toContainText( 'Bob Brown' );
+	await expect( reviewIds ).toContainText( 'P999' );
 } );
 
 test( 'truncates stale guest data when count is reduced after going Back', async ( { page } ) => {
@@ -84,6 +121,7 @@ test( 'truncates stale guest data when count is reduced after going Back', async
 	await page.click( '.wc-checkin-next' );
 
 	// Step 3: ID for house 1.
+	await page.selectOption( 'select[name="guest_index"]', '0' );
 	await page.selectOption( 'select[name="doc_type"]', 'passport' );
 	await page.fill( 'input[name="doc_number"]', 'X1234567' );
 	await page.click( '.wc-checkin-next' );
@@ -143,6 +181,7 @@ test( 'surfaces a server validation error on the offending step', async ( { page
 	await page.click( '.wc-checkin-next' );
 	await fillGuest( page, 'Jane', 'Doe' );
 	await page.click( '.wc-checkin-next' );
+	await page.selectOption( 'select[name="guest_index"]', '0' );
 	await page.selectOption( 'select[name="doc_type"]', 'passport' );
 	await page.fill( 'input[name="doc_number"]', 'X1234567' );
 	await page.click( '.wc-checkin-next' );

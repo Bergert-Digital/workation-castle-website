@@ -30,7 +30,7 @@ type Config = {
 };
 
 type Guest = Record< string, string >;
-type Id = { doc_type: string; doc_number: string };
+type Id = { guest_index: string; doc_type: string; doc_number: string };
 
 function sprintf2( tmpl: string, a: number, b: number ): string {
 	return tmpl.replace( '%1$d', String( a ) ).replace( '%2$d', String( b ) );
@@ -239,14 +239,52 @@ class Wizard {
 		return wrap;
 	}
 
+	/**
+	 * Display name for a guest, falling back to "Guest N" if unnamed.
+	 * @param index
+	 */
+	private guestLabel( index: number ): string {
+		const g = this.guests[ index ] || {};
+		const name = `${ g.first_name || '' } ${ g.last_name || '' }`.trim();
+		return (
+			name ||
+			sprintf2(
+				this.cfg.strings.guestHeading,
+				index + 1,
+				this.guestCount
+			)
+		);
+	}
+
 	private renderId( index: number ): HTMLElement {
 		const s = this.cfg.strings;
-		const existing = this.ids[ index ] || { doc_type: '', doc_number: '' };
+		const existing = this.ids[ index ] || {
+			guest_index: '',
+			doc_type: '',
+			doc_number: '',
+		};
 		const wrap = el( 'div', { class: 'wc-checkin-step' }, [
 			el( 'h2', {}, [
 				sprintf2( s.houseHeading, index + 1, this.houseCount ),
 			] ),
 		] );
+
+		// Which entered guest does this document belong to?
+		const guestSelect = el( 'select', { name: 'guest_index' } );
+		guestSelect.appendChild( el( 'option', { value: '' }, [ '—' ] ) );
+		this.guests.forEach( ( _g, gi ) => {
+			const opt = el( 'option', { value: String( gi ) }, [
+				this.guestLabel( gi ),
+			] );
+			if ( existing.guest_index === String( gi ) ) {
+				( opt as HTMLOptionElement ).selected = true;
+			}
+			guestSelect.appendChild( opt );
+		} );
+		wrap.appendChild(
+			this.field( s.idGuestLabel, guestSelect, 'guest_index' )
+		);
+
 		const select = el( 'select', { name: 'doc_type' } );
 		select.appendChild( el( 'option', { value: '' }, [ '—' ] ) );
 		this.cfg.docTypes.forEach( ( d ) => {
@@ -282,8 +320,11 @@ class Wizard {
 		wrap.appendChild( gl );
 		const il = el( 'ol', { class: 'wc-checkin-review-ids' } );
 		this.ids.forEach( ( id ) => {
+			const who = this.guestLabel( Number( id.guest_index ) );
 			il.appendChild(
-				el( 'li', {}, [ `${ id.doc_type } — ${ id.doc_number }` ] )
+				el( 'li', {}, [
+					`${ who }: ${ id.doc_type } — ${ id.doc_number }`,
+				] )
 			);
 		} );
 		wrap.appendChild( il );
@@ -428,8 +469,13 @@ class Wizard {
 
 		const idEnd = guestEnd + this.houseCount;
 		if ( this.step < idEnd ) {
+			const guestIndex = this.value( 'guest_index' );
 			const docType = this.value( 'doc_type' );
 			const docNumber = this.value( 'doc_number' );
+			if ( ! guestIndex ) {
+				this.showError( 'guest_index' );
+				ok = false;
+			}
 			if ( ! docType ) {
 				this.showError( 'doc_type' );
 				ok = false;
@@ -440,6 +486,7 @@ class Wizard {
 			}
 			if ( ok ) {
 				this.ids[ this.step - guestEnd ] = {
+					guest_index: guestIndex,
 					doc_type: docType,
 					doc_number: docNumber,
 				};

@@ -53,6 +53,16 @@ class Brevo {
 	}
 
 	/**
+	 * "First Last" display name for a guest record, trimmed.
+	 *
+	 * @param array $guest Guest record (may be empty/partial).
+	 * @return string Display name (may be empty if the record has no names).
+	 */
+	public static function guest_name( array $guest ): string {
+		return trim( ( $guest['first_name'] ?? '' ) . ' ' . ( $guest['last_name'] ?? '' ) );
+	}
+
+	/**
 	 * Build the Brevo /v3/smtp/email request body for a submission.
 	 *
 	 * @param array $submission guests, ids, counts, submitted_at.
@@ -95,9 +105,11 @@ class Brevo {
 		$lines[] = __( 'Identity documents (one per house)', 'pediment-child' );
 		$lines[] = '------';
 		foreach ( $ids as $i => $id ) {
+			$gi      = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			$lines[] = sprintf(
-				'%d. %s — %s',
+				'%d. %s — %s — %s',
 				$i + 1,
+				self::guest_name( $guests[ $gi ] ?? array() ),
 				self::doc_type_label( $id['doc_type'] ?? '' ),
 				$id['doc_number'] ?? ''
 			);
@@ -123,7 +135,9 @@ class Brevo {
 		}
 		$html .= '</ol><h3>' . esc_html__( 'Identity documents (one per house)', 'pediment-child' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
+			$gi    = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			$html .= '<li>' . esc_html(
+				self::guest_name( $guests[ $gi ] ?? array() ) . ': ' .
 				self::doc_type_label( $id['doc_type'] ?? '' ) . ' — ' . ( $id['doc_number'] ?? '' )
 			) . '</li>';
 		}

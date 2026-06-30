@@ -176,6 +176,7 @@ class CheckIn {
 				'guestHeading'   => __( 'Guest %1$d of %2$d', 'pediment-child' ),
 				/* translators: 1: current house number, 2: total houses. */
 				'houseHeading'   => __( 'House %1$d of %2$d', 'pediment-child' ),
+				'idGuestLabel'   => __( 'Which guest does this document belong to?', 'pediment-child' ),
 				'idTypeLabel'    => __( 'Type of identity document', 'pediment-child' ),
 				'idNumberLabel'  => __( 'Document number', 'pediment-child' ),
 				'reviewHeading'  => __( 'Review and submit', 'pediment-child' ),
@@ -328,6 +329,12 @@ class CheckIn {
 		}
 
 		foreach ( $ids as $i => $id ) {
+			$guest_index = isset( $id['guest_index'] ) && is_numeric( $id['guest_index'] )
+				? (int) $id['guest_index']
+				: -1;
+			if ( $guest_index < 0 || $guest_index >= $guest_count ) {
+				$errors[ "ids.$i.guest_index" ] = __( 'Select which guest this document belongs to.', 'pediment-child' );
+			}
 			$doc_type = isset( $id['doc_type'] ) ? sanitize_text_field( (string) $id['doc_type'] ) : '';
 			if ( ! in_array( $doc_type, self::DOC_TYPES, true ) ) {
 				$errors[ "ids.$i.doc_type" ] = __( 'Select a document type.', 'pediment-child' );
@@ -337,8 +344,9 @@ class CheckIn {
 				$errors[ "ids.$i.doc_number" ] = __( 'Enter the document number.', 'pediment-child' );
 			}
 			$sanitized['ids'][] = array(
-				'doc_type'   => $doc_type,
-				'doc_number' => $doc_number,
+				'guest_index' => $guest_index,
+				'doc_type'    => $doc_type,
+				'doc_number'  => $doc_number,
 			);
 		}
 
@@ -437,8 +445,10 @@ class CheckIn {
 
 		echo '<h3>' . esc_html__( 'Identity documents (one per house)', 'pediment-child' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
+			$gi = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			printf(
-				'<li>%s — %s</li>',
+				'<li>%s: %s — %s</li>',
+				esc_html( Brevo::guest_name( $guests[ $gi ] ?? array() ) ),
 				esc_html( Brevo::doc_type_label( $id['doc_type'] ?? '' ) ),
 				esc_html( $id['doc_number'] ?? '' )
 			);

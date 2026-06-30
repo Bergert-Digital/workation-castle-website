@@ -26,8 +26,9 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 			),
 			'ids'          => array(
 				array(
-					'doc_type'   => 'passport',
-					'doc_number' => 'X1234567',
+					'guest_index' => 1,
+					'doc_type'    => 'passport',
+					'doc_number'  => 'X1234567',
 				),
 			),
 			'counts'       => array(
@@ -54,5 +55,12 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 			$this->assertStringContainsString( 'X1234567', $p[ $body ] );
 			$this->assertStringContainsString( 'Passport', $p[ $body ] );
 		}
+	}
+
+	public function test_id_line_names_the_owning_guest() {
+		// The single ID belongs to guest_index 1 (Tim Doe), not Jane (index 0).
+		$p = \PedimentChild\Brevo::build_checkin_payload( $this->sample() );
+		$this->assertStringContainsString( 'Tim Doe — Passport — X1234567', $p['textContent'] );
+		$this->assertStringContainsString( 'Tim Doe: Passport — X1234567', $p['htmlContent'] );
 	}
 }
