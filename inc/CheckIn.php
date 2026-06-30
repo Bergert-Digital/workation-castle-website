@@ -188,6 +188,8 @@ class CheckIn {
 				'errorRequired'  => __( 'This field is required.', 'pediment-child' ),
 				'errorBirthdate' => __( 'Enter a valid birthdate (not in the future).', 'pediment-child' ),
 				'errorSubmit'    => __( 'Something went wrong submitting the form. Please try again or email info@workationcastle.com.', 'pediment-child' ),
+				'restoredNotice' => __( 'We restored your in-progress check-in.', 'pediment-child' ),
+				'startOver'      => __( 'Start over', 'pediment-child' ),
 			),
 		);
 	}
