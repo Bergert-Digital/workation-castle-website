@@ -85,6 +85,100 @@ function el< K extends keyof HTMLElementTagNameMap >(
 	return node;
 }
 
+const DRAFT_KEY = 'wc-checkin-draft';
+const DRAFT_VERSION = 1;
+const DRAFT_TTL_MS = 14 * 24 * 60 * 60 * 1000;
+
+type Draft = {
+	step: number;
+	guestCount: number;
+	houseCount: number;
+	guests: Guest[];
+	ids: Id[];
+};
+
+/** Remove the saved draft. Best-effort: a blocked localStorage no-ops. */
+function clearDraft(): void {
+	try {
+		window.localStorage.removeItem( DRAFT_KEY );
+	} catch ( e ) {
+		// localStorage unavailable — nothing to clear.
+	}
+}
+
+/**
+ * Read and validate the saved draft. Returns null (and removes the entry) when
+ * absent, unparseable, the wrong schema version, or older than the 14-day TTL.
+ * @param now Current time in ms (Date.now()).
+ */
+function loadDraft( now: number ): Draft | null {
+	try {
+		const raw = window.localStorage.getItem( DRAFT_KEY );
+		if ( ! raw ) {
+			return null;
+		}
+		const parsed = JSON.parse( raw );
+		if (
+			! parsed ||
+			parsed.v !== DRAFT_VERSION ||
+			typeof parsed.savedAt !== 'number' ||
+			now - parsed.savedAt * 1000 > DRAFT_TTL_MS
+		) {
+			clearDraft();
+			return null;
+		}
+		return {
+			step: Number( parsed.step ) || 0,
+			guestCount: Number( parsed.guestCount ) || 1,
+			houseCount: Number( parsed.houseCount ) || 1,
+			guests: Array.isArray( parsed.guests ) ? parsed.guests : [],
+			ids: Array.isArray( parsed.ids ) ? parsed.ids : [],
+		};
+	} catch ( e ) {
+		return null;
+	}
+}
+
+/**
+ * Persist the draft. Stores savedAt as epoch seconds. Best-effort: a full or
+ * disabled localStorage (private mode) silently no-ops.
+ * @param state Current wizard state (consent is intentionally excluded).
+ * @param now   Current time in ms (Date.now()).
+ */
+function saveDraft( state: Draft, now: number ): void {
+	try {
+		window.localStorage.setItem(
+			DRAFT_KEY,
+			JSON.stringify( {
+				v: DRAFT_VERSION,
+				savedAt: Math.floor( now / 1000 ),
+				step: state.step,
+				guestCount: state.guestCount,
+				houseCount: state.houseCount,
+				guests: state.guests,
+				ids: state.ids,
+			} )
+		);
+	} catch ( e ) {
+		// localStorage full or unavailable — persistence is best-effort.
+	}
+}
+
+/**
+ * Clamp a restored step into the valid range for the current total.
+ * @param step       The step number to clamp.
+ * @param totalSteps The total number of steps in the wizard.
+ */
+function clampStep( step: number, totalSteps: number ): number {
+	if ( step < 0 ) {
+		return 0;
+	}
+	if ( step > totalSteps - 1 ) {
+		return totalSteps - 1;
+	}
+	return step;
+}
+
 class Wizard {
 	private cfg: Config;
 	private root: HTMLElement;
@@ -94,16 +188,70 @@ class Wizard {
 	private guests: Guest[] = [];
 	private ids: Id[] = [];
 	private consent = false;
+	private justRestored = false;
 
 	constructor( root: HTMLElement, cfg: Config ) {
 		this.root = root;
 		this.cfg = cfg;
+		const draft = loadDraft( Date.now() );
+		if ( draft ) {
+			this.guestCount = draft.guestCount;
+			this.houseCount = draft.houseCount;
+			this.guests = draft.guests;
+			this.ids = draft.ids;
+			this.step = clampStep( draft.step, this.totalSteps() );
+			this.justRestored = true;
+		}
 		this.render();
 	}
 
 	private totalSteps(): number {
 		// counts + guests + ids + review
 		return 1 + this.guestCount + this.houseCount + 1;
+	}
+
+	private persist(): void {
+		saveDraft(
+			{
+				step: this.step,
+				guestCount: this.guestCount,
+				houseCount: this.houseCount,
+				guests: this.guests,
+				ids: this.ids,
+			},
+			Date.now()
+		);
+	}
+
+	/** Discard the saved draft and reset the wizard to a clean step 0. */
+	private startOver(): void {
+		clearDraft();
+		this.step = 0;
+		this.guestCount = 1;
+		this.houseCount = 1;
+		this.guests = [];
+		this.ids = [];
+		this.consent = false;
+		this.justRestored = false;
+		this.render();
+		this.scrollToTop();
+	}
+
+	private renderRestoreBanner(): HTMLElement {
+		const s = this.cfg.strings;
+		const banner = el(
+			'div',
+			{ class: 'wc-checkin-restored', role: 'status' },
+			[ s.restoredNotice + ' ' ]
+		);
+		const startOver = el(
+			'button',
+			{ type: 'button', class: 'wc-btn wc-checkin-startover' },
+			[ s.startOver ]
+		);
+		startOver.addEventListener( 'click', () => this.startOver() );
+		banner.appendChild( startOver );
+		return banner;
 	}
 
 	private render(): void {
@@ -126,6 +274,11 @@ class Wizard {
 		( hp as HTMLElement ).style.position = 'absolute';
 		( hp as HTMLElement ).style.left = '-9999px';
 		form.appendChild( hp );
+
+		if ( this.justRestored ) {
+			form.appendChild( this.renderRestoreBanner() );
+			this.justRestored = false;
+		}
 
 		const progress = el( 'p', { class: 'wc-checkin-progress' }, [
 			`${ this.step + 1 } / ${ this.totalSteps() }`,
@@ -362,6 +515,7 @@ class Wizard {
 			);
 			back.addEventListener( 'click', () => {
 				this.step--;
+				this.persist();
 				this.render();
 				this.scrollToTop();
 			} );
@@ -521,6 +675,7 @@ class Wizard {
 			return;
 		}
 		this.step++;
+		this.persist();
 		this.render();
 		this.scrollToTop();
 	}
@@ -621,6 +776,7 @@ class Wizard {
 	}
 
 	private done(): void {
+		clearDraft();
 		this.root.innerHTML = '';
 		this.root.appendChild(
 			el( 'div', { class: 'wc-checkin-done' }, [

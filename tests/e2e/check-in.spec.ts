@@ -214,3 +214,131 @@ test( 'step validation blocks advancing with empty required fields', async ( { p
 	await expect( page.locator( 'input[name="first_name"]' ) ).toBeVisible();
 	await expect( page.locator( '.wc-checkin-error' ).first() ).toBeVisible();
 } );
+
+test( 'restores in-progress check-in after a reload', async ( { page } ) => {
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Jane', 'Doe' );
+	await page.click( '.wc-checkin-next' );
+
+	// Now on the ID step (step 3 of 4). Reload the page.
+	await page.reload();
+
+	// Resume banner shown and we land back on the ID step.
+	await expect( page.locator( '.wc-checkin-restored' ) ).toBeVisible();
+	await expect( page.locator( 'select[name="guest_index"]' ) ).toBeVisible();
+	await expect( page.locator( '.wc-checkin-progress' ) ).toHaveText( '3 / 4' );
+
+	// Previously entered guest data survived the reload.
+	await page.click( '.wc-checkin-back' );
+	await expect( page.locator( 'input[name="first_name"]' ) ).toHaveValue(
+		'Jane'
+	);
+} );
+
+test( 'Start over clears the saved draft', async ( { page } ) => {
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+
+	await page.reload();
+	await expect( page.locator( '.wc-checkin-restored' ) ).toBeVisible();
+	await page.click( '.wc-checkin-startover' );
+
+	// Back at step 1 with defaults; banner gone; draft removed.
+	await expect( page.locator( '.wc-checkin-restored' ) ).toHaveCount( 0 );
+	await expect( page.locator( '.wc-checkin-progress' ) ).toHaveText( '1 / 4' );
+	const stored = await page.evaluate( () =>
+		window.localStorage.getItem( 'wc-checkin-draft' )
+	);
+	expect( stored ).toBeNull();
+} );
+
+test( 'a successful submit clears the saved draft', async ( { page } ) => {
+	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+		route.fulfill( {
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify( { ok: true } ),
+		} )
+	);
+
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Jane', 'Doe' );
+	await page.click( '.wc-checkin-next' );
+	await page.selectOption( 'select[name="guest_index"]', '0' );
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', 'X1234567' );
+	await page.click( '.wc-checkin-next' );
+	await page.check( '.wc-checkin-consent input[type="checkbox"]' );
+	await page.click( '.wc-checkin-submit' );
+
+	await expect( page.locator( '.wc-checkin-done' ) ).toBeVisible();
+	const stored = await page.evaluate( () =>
+		window.localStorage.getItem( 'wc-checkin-draft' )
+	);
+	expect( stored ).toBeNull();
+} );
+
+test( 'ignores and clears a draft older than 14 days', async ( { page } ) => {
+	// Seed a stale draft before the wizard script runs on the page.
+	await page.addInitScript( () => {
+		const staleSavedAt =
+			Math.floor( Date.now() / 1000 ) - 15 * 24 * 60 * 60;
+		window.localStorage.setItem(
+			'wc-checkin-draft',
+			JSON.stringify( {
+				v: 1,
+				savedAt: staleSavedAt,
+				step: 2,
+				guestCount: 2,
+				houseCount: 1,
+				guests: [ { first_name: 'Stale' } ],
+				ids: [],
+			} )
+		);
+	} );
+
+	await page.goto( '/check-in/' );
+
+	// Starts clean at step 1, no banner, stale entry removed.
+	await expect( page.locator( '.wc-checkin-restored' ) ).toHaveCount( 0 );
+	await expect( page.locator( '.wc-checkin-progress' ) ).toHaveText( '1 / 4' );
+	const stored = await page.evaluate( () =>
+		window.localStorage.getItem( 'wc-checkin-draft' )
+	);
+	expect( stored ).toBeNull();
+} );
+
+test( 'does not restore consent — submit stays gated after a reload', async ( {
+	page,
+} ) => {
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Jane', 'Doe' );
+	await page.click( '.wc-checkin-next' );
+	await page.selectOption( 'select[name="guest_index"]', '0' );
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', 'X1234567' );
+	await page.click( '.wc-checkin-next' );
+
+	// On review; consent gates submit.
+	await page.check( '.wc-checkin-consent input[type="checkbox"]' );
+	await expect( page.locator( '.wc-checkin-submit' ) ).toBeEnabled();
+
+	// Reload: back on review, but consent is NOT restored.
+	await page.reload();
+	await expect( page.locator( '.wc-checkin-progress' ) ).toHaveText( '4 / 4' );
+	await expect(
+		page.locator( '.wc-checkin-consent input[type="checkbox"]' )
+	).not.toBeChecked();
+	await expect( page.locator( '.wc-checkin-submit' ) ).toBeDisabled();
+} );
