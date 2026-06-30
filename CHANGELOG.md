@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.6.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.5.0...v0.6.0) (2026-06-30)
+
+
+### Features
+
+* **booking:** open booking link in a new tab ([c0225e4](https://github.com/Bergert-Digital/workation-castle-website/commit/c0225e469e4b002d80cd6a86c7625e7dfebd4b0d))
+* **check-in:** add Brevo email payload builder ([c691afb](https://github.com/Bergert-Digital/workation-castle-website/commit/c691afbbd385bffa6cc67a642d22ebdfdbf20539))
+* **check-in:** add check-in-form block scaffold and render shell ([4e4e556](https://github.com/Bergert-Digital/workation-castle-website/commit/4e4e556d0ac46335b84699ba194ca479a5e9fef9))
+* **check-in:** add wc_checkin CPT and canonical form config ([e883a4d](https://github.com/Bergert-Digital/workation-castle-website/commit/e883a4d6a87f4a2d13f42e6189b995665f715f70))
+* **check-in:** admin list columns and read-only meta box ([e4a0bcb](https://github.com/Bergert-Digital/workation-castle-website/commit/e4a0bcb5bc9b4a8ad47b55b7bde40428f8f04898))
+* **check-in:** link each ID document to a specific guest ([aba9b9e](https://github.com/Bergert-Digital/workation-castle-website/commit/aba9b9e43e51be5d3b818095153ca77c1e48fab9))
+* **check-in:** multi-step wizard front end with styles and e2e ([a5b67af](https://github.com/Bergert-Digital/workation-castle-website/commit/a5b67afb80963f4b72ca7fe4f6e44ceb9f26bca1))
+* **check-in:** REST endpoint with validation, sanitize, persistence ([c997586](https://github.com/Bergert-Digital/workation-castle-website/commit/c997586bd0f493f55285b89e805af296c77cead2))
+* **check-in:** scroll to top on step change; rename House to Accommodation ([7ee183a](https://github.com/Bergert-Digital/workation-castle-website/commit/7ee183adc3ad92481213e5d83e383e41ab13014d))
+* **check-in:** seed /check-in/ page from pattern ([8c3cf37](https://github.com/Bergert-Digital/workation-castle-website/commit/8c3cf371000def25ea2061edc8d90cb92672174c))
+* **check-in:** send Brevo email with graceful key/failure handling ([6dad75d](https://github.com/Bergert-Digital/workation-castle-website/commit/6dad75d02c297100702fdb78d4e734daa113096c))
+* **nav:** point 'Checking in' links to the new /check-in/ page ([8b841f4](https://github.com/Bergert-Digital/workation-castle-website/commit/8b841f4f4f9d2c65a70d913c189f606b141157ae))
+* **ways-to-stay:** add Ways to Stay hub with three SEO landing sub-pages ([4aa8eb0](https://github.com/Bergert-Digital/workation-castle-website/commit/4aa8eb0d9bab862a1224b6852ad4b66d2b0ad931))
+
+
+### Bug Fixes
+
+* **check-in:** harden wizard against stale data and double-submit ([e66506f](https://github.com/Bergert-Digital/workation-castle-website/commit/e66506f71fc5f03e7d8fd10b3ef9f430f04381a6))
+* **check-in:** restrict wc_checkin CPT to manage_options (admin-only) ([4fc1620](https://github.com/Bergert-Digital/workation-castle-website/commit/4fc1620542adfcf37dd1e3c245f72fe06eaa6d48))
+* **check-in:** validate birthdate client-side and surface server errors ([4d1d940](https://github.com/Bergert-Digital/workation-castle-website/commit/4d1d940409cff26af5b12092cc8ee00cd8775170))
+
 ## [0.5.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.4.0...v0.5.0) (2026-06-26)
 
 
