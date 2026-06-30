@@ -2452,7 +2452,11 @@ body.parent-pageid-179 .starter-steps {
 
 /* Check-in wizard
    ------------------------------------------------------------------ */
-.wc-checkin { max-width: 640px; }
+/* Vertical breathing room around the form section. The block is the only
+   content between the page-hero and the footer, and the theme's layout brings
+   no vertical rhythm of its own (child block margins are zeroed) — so the
+   section carries its own padding, same scale as .guide-cards. */
+.wc-checkin { max-width: 640px; padding-block: clamp(3.5rem, 8vw, 7rem); }
 .wc-checkin-progress { color: var(--wp--preset--color--muted, #777); font-size: 0.85rem; margin: 0 0 1rem; }
 .wc-checkin-step h2 { margin-top: 0; }
 .wc-checkin-field { margin-bottom: 1rem; }
