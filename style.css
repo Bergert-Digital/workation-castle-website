@@ -2484,6 +2484,9 @@ body.parent-pageid-179 .starter-steps {
 .wc-checkin-radio label { display: inline-flex; align-items: center; gap: 0.25rem; margin-right: 1rem; font-weight: 400; }
 .wc-checkin-error { display: block; color: #b3261e; font-size: 0.85rem; margin-top: 0.25rem; }
 .wc-checkin-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
-.wc-checkin-consent { display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 1rem; font-weight: 400; }
+.wc-checkin-consent { display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 1rem; font-weight: 400; line-height: 1.5; }
+/* Fixed-size checkbox nudged to sit on the first text line (flex-start aligns
+   to the line box top, which is above the glyph cap height). */
+.wc-checkin-consent input[type="checkbox"] { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin: 0.2rem 0 0; }
 .wc-checkin-fail { color: #b3261e; margin-top: 1rem; }
 .wc-checkin-done { padding: 2rem 0; font-size: 1.15rem; }
