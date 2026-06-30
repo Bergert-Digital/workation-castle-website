@@ -220,6 +220,18 @@ body {
 	padding-inline: var(--wc-gutter);
 }
 
+/* Default vertical rhythm for a page's constrained content section.
+   A `.wc-wrap` group placed directly in the page content (between the
+   full-bleed page-hero and the footer) is the standard "readable content"
+   wrapper. The theme's layout adds no vertical spacing of its own (child
+   block margins are zeroed — see the .guide-cards note), so the wrapper
+   self-pads. Full-bleed sections (hero, bands) and aligned blocks aren't
+   `.wc-wrap` here, so they stay flush / bring their own padding. New pages
+   that wrap content in this standard group get the spacing automatically. */
+.wp-block-post-content > .wc-wrap {
+	padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
 .wc-kicker,
 .kicker {
 	color: var(--wc-amber);
@@ -2452,11 +2464,7 @@ body.parent-pageid-179 .starter-steps {
 
 /* Check-in wizard
    ------------------------------------------------------------------ */
-/* Vertical breathing room around the form section. The block is the only
-   content between the page-hero and the footer, and the theme's layout brings
-   no vertical rhythm of its own (child block margins are zeroed) — so the
-   section carries its own padding, same scale as .guide-cards. */
-.wc-checkin { max-width: 640px; padding-block: clamp(3.5rem, 8vw, 7rem); }
+.wc-checkin { max-width: 640px; }
 .wc-checkin-progress { color: var(--wp--preset--color--muted, #777); font-size: 0.85rem; margin: 0 0 1rem; }
 .wc-checkin-step h2 { margin-top: 0; }
 .wc-checkin-field { margin-bottom: 1rem; }
