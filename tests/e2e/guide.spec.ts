@@ -1,6 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { seedConsent } from './utils';
 
 test.describe('Guest Guide', () => {
+  test.beforeEach(async ({ page }) => {
+    await seedConsent(page);
+  });
+
   test('guide page renders hero and four topic cards', async ({ page }) => {
     await page.goto('/guide/');
     await expect(page.locator('.page-hero h1')).toHaveText('Everything for your stay');
@@ -52,7 +57,7 @@ test.describe('Guest Guide', () => {
     await page.goto('/guide/');
     const links = page.locator('.starter-feature-grid .starter-feature__more');
     await expect(links.nth(0)).toHaveAttribute('href', '/guide/arrival/');
-    await expect(links.nth(1)).toHaveAttribute('href', 'https://workationcastle.com/registration/');
+    await expect(links.nth(1)).toHaveAttribute('href', '/check-in/');
     await expect(links.nth(2)).toHaveAttribute('href', 'https://workationcastle.com/guide/map/');
     await expect(links.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');
   });
@@ -84,8 +89,8 @@ test.describe('Guest Guide', () => {
     await expect(trigger).toContainText('Guest Guide');
     const items = guideDropdown.locator('.nav-dropdown a');
     await expect(items).toHaveCount(4);
-    await expect(items.nth(0)).toHaveAttribute('href', 'https://workationcastle.com/guide/arrival/');
-    await expect(items.nth(1)).toHaveAttribute('href', 'https://workationcastle.com/registration/');
+    await expect(items.nth(0)).toHaveAttribute('href', '/guide/arrival/');
+    await expect(items.nth(1)).toHaveAttribute('href', '/check-in/');
     await expect(items.nth(2)).toHaveAttribute('href', 'https://workationcastle.com/guide/map/');
     await expect(items.nth(3)).toHaveAttribute('href', 'https://workationcastle.com/guide/waste-disposal/');
   });
