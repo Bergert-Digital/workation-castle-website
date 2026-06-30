@@ -135,6 +135,9 @@ function loadDraft( now: number ): Draft | null {
 			ids: Array.isArray( parsed.ids ) ? parsed.ids : [],
 		};
 	} catch ( e ) {
+		// Corrupt/unreadable entry — remove it so it is not re-evaluated
+		// on every load.
+		clearDraft();
 		return null;
 	}
 }

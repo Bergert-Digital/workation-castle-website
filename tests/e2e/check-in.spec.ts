@@ -342,3 +342,20 @@ test( 'does not restore consent — submit stays gated after a reload', async ( 
 	).not.toBeChecked();
 	await expect( page.locator( '.wc-checkin-submit' ) ).toBeDisabled();
 } );
+
+test( 'discards and removes a corrupt saved draft', async ( { page } ) => {
+	// Seed an unparseable draft before the wizard script runs.
+	await page.addInitScript( () => {
+		window.localStorage.setItem( 'wc-checkin-draft', 'not-json{' );
+	} );
+
+	await page.goto( '/check-in/' );
+
+	// Starts clean at step 1, no banner, and the corrupt entry is removed.
+	await expect( page.locator( '.wc-checkin-restored' ) ).toHaveCount( 0 );
+	await expect( page.locator( '.wc-checkin-progress' ) ).toHaveText( '1 / 4' );
+	const stored = await page.evaluate( () =>
+		window.localStorage.getItem( 'wc-checkin-draft' )
+	);
+	expect( stored ).toBeNull();
+} );
