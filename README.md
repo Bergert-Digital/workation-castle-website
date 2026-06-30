@@ -100,3 +100,21 @@ A scheduled workflow ([`.github/workflows/check-wpenv-deps.yml`](.github/workflo
 ```bash
 npm run check:wpenv-deps
 ```
+
+## Check-in form (guest registration)
+
+The `/check-in/` page renders the `pediment-child/check-in-form` block — a
+multi-step wizard collecting guest + ID data for the Italian authorities
+(AlloggiatiWeb / ISTAT). Submissions are stored as private `wc_checkin` posts
+(admin-only) and a readable summary is emailed to `info@workationcastle.com`
+via the Brevo transactional API.
+
+**Required configuration (production):**
+
+- Define the Brevo API key in `wp-config.php`:
+  `define( 'WORKATION_BREVO_API_KEY', 'xkeysib-…' );`
+  (or set the `BREVO_API_KEY` environment variable).
+- Verify `noreply@workationcastle.com` as a sender in Brevo.
+
+If the key is absent the form still works and stores the submission; the email
+is skipped and logged (the submission's "Email" column shows `skipped`).

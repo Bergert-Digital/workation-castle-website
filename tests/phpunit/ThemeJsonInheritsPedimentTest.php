@@ -23,7 +23,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 	private function assert_child_theme_active() {
 		$this->assertContains(
 			get_stylesheet(),
-			array( 'pediment-child-theme', 'accra' ),
+			array( 'pediment-child-theme', 'accra', 'tacoma' ),
 			'These theme-json guards are only meaningful with this child theme active.'
 		);
 	}

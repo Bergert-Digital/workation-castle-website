@@ -12,11 +12,11 @@
     "imageAlt": { "type": "string", "default": "Garden terrace at Workation Castle" },
     "imageId": { "type": "number", "default": 0 },
     "primaryText": { "type": "string", "default": "Check availability" },
-    "primaryUrl": { "type": "string", "default": "#book" },
+    "primaryUrl": { "type": "string", "default": "https://workationcastle.holiduhost.com/" },
     "secondaryText": { "type": "string", "default": "Ask for a custom offer" },
     "secondaryUrl": { "type": "string", "default": "#book" },
     "linkText": { "type": "string", "default": "Follow on Instagram" },
-    "linkUrl": { "type": "string", "default": "https://www.instagram.com/workationcastle/" }
+    "linkUrl": { "type": "string", "default": "https://www.instagram.com/workation_castle/" }
   },
   "supports": {
     "html": false,

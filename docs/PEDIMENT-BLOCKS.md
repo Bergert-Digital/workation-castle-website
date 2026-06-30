@@ -13,6 +13,36 @@
 **Attributes:**
   - `actionUrl` (string)
 
+## pediment-child/page-hero
+
+**Page Hero** — Cinematic full-bleed hero for interior pages, defaulting to the homepage image.
+
+**Source:** child
+**Use when:** opening a non-home page (Photos, Pricing, About) with a cinematic header; defaults to the homepage image, or set a different one to override it per page.
+
+**Attributes:**
+  - `eyebrow` (string)
+  - `headline` (string)
+  - `lead` (string)
+  - `imageUrl` (string)
+  - `imageAlt` (string)
+  - `imageId` (number)
+
+**Align:** full
+
+## pediment-child/photo-gallery
+
+**Photo Gallery (filterable)** — Filterable grid of all Photos, with category tabs and a lightbox.
+
+**Source:** child
+**Use when:** _(add guidance)_
+
+**Attributes:**
+  - `eyebrow` (string)
+  - `headline` (string)
+
+**Align:** full
+
 ## pediment-child/promo-banner
 
 **Promo Banner** — Example child-theme block: a promotional banner with headline, body, and link. Replace or delete before shipping to a client.
@@ -133,7 +163,11 @@
   - `imageAlt` (string)
   - `imageId` (number)
   - `primaryText` (string)
-  - `primaryUrl` (string)
+  - `bookingUrl` (string)
+  - `checkInParam` (string)
+  - `checkOutParam` (string)
+  - `adultsParam` (string)
+  - `childrenAgesParam` (string)
   - `secondaryText` (string)
   - `secondaryUrl` (string)
 

@@ -19,7 +19,14 @@ require_once $_tests_dir . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	function () {
-		$theme_slug = is_dir( dirname( __DIR__, 3 ) . '/accra' ) ? 'accra' : 'pediment-child-theme';
+		$themes_dir = dirname( __DIR__, 3 );
+		if ( is_dir( $themes_dir . '/accra' ) ) {
+			$theme_slug = 'accra';
+		} elseif ( is_dir( $themes_dir . '/tacoma' ) ) {
+			$theme_slug = 'tacoma';
+		} else {
+			$theme_slug = 'pediment-child-theme';
+		}
 		switch_theme( $theme_slug );
 	}
 );

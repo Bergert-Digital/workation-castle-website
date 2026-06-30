@@ -6,15 +6,24 @@
  * script watches them with an IntersectionObserver and adds `.is-in` when
  * they scroll into view, which triggers the CSS fade/slide-up transition.
  *
+ * The hero is above the fold by definition, so its content is revealed on
+ * load instead of waiting for a scroll intersection. The hero is a
+ * full-height (100svh), flex-end section, so its lowest items (the
+ * "custom offer" line and the chip pills) sit inside the observer's bottom
+ * rootMargin dead zone and would otherwise never trigger on load.
+ *
  * If IntersectionObserver is unavailable or the visitor prefers reduced
  * motion, the `js` class is removed so nothing is ever hidden.
  */
 ( function () {
 	'use strict';
 
+	// Hero content is above the fold; revealed immediately on load.
+	var HERO_SELECTOR = '.hero .wc-wrap > *';
+
+	// Everything else fades/slides up as it scrolls into view.
 	var REVEAL_SELECTOR = [
 		'.sec-head',
-		'.hero .wc-wrap > *',
 		'.intro .wc-wrap > *',
 		'.ways-grid > .way',
 		'.wc-wrap > .space-row',
@@ -37,6 +46,18 @@
 	}
 
 	function init() {
+		// Reveal the hero on load so its full staggered entrance plays,
+		// including items below the observer's trigger line. rAF lets the
+		// browser paint the hidden state first so the transition runs.
+		var heroEls = document.querySelectorAll( HERO_SELECTOR );
+		if ( heroEls.length ) {
+			requestAnimationFrame( function () {
+				heroEls.forEach( function ( el ) {
+					el.classList.add( 'is-in' );
+				} );
+			} );
+		}
+
 		var els = document.querySelectorAll( REVEAL_SELECTOR );
 		if ( ! els.length ) {
 			return;

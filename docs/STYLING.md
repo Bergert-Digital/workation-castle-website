@@ -157,6 +157,66 @@ these for one site, prefer:
 
 Editing the parent's SCSS source affects *every* Pediment site and is an upstream change.
 
+## Page width & content layout
+
+**`theme.json` is the single source of truth for width.** `settings.layout`
+declares `contentSize` (720px) and `wideSize` (1200px); the side gutter comes
+from `settings.useRootPaddingAwareAlignments: true` + `styles.spacing.padding`
+(`clamp(20px, 4vw, 40px)`). **Never hardcode widths/gutters in CSS** — alias the
+WordPress vars instead (see "the `.wc-wrap` container" below).
+
+Since parent **v2.0.0**, `wp:post-content` is rendered **`is-layout-constrained`**
+on `page.html` and `front-page.html`. So on any page:
+
+- A **bare** (un-aligned) block snaps to `contentSize` (720px).
+- `align:wide` snaps to `wideSize` (1200px); `align:full` reaches the viewport.
+
+So compose page patterns with native alignment — **no width wrapper needed**:
+
+```html
+<!-- wp:pediment/feature-grid {"align":"wide"} --> … <!-- /wp:pediment/feature-grid -->
+```
+
+This is how `patterns/guide.php` works: a `page-hero` (`align:full`) plus a
+`feature-grid` (`align:wide`), both capped from `theme.json`, no group, no class.
+
+**A custom block must emit its own alignment class to break out.** A constrained
+`post-content` only widens children that carry `alignwide`/`alignfull`. The
+child section blocks that render their own `<section>` therefore build the class
+from the block's `align` attribute (`' align' . $align`), e.g. `page-hero` and
+`photo-gallery` in `inc/WorkationSections.php`. (Don't use
+`get_block_wrapper_attributes()` in those chrome functions — the unit tests call
+them directly, with no block-render context, and it fatals on null.) Miss this
+and the block collapses to 720px under constrained `post-content`.
+
+### The `.wc-wrap` container
+
+The bespoke full-bleed **band** blocks (`pediment-child/workation-*`,
+`page-hero`, `photo-gallery`) render fixed HTML with an inner content zone — and
+the **header/footer** are raw `wp:html`, not blocks. Native constrained layout
+only caps a block's *direct* children, so these can't lean on it for their inner
+width; they keep an explicit container, `.wc-wrap` (and `.sec-head`,
+`.starter-section-head`). That container is **not** a hardcoded hack: its width
+and gutter alias `theme.json` —
+
+```css
+:root { --wc-maxw: var(--wp--style--global--wide-size, 1280px); }
+body  { --wc-gutter: var(--wp--style--root--padding-right, 22px); }
+```
+
+(`--wc-gutter` lives on `body`, not `:root`, because WordPress emits the
+root-padding var on `body`.) So even the bespoke containers track `theme.json`.
+Don't reach for `.wc-wrap` in a **page pattern** — use native alignment there;
+`.wc-wrap` is only for the bespoke band/​header/​footer internals.
+
+For vertical rhythm inside a constrained context use **padding**, not margin
+(WordPress's flow/blockGap can zero stray child margins).
+
+Always confirm the result by **rendering the page and looking at it** (a desktop
+screenshot, plus a narrow viewport for the gutter, or measure the container's
+`boundingBox().width` in an e2e test), not just by checking that the block
+markup is present.
+
 ## Cascade summary (for reference)
 
 ```

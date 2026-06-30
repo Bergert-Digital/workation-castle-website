@@ -330,6 +330,241 @@ function pediment_child_workation_intro_chrome( $attributes ) {
 }
 
 /**
+ * Render the filterable photo gallery from the wc_photo CPT.
+ *
+ * Queries every published photo ordered by menu_order and outputs a tab bar
+ * (All + each category in use) plus a grid of lightbox-able anchors. The
+ * photo image comes from each post's featured image.
+ *
+ * @param array $attributes Block attributes (eyebrow, headline).
+ * @return string
+ */
+function pediment_child_photo_gallery_chrome( $attributes ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => PEDIMENT_CHILD_PHOTO_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		)
+	);
+
+	$used_terms = array();
+	$cards      = array();
+
+	foreach ( $query->posts as $post ) {
+		$full = wp_get_attachment_image_url( get_post_thumbnail_id( $post->ID ), 'full' );
+		if ( ! $full ) {
+			continue;
+		}
+		$terms     = get_the_terms( $post->ID, PEDIMENT_CHILD_PHOTO_TAX );
+		$slugs     = array();
+		$cat_label = '';
+		if ( is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$slugs[]                   = $term->slug;
+				$used_terms[ $term->slug ] = $term->name;
+			}
+			if ( ! empty( $terms ) ) {
+				$cat_label = reset( $terms )->name;
+			}
+		}
+		$title = get_the_title( $post->ID );
+		$img   = wp_get_attachment_image(
+			get_post_thumbnail_id( $post->ID ),
+			'large',
+			false,
+			array(
+				'alt'     => $title,
+				'loading' => 'lazy',
+			)
+		);
+
+		// Caption overlay: category + description. Skip the description when it
+		// merely repeats the category (some photos are titled after their room).
+		$meta = '';
+		if ( '' !== $cat_label ) {
+			$meta .= '<span class="photo-cat">' . esc_html( $cat_label ) . '</span>';
+		}
+		if ( '' !== $title && strtolower( $title ) !== strtolower( $cat_label ) ) {
+			$meta .= '<span class="photo-title">' . esc_html( $title ) . '</span>';
+		}
+		if ( '' !== $meta ) {
+			$meta = '<span class="photo-meta">' . $meta . '</span>';
+		}
+
+		$cards[] = sprintf(
+			'<a class="photo" href="%1$s" data-category="%2$s">%3$s%4$s</a>',
+			esc_url( $full ),
+			esc_attr( implode( ' ', $slugs ) ),
+			$img,
+			$meta
+		);
+	}
+
+	wp_reset_postdata();
+
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
+	ob_start();
+	?>
+	<section class="band photos<?php echo esc_attr( $align_class ); ?>" id="photos">
+		<?php if ( '' !== $eyebrow || '' !== $headline ) : ?>
+			<div class="sec-head">
+				<?php if ( '' !== $eyebrow ) : ?>
+					<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+				<?php endif; ?>
+				<?php if ( '' !== $headline ) : ?>
+					<h2><?php echo wp_kses_post( $headline ); ?></h2>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+		<div class="wc-wrap">
+			<div class="photo-tabs" role="group" aria-label="<?php esc_attr_e( 'Filter photos', 'pediment-child' ); ?>">
+				<button type="button" class="photo-tab is-active" data-filter="*" aria-pressed="true"><?php esc_html_e( 'All', 'pediment-child' ); ?></button>
+				<?php foreach ( $used_terms as $slug => $name ) : ?>
+					<button type="button" class="photo-tab" data-filter="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><?php echo esc_html( $name ); ?></button>
+				<?php endforeach; ?>
+			</div>
+			<div class="photo-grid">
+				<?php echo implode( "\n", $cards ); // phpcs:ignore WordPress.Security.EscapeOutput -- anchors built from escaped parts above. ?>
+			</div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
+ * Render the activities grid: one linked card per published wc_activity.
+ *
+ * @param array $attributes Block attributes (eyebrow, headline, align).
+ * @return string
+ */
+function pediment_child_activity_list_chrome( $attributes ) {
+	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+
+	$query = new WP_Query(
+		array(
+			'post_type'      => PEDIMENT_CHILD_ACTIVITY_CPT,
+			'post_status'    => 'publish',
+			'posts_per_page' => -1,
+			'orderby'        => 'menu_order',
+			'order'          => 'ASC',
+			'no_found_rows'  => true,
+		)
+	);
+
+	$cards = array();
+	foreach ( $query->posts as $post ) {
+		$title   = get_the_title( $post->ID );
+		$excerpt = has_excerpt( $post ) ? get_the_excerpt( $post ) : '';
+		$img     = '';
+		$thumb   = get_post_thumbnail_id( $post->ID );
+		if ( $thumb ) {
+			$img = wp_get_attachment_image(
+				$thumb,
+				'medium_large',
+				false,
+				array(
+					'alt'     => $title,
+					'loading' => 'lazy',
+				)
+			);
+		}
+
+		$cards[] = sprintf(
+			'<a class="activity-card" href="%1$s"><span class="activity-card__media">%2$s</span><span class="activity-card__body"><span class="activity-card__title">%3$s</span>%4$s</span></a>',
+			esc_url( get_permalink( $post->ID ) ),
+			$img,
+			esc_html( $title ),
+			'' !== $excerpt ? '<span class="activity-card__text">' . esc_html( $excerpt ) . '</span>' : ''
+		);
+	}
+
+	wp_reset_postdata();
+
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
+	ob_start();
+	?>
+	<section class="band band-cream activities<?php echo esc_attr( $align_class ); ?>" id="activities">
+		<?php if ( '' !== $eyebrow || '' !== $headline ) : ?>
+			<div class="sec-head">
+				<?php if ( '' !== $eyebrow ) : ?>
+					<span class="wc-kicker"><?php echo wp_kses_post( $eyebrow ); ?></span>
+				<?php endif; ?>
+				<?php if ( '' !== $headline ) : ?>
+					<h2><?php echo wp_kses_post( $headline ); ?></h2>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
+		<div class="wc-wrap">
+			<div class="activity-grid">
+				<?php echo implode( "\n", $cards ); // phpcs:ignore WordPress.Security.EscapeOutput -- cards built from escaped parts above. ?>
+			</div>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
+ * Default page-hero background — the homepage hero image. Mirrors the
+ * workation-hero block.json default so interior heroes share the homepage's
+ * cinematic photo unless a page overrides it.
+ */
+const PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE = 'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg';
+
+/**
+ * Render the interior-page hero from attributes.
+ *
+ * A reusable cinematic hero for non-home pages: a full-bleed photo with the
+ * same gradient family as the homepage hero, headline anchored bottom-left.
+ * When no image is set it falls back to the homepage hero image, so the header
+ * always overlays a dark photo (transparent/white, like the homepage).
+ *
+ * @param array $attributes Block attributes (eyebrow, headline, lead, imageUrl,
+ *                          imageAlt).
+ * @return string
+ */
+function pediment_child_page_hero_chrome( $attributes ) {
+	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE;
+	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+
+	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
+	$align_class = '' !== $align ? ' align' . $align : '';
+	ob_start();
+	?>
+	<section class="page-hero<?php echo esc_attr( $align_class ); ?>">
+		<div class="page-hero-img"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></div>
+		<div class="page-hero-grad"></div>
+		<div class="page-hero-inner wc-wrap">
+			<?php if ( '' !== $eyebrow ) : ?>
+				<span class="eyebrow"><?php echo wp_kses_post( $eyebrow ); ?></span>
+			<?php endif; ?>
+			<?php if ( '' !== $headline ) : ?>
+				<h1><?php echo wp_kses_post( $headline ); ?></h1>
+			<?php endif; ?>
+			<?php if ( '' !== $lead ) : ?>
+				<p class="page-hero-lede"><?php echo wp_kses_post( $lead ); ?></p>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
  * Render the closing CTA section from attributes.
  *
  * @param array $attributes Block attributes.

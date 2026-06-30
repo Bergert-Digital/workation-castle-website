@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pediment-child/page-hero",
+  "title": "Page Hero",
+  "category": "design",
+  "description": "Cinematic full-bleed hero for interior pages, defaulting to the homepage image.",
+  "textdomain": "pediment-child",
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "" },
+    "headline": { "type": "string", "default": "" },
+    "lead": { "type": "string", "default": "" },
+    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg" },
+    "imageAlt": { "type": "string", "default": "Aerial view of the castle hamlet above Lago di Piano with the mountains beyond" },
+    "imageId": { "type": "number", "default": 0 }
+  },
+  "supports": {
+    "html": false,
+    "align": [
+      "full"
+    ]
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

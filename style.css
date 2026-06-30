@@ -14,6 +14,50 @@ Text Domain: pediment-child
 Update URI: https://github.com/Bergert-Digital/Pediment-Child-Theme
 */
 
+/* Self-hosted Inria families — no third-party (Google Fonts) request, GDPR-clean. */
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-300.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Sans";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("assets/fonts/inria-sans-700.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-300.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-400.woff2") format("woff2");
+}
+@font-face {
+	font-family: "Inria Serif";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("assets/fonts/inria-serif-700.woff2") format("woff2");
+}
+
 :root {
 	--wc-cream: var(--wp--preset--color--surface);
 	--wc-cream-deep: var(--wp--preset--color--surface-sunken);
@@ -26,8 +70,12 @@ Update URI: https://github.com/Bergert-Digital/Pediment-Child-Theme
 	--wc-border: var(--wp--preset--color--border);
 	--wc-radius: 22px;
 	--wc-radius-lg: 28px;
-	--wc-maxw: 1280px;
+	/* Width comes from theme.json (single source of truth), not hardcoded here.
+	   The matching gutter token (--wc-gutter) is declared on `body` below,
+	   because WordPress emits the root-padding var on `body`, not `:root`. */
+	--wc-maxw: var(--wp--style--global--wide-size, 1280px);
 	--wc-ease: cubic-bezier(.2, .7, .2, 1);
+	--wc-header-h: 96px;
 }
 
 html {
@@ -35,6 +83,9 @@ html {
 }
 
 body {
+	/* Bespoke band container gutter, sourced from theme.json's root padding
+	   (declared on body by WP, so this must live here, not on :root). */
+	--wc-gutter: var(--wp--style--root--padding-right, 22px);
 	background: var(--wc-cream);
 	color: var(--wc-ink);
 	font-family: "Inria Sans", system-ui, sans-serif;
@@ -166,7 +217,19 @@ body {
 	inline-size: 100%;
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
+}
+
+/* Default vertical rhythm for a page's constrained content section.
+   A `.wc-wrap` group placed directly in the page content (between the
+   full-bleed page-hero and the footer) is the standard "readable content"
+   wrapper. The theme's layout adds no vertical spacing of its own (child
+   block margins are zeroed — see the .guide-cards note), so the wrapper
+   self-pads. Full-bleed sections (hero, bands) and aligned blocks aren't
+   `.wc-wrap` here, so they stay flush / bring their own padding. New pages
+   that wrap content in this standard group get the spacing automatically. */
+.wp-block-post-content > .wc-wrap {
+	padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
 .wc-kicker,
@@ -197,14 +260,12 @@ body {
 
 .wc-btn-yellow {
 	background: var(--wc-yellow);
-	box-shadow: 0 10px 30px -10px rgba(254, 198, 1, .7);
 	color: var(--wc-ink);
 }
 
 .wc-btn-yellow:hover,
 .wc-btn-yellow:focus-visible {
 	background: var(--wc-yellow-hover);
-	box-shadow: 0 18px 40px -12px rgba(254, 198, 1, .85);
 	color: var(--wc-ink);
 	transform: translateY(-3px);
 }
@@ -329,6 +390,135 @@ nav.main-nav a:hover::after {
 	inset-inline-end: 0;
 }
 
+/* Guest Guide dropdown ----------------------------------------------------- */
+.nav-item.has-dropdown {
+	position: relative;
+}
+
+.nav-dropdown-trigger .caret {
+	font-size: .8em;
+	transition: transform .3s var(--wc-ease);
+}
+
+.has-dropdown:hover .nav-dropdown-trigger .caret,
+.has-dropdown:focus-within .nav-dropdown-trigger .caret {
+	transform: rotate(180deg);
+}
+
+.nav-dropdown {
+	background: var(--wc-cream, #f7f3ec);
+	border-radius: 14px;
+	box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
+	display: none;
+	flex-direction: column;
+	inset-block-start: calc(100% + 14px);
+	inset-inline-start: 0;
+	min-inline-size: 230px;
+	padding: 10px;
+	position: absolute;
+	z-index: 60;
+}
+
+.has-dropdown:hover .nav-dropdown,
+.has-dropdown:focus-within .nav-dropdown {
+	display: flex;
+}
+
+/* Bridge the gap so the menu doesn't close while moving the cursor down. */
+.nav-dropdown::before {
+	content: "";
+	inset-block-start: -14px;
+	inset-inline: 0;
+	block-size: 14px;
+	position: absolute;
+}
+
+/* Scoped under .main-nav so the dark panel text beats the base
+   `nav.main-nav a { color:#fff }` rule (specificity 0,1,2), which otherwise
+   wins over a bare `.nav-dropdown a` and renders the links white on cream. */
+.main-nav .nav-dropdown a {
+	border-radius: 9px;
+	color: #2a2420;
+	font-size: .9rem;
+	opacity: 1;
+	padding: 9px 12px;
+	transition: background .2s, color .2s;
+}
+
+/* Neutralize the inherited animated underline inside the panel. */
+.main-nav .nav-dropdown a::after {
+	display: none;
+}
+
+/* Keep the trigger's animated yellow underline expanded while its panel is
+   open, so the underline doesn't retract as the cursor moves into the menu. */
+.has-dropdown:hover .nav-dropdown-trigger::after,
+.has-dropdown:focus-within .nav-dropdown-trigger::after {
+	inset-inline-end: 0;
+}
+
+.main-nav .nav-dropdown a:hover,
+.main-nav .nav-dropdown a:focus-visible {
+	background: rgba(0, 0, 0, .06);
+	color: #000;
+}
+
+/* Vertical breathing room around the guide cards. Uses padding, not margin:
+   the grid is a direct child of a flow-layout group, and WordPress's flow
+   layout zeroes child block margins (padding is left alone). */
+.guide-cards {
+	padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
+/* Feature cards (global): a white panel with a soft drop shadow, left-aligned
+   content and a solid-amber icon tile with a dark glyph (matching the homepage
+   travel-mode icons) instead of the parent block's centred, cream, light-tint
+   default. */
+.starter-feature {
+	background: var(--wp--preset--color--surface-elevated);
+	border-color: transparent;
+	border-radius: 24px;
+	box-shadow: 0 18px 40px -22px rgba(58, 38, 22, .4);
+	text-align: left;
+}
+
+.starter-feature:hover {
+	border-color: transparent;
+	box-shadow: 0 24px 50px -20px rgba(58, 38, 22, .5);
+}
+
+.starter-feature__ic {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+	margin-inline: 0;
+}
+
+/* Restore the title→text gap the global heading/paragraph margin reset flattens. */
+.wp-site-blocks .starter-feature__text {
+	margin-top: 10px;
+}
+
+/* Whole card is the click target. The parent block renders a `__more` link;
+   stretch it to cover the card and hide its visible "Open →" text — the link
+   text stays as the anchor's accessible name (per-card, so each link is
+   distinct). */
+.guide-cards .starter-feature {
+	position: relative;
+}
+
+.guide-cards .starter-feature__more {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	/* Invisible but still the accessible name of the link. */
+	color: transparent;
+	font-size: 0;
+}
+
+.guide-cards .starter-feature__more svg {
+	display: none;
+}
+
 .header-cta {
 	display: none;
 }
@@ -373,6 +563,104 @@ nav.main-nav a:hover::after {
 
 .site-header.scrolled .menu-toggle span {
 	background: var(--wc-ink);
+}
+
+/* ------------------------------------------------------------
+   Pages with no cinematic hero behind the fixed header.
+   `body.no-hero` is added by pediment_child_body_class() when the page has
+   no workation-hero block. Render the header solid (legible) from the top
+   and pad the content clear of the fixed header — a generic fix, not per-page.
+   ------------------------------------------------------------ */
+body.no-hero header.site-header,
+body.no-hero header.site-header:not(.scrolled) {
+	background: rgba(250, 246, 238, .92);
+	box-shadow: 0 8px 30px -18px rgba(58, 38, 22, .4);
+}
+
+body.no-hero .brand img {
+	filter: none;
+}
+
+body.no-hero nav.main-nav a {
+	color: var(--wc-ink);
+}
+
+body.no-hero .menu-toggle {
+	background: rgba(58, 38, 22, .06);
+	border-color: rgba(58, 38, 22, .2);
+}
+
+body.no-hero .menu-toggle span {
+	background: var(--wc-ink);
+}
+
+body.no-hero .wp-site-blocks > main {
+	padding-block-start: calc(var(--wc-header-h) + 24px);
+}
+
+/* ------------------------------------------------------------
+   Interior page hero (pediment-child/page-hero).
+   A cinematic full-bleed photo with the homepage hero's gradient; the
+   transparent header overlays it. Defaults to the homepage image.
+   ------------------------------------------------------------ */
+.page-hero {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	min-block-size: 54svh;
+	overflow: hidden;
+	color: #fff;
+	background: var(--wc-brown);
+}
+
+.page-hero-img,
+.page-hero-grad {
+	position: absolute;
+	inset: 0;
+}
+
+.page-hero-img {
+	z-index: 0;
+}
+
+.page-hero-img img {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.page-hero-grad {
+	z-index: 1;
+	background:
+		linear-gradient(180deg, rgba(36, 20, 8, .6) 0%, rgba(36, 20, 8, .05) 28%, rgba(58, 30, 12, .25) 55%, rgba(58, 28, 10, .92) 100%),
+		radial-gradient(120% 90% at 16% 120%, rgba(169, 98, 31, .7) 0%, rgba(169, 98, 31, 0) 55%);
+}
+
+.page-hero-inner {
+	position: relative;
+	z-index: 2;
+	inline-size: 100%;
+	padding-block: calc(var(--wc-header-h) + 40px) 46px;
+}
+
+.page-hero .eyebrow {
+	color: #fff;
+}
+
+.page-hero h1 {
+	color: #fff;
+	font-size: clamp(2.4rem, 6vw, 4.4rem);
+	max-inline-size: 16ch;
+	text-shadow: 0 2px 30px rgba(20, 10, 2, .35);
+	text-wrap: balance;
+}
+
+.page-hero .page-hero-lede {
+	color: rgba(255, 255, 255, .92);
+	font-weight: 300;
+	font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+	margin-block-start: 20px;
+	max-inline-size: 52ch;
 }
 
 .hero {
@@ -671,6 +959,10 @@ nav.main-nav a:hover::after {
 .band {
 	padding-block: 78px;
 	position: relative;
+	/* Full-bleed colour bands must abut. Cancel the editor block-gap margin so
+	   the body background never shows as a stripe between two bands (e.g. a deep
+	   band directly under the hero, where the gap isn't masked by a cream band). */
+	margin-block: 0;
 }
 
 .band-cream {
@@ -687,7 +979,7 @@ nav.main-nav a:hover::after {
 	gap: 16px;
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
 }
 
 .sec-head h2 {
@@ -713,7 +1005,7 @@ nav.main-nav a:hover::after {
 .starter-section-head {
 	margin-inline: auto;
 	max-inline-size: var(--wc-maxw);
-	padding-inline: 22px;
+	padding-inline: var(--wc-gutter);
 }
 
 .starter-section-head__eyebrow {
@@ -739,6 +1031,111 @@ nav.main-nav a:hover::after {
 	font-size: 1.05rem;
 	margin-top: 16px;
 	max-inline-size: 54ch;
+}
+
+/* pediment/prose — restore the vertical rhythm and link affordance that the
+   global .wp-site-blocks heading/paragraph reset (margin:0) otherwise flattens.
+   Scoped to .starter-prose so the bespoke .wc-* blocks keep their own spacing. */
+.wp-site-blocks .starter-prose > * + * {
+	margin-block-start: var(--wp--preset--spacing--30);
+}
+
+.wp-site-blocks .starter-prose > h2,
+.wp-site-blocks .starter-prose > h3 {
+	margin-block-start: var(--wp--preset--spacing--60);
+}
+
+.wp-site-blocks .starter-prose > :first-child {
+	margin-block-start: 0;
+}
+
+.wp-site-blocks .starter-prose li + li {
+	margin-block-start: .35rem;
+}
+
+.wp-site-blocks .starter-prose a {
+	color: var(--wc-ink);
+	text-decoration: underline;
+	text-decoration-color: var(--wc-amber);
+	text-decoration-thickness: 2px;
+	text-underline-offset: .18em;
+}
+
+.wp-site-blocks .starter-prose a:hover {
+	text-decoration-color: currentColor;
+}
+
+/* pediment/cta — make the block legible outside the homepage .closing wrapper:
+   the global .wp-site-blocks a{color:inherit} reset otherwise flattens the
+   button label to the band colour (cream on cream). Values match the .closing
+   treatment, so the homepage CTA is unaffected. */
+.wp-site-blocks .starter-cta__body {
+	color: rgba(250, 246, 238, .82);
+	margin-inline: auto;
+}
+
+.wp-site-blocks .starter-cta__btn--primary,
+.wp-site-blocks .starter-cta__btn--primary:hover {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.wp-site-blocks .starter-cta__btn--secondary {
+	color: #fff;
+}
+
+/* Deep-cream band variant (surface-sunken), so guide pages can alternate
+   between two cream tones like the homepage instead of cream-and-white. */
+.is-style-band-sunken {
+	background: var(--wp--preset--color--surface-sunken);
+}
+
+/* Guide sub-page in-page anchors (e.g. the Arrival mode cards → #by-car …):
+   the site header is fixed (76px), and the theme's global smooth scroll stalls
+   on long jumps. Jump instantly and clear the header so the heading is visible. */
+html:has(body.parent-pageid-179) {
+	scroll-behavior: auto;
+}
+
+body.parent-pageid-179 .starter-band,
+body.parent-pageid-179 .starter-prose [id] {
+	scroll-margin-top: 96px;
+}
+
+/* Intro + mode-card grid spacing. The shared .guide-cards block reserves 112px
+   of block padding to sit under the hero on /guide; here it follows an intro
+   paragraph, so even that out: breathing room below the hero, the cards close
+   to the intro they belong to, and a calmer gap before the first band. */
+body.parent-pageid-179 .wp-block-group.wc-wrap {
+	padding-block: 3.5rem 0;
+}
+
+body.parent-pageid-179 .guide-cards {
+	padding-block: 2.5rem 4rem;
+}
+
+/* Lift the app-purchase steps into a cream card (matching the mode cards' chrome)
+   so the numbered flow reads as a distinct module, not run-on body copy. */
+body.parent-pageid-179 .starter-steps {
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 20px;
+	padding: clamp(1.5rem, 3.5vw, 2.25rem);
+	margin-block: var(--wp--preset--spacing--50);
+}
+
+/* Embedded Google Maps inside guide bands. */
+.wc-map {
+	margin: var(--wp--preset--spacing--40) 0 0;
+}
+
+.wc-map iframe {
+	aspect-ratio: 16 / 9;
+	border: 0;
+	border-radius: 16px;
+	box-shadow: 0 18px 40px -28px rgba(58, 38, 22, .6);
+	display: block;
+	inline-size: 100%;
 }
 
 .intro h2 {
@@ -768,6 +1165,10 @@ nav.main-nav a:hover::after {
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
+	/* Own stacking context so the image/gradient can sit at negative z-index
+	   (behind the in-flow text) while .way stays the containing block for the
+	   stretched .link::after that makes the whole card clickable. */
+	isolation: isolate;
 	justify-content: flex-end;
 	min-block-size: 440px;
 	overflow: hidden;
@@ -787,7 +1188,7 @@ nav.main-nav a:hover::after {
 	object-fit: cover;
 	position: absolute;
 	transition: transform .8s var(--wc-ease);
-	z-index: 0;
+	z-index: -2;
 }
 
 .way:hover img {
@@ -798,7 +1199,7 @@ nav.main-nav a:hover::after {
 	inset: 0;
 	margin: 0;
 	position: absolute;
-	z-index: 0;
+	z-index: -2;
 }
 
 .way::after {
@@ -806,13 +1207,11 @@ nav.main-nav a:hover::after {
 	content: "";
 	inset: 0;
 	position: absolute;
-	z-index: 1;
+	z-index: -1;
 }
 
 .way-body {
 	padding: 30px 28px 32px;
-	position: relative;
-	z-index: 2;
 }
 
 .way-num {
@@ -842,6 +1241,16 @@ nav.main-nav a:hover::after {
 	font-weight: 700;
 	gap: .5em;
 	margin-top: 18px;
+}
+
+/* Stretch the card's link over the whole card so it's clickable anywhere
+   (matches the pointer cursor already set on .way). Sits above .way-body
+   (z-index 2) so clicks across the card resolve to this single link. */
+.way .link::after {
+	content: "";
+	inset: 0;
+	position: absolute;
+	z-index: 3;
 }
 
 .way .link .arr {
@@ -1096,6 +1505,58 @@ nav.main-nav a:hover::after {
 	z-index: 2;
 }
 
+/* Activities grid — linked cards (image + title + blurb). */
+.activity-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5rem;
+}
+.activity-card {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: var(--wc-radius, 14px);
+	background: #fff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+	color: inherit;
+	text-decoration: none;
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.activity-card:hover,
+.activity-card:focus-visible {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+.activity-card__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+}
+.activity-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1.25rem;
+}
+.activity-card__title {
+	font-weight: 700;
+	font-size: 1.05rem;
+	line-height: 1.3;
+}
+.activity-card__text {
+	font-size: 0.95rem;
+	line-height: 1.5;
+	opacity: 0.85;
+}
+@media (max-width: 900px) {
+	.activity-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+	.activity-grid { grid-template-columns: 1fr; }
+}
+
 .gallery,
 .wp-block-gallery.gallery {
 	display: grid;
@@ -1114,6 +1575,17 @@ nav.main-nav a:hover::after {
 	overflow: hidden;
 	position: relative;
 	width: auto !important;
+}
+
+/* Clicking a photo shouldn't leave a ring. Keyboard users still get a
+   branded (not default-blue) ring via :focus-visible. */
+.gallery a:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.gallery a:focus:not(:focus-visible) {
+	outline: none;
 }
 
 /* Fill the cell absolutely so the image never dictates the cell's height.
@@ -1144,6 +1616,126 @@ nav.main-nav a:hover::after {
 	display: flex;
 	justify-content: center;
 	margin-top: 30px;
+}
+
+/* ============================================================
+   Gallery lightbox — modal photo viewer (assets/js/lightbox.js)
+   ============================================================ */
+.wc-lightbox-lock {
+	overflow: hidden;
+}
+
+.wc-lightbox {
+	align-items: center;
+	background: rgba(28, 18, 10, .92);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	opacity: 0;
+	padding: clamp(16px, 4vw, 56px);
+	/* pointer-events flips instantly (it isn't transitioned), so a closed
+	   overlay stops intercepting clicks immediately — independent of the
+	   opacity fade. visibility hides it from focus/a11y once the fade-out
+	   finishes; on open both flip instantly so the fade-in is visible. */
+	pointer-events: none;
+	position: fixed;
+	transition: opacity .3s var(--wc-ease), visibility 0s linear .3s;
+	visibility: hidden;
+	z-index: 1000;
+}
+
+.wc-lightbox.is-open {
+	opacity: 1;
+	pointer-events: auto;
+	transition: opacity .3s var(--wc-ease);
+	visibility: visible;
+}
+
+.wc-lightbox-stage {
+	margin: 0;
+	max-block-size: 100%;
+	max-inline-size: min(1100px, 100%);
+	text-align: center;
+}
+
+.wc-lightbox-img {
+	border-radius: var(--wc-radius);
+	box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8);
+	display: block;
+	margin: 0 auto;
+	max-block-size: 82vh;
+	max-inline-size: 100%;
+	object-fit: contain;
+	transform: scale(.97);
+	transition: transform .3s var(--wc-ease);
+}
+
+.wc-lightbox.is-open .wc-lightbox-img {
+	transform: scale(1);
+}
+
+.wc-lightbox-cap {
+	color: rgba(255, 255, 255, .82);
+	font-size: 14px;
+	margin-top: 14px;
+}
+
+.wc-lightbox-close,
+.wc-lightbox-nav {
+	align-items: center;
+	background: rgba(255, 255, 255, .12);
+	border: 0;
+	border-radius: 999px;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	line-height: 1;
+	padding: 0;
+	position: absolute;
+	transition: background .2s var(--wc-ease), transform .2s var(--wc-ease);
+}
+
+.wc-lightbox-close:hover,
+.wc-lightbox-nav:hover {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.wc-lightbox-close {
+	block-size: 44px;
+	font-size: 28px;
+	inline-size: 44px;
+	inset-block-start: clamp(12px, 3vw, 28px);
+	inset-inline-end: clamp(12px, 3vw, 28px);
+}
+
+.wc-lightbox-nav {
+	block-size: 52px;
+	font-size: 32px;
+	inline-size: 52px;
+	inset-block-start: 50%;
+	transform: translateY(-50%);
+}
+
+.wc-lightbox-nav:hover {
+	transform: translateY(-50%) scale(1.08);
+}
+
+.wc-lightbox-prev {
+	inset-inline-start: clamp(8px, 2vw, 28px);
+}
+
+.wc-lightbox-next {
+	inset-inline-end: clamp(8px, 2vw, 28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wc-lightbox,
+	.wc-lightbox.is-open,
+	.wc-lightbox-img {
+		transition: none;
+	}
 }
 
 .reviews-grid {
@@ -1697,3 +2289,206 @@ nav.main-nav a:hover::after {
 		transition-delay: 0.42s;
 	}
 }
+
+/* ============================================================
+   Photo gallery (CPT) — filter tabs + grid (assets/js/photo-filter.js)
+   ============================================================ */
+.photos .photo-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin: clamp(28px, 4vw, 44px) auto 32px;
+}
+
+.photo-tab {
+	background: transparent;
+	border: 1px solid var(--wc-border);
+	border-radius: 999px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font: inherit;
+	padding: 8px 18px;
+	transition: background .2s var(--wc-ease), color .2s var(--wc-ease), border-color .2s var(--wc-ease);
+}
+
+.photo-tab:hover {
+	border-color: var(--wc-ink);
+}
+
+.photo-tab.is-active {
+	background: var(--wc-yellow);
+	border-color: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+.photo-tab:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.photo-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+	.photo-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 980px) {
+	.photo-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.photo-grid .photo {
+	aspect-ratio: 1 / 1;
+	border-radius: 18px;
+	display: block;
+	overflow: hidden;
+	position: relative;
+}
+
+.photo-grid .photo img {
+	height: 100%;
+	inset: 0;
+	object-fit: cover;
+	position: absolute;
+	transition: transform .8s var(--wc-ease);
+	width: 100%;
+}
+
+.photo-grid .photo:hover img {
+	transform: scale(1.06);
+}
+
+.photo-grid .photo:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 3px;
+}
+
+.photo-grid .photo.is-hidden {
+	display: none;
+}
+
+/* Always-on caption: category + description over a bottom scrim. */
+.photo-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	inset-inline: 0;
+	inset-block-end: 0;
+	padding: 32px 18px 16px;
+	position: absolute;
+	z-index: 2;
+	background: linear-gradient(to top, rgba(28, 18, 10, .82), rgba(28, 18, 10, 0));
+	color: #fff;
+	pointer-events: none;
+}
+
+.photo-cat {
+	color: var(--wc-yellow);
+	font-size: .72rem;
+	font-weight: 700;
+	letter-spacing: .05em;
+	text-transform: uppercase;
+}
+
+.photo-title {
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+/* ============================================================
+   Single activity page (single-wc_activity.html)
+   ============================================================ */
+
+.activity-single-masthead {
+	padding-bottom: clamp(48px, 5vw, 72px);
+}
+
+.wp-block-post-featured-image.activity-single-featured {
+	max-width: min(960px, calc(100vw - var(--wp--style--root--padding-left, 20px) - var(--wp--style--root--padding-right, 20px)));
+	margin-inline: auto;
+	margin-block-start: 0;
+	margin-block-end: clamp(40px, 5vw, 64px);
+	border-radius: var(--r-lg, 20px);
+	overflow: hidden;
+	box-shadow: var(--wp--preset--shadow--medium);
+}
+
+.wp-block-post-featured-image.activity-single-featured img {
+	display: block;
+	width: 100%;
+	object-fit: cover;
+}
+
+.activity-single-content {
+	margin-block-start: 0;
+}
+
+/* Embedded Komoot route maps inside an activity writeup. */
+.activity-map {
+	margin-block: clamp(20px, 3vw, 32px);
+}
+.activity-map iframe {
+	display: block;
+	width: 100%;
+	height: clamp(360px, 60vw, 600px);
+	border: 0;
+	border-radius: var(--r-lg, 14px);
+}
+.activity-map figcaption {
+	margin-block-start: 8px;
+	font-size: 0.9rem;
+}
+
+/* Leaflet locator map (castle + destination) on activity pages. */
+.wc-activity-map {
+	height: clamp(320px, 45vw, 460px);
+	margin-block: clamp(20px, 3vw, 32px);
+	border-radius: var(--r-lg, 14px);
+	overflow: hidden;
+	z-index: 0;
+}
+
+.back-to-activities {
+	margin-block-start: clamp(32px, 4vw, 48px);
+	padding-block-end: clamp(64px, 7vw, 96px);
+}
+
+/* Check-in wizard
+   ------------------------------------------------------------------ */
+/* scroll-margin-top so step-change scrolls clear the fixed site header. */
+/* min-block-size keeps the section from collapsing on short states (the
+   thank-you message, the counts step) so the footer doesn't jump up. */
+.wc-checkin { max-width: 640px; min-block-size: 44svh; scroll-margin-top: calc(var(--wc-header-h) + 1.5rem); }
+.wc-checkin-progress { color: var(--wp--preset--color--muted, #777); font-size: 0.85rem; margin: 0 0 1rem; }
+.wc-checkin-step h2 { margin-top: 0; margin-bottom: 1.5rem; }
+.wc-checkin-intro { margin: 0 0 1.5rem; color: var(--wp--preset--color--muted, #777); }
+.wc-checkin-field { margin-bottom: 1rem; }
+.wc-checkin-field label,
+.wc-checkin-radio legend { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+.wc-checkin-field input,
+.wc-checkin-field select {
+	width: 100%;
+	padding: 0.6rem 0.75rem;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font: inherit;
+}
+.wc-checkin-radio { border: 0; padding: 0; margin: 0 0 1rem; }
+.wc-checkin-radio label { display: inline-flex; align-items: center; gap: 0.25rem; margin-right: 1rem; font-weight: 400; }
+.wc-checkin-error { display: block; color: #b3261e; font-size: 0.85rem; margin-top: 0.25rem; }
+.wc-checkin-nav { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.wc-checkin-consent { display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 1rem; font-weight: 400; line-height: 1.5; }
+/* Fixed-size checkbox nudged to sit on the first text line (flex-start aligns
+   to the line box top, which is above the glyph cap height). */
+.wc-checkin-consent input[type="checkbox"] { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin: 0.2rem 0 0; }
+.wc-checkin-fail { color: #b3261e; margin-top: 1rem; }
+.wc-checkin-done { padding: 2rem 0; font-size: 1.15rem; }

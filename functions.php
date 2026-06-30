@@ -30,6 +30,25 @@ require_once __DIR__ . '/inc/ThemeUpdater.php';
 // or Tools → Seed content). Keeps the homepage in version control, not just the DB.
 require_once __DIR__ . '/inc/seed.php';
 
+// GDPR consent manager: gates third-party embeds + analytics behind opt-in.
+require_once __DIR__ . '/inc/Consent.php';
+
+// Photo gallery: custom post type + taxonomy for the filterable /photos grid.
+require_once __DIR__ . '/inc/Photos.php';
+
+// Activities: public custom post type for the /activities/ page and its singles.
+require_once __DIR__ . '/inc/Activities.php';
+
+// Check-in: private CPT + REST endpoint + Brevo email for guest registration.
+require_once __DIR__ . '/inc/CheckIn.php';
+\PedimentChild\CheckIn::register();
+require_once __DIR__ . '/inc/Brevo.php';
+
+// Section block render helpers (also loaded by individual block render.php files,
+// but required here so helpers are available outside the block rendering path,
+// e.g. in unit tests and direct template includes).
+require_once __DIR__ . '/inc/WorkationSections.php';
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
@@ -72,19 +91,11 @@ add_action(
 add_action(
 	'wp_enqueue_scripts',
 	function () {
-		wp_enqueue_style(
-			'workation-castle-fonts',
-			'https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inria+Sans:wght@300;400;700&display=swap',
-			array(),
-			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google Fonts CSS2 uses repeated family params; WP versioning collapses them.
-			null
-		);
-
 		$style_path = get_stylesheet_directory() . '/style.css';
 		wp_enqueue_style(
 			'pediment-child',
 			get_stylesheet_directory_uri() . '/style.css',
-			array( 'workation-castle-fonts' ),
+			array(),
 			file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' )
 		);
 
@@ -105,6 +116,59 @@ add_action(
 			file_exists( $reveal_js_path ) ? (string) filemtime( $reveal_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
+
+		$lightbox_js_path = get_stylesheet_directory() . '/assets/js/lightbox.js';
+		wp_enqueue_script(
+			'workation-castle-lightbox',
+			get_stylesheet_directory_uri() . '/assets/js/lightbox.js',
+			array(),
+			file_exists( $lightbox_js_path ) ? (string) filemtime( $lightbox_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
+		$photo_filter_js_path = get_stylesheet_directory() . '/assets/js/photo-filter.js';
+		wp_enqueue_script(
+			'workation-castle-photo-filter',
+			get_stylesheet_directory_uri() . '/assets/js/photo-filter.js',
+			array(),
+			file_exists( $photo_filter_js_path ) ? (string) filemtime( $photo_filter_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
+		$booking_newtab_js_path = get_stylesheet_directory() . '/assets/js/booking-newtab.js';
+		wp_enqueue_script(
+			'workation-castle-booking-newtab',
+			get_stylesheet_directory_uri() . '/assets/js/booking-newtab.js',
+			array(),
+			file_exists( $booking_newtab_js_path ) ? (string) filemtime( $booking_newtab_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
+		// Activity locator maps (Leaflet) — only on single activity pages.
+		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
+			wp_enqueue_style(
+				'leaflet',
+				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+				array(),
+				'1.9.4'
+			);
+			wp_enqueue_script(
+				'leaflet',
+				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+				array(),
+				'1.9.4',
+				true
+			);
+
+			$activity_map_js_path = get_stylesheet_directory() . '/assets/js/activity-map.js';
+			wp_enqueue_script(
+				'workation-castle-activity-map',
+				get_stylesheet_directory_uri() . '/assets/js/activity-map.js',
+				array( 'leaflet' ),
+				file_exists( $activity_map_js_path ) ? (string) filemtime( $activity_map_js_path ) : wp_get_theme()->get( 'Version' ),
+				true
+			);
+		}
 	}
 );
 
@@ -147,6 +211,37 @@ function pediment_child_favicon() {
 add_action( 'wp_head', 'pediment_child_favicon' );
 add_action( 'admin_head', 'pediment_child_favicon' );
 add_action( 'login_head', 'pediment_child_favicon' );
+
+/**
+ * Flag pages that have no full-bleed hero behind the fixed header.
+ *
+ * The site header is designed to overlay a cinematic hero — white logo and nav
+ * on a transparent background. On pages without such a hero (most inner pages,
+ * archives, 404, search) that white-on-light is unreadable, and the content
+ * slides up under the fixed header. This adds a `no-hero` body class that the
+ * stylesheet keys both fixes off (solid header + top padding), so the behaviour
+ * is generic and content-driven rather than configured per page. A page counts
+ * as having a hero when it contains the workation-hero or page-hero block —
+ * both render a full-bleed photo the transparent header can overlay.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function pediment_child_body_class( $classes ) {
+	$has_hero = false;
+	if ( is_singular() ) {
+		$post = get_queried_object();
+		if ( $post instanceof WP_Post ) {
+			$has_hero = has_block( 'pediment-child/workation-hero', $post )
+				|| has_block( 'pediment-child/page-hero', $post );
+		}
+	}
+	if ( ! $has_hero ) {
+		$classes[] = 'no-hero';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'pediment_child_body_class' );
 
 /**
  * Resolve the %PEDIMENT_CHILD_THEME_URI% placeholder in static template parts.
@@ -217,17 +312,4 @@ add_filter(
 	},
 	10,
 	3
-);
-
-add_action(
-	'enqueue_block_editor_assets',
-	function () {
-		wp_enqueue_style(
-			'workation-castle-editor-fonts',
-			'https://fonts.googleapis.com/css2?family=Inria+Serif:wght@300;400;700&family=Inria+Sans:wght@300;400;700&display=swap',
-			array(),
-			// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google Fonts CSS2 uses repeated family params; WP versioning collapses them.
-			null
-		);
-	}
 );

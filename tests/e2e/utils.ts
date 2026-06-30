@@ -1,6 +1,27 @@
 import { Page, FrameLocator, expect } from '@playwright/test';
 
 /**
+ * Seed a granted-consent cookie so the blocking GDPR consent modal does not
+ * appear. Call in a beforeEach (before page.goto) for front-end specs that are
+ * not themselves testing the consent flow. Uses a fixed timestamp — the cookie
+ * only needs a version matching the consent manager (1) to be treated as valid.
+ */
+export async function seedConsent(page: Page) {
+  const value = encodeURIComponent(
+    JSON.stringify({
+      version: 1,
+      timestamp: 1750000000,
+      functional: true,
+      analytics: true,
+      marketing: true,
+    }),
+  );
+  await page.context().addCookies([
+    { name: 'wc_consent', value, url: 'http://localhost:8890' },
+  ]);
+}
+
+/**
  * Returns a locator scope for the editor canvas — the iframe in WP 6.5+ block
  * themes, or the page itself in classic / non-iframed setups.
  *
