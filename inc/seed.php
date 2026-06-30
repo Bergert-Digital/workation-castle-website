@@ -131,14 +131,34 @@ class Seed {
 			$log[] = 'Front page set to page ID ' . $ids['home'] . '.';
 		}
 
+		global $wp_rewrite;
 		if ( '' === get_option( 'permalink_structure' ) ) {
-			update_option( 'permalink_structure', '/%postname%/' );
+			// set_permalink_structure() updates the option *and* refreshes the
+			// in-memory WP_Rewrite (a bare update_option() would leave it
+			// holding the stale plain structure it was built with).
+			$wp_rewrite->set_permalink_structure( '/%postname%/' );
 			$log[] = 'Permalink structure set to /%postname%/.';
+
+			// On a virgin install permalinks start plain (''), and
+			// WP_Post_Type::add_rewrite_rules() only registers a CPT's
+			// permastruct when is_admin() || permalink_structure is non-empty.
+			// Under WP-CLI neither held at `init`, so the wc_activity
+			// permastruct was never added — switching to pretty permalinks and
+			// flushing can't emit rules that don't exist. Re-register every
+			// post type's and taxonomy's rewrite rules now that the structure
+			// is pretty, so the flush below actually produces the public
+			// /activities/<slug>/ singles instead of 404ing until a later,
+			// separate-process flush.
+			foreach ( get_post_types( array(), 'objects' ) as $post_type_object ) {
+				$post_type_object->add_rewrite_rules();
+			}
+			foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy_object ) {
+				$taxonomy_object->add_rewrite_rules();
+			}
 		}
 
-		// Always flush so newly registered CPT rewrite rules (e.g. the public
-		// wc_activity singles at /activities/<slug>/) take effect on existing
-		// installs, not only on a virgin one.
+		// Always flush so the CPT rewrite rules (the public wc_activity singles
+		// at /activities/<slug>/) take effect on existing installs too.
 		flush_rewrite_rules( true );
 		$log[] = 'Rewrite rules flushed.';
 
