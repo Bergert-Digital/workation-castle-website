@@ -36,6 +36,38 @@ function sprintf2( tmpl: string, a: number, b: number ): string {
 	return tmpl.replace( '%1$d', String( a ) ).replace( '%2$d', String( b ) );
 }
 
+/** Today as YYYY-MM-DD, used as the max for birthdate inputs. */
+function todayISO(): string {
+	const d = new Date();
+	const mm = String( d.getMonth() + 1 ).padStart( 2, '0' );
+	const dd = String( d.getDate() ).padStart( 2, '0' );
+	return `${ d.getFullYear() }-${ mm }-${ dd }`;
+}
+
+/**
+ * True for a real calendar date in YYYY-MM-DD form that is not in the future.
+ * Mirrors the server's checkdate()+not-future rule so the wizard rejects bad
+ * dates per-step instead of failing opaquely at submit.
+ * @param v
+ */
+function isValidPastDate( v: string ): boolean {
+	if ( ! /^\d{4}-\d{2}-\d{2}$/.test( v ) ) {
+		return false;
+	}
+	const [ y, m, dd ] = v.split( '-' ).map( Number );
+	const d = new Date( y, m - 1, dd );
+	if (
+		d.getFullYear() !== y ||
+		d.getMonth() !== m - 1 ||
+		d.getDate() !== dd
+	) {
+		return false;
+	}
+	const today = new Date();
+	today.setHours( 0, 0, 0, 0 );
+	return d.getTime() <= today.getTime();
+}
+
 function el< K extends keyof HTMLElementTagNameMap >(
 	tag: K,
 	attrs: Record< string, string > = {},
@@ -192,11 +224,15 @@ class Wizard {
 				);
 				wrap.appendChild( group );
 			} else {
-				const input = el( 'input', {
+				const attrs: Record< string, string > = {
 					type: f.type,
 					name: f.key,
 					value: existing[ f.key ] || '',
-				} );
+				};
+				if ( f.type === 'date' ) {
+					attrs.max = todayISO();
+				}
+				const input = el( 'input', attrs );
 				wrap.appendChild( this.field( f.label, input, f.key ) );
 			}
 		} );
@@ -325,14 +361,14 @@ class Wizard {
 			} );
 	}
 
-	private showError( name: string ): void {
+	private showError( name: string, message?: string ): void {
 		const fieldEl =
 			this.root.querySelector(
 				`[data-field="${ name }"] .wc-checkin-error`
 			) ||
 			this.root.querySelector( '.wc-checkin-radio .wc-checkin-error' );
 		if ( fieldEl ) {
-			fieldEl.textContent = this.cfg.strings.errorRequired;
+			fieldEl.textContent = message || this.cfg.strings.errorRequired;
 			( fieldEl as HTMLElement ).hidden = false;
 		}
 	}
@@ -373,6 +409,13 @@ class Wizard {
 				const val = this.value( f.key );
 				if ( f.required && ! val ) {
 					this.showError( f.key );
+					ok = false;
+				} else if (
+					f.type === 'date' &&
+					val &&
+					! isValidPastDate( val )
+				) {
+					this.showError( f.key, this.cfg.strings.errorBirthdate );
 					ok = false;
 				}
 				data[ f.key ] = val;
@@ -464,10 +507,60 @@ class Wizard {
 				this.done();
 				return;
 			}
+			if (
+				data &&
+				data.errors &&
+				this.handleServerErrors( data.errors )
+			) {
+				return;
+			}
 			this.fail();
 		} catch ( e ) {
 			this.fail();
 		}
+	}
+
+	/**
+	 * Map a server validation error back to its step, jump there, and show the
+	 * field message — so a rejected submit tells the guest exactly what to fix
+	 * instead of an opaque "something went wrong". Returns false if the errors
+	 * can't be mapped (caller falls back to the generic message).
+	 * @param errors
+	 */
+	private handleServerErrors( errors: Record< string, string > ): boolean {
+		const keys = Object.keys( errors );
+		if ( ! keys.length ) {
+			return false;
+		}
+		const key = keys[ 0 ];
+		const message = errors[ key ];
+
+		let targetStep: number;
+		let fieldName = '';
+		if ( key === 'counts' ) {
+			targetStep = 0;
+			fieldName = 'guest_count';
+		} else if ( key === 'consent' ) {
+			targetStep = this.totalSteps() - 1;
+		} else {
+			const m = key.match( /^(guests|ids)\.(\d+)\.(.+)$/ );
+			if ( ! m ) {
+				return false;
+			}
+			const idx = parseInt( m[ 2 ], 10 );
+			fieldName = m[ 3 ];
+			targetStep =
+				m[ 1 ] === 'guests' ? 1 + idx : 1 + this.guestCount + idx;
+		}
+
+		this.step = targetStep;
+		this.render();
+		if ( fieldName ) {
+			this.showError( fieldName, message );
+		} else {
+			this.fail();
+		}
+		return true;
 	}
 
 	private done(): void {

@@ -100,6 +100,62 @@ test( 'truncates stale guest data when count is reduced after going Back', async
 	expect( capturedBody!.guests.length ).toBe( 1 );
 } );
 
+test( 'blocks a future birthdate client-side', async ( { page } ) => {
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+
+	// Everything valid except a birthdate in the future.
+	await page.fill( 'input[name="first_name"]', 'Jane' );
+	await page.fill( 'input[name="last_name"]', 'Doe' );
+	await page.fill( 'input[name="nationality"]', 'British' );
+	await page.fill( 'input[name="residence_city"]', 'London' );
+	await page.fill( 'input[name="birthdate"]', '2999-01-01' );
+	await page.fill( 'input[name="birth_city"]', 'Leeds' );
+	await page.check( 'input[name="gender"][value="female"]' );
+	await page.click( '.wc-checkin-next' );
+
+	// Stays on the guest step with a birthdate error — never reaches the ID step.
+	await expect( page.locator( 'input[name="first_name"]' ) ).toBeVisible();
+	await expect(
+		page.locator( '[data-field="birthdate"] .wc-checkin-error' )
+	).toBeVisible();
+} );
+
+test( 'surfaces a server validation error on the offending step', async ( { page } ) => {
+	// Server rejects with a field error; the wizard should jump back to that
+	// guest and show the message instead of an opaque generic failure.
+	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+		route.fulfill( {
+			status: 400,
+			contentType: 'application/json',
+			body: JSON.stringify( {
+				ok: false,
+				errors: { 'guests.0.birthdate': 'Enter a valid birthdate.' },
+			} ),
+		} )
+	);
+
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '1' );
+	await page.fill( 'input[name="house_count"]', '1' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Jane', 'Doe' );
+	await page.click( '.wc-checkin-next' );
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', 'X1234567' );
+	await page.click( '.wc-checkin-next' );
+	await page.check( '.wc-checkin-consent input[type="checkbox"]' );
+	await page.click( '.wc-checkin-submit' );
+
+	// Jumped back to guest 1 with the server's exact message on the field.
+	await expect( page.locator( 'input[name="first_name"]' ) ).toBeVisible();
+	const err = page.locator( '[data-field="birthdate"] .wc-checkin-error' );
+	await expect( err ).toBeVisible();
+	await expect( err ).toHaveText( 'Enter a valid birthdate.' );
+} );
+
 test( 'step validation blocks advancing with empty required fields', async ( { page } ) => {
 	await page.goto( '/check-in/' );
 	await page.fill( 'input[name="guest_count"]', '1' );
