@@ -5,7 +5,8 @@ import { login, openNewPage, publishAndGetPermalink } from './utils';
 // Non-live regression guard for publishAndGetPermalink: the returned URL must
 // resolve on the front-end regardless of the site's permalink structure
 // (the wp-env default is plain permalinks, where slug-path URLs 404 at Apache).
-// Needs the wp-env at :8890 like smoke.spec.ts; spends zero AI tokens.
+// Needs a running wp-env (baseURL comes from playwright.config) like
+// smoke.spec.ts; spends zero AI tokens.
 test('publishAndGetPermalink returns a front-end-resolvable URL', async ({ page }) => {
   test.setTimeout(90_000);
 
