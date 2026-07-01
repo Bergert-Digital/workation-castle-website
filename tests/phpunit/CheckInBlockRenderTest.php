@@ -11,4 +11,12 @@ class CheckInBlockRenderTest extends WP_UnitTestCase {
 		// Config JSON includes the caps from CheckIn::config().
 		$this->assertStringContainsString( '"maxGuests":20', $html );
 	}
+
+	public function test_config_includes_draft_resume_strings() {
+		$config = \PedimentChild\CheckIn::config();
+		$this->assertArrayHasKey( 'restoredNotice', $config['strings'] );
+		$this->assertArrayHasKey( 'startOver', $config['strings'] );
+		$this->assertNotEmpty( $config['strings']['restoredNotice'] );
+		$this->assertNotEmpty( $config['strings']['startOver'] );
+	}
 }

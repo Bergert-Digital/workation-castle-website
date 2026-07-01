@@ -19,14 +19,12 @@ require_once $_tests_dir . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	function () {
-		$themes_dir = dirname( __DIR__, 3 );
-		if ( is_dir( $themes_dir . '/accra' ) ) {
-			$theme_slug = 'accra';
-		} elseif ( is_dir( $themes_dir . '/tacoma' ) ) {
-			$theme_slug = 'tacoma';
-		} else {
-			$theme_slug = 'pediment-child-theme';
-		}
+		// The child theme is mounted under its host directory's basename
+		// (wp-env names the mount after the checkout folder), which varies
+		// per Conductor workspace (madrid, accra, tacoma, …). Derive the slug
+		// from this file's own location rather than a hardcoded allowlist, so
+		// the harness loads the theme whatever the workspace is called.
+		$theme_slug = basename( dirname( __DIR__, 2 ) );
 		switch_theme( $theme_slug );
 	}
 );
