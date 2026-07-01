@@ -2496,6 +2496,7 @@ body.parent-pageid-179 .starter-steps {
 /* Range date picker (availability form) ----------------------------------- */
 .wc-rangepicker {
 	position: relative;
+	z-index: 1;
 }
 
 .wc-rangepicker__field {
@@ -2528,11 +2529,11 @@ body.parent-pageid-179 .starter-steps {
 	border-radius: var(--wc-radius-lg);
 	box-shadow: 0 24px 60px -20px rgba(20, 10, 2, .55);
 	color: var(--wc-ink);
-	inset-block-start: calc(100% + 10px);
-	inset-inline-start: 0;
 	padding: 16px;
-	position: absolute;
-	z-index: 40;
+	/* JS sets position:fixed + inset-block-start/inset-inline-start so the pop
+	   escapes any containing stacking context (hero section, fixed header). */
+	position: fixed;
+	z-index: 9999;
 }
 
 .wc-rangepicker__nav {
@@ -2610,9 +2611,5 @@ body.parent-pageid-179 .starter-steps {
 @media (max-width: 699px) {
 	.wc-rangepicker__grids {
 		flex-direction: column;
-	}
-
-	.wc-rangepicker__pop {
-		inset-inline: 0;
 	}
 }
