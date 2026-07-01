@@ -2,6 +2,12 @@
 
 class AvailabilityFormRenderTest extends WP_UnitTestCase {
 
+	public function setUp(): void {
+		parent::setUp();
+		// Allow get_block_wrapper_attributes() to run outside a block render context.
+		WP_Block_Supports::$block_to_render = array( 'blockName' => '', 'attrs' => array() );
+	}
+
 	public function test_renders_range_picker_root_and_native_fallback_inputs() {
 		$html = pediment_child_render_availability_form( array() );
 		$this->assertStringContainsString( 'class="avail-field wc-rangepicker"', $html );
@@ -40,6 +46,29 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 	public function test_form_action_defaults_to_booking_url() {
 		$html = pediment_child_render_availability_form( array() );
 		$this->assertStringContainsString( 'action="https://workationcastle.holiduhost.com/"', $html );
+	}
+
+	public function test_hero_chrome_uses_shared_availability_form() {
+		$html = pediment_child_workation_hero_chrome(
+			array( 'headline' => 'Stay', 'primaryText' => 'Check availability' ),
+			''
+		);
+		$this->assertStringContainsString( 'wc-rangepicker', $html );
+		$this->assertStringContainsString( 'data-role="checkin"', $html );
+		$this->assertStringContainsString( 'data-role="checkout"', $html );
+	}
+
+	public function test_hero_chrome_forwards_booking_params() {
+		$html = pediment_child_workation_hero_chrome(
+			array(
+				'bookingUrl'   => 'https://example.test/book',
+				'checkInParam' => 'arrivalDate',
+				'primaryText'  => 'Book',
+			),
+			''
+		);
+		$this->assertStringContainsString( 'action="https://example.test/book"', $html );
+		$this->assertStringContainsString( 'name="arrivalDate"', $html );
 	}
 
 	public function test_l10n_pulls_calendar_names_from_wp_locale() {

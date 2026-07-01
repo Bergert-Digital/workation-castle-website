@@ -283,13 +283,18 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 				<?php if ( '' !== $lead ) : ?>
 					<p class="lede"><?php echo wp_kses_post( $lead ); ?></p>
 				<?php endif; ?>
-				<form class="avail" method="get" action="<?php echo esc_url( $booking_url ); ?>" aria-label="<?php esc_attr_e( 'Check availability', 'pediment-child' ); ?>">
-					<div class="avail-field"><label for="arrival"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Arrival', 'pediment-child' ); ?></label><input type="date" id="arrival" name="<?php echo esc_attr( $check_in_param ); ?>"></div>
-					<div class="avail-field"><label for="departure"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Departure', 'pediment-child' ); ?></label><input type="date" id="departure" name="<?php echo esc_attr( $check_out_param ); ?>"></div>
-					<div class="avail-field select-wrap"><label for="guests"><span class="avail-icon avail-icon--guest" aria-hidden="true"></span> <?php esc_html_e( 'Guests', 'pediment-child' ); ?></label><select id="guests" name="<?php echo esc_attr( $adults_param ); ?>"><option value="2"><?php esc_html_e( '2 guests', 'pediment-child' ); ?></option><option value="1"><?php esc_html_e( '1 guest', 'pediment-child' ); ?></option><option value="3"><?php esc_html_e( '3 guests', 'pediment-child' ); ?></option><option value="4"><?php esc_html_e( '4 guests', 'pediment-child' ); ?></option><option value="5"><?php esc_html_e( '5 guests', 'pediment-child' ); ?></option><option value="6"><?php esc_html_e( '6 guests', 'pediment-child' ); ?></option><option value="7"><?php esc_html_e( '7 guests', 'pediment-child' ); ?></option><option value="8"><?php esc_html_e( '8 guests', 'pediment-child' ); ?></option><option value="9"><?php esc_html_e( '9 guests', 'pediment-child' ); ?></option></select></div>
-					<input type="hidden" name="<?php echo esc_attr( $children_param ); ?>" value="">
-					<div class="avail-submit"><button type="submit" class="wc-btn wc-btn-yellow"><?php echo esc_html( $primary_text ); ?> <span class="arr" aria-hidden="true">→</span></button></div>
-				</form>
+				<?php
+				echo pediment_child_render_availability_form( // phpcs:ignore WordPress.Security.EscapeOutput
+					array(
+						'booking_url'     => $booking_url,
+						'check_in_param'  => $check_in_param,
+						'check_out_param' => $check_out_param,
+						'adults_param'    => $adults_param,
+						'children_param'  => $children_param,
+						'submit_text'     => $primary_text,
+					)
+				);
+				?>
 				<div class="hero-secondary"><a href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?></a></div>
 				<div class="hero-chips"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 			</div>
