@@ -8,6 +8,8 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'wc-rangepicker__fallback', $html );
 		$this->assertStringContainsString( 'data-role="checkin"', $html );
 		$this->assertStringContainsString( 'data-role="checkout"', $html );
+		$this->assertSame( 1, substr_count( $html, 'data-role="checkin"' ) );
+		$this->assertSame( 1, substr_count( $html, 'data-role="checkout"' ) );
 	}
 
 	public function test_native_inputs_use_default_param_names() {
@@ -46,7 +48,10 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 		$this->assertCount( 12, $data['monthsShort'] );
 		$this->assertCount( 7, $data['weekdaysShort'] );
 		// Sunday-first: index 0 is the locale's word for Sunday.
-		$this->assertSame( $GLOBALS['wp_locale']->get_weekday( 0 ), $data['weekdaysShort'][0] === '' ? '' : $GLOBALS['wp_locale']->get_weekday( 0 ) );
+		$this->assertSame(
+			$GLOBALS['wp_locale']->get_weekday_abbrev( $GLOBALS['wp_locale']->get_weekday( 0 ) ),
+			$data['weekdaysShort'][0]
+		);
 		$this->assertSame( $GLOBALS['wp_locale']->month['01'], $data['months'][0] );
 		$this->assertArrayHasKey( 'addDates', $data['i18n'] );
 	}
