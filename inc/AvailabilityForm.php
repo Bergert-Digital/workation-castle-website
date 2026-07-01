@@ -114,8 +114,10 @@ function pediment_child_range_picker_l10n(): array {
 			'clear'       => __( 'Clear', 'pediment-child' ),
 			'close'       => __( 'Close', 'pediment-child' ),
 			'dialogLabel' => __( 'Choose your dates', 'pediment-child' ),
+			'nextMonth'   => __( 'Next month', 'pediment-child' ),
 			'night'       => __( 'night', 'pediment-child' ),
 			'nights'      => __( 'nights', 'pediment-child' ),
+			'prevMonth'   => __( 'Previous month', 'pediment-child' ),
 		),
 	);
 }

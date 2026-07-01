@@ -191,14 +191,14 @@
 		var nav = document.createElement( 'div' );
 		nav.className = 'wc-rangepicker__nav';
 
-		var prev = navButton( '‹', L.i18n.close );
+		var prev = navButton( '‹', L.i18n.prevMonth );
 		prev.className = 'wc-rangepicker__prev';
 		prev.addEventListener( 'click', function () {
 			self.view = addMonths( self.view, -1 );
 			self.render();
 		} );
 
-		var next = navButton( '›', '' );
+		var next = navButton( '›', L.i18n.nextMonth );
 		next.className = 'wc-rangepicker__next';
 		next.addEventListener( 'click', function () {
 			self.view = addMonths( self.view, 1 );
