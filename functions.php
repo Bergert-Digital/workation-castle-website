@@ -48,6 +48,7 @@ require_once __DIR__ . '/inc/Brevo.php';
 // but required here so helpers are available outside the block rendering path,
 // e.g. in unit tests and direct template includes).
 require_once __DIR__ . '/inc/WorkationSections.php';
+require_once __DIR__ . '/inc/AvailabilityForm.php';
 
 /**
  * Register every block in the given directory (defaults to build/blocks).

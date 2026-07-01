@@ -1,0 +1,53 @@
+<?php
+
+class AvailabilityFormRenderTest extends WP_UnitTestCase {
+
+	public function test_renders_range_picker_root_and_native_fallback_inputs() {
+		$html = pediment_child_render_availability_form( array() );
+		$this->assertStringContainsString( 'class="avail-field wc-rangepicker"', $html );
+		$this->assertStringContainsString( 'wc-rangepicker__fallback', $html );
+		$this->assertStringContainsString( 'data-role="checkin"', $html );
+		$this->assertStringContainsString( 'data-role="checkout"', $html );
+	}
+
+	public function test_native_inputs_use_default_param_names() {
+		$html = pediment_child_render_availability_form( array() );
+		$this->assertStringContainsString( 'name="checkIn"', $html );
+		$this->assertStringContainsString( 'name="checkOut"', $html );
+		$this->assertStringContainsString( 'name="adults"', $html );
+	}
+
+	public function test_param_names_are_overridable() {
+		$html = pediment_child_render_availability_form(
+			array( 'check_in_param' => 'arrivalDate', 'check_out_param' => 'departureDate' )
+		);
+		$this->assertStringContainsString( 'name="arrivalDate"', $html );
+		$this->assertStringContainsString( 'name="departureDate"', $html );
+		// data-role stays stable so the script still finds the inputs.
+		$this->assertStringContainsString( 'data-role="checkin"', $html );
+	}
+
+	public function test_trigger_is_hidden_for_no_js_fallback() {
+		$html = pediment_child_render_availability_form( array() );
+		$this->assertMatchesRegularExpression(
+			'/<button[^>]*class="wc-rangepicker__field"[^>]*hidden/',
+			$html
+		);
+	}
+
+	public function test_form_action_defaults_to_booking_url() {
+		$html = pediment_child_render_availability_form( array() );
+		$this->assertStringContainsString( 'action="https://workationcastle.holiduhost.com/"', $html );
+	}
+
+	public function test_l10n_pulls_calendar_names_from_wp_locale() {
+		$data = pediment_child_range_picker_l10n();
+		$this->assertCount( 12, $data['months'] );
+		$this->assertCount( 12, $data['monthsShort'] );
+		$this->assertCount( 7, $data['weekdaysShort'] );
+		// Sunday-first: index 0 is the locale's word for Sunday.
+		$this->assertSame( $GLOBALS['wp_locale']->get_weekday( 0 ), $data['weekdaysShort'][0] === '' ? '' : $GLOBALS['wp_locale']->get_weekday( 0 ) );
+		$this->assertSame( $GLOBALS['wp_locale']->month['01'], $data['months'][0] );
+		$this->assertArrayHasKey( 'addDates', $data['i18n'] );
+	}
+}
