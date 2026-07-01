@@ -89,4 +89,14 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 		$this->assertSame( $GLOBALS['wp_locale']->month['01'], $data['months'][0] );
 		$this->assertArrayHasKey( 'addDates', $data['i18n'] );
 	}
+
+	public function test_range_picker_script_is_enqueued_and_localized() {
+		do_action( 'wp_enqueue_scripts' );
+		$this->assertTrue( wp_script_is( 'workation-castle-range-picker', 'enqueued' ) );
+		$data = wp_scripts()->get_data( 'workation-castle-range-picker', 'data' );
+		$this->assertIsString( $data );
+		$this->assertStringContainsString( 'wcRangePicker', $data );
+		$this->assertStringContainsString( 'monthsShort', $data );
+		$this->assertStringContainsString( 'startOfWeek', $data );
+	}
 }

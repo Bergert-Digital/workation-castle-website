@@ -2492,3 +2492,127 @@ body.parent-pageid-179 .starter-steps {
 .wc-checkin-consent input[type="checkbox"] { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin: 0.2rem 0 0; }
 .wc-checkin-fail { color: #b3261e; margin-top: 1rem; }
 .wc-checkin-done { padding: 2rem 0; font-size: 1.15rem; }
+
+/* Range date picker (availability form) ----------------------------------- */
+.wc-rangepicker {
+	position: relative;
+}
+
+.wc-rangepicker__field {
+	align-items: center;
+	background: rgba(255, 255, 255, .1);
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-radius: 14px;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	font-family: "Inria Sans", sans-serif;
+	font-size: .98rem;
+	gap: .6em;
+	inline-size: 100%;
+	padding: .78em .9em;
+	text-align: start;
+	transition: border-color .3s, background .3s;
+}
+
+.wc-rangepicker__field:hover,
+.wc-rangepicker__field:focus-visible {
+	background: rgba(255, 255, 255, .16);
+	border-color: var(--wc-yellow);
+	outline: none;
+}
+
+.wc-rangepicker__pop {
+	background: var(--wc-cream);
+	border: 1px solid var(--wc-border);
+	border-radius: var(--wc-radius-lg);
+	box-shadow: 0 24px 60px -20px rgba(20, 10, 2, .55);
+	color: var(--wc-ink);
+	inset-block-start: calc(100% + 10px);
+	inset-inline-start: 0;
+	padding: 16px;
+	position: absolute;
+	z-index: 40;
+}
+
+.wc-rangepicker__nav {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.wc-rangepicker__nav button {
+	background: none;
+	border: 1px solid var(--wc-border);
+	border-radius: 999px;
+	block-size: 34px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font-size: 1.2rem;
+	inline-size: 34px;
+	line-height: 1;
+}
+
+.wc-rangepicker__grids {
+	display: flex;
+	gap: 22px;
+}
+
+.wc-rangepicker__caption {
+	font-weight: 700;
+	margin-bottom: 8px;
+	text-align: center;
+}
+
+.wc-rangepicker__weekdays,
+.wc-rangepicker__days {
+	display: grid;
+	grid-template-columns: repeat(7, 40px);
+}
+
+.wc-rangepicker__weekdays span {
+	color: var(--wc-ink-soft);
+	font-size: .72rem;
+	padding-block: 4px;
+	text-align: center;
+}
+
+.wc-rangepicker__day {
+	aspect-ratio: 1;
+	background: none;
+	border: 0;
+	border-radius: 999px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font: inherit;
+}
+
+.wc-rangepicker__day:hover:not([disabled]) {
+	background: var(--wc-cream-deep);
+}
+
+.wc-rangepicker__day[disabled] {
+	color: var(--wc-border);
+	cursor: default;
+}
+
+.wc-rangepicker__day.is-in-range {
+	background: var(--wc-cream-deep);
+	border-radius: 0;
+}
+
+.wc-rangepicker__day.is-start,
+.wc-rangepicker__day.is-end {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+@media (max-width: 699px) {
+	.wc-rangepicker__grids {
+		flex-direction: column;
+	}
+
+	.wc-rangepicker__pop {
+		inset-inline: 0;
+	}
+}

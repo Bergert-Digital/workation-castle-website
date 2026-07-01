@@ -145,6 +145,16 @@ add_action(
 			true
 		);
 
+		$range_picker_js_path = get_stylesheet_directory() . '/assets/js/range-picker.js';
+		wp_enqueue_script(
+			'workation-castle-range-picker',
+			get_stylesheet_directory_uri() . '/assets/js/range-picker.js',
+			array(),
+			file_exists( $range_picker_js_path ) ? (string) filemtime( $range_picker_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', pediment_child_range_picker_l10n() );
+
 		// Activity locator maps (Leaflet) — only on single activity pages.
 		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
 			wp_enqueue_style(
