@@ -8,6 +8,11 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 		WP_Block_Supports::$block_to_render = array( 'blockName' => '', 'attrs' => array() );
 	}
 
+	public function tearDown(): void {
+		WP_Block_Supports::$block_to_render = null;
+		parent::tearDown();
+	}
+
 	public function test_renders_range_picker_root_and_native_fallback_inputs() {
 		$html = pediment_child_render_availability_form( array() );
 		$this->assertStringContainsString( 'class="avail-field wc-rangepicker"', $html );
