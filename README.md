@@ -80,6 +80,8 @@ composer lint
 npm run check:wpenv-deps     # verify .wp-env.json refs are at latest upstream tags
 ```
 
+`env:start`/`env:setup` assign this workspace a **random free port** on first boot and persist it to the gitignored `.wp-env.override.json` (reused on every later boot, so the URL stays stable). This keeps parallel Conductor workspaces from all colliding on the default `8890`. The chosen URL is printed at boot; Playwright's `baseURL` reads the same file (override `WP_BASE_URL` to point elsewhere). Delete `.wp-env.override.json` to re-roll the port.
+
 ### Dev mode vs. publish mode
 
 The committed `.wp-env.json` always pins the published release zips (**publish mode**) — that's the push-ready config and the one CI's currency check validates. For parallel development across the three repos, switch to **dev mode**, which mounts the sibling working copies (`../pediment`, `../pediment-ai`) instead:
