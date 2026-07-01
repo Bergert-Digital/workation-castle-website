@@ -2592,6 +2592,12 @@ body.parent-pageid-179 .starter-steps {
 	background: var(--wc-cream-deep);
 }
 
+.wc-rangepicker__day:focus-visible,
+.wc-rangepicker__nav button:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 2px;
+}
+
 .wc-rangepicker__day[disabled] {
 	color: var(--wc-border);
 	cursor: default;
