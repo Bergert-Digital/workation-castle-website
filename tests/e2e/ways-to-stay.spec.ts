@@ -79,12 +79,12 @@ test.describe('Ways to Stay', () => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/ways-to-stay/');
     const dropdown = page
-      .locator('.main-nav .has-dropdown')
+      .locator('.site-header .wp-block-navigation-submenu')
       .filter({ hasText: 'Ways to stay' });
-    const trigger = dropdown.locator('> a.nav-dropdown-trigger');
+    const trigger = dropdown.locator('> a.wp-block-navigation-item__content');
     await expect(trigger).toHaveAttribute('href', '/ways-to-stay/');
     await expect(trigger).toContainText('Ways to stay');
-    const items = dropdown.locator('.nav-dropdown a');
+    const items = dropdown.locator('.wp-block-navigation__submenu-container a');
     await expect(items).toHaveCount(3);
     await expect(items.nth(0)).toHaveAttribute('href', '/ways-to-stay/team-retreats/');
     await expect(items.nth(1)).toHaveAttribute('href', '/ways-to-stay/workations/');

@@ -82,12 +82,12 @@ test.describe('Guest Guide', () => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
     const guideDropdown = page
-      .locator('.main-nav .has-dropdown')
+      .locator('.site-header .wp-block-navigation-submenu')
       .filter({ hasText: 'Guest Guide' });
-    const trigger = guideDropdown.locator('> a.nav-dropdown-trigger');
+    const trigger = guideDropdown.locator('> a.wp-block-navigation-item__content');
     await expect(trigger).toHaveAttribute('href', '/guide/');
     await expect(trigger).toContainText('Guest Guide');
-    const items = guideDropdown.locator('.nav-dropdown a');
+    const items = guideDropdown.locator('.wp-block-navigation__submenu-container a');
     await expect(items).toHaveCount(4);
     await expect(items.nth(0)).toHaveAttribute('href', '/guide/arrival/');
     await expect(items.nth(1)).toHaveAttribute('href', '/check-in/');
@@ -99,13 +99,13 @@ test.describe('Guest Guide', () => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
     const guideDropdown = page
-      .locator('.main-nav .has-dropdown')
+      .locator('.site-header .wp-block-navigation-submenu')
       .filter({ hasText: 'Guest Guide' });
     // Reveal the panel (CSS :hover/:focus-within) so the link is rendered.
     await guideDropdown.hover();
-    const firstItem = guideDropdown.locator('.nav-dropdown a').first();
+    const firstItem = guideDropdown.locator('.wp-block-navigation__submenu-container a').first();
     const color = await firstItem.evaluate((el) => getComputedStyle(el).color);
-    // Must be the dark panel colour (#2a2420 → rgb(42, 36, 32)), never white.
-    expect(color).toBe('rgb(42, 36, 32)');
+    // Must be the dark panel colour (--wc-ink #241C12 → rgb(36, 28, 18)), never white.
+    expect(color).toBe('rgb(36, 28, 18)');
   });
 });
