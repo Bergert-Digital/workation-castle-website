@@ -41,3 +41,42 @@ function pediment_child_primary_nav_blocks(): string {
 		)
 	);
 }
+
+/**
+ * Bind the header's Primary menu by slug at render time.
+ *
+ * The file-based header template part cannot hardcode a wp_navigation post ID
+ * (IDs differ per environment / after re-seed). The header ships a ref-less
+ * core/navigation block; this resolves the "primary" menu's ID and injects it.
+ * When no such menu exists, the block is emptied so it renders nothing instead
+ * of core's all-pages Page List fallback. Scoped to ref-less navigation blocks
+ * so an explicitly-referenced menu elsewhere is left alone.
+ *
+ * @param array $block Parsed block (render_block_data).
+ * @return array
+ */
+function pediment_child_inject_primary_nav_ref( array $block ): array {
+	if ( 'core/navigation' !== ( isset( $block['blockName'] ) ? $block['blockName'] : '' ) ) {
+		return $block;
+	}
+	if ( ! empty( $block['attrs']['ref'] ) ) {
+		return $block;
+	}
+	$menu = get_posts(
+		array(
+			'post_type'        => 'wp_navigation',
+			'name'             => 'primary',
+			'post_status'      => 'publish',
+			'numberposts'      => 1,
+			'suppress_filters' => false,
+		)
+	);
+	if ( empty( $menu ) ) {
+		$block['innerBlocks']  = array();
+		$block['innerContent'] = array();
+		return $block;
+	}
+	$block['attrs']['ref'] = (int) $menu[0]->ID;
+	return $block;
+}
+add_filter( 'render_block_data', 'pediment_child_inject_primary_nav_ref' );
