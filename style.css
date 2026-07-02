@@ -2515,3 +2515,65 @@ body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__conten
 .site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation__responsive-container-close {
 	color: #fff;
 }
+
+/* Submenu caret matches the top-level link colour (core renders it dark by
+   default): white over the transparent hero header, dark ink once scrolled or
+   on hero-less pages, white again inside the dark mobile overlay. */
+.site-header .wp-block-navigation__submenu-icon {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__submenu-icon,
+body.no-hero .site-header .wp-block-navigation__submenu-icon {
+	color: var(--wc-ink);
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation__submenu-icon {
+	color: #fff;
+}
+
+.site-header .wp-block-navigation__submenu-icon svg {
+	fill: currentColor;
+}
+
+/* Animated yellow underline on hover, top-level links only (the growing bar
+   the custom nav used to have). Scoped to direct children of the top-level
+   container so dropdown items are excluded; suppressed inside the mobile
+   overlay where links are stacked. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content {
+	position: relative;
+}
+
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content::after {
+	background: var(--wc-yellow);
+	block-size: 2px;
+	bottom: -2px;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content:hover::after,
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content:focus-visible::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content::after {
+	display: none;
+}
+
+/* Collapse to the native hamburger up to 899px (matching the old nav's
+   breakpoint). Core only collapses below 600px, which left the links crammed
+   inline with no way to open a menu on tablet / narrow-desktop widths. */
+@media (min-width: 600px) and (max-width: 899px) {
+	.site-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
+		display: flex;
+	}
+
+	.site-header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open):not(.hidden-by-default) {
+		display: none;
+	}
+}
