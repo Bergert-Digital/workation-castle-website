@@ -4,8 +4,9 @@
  *
  * The header renders a core/navigation block whose items live in an editable
  * `wp_navigation` post ("Primary", slug `primary`). This file holds the
- * version-controlled starter menu used by the content seed (create-if-absent).
- * The render-time ref-injection filter is added in a later task.
+ * version-controlled starter menu used by the content seed (create-if-absent),
+ * plus a render-time filter that binds the header's ref-less navigation block to
+ * that menu by slug (post IDs differ per environment, so the file can't hardcode one).
  *
  * @package PedimentChild
  */
