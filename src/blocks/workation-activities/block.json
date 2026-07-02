@@ -9,7 +9,9 @@
   "attributes": {
     "eyebrow": { "type": "string", "default": "When laptops close" },
     "headline": { "type": "string", "default": "Lakes, trails and mountain air are part of the stay." },
-    "lead": { "type": "string", "default": "Swim before dinner, walk the nature reserve, chase waterfalls or head into the mountains — without turning the trip into logistics." }
+    "lead": { "type": "string", "default": "Swim before dinner, walk the nature reserve, chase waterfalls or head into the mountains — without turning the trip into logistics." },
+    "primaryText": { "type": "string", "default": "Browse all activities" },
+    "primaryUrl": { "type": "string", "default": "/activities/" }
   },
   "supports": { "html": false, "align": [ "full" ] },
   "editorScript": "file:./index.js",

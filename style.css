@@ -270,30 +270,6 @@ body {
 	transform: translateY(-3px);
 }
 
-.wc-btn-ghost-light {
-	border-color: rgba(255, 255, 255, .6);
-	color: #fff;
-}
-
-.wc-btn-ghost-light:hover,
-.wc-btn-ghost-light:focus-visible {
-	background: rgba(255, 255, 255, .14);
-	color: #fff;
-	transform: translateY(-3px);
-}
-
-.wc-btn-ghost-dark {
-	border-color: rgba(58, 38, 22, .28);
-	color: var(--wc-ink);
-}
-
-.wc-btn-ghost-dark:hover,
-.wc-btn-ghost-dark:focus-visible {
-	background: rgba(58, 38, 22, .06);
-	color: var(--wc-ink);
-	transform: translateY(-3px);
-}
-
 .wc-btn .arr {
 	transition: transform .35s var(--wc-ease);
 }
@@ -304,13 +280,32 @@ body {
 
 .text-link {
 	align-items: center;
-	border-bottom: 2px solid transparent;
 	display: inline-flex;
 	font-size: .92rem;
 	font-weight: 700;
 	gap: .5em;
-	padding-bottom: 2px;
-	transition: border-color .3s, color .3s;
+	padding-bottom: 4px;
+	position: relative;
+}
+
+/* Growing underline on hover — the same left-to-right bar as the top-nav
+   links. Ink on light sections; the dark-section override below swaps it (and
+   the arrow) to the header's yellow accent. */
+.text-link::after {
+	background: var(--wc-ink);
+	block-size: 2px;
+	bottom: 0;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.text-link:hover::after,
+.text-link:focus-visible::after {
+	inset-inline-end: 0;
 }
 
 .text-link .arr {
@@ -318,12 +313,19 @@ body {
 	transition: transform .35s var(--wc-ease);
 }
 
-.text-link:hover {
-	border-color: var(--wc-yellow);
+.text-link:hover .arr,
+.text-link:focus-visible .arr {
+	transform: translateX(4px);
 }
 
-.text-link:hover .arr {
-	transform: translateX(4px);
+/* Text-links on dark sections (e.g. the closing CTA over a photo) inherit
+   white text and take the header's yellow accent for arrow and underline. */
+.closing .text-link::after {
+	background: var(--wc-yellow);
+}
+
+.closing .text-link .arr {
+	color: var(--wc-yellow);
 }
 
 .site-header {
@@ -1466,10 +1468,15 @@ body.parent-pageid-179 .starter-steps {
 	grid-row: span 2;
 }
 
-.gallery-foot {
+.gallery-foot,
+.act-foot {
 	display: flex;
 	justify-content: center;
 	margin-top: 30px;
+}
+
+.loc-cta {
+	margin-top: 26px;
 }
 
 /* ============================================================
@@ -2302,9 +2309,18 @@ body.parent-pageid-179 .starter-steps {
 	z-index: 0;
 }
 
-.back-to-activities {
-	margin-block-start: clamp(32px, 4vw, 48px);
+/* `.wp-site-blocks` prefix so the top margin beats the global `p { margin: 0 }`
+   reset (which is more specific than a bare `.back-to-activities`). */
+.wp-site-blocks .back-to-activities {
+	margin-block-start: clamp(40px, 5vw, 64px);
 	padding-block-end: clamp(64px, 7vw, 96px);
+}
+
+/* Back link points left, so its arrow nudges left on hover — the shared
+   .text-link rule nudges forward links' arrows right. */
+.back-to-activities .text-link:hover .arr,
+.back-to-activities .text-link:focus-visible .arr {
+	transform: translateX(-4px);
 }
 
 /* Check-in wizard

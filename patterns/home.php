@@ -27,8 +27,8 @@
 <!-- /wp:pediment-child/workation-audience -->
 
 <!-- wp:pediment-child/workation-spaces -->
-<!-- wp:pediment-child/workation-space {"eyebrow":"01","title":"The workspace","text":"Two rooms for focused work, a large meeting room, a phone booth, a small lounge and a community kitchen. Versatile enough for a coaching retreat — or for finishing your thesis in the quiet.","linkText":"See the workspace","linkUrl":"#book","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_1758.jpeg","imageAlt":"The co-working space — a vaulted room lit with warm string lights"} /-->
-<!-- wp:pediment-child/workation-space {"eyebrow":"02","title":"Two vacation homes","text":"Two separately bookable houses with five bedrooms for up to nine guests, each with access to a garden. Modern comfort tucked inside centuries-old walls.","linkText":"Explore the homes","linkUrl":"#book","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of one of the vacation homes with a bright yellow armchair"} /-->
+<!-- wp:pediment-child/workation-space {"eyebrow":"01","title":"The workspace","text":"Two rooms for focused work, a large meeting room, a phone booth, a small lounge and a community kitchen. Versatile enough for a coaching retreat — or for finishing your thesis in the quiet.","linkText":"See the workspace","linkUrl":"/photos/?filter=workspace","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_1758.jpeg","imageAlt":"The co-working space — a vaulted room lit with warm string lights"} /-->
+<!-- wp:pediment-child/workation-space {"eyebrow":"02","title":"Two vacation homes","text":"Two separately bookable houses with five bedrooms for up to nine guests, each with access to a garden. Modern comfort tucked inside centuries-old walls.","linkText":"Explore the homes","linkUrl":"/photos/?filter=casa-galbiga","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of one of the vacation homes with a bright yellow armchair"} /-->
 <!-- /wp:pediment-child/workation-spaces -->
 
 <!-- wp:pediment-child/workation-location -->

@@ -23,6 +23,10 @@
 	}
 
 	function init() {
+		// Deep link: /photos/?filter=<slug> preselects a category on load.
+		var initial = new URLSearchParams( window.location.search ).get(
+			'filter'
+		);
 		var groups = document.querySelectorAll( '.photos' );
 		groups.forEach( function ( group ) {
 			var tabs = Array.prototype.slice.call(
@@ -39,6 +43,16 @@
 					apply( tabs, photos, tab.getAttribute( 'data-filter' ) );
 				} );
 			} );
+			// Only apply the URL filter when a matching tab exists, so a bogus
+			// slug never hides every photo.
+			var hasFilter =
+				initial &&
+				tabs.some( function ( tab ) {
+					return tab.getAttribute( 'data-filter' ) === initial;
+				} );
+			if ( hasFilter ) {
+				apply( tabs, photos, initial );
+			}
 		} );
 	}
 

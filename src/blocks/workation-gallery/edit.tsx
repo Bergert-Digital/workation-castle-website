@@ -130,7 +130,7 @@ export default function Edit( {
 				<div className="gallery-foot">
 					<RichText
 						tagName="span"
-						className="wc-btn wc-btn-ghost-dark"
+						className="text-link"
 						value={ attributes.primaryText }
 						onChange={ ( v ) =>
 							setAttributes( { primaryText: v } )
