@@ -2592,15 +2592,18 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 }
 
 /* Dropdown items: same growing underline on hover, in ink (they sit on the
-   cream panel); text colour also stays put on hover. */
-.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+   cream panel); text colour also stays put on hover. The underline hugs the
+   text (anchored to the label, not the padded link) and sits just beneath it,
+   matching the top-level links — the link box has padding, so anchoring to the
+   content box would stretch the rule the full button width and drop it low. */
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__label {
 	position: relative;
 }
 
-.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content::after {
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__label::after {
 	background: var(--wc-ink);
 	block-size: 2px;
-	bottom: 0;
+	bottom: -2px;
 	content: "";
 	inset-inline-end: 100%;
 	inset-inline-start: 0;
@@ -2609,8 +2612,8 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 	transition: inset-inline-end .3s var(--wc-ease);
 }
 
-.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover::after,
-.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible::after {
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover .wp-block-navigation-item__label::after,
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible .wp-block-navigation-item__label::after {
 	inset-inline-end: 0;
 }
 
