@@ -56,7 +56,7 @@ function pediment_child_render_availability_form( array $args ): string {
 				</div>
 			</div>
 			<button type="button" class="wc-rangepicker__field" aria-haspopup="dialog" aria-expanded="false" hidden>
-				<span class="wc-rangepicker__label"><?php esc_html_e( 'Add dates', 'pediment-child' ); ?></span>
+				<span class="wc-rangepicker__label"><?php esc_html_e( 'Select dates', 'pediment-child' ); ?></span>
 			</button>
 		</div>
 		<div class="avail-field select-wrap">
@@ -107,7 +107,7 @@ function pediment_child_range_picker_l10n(): array {
 		'weekdaysShort' => $weekdays_short, // Index 0 = Sunday.
 		'startOfWeek'   => (int) get_option( 'start_of_week', 1 ),
 		'i18n'          => array(
-			'addDates'    => __( 'Add dates', 'pediment-child' ),
+			'addDates'    => __( 'Select dates', 'pediment-child' ),
 			'clear'       => __( 'Clear', 'pediment-child' ),
 			'close'       => __( 'Close', 'pediment-child' ),
 			'dialogLabel' => __( 'Choose your dates', 'pediment-child' ),
