@@ -40,7 +40,6 @@ function pediment_child_render_availability_form( array $args ): string {
 
 	$arrival_id   = wp_unique_id( 'wc-arrival-' );
 	$departure_id = wp_unique_id( 'wc-departure-' );
-	$guests_id    = wp_unique_id( 'wc-guests-' );
 
 	ob_start();
 	?>
@@ -57,13 +56,11 @@ function pediment_child_render_availability_form( array $args ): string {
 				</div>
 			</div>
 			<button type="button" class="wc-rangepicker__field" aria-haspopup="dialog" aria-expanded="false" hidden>
-				<span class="avail-icon" aria-hidden="true"></span>
 				<span class="wc-rangepicker__label"><?php esc_html_e( 'Add dates', 'pediment-child' ); ?></span>
 			</button>
 		</div>
 		<div class="avail-field select-wrap">
-			<label for="<?php echo esc_attr( $guests_id ); ?>"><span class="avail-icon avail-icon--guest" aria-hidden="true"></span> <?php esc_html_e( 'Guests', 'pediment-child' ); ?></label>
-			<select id="<?php echo esc_attr( $guests_id ); ?>" name="<?php echo esc_attr( $adults_param ); ?>">
+			<select name="<?php echo esc_attr( $adults_param ); ?>" aria-label="<?php esc_attr_e( 'Guests', 'pediment-child' ); ?>">
 				<option value="2"><?php esc_html_e( '2 guests', 'pediment-child' ); ?></option>
 				<option value="1"><?php esc_html_e( '1 guest', 'pediment-child' ); ?></option>
 				<option value="3"><?php esc_html_e( '3 guests', 'pediment-child' ); ?></option>

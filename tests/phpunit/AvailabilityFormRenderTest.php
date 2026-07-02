@@ -23,6 +23,14 @@ class AvailabilityFormRenderTest extends WP_UnitTestCase {
 		$this->assertSame( 1, substr_count( $html, 'data-role="checkout"' ) );
 	}
 
+	public function test_guests_select_has_accessible_name_without_visible_label() {
+		// Labels are dropped for the Airbnb-style pill bar; the guests select must
+		// keep an accessible name via aria-label, and the standalone circle icon is gone.
+		$html = pediment_child_render_availability_form( array() );
+		$this->assertMatchesRegularExpression( '/<select[^>]*aria-label="Guests"/', $html );
+		$this->assertStringNotContainsString( 'avail-icon--guest', $html );
+	}
+
 	public function test_native_inputs_use_default_param_names() {
 		$html = pediment_child_render_availability_form( array() );
 		$this->assertStringContainsString( 'name="checkIn"', $html );
