@@ -362,107 +362,6 @@ body header.site-header:not(.scrolled) {
 	transition: filter .4s var(--wc-ease);
 }
 
-nav.main-nav {
-	display: none;
-}
-
-nav.main-nav a {
-	color: #fff;
-	font-size: .92rem;
-	opacity: .94;
-	padding-block: .3em;
-	position: relative;
-	transition: color .4s;
-}
-
-nav.main-nav a::after {
-	background: var(--wc-yellow);
-	block-size: 2px;
-	bottom: -2px;
-	content: "";
-	inset-inline-end: 100%;
-	inset-inline-start: 0;
-	position: absolute;
-	transition: inset-inline-end .3s var(--wc-ease);
-}
-
-nav.main-nav a:hover::after {
-	inset-inline-end: 0;
-}
-
-/* Guest Guide dropdown ----------------------------------------------------- */
-.nav-item.has-dropdown {
-	position: relative;
-}
-
-.nav-dropdown-trigger .caret {
-	font-size: .8em;
-	transition: transform .3s var(--wc-ease);
-}
-
-.has-dropdown:hover .nav-dropdown-trigger .caret,
-.has-dropdown:focus-within .nav-dropdown-trigger .caret {
-	transform: rotate(180deg);
-}
-
-.nav-dropdown {
-	background: var(--wc-cream, #f7f3ec);
-	border-radius: 14px;
-	box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
-	display: none;
-	flex-direction: column;
-	inset-block-start: calc(100% + 14px);
-	inset-inline-start: 0;
-	min-inline-size: 230px;
-	padding: 10px;
-	position: absolute;
-	z-index: 60;
-}
-
-.has-dropdown:hover .nav-dropdown,
-.has-dropdown:focus-within .nav-dropdown {
-	display: flex;
-}
-
-/* Bridge the gap so the menu doesn't close while moving the cursor down. */
-.nav-dropdown::before {
-	content: "";
-	inset-block-start: -14px;
-	inset-inline: 0;
-	block-size: 14px;
-	position: absolute;
-}
-
-/* Scoped under .main-nav so the dark panel text beats the base
-   `nav.main-nav a { color:#fff }` rule (specificity 0,1,2), which otherwise
-   wins over a bare `.nav-dropdown a` and renders the links white on cream. */
-.main-nav .nav-dropdown a {
-	border-radius: 9px;
-	color: #2a2420;
-	font-size: .9rem;
-	opacity: 1;
-	padding: 9px 12px;
-	transition: background .2s, color .2s;
-}
-
-/* Neutralize the inherited animated underline inside the panel. */
-.main-nav .nav-dropdown a::after {
-	display: none;
-}
-
-/* Keep the trigger's animated yellow underline expanded while its panel is
-   open, so the underline doesn't retract as the cursor moves into the menu. */
-.has-dropdown:hover .nav-dropdown-trigger::after,
-.has-dropdown:focus-within .nav-dropdown-trigger::after {
-	inset-inline-end: 0;
-}
-
-.main-nav .nav-dropdown a:hover,
-.main-nav .nav-dropdown a:focus-visible {
-	background: rgba(0, 0, 0, .06);
-	color: #000;
-}
-
 /* Vertical breathing room around the guide cards. Uses padding, not margin:
    the grid is a direct child of a flow-layout group, and WordPress's flow
    layout zeroes child block margins (padding is left alone). */
@@ -523,25 +422,6 @@ nav.main-nav a:hover::after {
 	display: none;
 }
 
-.menu-toggle {
-	background: rgba(255, 255, 255, .12);
-	border: 1px solid rgba(255, 255, 255, .35);
-	border-radius: 12px;
-	cursor: pointer;
-	display: inline-flex;
-	flex-direction: column;
-	gap: 5px;
-	padding: 11px 12px;
-}
-
-.menu-toggle span {
-	background: #fff;
-	block-size: 2px;
-	display: block;
-	inline-size: 20px;
-	transition: background .4s;
-}
-
 .site-header.scrolled {
 	background: rgba(250, 246, 238, .92);
 	box-shadow: 0 8px 30px -18px rgba(58, 38, 22, .4);
@@ -550,19 +430,6 @@ nav.main-nav a:hover::after {
 
 .site-header.scrolled .brand img {
 	filter: none;
-}
-
-.site-header.scrolled nav.main-nav a {
-	color: var(--wc-ink);
-}
-
-.site-header.scrolled .menu-toggle {
-	background: rgba(58, 38, 22, .06);
-	border-color: rgba(58, 38, 22, .2);
-}
-
-.site-header.scrolled .menu-toggle span {
-	background: var(--wc-ink);
 }
 
 /* ------------------------------------------------------------
@@ -581,78 +448,8 @@ body.no-hero .brand img {
 	filter: none;
 }
 
-body.no-hero nav.main-nav a {
-	color: var(--wc-ink);
-}
-
-body.no-hero .menu-toggle {
-	background: rgba(58, 38, 22, .06);
-	border-color: rgba(58, 38, 22, .2);
-}
-
-body.no-hero .menu-toggle span {
-	background: var(--wc-ink);
-}
-
 body.no-hero .wp-site-blocks > main {
 	padding-block-start: calc(var(--wc-header-h) + 24px);
-}
-
-/* ------------------------------------------------------------
-   Mobile navigation panel (below the 900px breakpoint).
-   The hamburger toggles `.nav-open` on the header (assets/js/header.js), which
-   drops the otherwise-hidden nav down as a full-width panel under the bar. The
-   fixed header is the positioning context.
-   ------------------------------------------------------------ */
-@media (max-width: 899px) {
-	.site-header.nav-open nav.main-nav {
-		background: var(--wc-cream);
-		border-radius: 0 0 18px 18px;
-		box-shadow: 0 18px 40px -18px rgba(58, 38, 22, .45);
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-		inset-block-start: 100%;
-		inset-inline: 0;
-		padding: 12px 20px 20px;
-		position: absolute;
-	}
-
-	/* Base nav links are white for the transparent-over-hero bar; on the cream
-	   panel they need the dark ink colour instead. */
-	.site-header.nav-open nav.main-nav a {
-		color: var(--wc-ink);
-		font-size: 1rem;
-		opacity: 1;
-		padding-block: .55em;
-	}
-
-	/* The animated yellow underline is a desktop hover affordance; drop it here. */
-	.site-header.nav-open nav.main-nav a::after {
-		display: none;
-	}
-
-	/* Dropdowns can't rely on :hover on touch. Render them inline, always
-	   expanded and indented, so every destination is reachable by tap. */
-	.site-header.nav-open .nav-item.has-dropdown {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.site-header.nav-open .nav-dropdown {
-		background: none;
-		border-radius: 0;
-		box-shadow: none;
-		display: flex;
-		inset: auto;
-		min-inline-size: 0;
-		padding: 0 0 4px 14px;
-		position: static;
-	}
-
-	.site-header.nav-open .nav-dropdown-trigger .caret {
-		display: none;
-	}
 }
 
 /* ------------------------------------------------------------
@@ -2118,17 +1915,8 @@ body.parent-pageid-179 .starter-steps {
 		block-size: 52px;
 	}
 
-	nav.main-nav {
-		display: flex;
-		gap: 30px;
-	}
-
 	.header-cta {
 		display: inline-flex;
-	}
-
-	.menu-toggle {
-		display: none;
 	}
 
 	.site-header.scrolled {
@@ -2675,4 +2463,50 @@ body.parent-pageid-179 .starter-steps {
 	.wc-rangepicker__grids {
 		flex-direction: column;
 	}
+}
+
+/* Header navigation (core/navigation block) ------------------------------- */
+.site-header .wp-block-navigation {
+	flex-wrap: nowrap;
+}
+
+.site-header .wp-block-navigation .wp-block-navigation-item__content {
+	color: #fff;
+	font-weight: 700;
+}
+
+.site-header.scrolled .wp-block-navigation .wp-block-navigation-item__content,
+body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__content {
+	color: var(--wc-ink);
+}
+
+/* Submenu dropdown surface (always on the cream panel, dark text). */
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container {
+	background: var(--wc-cream);
+	border: 1px solid var(--wc-border);
+	border-radius: var(--wc-radius);
+	box-shadow: 0 24px 60px -28px rgba(20, 10, 2, .5);
+	padding: 6px;
+}
+
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	color: var(--wc-ink);
+}
+
+/* Native mobile overlay. */
+.site-header .wp-block-navigation__responsive-container-open,
+.site-header .wp-block-navigation__responsive-container-close {
+	color: currentColor;
+}
+
+/* Specificity note: core's block-library CSS ships
+   `.wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open`
+   (four classes). Match that specificity here (`.is-menu-open` doubled) so this
+   override applies regardless of stylesheet load order. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open {
+	background: var(--wc-brown);
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation-item__content {
+	color: #fff;
 }

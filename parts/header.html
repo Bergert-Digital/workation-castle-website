@@ -1,32 +1,18 @@
-<!-- wp:html -->
-<header class="site-header" id="siteHeader">
-	<div class="wc-wrap header-inner">
+<!-- wp:group {"tagName":"header","className":"site-header","anchor":"siteHeader","layout":{"type":"default"}} -->
+<header class="wp-block-group site-header" id="siteHeader">
+	<!-- wp:group {"className":"wc-wrap header-inner","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"nowrap"}} -->
+	<div class="wp-block-group wc-wrap header-inner">
+		<!-- wp:html -->
 		<a class="brand" href="/" aria-label="Workation Castle home">
 			<img src="%PEDIMENT_CHILD_THEME_URI%/assets/images/logo-wordmark.svg" alt="Workation Castle">
 		</a>
-		<nav class="main-nav" id="primaryNav" aria-label="Primary">
-			<a href="/activities/">Activities</a>
-			<a href="/photos/">Photos</a>
-			<span class="nav-item has-dropdown">
-				<a href="/ways-to-stay/" class="nav-dropdown-trigger" aria-haspopup="true">Ways to stay <span class="caret" aria-hidden="true">▾</span></a>
-				<span class="nav-dropdown">
-					<a href="/ways-to-stay/team-retreats/">Team retreats</a>
-					<a href="/ways-to-stay/workations/">Workations</a>
-					<a href="/ways-to-stay/family-and-groups/">Family &amp; group stays</a>
-				</span>
-			</span>
-			<span class="nav-item has-dropdown">
-				<a href="/guide/" class="nav-dropdown-trigger" aria-haspopup="true">Guest Guide <span class="caret" aria-hidden="true">▾</span></a>
-				<span class="nav-dropdown">
-					<a href="/guide/arrival/">How to get here</a>
-					<a href="/check-in/">Checking in</a>
-					<a href="https://workationcastle.com/guide/map/">Find your way around</a>
-					<a href="https://workationcastle.com/guide/waste-disposal/">Sorting the waste</a>
-				</span>
-			</span>
-		</nav>
-		<a href="https://workationcastle.holiduhost.com/" class="wc-btn wc-btn-yellow header-cta">Check availability <span class="arr">→</span></a>
-		<button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="primaryNav" aria-expanded="false"><span></span><span></span><span></span></button>
+		<!-- /wp:html -->
+		<!-- wp:navigation {"overlayMenu":"mobile","className":"main-nav"} -->
+		<!-- /wp:navigation -->
+		<!-- wp:html -->
+		<a class="wc-btn wc-btn-yellow header-cta" href="https://workationcastle.holiduhost.com/">Check availability <span class="arr">→</span></a>
+		<!-- /wp:html -->
 	</div>
+	<!-- /wp:group -->
 </header>
-<!-- /wp:html -->
+<!-- /wp:group -->
