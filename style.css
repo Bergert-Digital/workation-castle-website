@@ -2645,6 +2645,47 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 	color: #fff;
 }
 
+/* Active state — the current page is marked with the growing underline drawn in
+   full, NOT a colour swap. Overrides the parent theme's accent-colour + plain
+   underline rule for [aria-current] links. */
+
+/* Top-level: draw the bar fully whenever this item — or, for a dropdown parent,
+   a submenu descendant — is the current page. :has() supplies the ancestor
+   match the core Navigation block doesn't emit on its own. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item:has( .wp-block-navigation-item__content[aria-current] ) > .wp-block-navigation-item__content::after {
+	inset-inline-end: 0;
+}
+
+/* Keep the resting colour on active top-level links (white over the hero, ink
+   once scrolled or on hero-less pages) and drop the parent's plain underline. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current] {
+	color: #fff;
+	text-decoration: none;
+}
+
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current],
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current] {
+	color: var(--wc-ink);
+}
+
+/* Dropdown items: resting ink colour, ink underline drawn in full on the
+   current one (same bar as their hover). */
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content[aria-current] .wp-block-navigation-item__label::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content[aria-current] {
+	color: var(--wc-ink);
+	text-decoration: none;
+}
+
+/* The mobile overlay hides the animated bar, so mark the current link there
+   with a plain underline instead. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation-item__content[aria-current] {
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}
+
 /* Collapse to the native hamburger up to 899px (matching the old nav's
    breakpoint). Core only collapses below 600px, which left the links crammed
    inline with no way to open a menu on tablet / narrow-desktop widths. */

@@ -117,3 +117,42 @@ function pediment_child_suppress_navigation_without_menu( $pre, array $block ) {
 	return '';
 }
 add_filter( 'pre_render_block', 'pediment_child_suppress_navigation_without_menu', 10, 2 );
+
+/**
+ * Give a dropdown parent an active state on its own landing page.
+ *
+ * The core Navigation block adds `aria-current` to leaf navigation-link items by
+ * URL match, but never to navigation-submenu parents — so viewing a dropdown's
+ * own page (e.g. /guide/, /ways-to-stay/) would leave no link marked active.
+ * Inject `aria-current="page"` on the parent's own anchor when its URL is the
+ * current request. Child pages are handled in CSS via `:has()` off the leaf that
+ * core already flags, so skip whenever a descendant is already current.
+ *
+ * @param string $content Rendered block HTML.
+ * @param array  $block   Parsed block.
+ * @return string
+ */
+function pediment_child_mark_current_submenu_parent( $content, $block ) {
+	if ( 'core/navigation-submenu' !== ( isset( $block['blockName'] ) ? $block['blockName'] : '' ) ) {
+		return $content;
+	}
+	$url = isset( $block['attrs']['url'] ) ? (string) $block['attrs']['url'] : '';
+	if ( '' === $url || false !== strpos( $content, 'aria-current' ) ) {
+		return $content;
+	}
+	$request = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+	$current = (string) wp_parse_url( $request, PHP_URL_PATH );
+	$target  = (string) wp_parse_url( $url, PHP_URL_PATH );
+	if ( '' === $current || '' === $target || untrailingslashit( $current ) !== untrailingslashit( $target ) ) {
+		return $content;
+	}
+	// Insert on the first content anchor only — the parent's own link, which
+	// precedes the submenu's child anchors.
+	return preg_replace(
+		'/<a (?=[^>]*\bwp-block-navigation-item__content\b)/',
+		'<a aria-current="page" ',
+		$content,
+		1
+	);
+}
+add_filter( 'render_block', 'pediment_child_mark_current_submenu_parent', 10, 2 );
