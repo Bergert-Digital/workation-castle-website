@@ -2480,13 +2480,24 @@ body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__conten
 	color: var(--wc-ink);
 }
 
-/* Submenu dropdown surface (always on the cream panel, dark text). */
+/* Submenu dropdown surface (always on the cream panel, dark text). Dropped a
+   little below the trigger so the top-level hover underline stays visible; a
+   transparent ::before bridges the gap so hover doesn't drop the menu. */
 .site-header .wp-block-navigation .wp-block-navigation__submenu-container {
 	background: var(--wc-cream);
 	border: 1px solid var(--wc-border);
 	border-radius: var(--wc-radius);
 	box-shadow: 0 24px 60px -28px rgba(20, 10, 2, .5);
 	padding: 6px;
+	top: calc(100% + 10px);
+}
+
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container::before {
+	block-size: 10px;
+	content: "";
+	inset-block-start: -10px;
+	inset-inline: 0;
+	position: absolute;
 }
 
 .site-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
@@ -2563,6 +2574,56 @@ body.no-hero .site-header .wp-block-navigation__submenu-icon {
 
 .site-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content::after {
 	display: none;
+}
+
+/* Hover cue is the underline ALONE — cancel the parent theme's yellow
+   hover/focus text colour (a high-specificity `...__content.__content:hover`
+   rule) so top-level links keep their resting colour on hover. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible,
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible {
+	color: var(--wc-ink);
+}
+
+/* Dropdown items: same growing underline on hover, in ink (they sit on the
+   cream panel); text colour also stays put on hover. */
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	position: relative;
+}
+
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content::after {
+	background: var(--wc-ink);
+	block-size: 2px;
+	bottom: 0;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover::after,
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content.wp-block-navigation-item__content:focus-visible {
+	color: var(--wc-ink);
+}
+
+/* In the dark mobile overlay, keep every item white on hover/focus (beats both
+   the parent's yellow rule and the ink dropdown-hover rule above). */
+.site-header .wp-block-navigation__responsive-container.is-menu-open a.wp-block-navigation-item__content.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__responsive-container.is-menu-open a.wp-block-navigation-item__content.wp-block-navigation-item__content:focus-visible {
+	color: #fff;
 }
 
 /* Collapse to the native hamburger up to 899px (matching the old nav's
