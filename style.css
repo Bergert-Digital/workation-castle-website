@@ -2510,3 +2510,8 @@ body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__conten
 .site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation-item__content {
 	color: #fff;
 }
+
+/* Close button sits on the dark overlay background; force white for contrast. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation__responsive-container-close {
+	color: #fff;
+}
