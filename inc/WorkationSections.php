@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function pediment_child_workation_reviews_chrome( $attributes, $content ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$cta_text = isset( $attributes['ctaText'] ) ? (string) $attributes['ctaText'] : '';
+	$cta_url  = isset( $attributes['ctaUrl'] ) ? (string) $attributes['ctaUrl'] : '';
 	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
 	ob_start();
 	?>
@@ -34,6 +36,11 @@ function pediment_child_workation_reviews_chrome( $attributes, $content ) {
 		<div class="wc-wrap">
 			<div class="reviews-grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 		</div>
+		<?php if ( '' !== $cta_text ) : ?>
+			<div class="reviews-cta">
+				<a class="wc-btn wc-btn-yellow" href="<?php echo esc_url( $cta_url ); ?>"><?php echo esc_html( $cta_text ); ?> <span class="arr">→</span></a>
+			</div>
+		<?php endif; ?>
 	</section>
 	<?php
 	return (string) ob_get_clean();
