@@ -1638,6 +1638,12 @@ body.parent-pageid-179 .starter-steps {
 	margin-top: 42px;
 }
 
+.reviews-cta {
+	display: flex;
+	justify-content: center;
+	margin-top: 34px;
+}
+
 .review,
 .starter-testimonial {
 	background: #fff;
