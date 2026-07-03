@@ -56,7 +56,7 @@
 <!-- wp:pediment-child/workation-photo {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room with a bright yellow armchair"} /-->
 <!-- /wp:pediment-child/workation-gallery -->
 
-<!-- wp:pediment-child/workation-reviews -->
+<!-- wp:pediment-child/workation-reviews {"ctaText":"Read all reviews","ctaUrl":"/reviews/"} -->
 <!-- wp:pediment-child/workation-review {"text":"The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes from the location. The co-working space exceeds expectations.","title":"Alexander M."} /-->
 <!-- wp:pediment-child/workation-review {"text":"A wonderful and very relaxing place to work or take a holiday. The house and the shared workspaces are superbly equipped.","title":"Simone S."} /-->
 <!-- wp:pediment-child/workation-review {"text":"We loved the atmosphere of the old stone walls and the view from the terrace. A great, well-thought-out concept — also for larger families, groups, and for working.","title":"Manuelle B."} /-->
