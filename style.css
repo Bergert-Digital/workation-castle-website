@@ -254,7 +254,8 @@ body {
 	justify-content: center;
 	line-height: 1;
 	padding: .85em 1.5em;
-	transition: transform .35s var(--wc-ease), box-shadow .35s var(--wc-ease), background .3s, color .3s;
+	position: relative;
+	transition: background .3s, color .3s;
 	white-space: nowrap;
 }
 
@@ -263,11 +264,31 @@ body {
 	color: var(--wc-ink);
 }
 
-.wc-btn-yellow:hover,
-.wc-btn-yellow:focus-visible {
-	background: var(--wc-yellow-hover);
-	color: var(--wc-ink);
-	transform: translateY(-3px);
+/* Secondary "outline" pill (light border for dark sections). Hover cue is the
+   shared underline below, so there's no fill or move on hover. */
+.wc-btn-ghost-light {
+	border-color: rgba(255, 255, 255, .6);
+	color: #fff;
+}
+
+/* Growing underline on hover — the same left-to-right bar used on the nav links
+   and text-links, replacing the earlier move-up. Inset to the button's
+   horizontal padding so it sits under the label rather than spanning the pill. */
+.wc-btn::after {
+	background: currentColor;
+	block-size: 2px;
+	bottom: .68em;
+	content: "";
+	inset-inline-end: calc(100% - 1.5em);
+	inset-inline-start: 1.5em;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.wc-btn:hover::after,
+.wc-btn:focus-visible::after {
+	inset-inline-end: 1.5em;
 }
 
 .wc-btn .arr {
@@ -1804,21 +1825,10 @@ body.parent-pageid-179 .starter-steps {
 	margin-top: 30px;
 }
 
+/* Instagram link is a ghost text-link (.text-link supplies the layout, colour
+   and animated underline); .insta only adds the row spacing below the actions. */
 .closing .insta {
-	align-items: center;
-	border-bottom: 2px solid rgba(254, 198, 1, .7);
-	color: #fff;
-	display: inline-flex;
-	font-size: .92rem;
-	font-weight: 700;
-	gap: .5em;
 	margin-top: 24px;
-	padding-bottom: 3px;
-}
-
-.closing .insta svg {
-	block-size: 18px;
-	inline-size: 18px;
 }
 
 .wc-footer {
@@ -2524,6 +2534,20 @@ body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__conten
 .site-header .wp-block-navigation__responsive-container-open,
 .site-header .wp-block-navigation__responsive-container-close {
 	color: currentColor;
+}
+
+/* The hamburger (open) button follows the top-level link colour: white over the
+   hero, ink once scrolled or on hero-less pages. Without this it inherits dark
+   ink and is invisible against the hero image — so the menu looks like it can't
+   be opened. (The close button lives inside the dark overlay; it's forced white
+   below.) */
+.site-header .wp-block-navigation__responsive-container-open {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__responsive-container-open,
+body.no-hero .site-header .wp-block-navigation__responsive-container-open {
+	color: var(--wc-ink);
 }
 
 /* Specificity note: core's block-library CSS ships

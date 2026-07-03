@@ -122,7 +122,7 @@ export default function Edit( {
 					/>
 					<RichText
 						tagName="span"
-						className="text-link"
+						className="wc-btn wc-btn-ghost-light"
 						value={ attributes.secondaryText }
 						onChange={ ( v ) =>
 							setAttributes( { secondaryText: v } )
@@ -135,7 +135,7 @@ export default function Edit( {
 				</div>
 				<RichText
 					tagName="span"
-					className="insta"
+					className="text-link insta"
 					value={ attributes.linkText }
 					onChange={ ( v ) => setAttributes( { linkText: v } ) }
 					placeholder={ __(

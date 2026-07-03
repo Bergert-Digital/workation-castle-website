@@ -610,11 +610,11 @@ function pediment_child_workation_closing_chrome( $attributes ) {
 					<a class="wc-btn wc-btn-yellow" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a>
 				<?php endif; ?>
 				<?php if ( '' !== $secondary_text ) : ?>
-					<a class="text-link" href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?> <span class="arr">→</span></a>
+					<a class="wc-btn wc-btn-ghost-light" href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?> <span class="arr">→</span></a>
 				<?php endif; ?>
 			</div>
 			<?php if ( '' !== $link_text ) : ?>
-				<a class="insta" href="<?php echo esc_url( $link_url ); ?>" target="_blank" rel="noreferrer"><?php echo esc_html( $link_text ); ?> <span class="arr">→</span></a>
+				<a class="text-link insta" href="<?php echo esc_url( $link_url ); ?>" target="_blank" rel="noreferrer"><?php echo esc_html( $link_text ); ?> <span class="arr">→</span></a>
 			<?php endif; ?>
 		</div>
 	</section>
