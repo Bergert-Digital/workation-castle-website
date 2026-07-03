@@ -41,6 +41,10 @@ class Seed {
 			'title'        => 'Photos',
 			'pattern_file' => 'patterns/photos.php',
 		),
+		'reviews'           => array(
+			'title'        => 'Reviews',
+			'pattern_file' => 'patterns/reviews.php',
+		),
 		'activities'        => array(
 			'title'        => 'Activities',
 			'pattern_file' => 'patterns/activities.php',
@@ -121,9 +125,10 @@ class Seed {
 		self::seed_photo_terms();
 		$photo_log    = self::seed_photos( self::photo_manifest() );
 		$activity_log = self::seed_activities( self::activities_manifest() );
+		$nav_log      = self::seed_primary_nav();
 
 		list( $ids, $page_log ) = self::upsert_pages();
-		$log                    = array_merge( $page_log, $photo_log, $activity_log );
+		$log                    = array_merge( $page_log, $photo_log, $activity_log, $nav_log );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -368,6 +373,44 @@ class Seed {
 		kses_init_filters();
 
 		return $log;
+	}
+
+	/**
+	 * Seed the editable "Primary" navigation menu, create-if-absent.
+	 *
+	 * The header's core/navigation block resolves this wp_navigation post by
+	 * slug at render time. Create-if-absent so re-seeding never clobbers menu
+	 * edits made in the Site Editor.
+	 *
+	 * @return string[] Log lines.
+	 */
+	public static function seed_primary_nav(): array {
+		$existing = get_posts(
+			array(
+				'post_type'        => 'wp_navigation',
+				'name'             => 'primary',
+				'post_status'      => 'any',
+				'numberposts'      => 1,
+				'suppress_filters' => false,
+			)
+		);
+		if ( ! empty( $existing ) ) {
+			return array( 'skipped (exists): wp_navigation "primary"' );
+		}
+		$id = wp_insert_post(
+			array(
+				'post_type'    => 'wp_navigation',
+				'post_title'   => 'Primary',
+				'post_name'    => 'primary',
+				'post_status'  => 'publish',
+				'post_content' => pediment_child_primary_nav_blocks(),
+			),
+			true
+		);
+		if ( is_wp_error( $id ) ) {
+			return array( 'ERROR seeding primary nav: ' . $id->get_error_message() );
+		}
+		return array( 'created: wp_navigation "primary" (ID ' . $id . ')' );
 	}
 
 	/** Ensure the photo category terms exist. Returns slug => term_id. */

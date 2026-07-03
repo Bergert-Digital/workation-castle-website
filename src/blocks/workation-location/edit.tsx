@@ -17,6 +17,8 @@ type Attrs = {
 	imageUrl: string;
 	imageAlt: string;
 	imageId: number;
+	primaryText: string;
+	primaryUrl: string;
 };
 
 const ALLOWED = [ 'pediment-child/workation-mode' ];
@@ -93,6 +95,13 @@ export default function Edit( {
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 				</PanelBody>
+				<PanelBody title={ __( 'Arrival button', 'pediment-child' ) }>
+					<TextControl
+						label={ __( 'Button URL', 'pediment-child' ) }
+						value={ attributes.primaryUrl }
+						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
+					/>
+				</PanelBody>
 			</InspectorControls>
 			<div className="sec-head">
 				<RichText
@@ -127,6 +136,15 @@ export default function Edit( {
 							placeholder={ __( 'Lead…', 'pediment-child' ) }
 						/>
 						<div { ...innerProps } />
+						<RichText
+							tagName="span"
+							className="text-link loc-cta"
+							value={ attributes.primaryText }
+							onChange={ ( v ) =>
+								setAttributes( { primaryText: v } )
+							}
+							placeholder={ __( 'Button…', 'pediment-child' ) }
+						/>
 					</div>
 				</div>
 			</div>

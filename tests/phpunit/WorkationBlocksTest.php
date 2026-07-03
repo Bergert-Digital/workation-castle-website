@@ -30,6 +30,21 @@ class WorkationBlocksTest extends WP_UnitTestCase {
 		$this->assertStringNotContainsString( 'Guest reviews', $html );
 	}
 
+	public function test_reviews_renders_cta_when_set() {
+		$html = $this->render(
+			'<!-- wp:pediment-child/workation-reviews {"ctaText":"Read all reviews","ctaUrl":"/reviews/"} /-->'
+		);
+		$this->assertStringContainsString( 'reviews-cta', $html );
+		$this->assertStringContainsString( 'Read all reviews', $html );
+		$this->assertStringContainsString( 'href="/reviews/"', $html );
+		$this->assertStringContainsString( 'wc-btn wc-btn-yellow', $html );
+	}
+
+	public function test_reviews_omits_cta_when_absent() {
+		$html = $this->render( '<!-- wp:pediment-child/workation-reviews /-->' );
+		$this->assertStringNotContainsString( 'reviews-cta', $html );
+	}
+
 	public function test_empty_review_renders_nothing() {
 		$html = $this->render( '<!-- wp:pediment-child/workation-review /-->' );
 		$this->assertStringNotContainsString( 'wp-block-pediment-child-workation-review', $html );

@@ -4,9 +4,17 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
+	InspectorControls,
 } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 
-type Attrs = { eyebrow: string; headline: string; lead: string };
+type Attrs = {
+	eyebrow: string;
+	headline: string;
+	lead: string;
+	primaryText: string;
+	primaryUrl: string;
+};
 
 const ALLOWED = [ 'pediment-child/workation-tile' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
@@ -71,6 +79,17 @@ export default function Edit( {
 	);
 	return (
 		<section { ...blockProps }>
+			<InspectorControls>
+				<PanelBody
+					title={ __( 'Activities button', 'pediment-child' ) }
+				>
+					<TextControl
+						label={ __( 'Button URL', 'pediment-child' ) }
+						value={ attributes.primaryUrl }
+						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<div className="sec-head">
 				<RichText
 					tagName="span"
@@ -94,6 +113,17 @@ export default function Edit( {
 			</div>
 			<div className="wc-wrap">
 				<div { ...innerProps } />
+				<div className="act-foot">
+					<RichText
+						tagName="span"
+						className="text-link"
+						value={ attributes.primaryText }
+						onChange={ ( v ) =>
+							setAttributes( { primaryText: v } )
+						}
+						placeholder={ __( 'Button…', 'pediment-child' ) }
+					/>
+				</div>
 			</div>
 		</section>
 	);

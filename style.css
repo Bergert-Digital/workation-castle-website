@@ -254,7 +254,8 @@ body {
 	justify-content: center;
 	line-height: 1;
 	padding: .85em 1.5em;
-	transition: transform .35s var(--wc-ease), box-shadow .35s var(--wc-ease), background .3s, color .3s;
+	position: relative;
+	transition: background .3s, color .3s;
 	white-space: nowrap;
 }
 
@@ -263,35 +264,31 @@ body {
 	color: var(--wc-ink);
 }
 
-.wc-btn-yellow:hover,
-.wc-btn-yellow:focus-visible {
-	background: var(--wc-yellow-hover);
-	color: var(--wc-ink);
-	transform: translateY(-3px);
-}
-
+/* Secondary "outline" pill (light border for dark sections). Hover cue is the
+   shared underline below, so there's no fill or move on hover. */
 .wc-btn-ghost-light {
 	border-color: rgba(255, 255, 255, .6);
 	color: #fff;
 }
 
-.wc-btn-ghost-light:hover,
-.wc-btn-ghost-light:focus-visible {
-	background: rgba(255, 255, 255, .14);
-	color: #fff;
-	transform: translateY(-3px);
+/* Growing underline on hover — the same left-to-right bar used on the nav links
+   and text-links, replacing the earlier move-up. Inset to the button's
+   horizontal padding so it sits under the label rather than spanning the pill. */
+.wc-btn::after {
+	background: currentColor;
+	block-size: 2px;
+	bottom: .68em;
+	content: "";
+	inset-inline-end: calc(100% - 1.5em);
+	inset-inline-start: 1.5em;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
 }
 
-.wc-btn-ghost-dark {
-	border-color: rgba(58, 38, 22, .28);
-	color: var(--wc-ink);
-}
-
-.wc-btn-ghost-dark:hover,
-.wc-btn-ghost-dark:focus-visible {
-	background: rgba(58, 38, 22, .06);
-	color: var(--wc-ink);
-	transform: translateY(-3px);
+.wc-btn:hover::after,
+.wc-btn:focus-visible::after {
+	inset-inline-end: 1.5em;
 }
 
 .wc-btn .arr {
@@ -304,13 +301,32 @@ body {
 
 .text-link {
 	align-items: center;
-	border-bottom: 2px solid transparent;
 	display: inline-flex;
 	font-size: .92rem;
 	font-weight: 700;
 	gap: .5em;
-	padding-bottom: 2px;
-	transition: border-color .3s, color .3s;
+	padding-bottom: 4px;
+	position: relative;
+}
+
+/* Growing underline on hover — the same left-to-right bar as the top-nav
+   links. Ink on light sections; the dark-section override below swaps it (and
+   the arrow) to the header's yellow accent. */
+.text-link::after {
+	background: var(--wc-ink);
+	block-size: 2px;
+	bottom: 0;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.text-link:hover::after,
+.text-link:focus-visible::after {
+	inset-inline-end: 0;
 }
 
 .text-link .arr {
@@ -318,12 +334,19 @@ body {
 	transition: transform .35s var(--wc-ease);
 }
 
-.text-link:hover {
-	border-color: var(--wc-yellow);
+.text-link:hover .arr,
+.text-link:focus-visible .arr {
+	transform: translateX(4px);
 }
 
-.text-link:hover .arr {
-	transform: translateX(4px);
+/* Text-links on dark sections (e.g. the closing CTA over a photo) inherit
+   white text and take the header's yellow accent for arrow and underline. */
+.closing .text-link::after {
+	background: var(--wc-yellow);
+}
+
+.closing .text-link .arr {
+	color: var(--wc-yellow);
 }
 
 .site-header {
@@ -339,6 +362,17 @@ body {
 
 body header.site-header:not(.scrolled) {
 	background: transparent;
+	backdrop-filter: none;
+	-webkit-backdrop-filter: none;
+}
+
+/* The core Navigation mobile overlay is position:fixed and lives INSIDE the
+   header. Once scrolled, the parent theme's frosted blur (backdrop-filter)
+   applies again and makes the header the containing block for fixed
+   descendants — the overlay's inset:0 then resolves against the header bar,
+   collapsing the "full-screen" menu to a 64px strip. Drop the blur while the
+   overlay is open; the overlay covers the header anyway. */
+body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-open) {
 	backdrop-filter: none;
 	-webkit-backdrop-filter: none;
 }
@@ -360,107 +394,6 @@ body header.site-header:not(.scrolled) {
 	filter: brightness(0) invert(1);
 	inline-size: auto;
 	transition: filter .4s var(--wc-ease);
-}
-
-nav.main-nav {
-	display: none;
-}
-
-nav.main-nav a {
-	color: #fff;
-	font-size: .92rem;
-	opacity: .94;
-	padding-block: .3em;
-	position: relative;
-	transition: color .4s;
-}
-
-nav.main-nav a::after {
-	background: var(--wc-yellow);
-	block-size: 2px;
-	bottom: -2px;
-	content: "";
-	inset-inline-end: 100%;
-	inset-inline-start: 0;
-	position: absolute;
-	transition: inset-inline-end .3s var(--wc-ease);
-}
-
-nav.main-nav a:hover::after {
-	inset-inline-end: 0;
-}
-
-/* Guest Guide dropdown ----------------------------------------------------- */
-.nav-item.has-dropdown {
-	position: relative;
-}
-
-.nav-dropdown-trigger .caret {
-	font-size: .8em;
-	transition: transform .3s var(--wc-ease);
-}
-
-.has-dropdown:hover .nav-dropdown-trigger .caret,
-.has-dropdown:focus-within .nav-dropdown-trigger .caret {
-	transform: rotate(180deg);
-}
-
-.nav-dropdown {
-	background: var(--wc-cream, #f7f3ec);
-	border-radius: 14px;
-	box-shadow: 0 18px 40px rgba(0, 0, 0, .22);
-	display: none;
-	flex-direction: column;
-	inset-block-start: calc(100% + 14px);
-	inset-inline-start: 0;
-	min-inline-size: 230px;
-	padding: 10px;
-	position: absolute;
-	z-index: 60;
-}
-
-.has-dropdown:hover .nav-dropdown,
-.has-dropdown:focus-within .nav-dropdown {
-	display: flex;
-}
-
-/* Bridge the gap so the menu doesn't close while moving the cursor down. */
-.nav-dropdown::before {
-	content: "";
-	inset-block-start: -14px;
-	inset-inline: 0;
-	block-size: 14px;
-	position: absolute;
-}
-
-/* Scoped under .main-nav so the dark panel text beats the base
-   `nav.main-nav a { color:#fff }` rule (specificity 0,1,2), which otherwise
-   wins over a bare `.nav-dropdown a` and renders the links white on cream. */
-.main-nav .nav-dropdown a {
-	border-radius: 9px;
-	color: #2a2420;
-	font-size: .9rem;
-	opacity: 1;
-	padding: 9px 12px;
-	transition: background .2s, color .2s;
-}
-
-/* Neutralize the inherited animated underline inside the panel. */
-.main-nav .nav-dropdown a::after {
-	display: none;
-}
-
-/* Keep the trigger's animated yellow underline expanded while its panel is
-   open, so the underline doesn't retract as the cursor moves into the menu. */
-.has-dropdown:hover .nav-dropdown-trigger::after,
-.has-dropdown:focus-within .nav-dropdown-trigger::after {
-	inset-inline-end: 0;
-}
-
-.main-nav .nav-dropdown a:hover,
-.main-nav .nav-dropdown a:focus-visible {
-	background: rgba(0, 0, 0, .06);
-	color: #000;
 }
 
 /* Vertical breathing room around the guide cards. Uses padding, not margin:
@@ -523,25 +456,6 @@ nav.main-nav a:hover::after {
 	display: none;
 }
 
-.menu-toggle {
-	background: rgba(255, 255, 255, .12);
-	border: 1px solid rgba(255, 255, 255, .35);
-	border-radius: 12px;
-	cursor: pointer;
-	display: inline-flex;
-	flex-direction: column;
-	gap: 5px;
-	padding: 11px 12px;
-}
-
-.menu-toggle span {
-	background: #fff;
-	block-size: 2px;
-	display: block;
-	inline-size: 20px;
-	transition: background .4s;
-}
-
 .site-header.scrolled {
 	background: rgba(250, 246, 238, .92);
 	box-shadow: 0 8px 30px -18px rgba(58, 38, 22, .4);
@@ -550,19 +464,6 @@ nav.main-nav a:hover::after {
 
 .site-header.scrolled .brand img {
 	filter: none;
-}
-
-.site-header.scrolled nav.main-nav a {
-	color: var(--wc-ink);
-}
-
-.site-header.scrolled .menu-toggle {
-	background: rgba(58, 38, 22, .06);
-	border-color: rgba(58, 38, 22, .2);
-}
-
-.site-header.scrolled .menu-toggle span {
-	background: var(--wc-ink);
 }
 
 /* ------------------------------------------------------------
@@ -579,19 +480,6 @@ body.no-hero header.site-header:not(.scrolled) {
 
 body.no-hero .brand img {
 	filter: none;
-}
-
-body.no-hero nav.main-nav a {
-	color: var(--wc-ink);
-}
-
-body.no-hero .menu-toggle {
-	background: rgba(58, 38, 22, .06);
-	border-color: rgba(58, 38, 22, .2);
-}
-
-body.no-hero .menu-toggle span {
-	background: var(--wc-ink);
 }
 
 body.no-hero .wp-site-blocks > main {
@@ -1612,10 +1500,15 @@ body.parent-pageid-179 .starter-steps {
 	grid-row: span 2;
 }
 
-.gallery-foot {
+.gallery-foot,
+.act-foot {
 	display: flex;
 	justify-content: center;
 	margin-top: 30px;
+}
+
+.loc-cta {
+	margin-top: 26px;
 }
 
 /* ============================================================
@@ -1743,6 +1636,12 @@ body.parent-pageid-179 .starter-steps {
 	gap: 20px;
 	grid-template-columns: 1fr;
 	margin-top: 42px;
+}
+
+.reviews-cta {
+	display: flex;
+	justify-content: center;
+	margin-top: 34px;
 }
 
 .review,
@@ -1943,21 +1842,10 @@ body.parent-pageid-179 .starter-steps {
 	margin-top: 30px;
 }
 
+/* Instagram link is a ghost text-link (.text-link supplies the layout, colour
+   and animated underline); .insta only adds the row spacing below the actions. */
 .closing .insta {
-	align-items: center;
-	border-bottom: 2px solid rgba(254, 198, 1, .7);
-	color: #fff;
-	display: inline-flex;
-	font-size: .92rem;
-	font-weight: 700;
-	gap: .5em;
 	margin-top: 24px;
-	padding-bottom: 3px;
-}
-
-.closing .insta svg {
-	block-size: 18px;
-	inline-size: 18px;
 }
 
 .wc-footer {
@@ -2061,17 +1949,8 @@ body.parent-pageid-179 .starter-steps {
 		block-size: 52px;
 	}
 
-	nav.main-nav {
-		display: flex;
-		gap: 30px;
-	}
-
 	.header-cta {
 		display: inline-flex;
-	}
-
-	.menu-toggle {
-		display: none;
 	}
 
 	.site-header.scrolled {
@@ -2457,9 +2336,18 @@ body.parent-pageid-179 .starter-steps {
 	z-index: 0;
 }
 
-.back-to-activities {
-	margin-block-start: clamp(32px, 4vw, 48px);
+/* `.wp-site-blocks` prefix so the top margin beats the global `p { margin: 0 }`
+   reset (which is more specific than a bare `.back-to-activities`). */
+.wp-site-blocks .back-to-activities {
+	margin-block-start: clamp(40px, 5vw, 64px);
 	padding-block-end: clamp(64px, 7vw, 96px);
+}
+
+/* Back link points left, so its arrow nudges left on hover — the shared
+   .text-link rule nudges forward links' arrows right. */
+.back-to-activities .text-link:hover .arr,
+.back-to-activities .text-link:focus-visible .arr {
+	transform: translateX(-4px);
 }
 
 /* Check-in wizard
@@ -2492,3 +2380,373 @@ body.parent-pageid-179 .starter-steps {
 .wc-checkin-consent input[type="checkbox"] { flex: 0 0 auto; width: 1.1rem; height: 1.1rem; margin: 0.2rem 0 0; }
 .wc-checkin-fail { color: #b3261e; margin-top: 1rem; }
 .wc-checkin-done { padding: 2rem 0; font-size: 1.15rem; }
+
+/* Range date picker (availability form) ----------------------------------- */
+.wc-rangepicker {
+	position: relative;
+	z-index: 1;
+}
+
+.wc-rangepicker__field {
+	align-items: center;
+	background: rgba(255, 255, 255, .1);
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-radius: 14px;
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	font-family: "Inria Sans", sans-serif;
+	font-size: .98rem;
+	gap: .6em;
+	inline-size: 100%;
+	padding: .78em .9em;
+	text-align: start;
+	transition: border-color .3s, background .3s;
+}
+
+.wc-rangepicker__field:hover,
+.wc-rangepicker__field:focus-visible {
+	background: rgba(255, 255, 255, .16);
+	border-color: var(--wc-yellow);
+	outline: none;
+}
+
+.wc-rangepicker__pop {
+	background: var(--wc-cream);
+	border: 1px solid var(--wc-border);
+	border-radius: var(--wc-radius-lg);
+	box-shadow: 0 24px 60px -20px rgba(20, 10, 2, .55);
+	color: var(--wc-ink);
+	padding: 16px;
+	/* JS sets position:fixed + inset-block-start/inset-inline-start so the pop
+	   escapes any containing stacking context (hero section, fixed header). */
+	position: fixed;
+	z-index: 9999;
+}
+
+.wc-rangepicker__nav {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.wc-rangepicker__nav button {
+	background: none;
+	border: 1px solid var(--wc-border);
+	border-radius: 999px;
+	block-size: 34px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font-size: 1.2rem;
+	inline-size: 34px;
+	line-height: 1;
+}
+
+.wc-rangepicker__grids {
+	display: flex;
+	gap: 22px;
+}
+
+.wc-rangepicker__caption {
+	font-weight: 700;
+	margin-bottom: 8px;
+	text-align: center;
+}
+
+.wc-rangepicker__weekdays,
+.wc-rangepicker__days {
+	display: grid;
+	grid-template-columns: repeat(7, 40px);
+}
+
+.wc-rangepicker__weekdays span {
+	color: var(--wc-ink-soft);
+	font-size: .72rem;
+	padding-block: 4px;
+	text-align: center;
+}
+
+.wc-rangepicker__day {
+	aspect-ratio: 1;
+	background: none;
+	border: 0;
+	border-radius: 999px;
+	color: var(--wc-ink);
+	cursor: pointer;
+	font: inherit;
+}
+
+.wc-rangepicker__day:hover:not([disabled]) {
+	background: var(--wc-cream-deep);
+}
+
+.wc-rangepicker__day:focus-visible,
+.wc-rangepicker__nav button:focus-visible {
+	outline: 2px solid var(--wc-yellow);
+	outline-offset: 2px;
+}
+
+.wc-rangepicker__day[disabled] {
+	color: var(--wc-border);
+	cursor: default;
+}
+
+.wc-rangepicker__day.is-in-range {
+	background: var(--wc-cream-deep);
+	border-radius: 0;
+}
+
+.wc-rangepicker__day.is-start,
+.wc-rangepicker__day.is-end {
+	background: var(--wc-yellow);
+	color: var(--wc-ink);
+}
+
+@media (max-width: 699px) {
+	.wc-rangepicker__grids {
+		flex-direction: column;
+	}
+}
+
+/* Header navigation (core/navigation block) ------------------------------- */
+.site-header .wp-block-navigation {
+	flex-wrap: nowrap;
+}
+
+.site-header .wp-block-navigation .wp-block-navigation-item__content {
+	color: #fff;
+	font-weight: 700;
+}
+
+.site-header.scrolled .wp-block-navigation .wp-block-navigation-item__content,
+body.no-hero .site-header .wp-block-navigation .wp-block-navigation-item__content {
+	color: var(--wc-ink);
+}
+
+/* Submenu dropdown surface (always on the cream panel, dark text). Dropped a
+   little below the trigger so the top-level hover underline stays visible; a
+   transparent ::before bridges the gap so hover doesn't drop the menu. */
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container {
+	background: var(--wc-cream);
+	border: 1px solid var(--wc-border);
+	border-radius: var(--wc-radius);
+	box-shadow: 0 24px 60px -28px rgba(20, 10, 2, .5);
+	padding: 6px;
+	top: calc(100% + 10px);
+}
+
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container::before {
+	block-size: 10px;
+	content: "";
+	inset-block-start: -10px;
+	inset-inline: 0;
+	position: absolute;
+}
+
+.site-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	color: var(--wc-ink);
+}
+
+/* Native mobile overlay. */
+.site-header .wp-block-navigation__responsive-container-open,
+.site-header .wp-block-navigation__responsive-container-close {
+	color: currentColor;
+}
+
+/* The hamburger (open) button follows the top-level link colour: white over the
+   hero, ink once scrolled or on hero-less pages. Without this it inherits dark
+   ink and is invisible against the hero image — so the menu looks like it can't
+   be opened. (The close button lives inside the dark overlay; it's forced white
+   below.) */
+.site-header .wp-block-navigation__responsive-container-open {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__responsive-container-open,
+body.no-hero .site-header .wp-block-navigation__responsive-container-open {
+	color: var(--wc-ink);
+}
+
+/* Specificity note: core's block-library CSS ships
+   `.wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open`
+   (four classes). Match that specificity here (`.is-menu-open` doubled) so this
+   override applies regardless of stylesheet load order. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open {
+	background: var(--wc-brown);
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation-item__content {
+	color: #fff;
+}
+
+/* Inside the open overlay the submenus render inline, but the desktop dropdown
+   surface (cream panel, border, shadow) still matches them — drawing ghost
+   boxes around each submenu group. Flatten the panel there. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0;
+}
+
+/* Close button sits on the dark overlay background; force white for contrast. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation__responsive-container-close {
+	color: #fff;
+}
+
+/* Submenu caret matches the top-level link colour (core renders it dark by
+   default): white over the transparent hero header, dark ink once scrolled or
+   on hero-less pages, white again inside the dark mobile overlay. */
+.site-header .wp-block-navigation__submenu-icon {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__submenu-icon,
+body.no-hero .site-header .wp-block-navigation__submenu-icon {
+	color: var(--wc-ink);
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation__submenu-icon {
+	color: #fff;
+}
+
+.site-header .wp-block-navigation__submenu-icon svg {
+	fill: currentColor;
+}
+
+/* Animated yellow underline on hover, top-level links only (the growing bar
+   the custom nav used to have). Scoped to direct children of the top-level
+   container so dropdown items are excluded; suppressed inside the mobile
+   overlay where links are stacked. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content {
+	position: relative;
+}
+
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content::after {
+	background: var(--wc-yellow);
+	block-size: 2px;
+	bottom: -2px;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content:hover::after,
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > .wp-block-navigation-item__content:focus-visible::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content::after {
+	display: none;
+}
+
+/* Hover cue is the underline ALONE — cancel the parent theme's yellow
+   hover/focus text colour (a high-specificity `...__content.__content:hover`
+   rule) so top-level links keep their resting colour on hover. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible {
+	color: #fff;
+}
+
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible,
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:hover,
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content:focus-visible {
+	color: var(--wc-ink);
+}
+
+/* Dropdown items: same growing underline on hover, in ink (they sit on the
+   cream panel); text colour also stays put on hover. The underline hugs the
+   text (anchored to the label, not the padded link) and sits just beneath it,
+   matching the top-level links — the link box has padding, so anchoring to the
+   content box would stretch the rule the full button width and drop it low. */
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__label {
+	position: relative;
+}
+
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__label::after {
+	background: var(--wc-ink);
+	block-size: 2px;
+	bottom: -2px;
+	content: "";
+	inset-inline-end: 100%;
+	inset-inline-start: 0;
+	pointer-events: none;
+	position: absolute;
+	transition: inset-inline-end .3s var(--wc-ease);
+}
+
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover .wp-block-navigation-item__label::after,
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible .wp-block-navigation-item__label::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content.wp-block-navigation-item__content:focus-visible {
+	color: var(--wc-ink);
+}
+
+/* In the dark mobile overlay, keep every item white on hover/focus (beats both
+   the parent's yellow rule and the ink dropdown-hover rule above). */
+.site-header .wp-block-navigation__responsive-container.is-menu-open a.wp-block-navigation-item__content.wp-block-navigation-item__content:hover,
+.site-header .wp-block-navigation__responsive-container.is-menu-open a.wp-block-navigation-item__content.wp-block-navigation-item__content:focus-visible {
+	color: #fff;
+}
+
+/* Active state — the current page is marked with the growing underline drawn in
+   full, NOT a colour swap. Overrides the parent theme's accent-colour + plain
+   underline rule for [aria-current] links. */
+
+/* Top-level: draw the bar fully whenever this item — or, for a dropdown parent,
+   a submenu descendant — is the current page. :has() supplies the ancestor
+   match the core Navigation block doesn't emit on its own. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item:has( .wp-block-navigation-item__content[aria-current] ) > .wp-block-navigation-item__content::after {
+	inset-inline-end: 0;
+}
+
+/* Keep the resting colour on active top-level links (white over the hero, ink
+   once scrolled or on hero-less pages) and drop the parent's plain underline. */
+.site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current] {
+	color: #fff;
+	text-decoration: none;
+}
+
+.site-header.scrolled .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current],
+body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation-item > a.wp-block-navigation-item__content[aria-current] {
+	color: var(--wc-ink);
+}
+
+/* Dropdown items: resting ink colour, ink underline drawn in full on the
+   current one (same bar as their hover). */
+.site-header .wp-block-navigation__submenu-container .wp-block-navigation-item__content[aria-current] .wp-block-navigation-item__label::after {
+	inset-inline-end: 0;
+}
+
+.site-header .wp-block-navigation__submenu-container a.wp-block-navigation-item__content[aria-current] {
+	color: var(--wc-ink);
+	text-decoration: none;
+}
+
+/* The mobile overlay hides the animated bar, so mark the current link there
+   with a plain underline instead. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open .wp-block-navigation-item__content[aria-current] {
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}
+
+/* Collapse to the native hamburger up to 899px (matching the old nav's
+   breakpoint). Core only collapses below 600px, which left the links crammed
+   inline with no way to open a menu on tablet / narrow-desktop widths. */
+@media (min-width: 600px) and (max-width: 899px) {
+	.site-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
+		display: flex;
+	}
+
+	.site-header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open):not(.hidden-by-default) {
+		display: none;
+	}
+}

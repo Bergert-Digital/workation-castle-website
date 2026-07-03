@@ -4,9 +4,16 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 	RichText,
+	InspectorControls,
 } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 
-type Attrs = { eyebrow: string; headline: string };
+type Attrs = {
+	eyebrow: string;
+	headline: string;
+	ctaText: string;
+	ctaUrl: string;
+};
 
 const ALLOWED = [ 'pediment-child/workation-review' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
@@ -59,6 +66,20 @@ export default function Edit( {
 	);
 	return (
 		<section { ...blockProps }>
+			<InspectorControls>
+				<PanelBody title={ __( 'Call to action', 'pediment-child' ) }>
+					<TextControl
+						label={ __( 'Button label', 'pediment-child' ) }
+						value={ attributes.ctaText }
+						onChange={ ( v ) => setAttributes( { ctaText: v } ) }
+					/>
+					<TextControl
+						label={ __( 'Button URL', 'pediment-child' ) }
+						value={ attributes.ctaUrl }
+						onChange={ ( v ) => setAttributes( { ctaUrl: v } ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<div className="sec-head">
 				<RichText
 					tagName="span"
@@ -77,6 +98,13 @@ export default function Edit( {
 			<div className="wc-wrap">
 				<div { ...innerProps } />
 			</div>
+			{ attributes.ctaText && (
+				<div className="reviews-cta">
+					<span className="wc-btn wc-btn-yellow">
+						{ attributes.ctaText } <span className="arr">→</span>
+					</span>
+				</div>
+			) }
 		</section>
 	);
 }

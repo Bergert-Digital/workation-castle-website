@@ -8,7 +8,9 @@
   "textdomain": "pediment-child",
   "attributes": {
     "eyebrow": { "type": "string", "default": "Guest reviews" },
-    "headline": { "type": "string", "default": "People come for focus, family time and the quiet." }
+    "headline": { "type": "string", "default": "People come for focus, family time and the quiet." },
+    "ctaText": { "type": "string", "default": "" },
+    "ctaUrl": { "type": "string", "default": "" }
   },
   "supports": { "html": false, "align": [ "full" ] },
   "editorScript": "file:./index.js",

@@ -135,7 +135,7 @@ export default function Edit( {
 				</div>
 				<RichText
 					tagName="span"
-					className="insta"
+					className="text-link insta"
 					value={ attributes.linkText }
 					onChange={ ( v ) => setAttributes( { linkText: v } ) }
 					placeholder={ __(

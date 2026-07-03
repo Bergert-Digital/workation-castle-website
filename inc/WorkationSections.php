@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 function pediment_child_workation_reviews_chrome( $attributes, $content ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$cta_text = isset( $attributes['ctaText'] ) ? (string) $attributes['ctaText'] : '';
+	$cta_url  = isset( $attributes['ctaUrl'] ) ? (string) $attributes['ctaUrl'] : '';
 	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
 	ob_start();
 	?>
@@ -34,6 +36,11 @@ function pediment_child_workation_reviews_chrome( $attributes, $content ) {
 		<div class="wc-wrap">
 			<div class="reviews-grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 		</div>
+		<?php if ( '' !== $cta_text ) : ?>
+			<div class="reviews-cta">
+				<a class="wc-btn wc-btn-yellow" href="<?php echo esc_url( $cta_url ); ?>"><?php echo esc_html( $cta_text ); ?> <span class="arr">→</span></a>
+			</div>
+		<?php endif; ?>
 	</section>
 	<?php
 	return (string) ob_get_clean();
@@ -47,10 +54,12 @@ function pediment_child_workation_reviews_chrome( $attributes, $content ) {
  * @return string
  */
 function pediment_child_workation_activities_chrome( $attributes, $content ) {
-	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
-	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
-	$lead     = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
+	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead         = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
+	$primary_url  = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
+	$wrapper      = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="activities">
@@ -67,6 +76,9 @@ function pediment_child_workation_activities_chrome( $attributes, $content ) {
 		</div>
 		<div class="wc-wrap">
 			<div class="act-grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+			<?php if ( '' !== $primary_text ) : ?>
+				<div class="act-foot"><a class="text-link" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a></div>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php
@@ -100,7 +112,7 @@ function pediment_child_workation_gallery_chrome( $attributes, $content ) {
 		<div class="wc-wrap">
 			<div class="gallery"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 			<?php if ( '' !== $primary_text ) : ?>
-				<div class="gallery-foot"><a class="wc-btn wc-btn-ghost-dark" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?></a></div>
+				<div class="gallery-foot"><a class="text-link" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a></div>
 			<?php endif; ?>
 		</div>
 	</section>
@@ -208,12 +220,14 @@ function pediment_child_workation_spaces_chrome( $attributes, $content ) {
  * @return string
  */
 function pediment_child_workation_location_chrome( $attributes, $content ) {
-	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
-	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
-	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
-	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
-	$wrapper   = get_block_wrapper_attributes( array( 'class' => 'band band-deep' ) );
+	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
+	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
+	$lead         = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
+	$image_url    = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_alt    = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
+	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
+	$primary_url  = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
+	$wrapper      = get_block_wrapper_attributes( array( 'class' => 'band band-deep' ) );
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="location">
@@ -237,6 +251,9 @@ function pediment_child_workation_location_chrome( $attributes, $content ) {
 						<p><?php echo wp_kses_post( $lead ); ?></p>
 					<?php endif; ?>
 					<div class="modes"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+					<?php if ( '' !== $primary_text ) : ?>
+						<a class="text-link loc-cta" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -283,13 +300,18 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 				<?php if ( '' !== $lead ) : ?>
 					<p class="lede"><?php echo wp_kses_post( $lead ); ?></p>
 				<?php endif; ?>
-				<form class="avail" method="get" action="<?php echo esc_url( $booking_url ); ?>" aria-label="<?php esc_attr_e( 'Check availability', 'pediment-child' ); ?>">
-					<div class="avail-field"><label for="arrival"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Arrival', 'pediment-child' ); ?></label><input type="date" id="arrival" name="<?php echo esc_attr( $check_in_param ); ?>"></div>
-					<div class="avail-field"><label for="departure"><span class="avail-icon" aria-hidden="true"></span> <?php esc_html_e( 'Departure', 'pediment-child' ); ?></label><input type="date" id="departure" name="<?php echo esc_attr( $check_out_param ); ?>"></div>
-					<div class="avail-field select-wrap"><label for="guests"><span class="avail-icon avail-icon--guest" aria-hidden="true"></span> <?php esc_html_e( 'Guests', 'pediment-child' ); ?></label><select id="guests" name="<?php echo esc_attr( $adults_param ); ?>"><option value="2"><?php esc_html_e( '2 guests', 'pediment-child' ); ?></option><option value="1"><?php esc_html_e( '1 guest', 'pediment-child' ); ?></option><option value="3"><?php esc_html_e( '3 guests', 'pediment-child' ); ?></option><option value="4"><?php esc_html_e( '4 guests', 'pediment-child' ); ?></option><option value="5"><?php esc_html_e( '5 guests', 'pediment-child' ); ?></option><option value="6"><?php esc_html_e( '6 guests', 'pediment-child' ); ?></option><option value="7"><?php esc_html_e( '7 guests', 'pediment-child' ); ?></option><option value="8"><?php esc_html_e( '8 guests', 'pediment-child' ); ?></option><option value="9"><?php esc_html_e( '9 guests', 'pediment-child' ); ?></option></select></div>
-					<input type="hidden" name="<?php echo esc_attr( $children_param ); ?>" value="">
-					<div class="avail-submit"><button type="submit" class="wc-btn wc-btn-yellow"><?php echo esc_html( $primary_text ); ?> <span class="arr" aria-hidden="true">→</span></button></div>
-				</form>
+				<?php
+				echo pediment_child_render_availability_form( // phpcs:ignore WordPress.Security.EscapeOutput
+					array(
+						'booking_url'     => $booking_url,
+						'check_in_param'  => $check_in_param,
+						'check_out_param' => $check_out_param,
+						'adults_param'    => $adults_param,
+						'children_param'  => $children_param,
+						'submit_text'     => $primary_text,
+					)
+				);
+				?>
 				<div class="hero-secondary"><a href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?></a></div>
 				<div class="hero-chips"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 			</div>
@@ -595,11 +617,11 @@ function pediment_child_workation_closing_chrome( $attributes ) {
 					<a class="wc-btn wc-btn-yellow" href="<?php echo esc_url( $primary_url ); ?>"><?php echo esc_html( $primary_text ); ?> <span class="arr">→</span></a>
 				<?php endif; ?>
 				<?php if ( '' !== $secondary_text ) : ?>
-					<a class="wc-btn wc-btn-ghost-light" href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?></a>
+					<a class="wc-btn wc-btn-ghost-light" href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_text ); ?> <span class="arr">→</span></a>
 				<?php endif; ?>
 			</div>
 			<?php if ( '' !== $link_text ) : ?>
-				<a class="insta" href="<?php echo esc_url( $link_url ); ?>" target="_blank" rel="noreferrer"><?php echo esc_html( $link_text ); ?> <span class="arr">→</span></a>
+				<a class="text-link insta" href="<?php echo esc_url( $link_url ); ?>" target="_blank" rel="noreferrer"><?php echo esc_html( $link_text ); ?> <span class="arr">→</span></a>
 			<?php endif; ?>
 		</div>
 	</section>
