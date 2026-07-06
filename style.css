@@ -1455,7 +1455,10 @@ body.parent-pageid-179 .starter-steps {
 }
 
 .gallery .wp-block-image,
-.gallery a {
+.gallery a,
+/* Editor renders each photo as a <span> wrapper (front end uses <a>); match the
+   block class so cells get their 1/1 sizing in both contexts and don't collapse. */
+.gallery .wp-block-pediment-child-workation-photo {
 	aspect-ratio: 1 / 1;
 	border-radius: 18px;
 	box-shadow: 0 16px 36px -26px rgba(58, 38, 22, .5);
