@@ -43,4 +43,10 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'estate-map__legend', $html );
 		$this->assertStringContainsString( 'estate-map__svg', $html );
 	}
+
+	public function test_block_renders_via_do_blocks() {
+		$html = do_blocks( '<!-- wp:pediment-child/estate-map /-->' );
+		$this->assertStringContainsString( 'estate-map__svg', $html );
+		$this->assertStringContainsString( 'Casa Galbiga', $html );
+	}
 }
