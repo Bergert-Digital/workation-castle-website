@@ -77,6 +77,11 @@ class Seed {
 			'pattern_file' => 'patterns/arrival.php',
 			'parent'       => 'guide',
 		),
+		'map'               => array(
+			'title'        => 'Map',
+			'pattern_file' => 'patterns/map.php',
+			'parent'       => 'guide',
+		),
 		'check-in'          => array(
 			'title'        => 'Check-in',
 			'pattern_file' => 'patterns/check-in.php',
