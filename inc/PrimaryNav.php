@@ -37,7 +37,7 @@ function pediment_child_primary_nav_blocks(): string {
 			'<!-- wp:navigation-link {"label":"How to get here","url":"/guide/arrival/","kind":"custom"} /-->',
 			'<!-- wp:navigation-link {"label":"Checking in","url":"/check-in/","kind":"custom"} /-->',
 			'<!-- wp:navigation-link {"label":"Find your way around","url":"https://workationcastle.com/guide/map/","kind":"custom"} /-->',
-			'<!-- wp:navigation-link {"label":"Sorting the waste","url":"https://workationcastle.com/guide/waste-disposal/","kind":"custom"} /-->',
+			'<!-- wp:navigation-link {"label":"Sorting the waste","url":"/guide/waste-disposal/","kind":"custom"} /-->',
 			'<!-- /wp:navigation-submenu -->',
 		)
 	);

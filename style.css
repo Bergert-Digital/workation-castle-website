@@ -1037,6 +1037,53 @@ body.parent-pageid-179 .starter-steps {
 	inline-size: 100%;
 }
 
+/* Catering directory: responsive grid of place cards (image + name + descriptor). */
+.catering-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: var(--wp--preset--spacing--50);
+	margin-block-start: var(--wp--preset--spacing--40);
+}
+
+.catering-grid > * {
+	margin: 0;
+}
+
+.catering-card {
+	text-align: center;
+}
+
+.catering-card img {
+	aspect-ratio: 1 / 1;
+	block-size: 150px;
+	border-radius: 50%;
+	display: block;
+	inline-size: 150px;
+	margin: 0 auto var(--wp--preset--spacing--20);
+	object-fit: cover;
+}
+
+.catering-card h3 {
+	font-size: 1.15rem;
+	margin: 0 0 .15em;
+}
+
+.catering-card p {
+	margin: 0 0 .2em;
+}
+
+/* Amber arrow after each place link signals it opens the restaurant / map. */
+.catering-card a .arr {
+	color: var(--wc-amber);
+	display: inline-block;
+	transition: transform .35s var(--wc-ease);
+}
+
+.catering-card a:hover .arr,
+.catering-card a:focus-visible .arr {
+	transform: translateX(4px);
+}
+
 .intro h2 {
 	font-size: clamp(2rem, 5vw, 3.1rem);
 	margin: 18px auto 0;
