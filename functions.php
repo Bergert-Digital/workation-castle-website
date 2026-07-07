@@ -157,6 +157,15 @@ add_action(
 		);
 		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', pediment_child_range_picker_l10n() );
 
+		$estate_map_js_path = get_stylesheet_directory() . '/assets/js/estate-map.js';
+		wp_enqueue_script(
+			'workation-castle-estate-map',
+			get_stylesheet_directory_uri() . '/assets/js/estate-map.js',
+			array(),
+			file_exists( $estate_map_js_path ) ? (string) filemtime( $estate_map_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+
 		// Activity locator maps (Leaflet) — only on single activity pages.
 		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
 			wp_enqueue_style(
