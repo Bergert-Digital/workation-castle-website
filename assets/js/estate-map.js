@@ -1,10 +1,12 @@
 /**
- * Estate map — link legend rows to buildings/pins via a shared data-poi id.
+ * Estate map — link legend rows, map buildings and pins via a shared data-poi id.
  * Progressive enhancement: the static map + legend work without this script.
  *
- * One POI is active at a time. Hover/focus sets a transient `hovered` id;
- * click toggles a persistent `pinned` id. The rendered `.is-active` element is
- * `pinned || hovered`, so hover never stomps a pin and a pin survives leave/blur.
+ * Any element carrying data-poi is interactive: legend rows, the SVG building
+ * shapes, and the pins. One POI is active at a time. Hover/focus sets a transient
+ * `hovered` id; click toggles a persistent `pinned` id. The rendered `.is-active`
+ * element is `pinned || hovered`, so hover never stomps a pin and a pin survives
+ * leave/blur.
  */
 ( function () {
 	'use strict';
@@ -31,32 +33,39 @@
 				} );
 			}
 
-			var rows = map.querySelectorAll( '.estate-map__row' );
-			Array.prototype.forEach.call( rows, function ( row ) {
-				var id = row.getAttribute( 'data-poi' );
-				row.addEventListener( 'pointerenter', function () {
+			function bind( el ) {
+				var id = el.getAttribute( 'data-poi' );
+				if ( ! id ) {
+					return;
+				}
+				function setHover() {
 					hovered = id;
 					render();
-				} );
+				}
 				function clearHover() {
 					if ( hovered === id ) {
 						hovered = null;
 						render();
 					}
 				}
-				row.addEventListener( 'pointerleave', clearHover );
-				row.addEventListener( 'pointercancel', clearHover );
-				row.addEventListener( 'blur', clearHover );
-				row.addEventListener( 'focus', function () {
-					hovered = id;
-					render();
-				} );
+				el.addEventListener( 'pointerenter', setHover );
+				el.addEventListener( 'pointerleave', clearHover );
+				el.addEventListener( 'pointercancel', clearHover );
+				// focus/blur only fire for the focusable legend buttons.
+				el.addEventListener( 'focus', setHover );
+				el.addEventListener( 'blur', clearHover );
 				// Tap/click toggles a persistent pin, independent of hover.
-				row.addEventListener( 'click', function () {
+				el.addEventListener( 'click', function () {
 					pinned = pinned === id ? null : id;
 					render();
 				} );
-			} );
+			}
+
+			// Legend rows, plus the map's own buildings and pins.
+			var targets = map.querySelectorAll(
+				'.estate-map__row, .estate-map__building[data-poi], .estate-map__pin[data-poi]'
+			);
+			Array.prototype.forEach.call( targets, bind );
 		} );
 	}
 
