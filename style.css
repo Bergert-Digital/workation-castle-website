@@ -2830,8 +2830,8 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 	height: auto;
 }
 .estate-map__building,
-.estate-map__pin {
-	transition: transform 0.18s ease, filter 0.18s ease;
+.estate-map__pin circle {
+	transition: stroke 0.15s ease, stroke-width 0.15s ease;
 }
 .estate-map__building.is-active {
 	filter: brightness(1.08) drop-shadow(0 0 0 var(--wp--preset--color--accent));
@@ -2841,7 +2841,7 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 .estate-map__pin--place .estate-map__pin-num { fill: var(--wp--preset--color--accent); font: 700 20px "Inria Sans", sans-serif; }
 .estate-map__pin--service circle { fill: var(--wp--preset--color--surface); stroke: var(--wp--preset--color--primary); stroke-width: 3; }
 .estate-map__pin--service .estate-map__pin-num { fill: var(--wp--preset--color--primary); font: 700 18px "Inria Sans", sans-serif; }
-.estate-map__pin.is-active { transform: scale(1.18); }
+.estate-map__pin.is-active circle { stroke: var(--wp--preset--color--accent); stroke-width: 5; }
 
 .estate-map__legend {
 	list-style: none;
@@ -2893,6 +2893,5 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 }
 @media (prefers-reduced-motion: reduce) {
 	.estate-map__building,
-	.estate-map__pin { transition: none; }
-	.estate-map__pin.is-active { transform: none; }
+	.estate-map__pin circle { transition: none; }
 }
