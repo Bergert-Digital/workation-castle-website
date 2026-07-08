@@ -2901,6 +2901,16 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 
 @media (max-width: 600px) {
 	.estate-map__legend { grid-template-columns: 1fr; }
+	/* Keep the map legible on phones: hold a minimum width and let it scroll
+	   horizontally instead of shrinking pins and labels to an unusable size. */
+	.estate-map__figure {
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+	}
+	.estate-map__svg {
+		min-width: 640px;
+	}
 }
 @media (prefers-reduced-motion: reduce) {
 	.estate-map__building,
