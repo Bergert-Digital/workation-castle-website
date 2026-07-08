@@ -2838,10 +2838,10 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 	stroke: var(--wp--preset--color--accent);
 }
 .estate-map__pin--place circle { fill: var(--wp--preset--color--primary); }
-.estate-map__pin--place .estate-map__pin-num { fill: var(--wp--preset--color--accent); font: 700 20px "Inria Sans", sans-serif; }
-.estate-map__pin--service circle { fill: var(--wp--preset--color--surface); stroke: var(--wp--preset--color--primary); stroke-width: 3; }
-.estate-map__pin--service .estate-map__pin-num { fill: var(--wp--preset--color--primary); font: 700 18px "Inria Sans", sans-serif; }
-.estate-map__pin.is-active circle { stroke: var(--wp--preset--color--accent); stroke-width: 5; }
+.estate-map__pin--place .estate-map__pin-num { fill: var(--wp--preset--color--accent); font: 700 14px "Inria Sans", sans-serif; }
+.estate-map__pin--service circle { fill: var(--wp--preset--color--surface); stroke: var(--wp--preset--color--primary); stroke-width: 2; }
+.estate-map__pin--service .estate-map__pin-num { fill: var(--wp--preset--color--primary); font: 700 13px "Inria Sans", sans-serif; }
+.estate-map__pin.is-active circle { stroke: var(--wp--preset--color--accent); stroke-width: 3.5; }
 
 .estate-map__legend {
 	list-style: none;
