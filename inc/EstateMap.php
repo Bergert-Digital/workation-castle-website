@@ -33,8 +33,8 @@ function pediment_child_estate_map_pois() {
 		array(
 			'id'     => 'bar',
 			'marker' => '3',
-			'name'   => 'Bar Breva',
-			'sub'    => '',
+			'name'   => 'Bar',
+			'sub'    => 'coffee machine and water dispenser',
 			'type'   => 'place',
 			'x'      => 485,
 			'y'      => 336,
