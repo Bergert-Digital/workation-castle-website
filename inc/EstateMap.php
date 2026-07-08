@@ -63,26 +63,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Parking',
 			'sub'    => 'on Via Castello (south side)',
 			'type'   => 'service',
-			'x'      => 95,
-			'y'      => 352,
-		),
-		array(
-			'id'     => 'garden',
-			'marker' => '✯',
-			'name'   => 'Courtyard & garden',
-			'sub'    => '',
-			'type'   => 'service',
-			'x'      => 527,
-			'y'      => 243,
-		),
-		array(
-			'id'     => 'entrance',
-			'marker' => '→',
-			'name'   => 'Main entrance',
-			'sub'    => '',
-			'type'   => 'service',
-			'x'      => 96,
-			'y'      => 232,
+			'x'      => 44,
+			'y'      => 318,
 		),
 	);
 }
@@ -114,13 +96,8 @@ function pediment_child_estate_map_scenery() {
 <path d="M-20 330 Q70 300 150 258" fill="none" stroke="#CFC3A2" stroke-width="30" stroke-linecap="round"/>
 <path d="M-20 330 Q70 300 150 258" fill="none" stroke="#E7DCBF" stroke-width="21" stroke-linecap="round"/>
 <text x="8" y="316" fill="#5B5042" font-family="Inria Sans, sans-serif" font-size="15" font-style="italic" transform="rotate(-20 8 316)">Via Castello</text>
-<g fill="#EAE2CF" stroke="#CBBE9E" stroke-width="2">
-<rect x="30" y="352" width="46" height="28" rx="4" transform="rotate(-20 53 366)"/>
-<rect x="84" y="340" width="46" height="28" rx="4" transform="rotate(-20 107 354)"/>
-<rect x="138" y="330" width="46" height="28" rx="4" transform="rotate(-20 161 344)"/>
-</g>
 <path d="M380 210 Q470 195 560 215 Q590 260 560 300 Q470 315 400 295 Q372 255 380 210 Z" fill="#EFE7D2" stroke="#D9CBAA" stroke-width="2" opacity=".9"/>
-<g class="estate-map__building" data-poi="garden"><circle cx="527" cy="243" r="30" fill="#6E9A4E"/><g fill="#8CB86B"><circle cx="516" cy="233" r="4"/><circle cx="537" cy="237" r="4"/><circle cx="524" cy="253" r="4"/><circle cx="540" cy="252" r="4"/><circle cx="510" cy="248" r="4"/></g></g>
+<g><circle cx="527" cy="243" r="30" fill="#6E9A4E"/><g fill="#8CB86B"><circle cx="516" cy="233" r="4"/><circle cx="537" cy="237" r="4"/><circle cx="524" cy="253" r="4"/><circle cx="540" cy="252" r="4"/><circle cx="510" cy="248" r="4"/></g></g>
 <g filter="url(#wc-soft)" stroke="#6B3B22" stroke-width="2.6" stroke-linejoin="round">
 <path d="M 121.6 164.8 L 133.6 230.4 L 199.2 220.0 L 189.6 156.8 Z" fill="url(#wc-roof)"/>
 <path d="M 252.0 308.8 L 250.4 265.6 L 247.2 252.0 L 138.4 260.0 L 151.2 336.8 L 192.8 330.4 L 192.8 316.0 Z" fill="url(#wc-roof)"/>
@@ -142,7 +119,8 @@ function pediment_child_estate_map_scenery() {
 <path class="estate-map__building" data-poi="coworking" d="M 480.8 399.2 L 465.6 379.2 L 480.8 399.2 L 496.0 389.6 L 502.4 384.0 L 525.6 364.0 L 507.2 336.8 L 504.8 338.4 L 478.4 356.8 L 457.6 370.4 L 380.8 397.6 L 386.4 453.6 L 422.4 437.6 L 447.2 421.6 L 465.6 409.6 Z" fill="url(#wc-roof)"/>
 <path class="estate-map__building" data-poi="bar" d="M 468.0 332.8 L 478.4 356.8 L 504.8 338.4 L 488.8 316.0 Z" fill="url(#wc-roof)"/>
 <path class="estate-map__building" data-poi="tremezzo" d="M 543.2 304.0 L 525.6 284.8 L 484.8 308.8 L 488.8 316.0 L 504.8 338.4 L 507.2 336.8 L 525.6 364.0 L 548.0 344.8 L 560.8 330.4 L 548.8 312.0 Z" fill="url(#wc-roof)"/>
-<g class="estate-map__building" data-poi="waste"><rect x="452" y="300" width="30" height="24" rx="3" fill="url(#wc-roof)"/></g>
+<path d="M 450 172 L 578 164 L 586 205 L 456 214 Z" fill="url(#wc-roof)"/>
+<path d="M 342 298 L 462 300 L 472 344 L 350 350 Z" fill="url(#wc-roof)"/>
 </g>
 SVG;
 }

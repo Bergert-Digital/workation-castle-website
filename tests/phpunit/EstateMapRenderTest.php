@@ -29,7 +29,8 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 
 	public function test_place_pois_have_a_building_group() {
 		$html = pediment_child_estate_map_chrome();
-		foreach ( array( 'galbiga', 'coworking', 'bar', 'tremezzo', 'waste' ) as $id ) {
+		// Waste is a labelled point (pin only), so it is not in this list.
+		foreach ( array( 'galbiga', 'coworking', 'bar', 'tremezzo' ) as $id ) {
 			$this->assertStringContainsString(
 				'class="estate-map__building" data-poi="' . $id . '"',
 				$html
