@@ -18,8 +18,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Casa Galbiga',
 			'sub'    => 'guest house',
 			'type'   => 'place',
-			'x'      => 250,
-			'y'      => 560,
+			'x'      => 360,
+			'y'      => 700,
 		),
 		array(
 			'id'     => 'coworking',
@@ -27,8 +27,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Co-Working Space',
 			'sub'    => '',
 			'type'   => 'place',
-			'x'      => 470,
-			'y'      => 520,
+			'x'      => 730,
+			'y'      => 812,
 		),
 		array(
 			'id'     => 'bar',
@@ -36,8 +36,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Bar Breva',
 			'sub'    => '',
 			'type'   => 'place',
-			'x'      => 610,
-			'y'      => 430,
+			'x'      => 1150,
+			'y'      => 690,
 		),
 		array(
 			'id'     => 'tremezzo',
@@ -45,8 +45,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Casa Tremezzo',
 			'sub'    => 'guest house',
 			'type'   => 'place',
-			'x'      => 810,
-			'y'      => 330,
+			'x'      => 1230,
+			'y'      => 455,
 		),
 		array(
 			'id'     => 'waste',
@@ -54,17 +54,17 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Waste Collection Point',
 			'sub'    => '',
 			'type'   => 'service',
-			'x'      => 535,
-			'y'      => 360,
+			'x'      => 660,
+			'y'      => 668,
 		),
 		array(
 			'id'     => 'parking',
 			'marker' => 'P',
 			'name'   => 'Parking',
-			'sub'    => '',
+			'sub'    => 'on Via Castello (south side)',
 			'type'   => 'service',
-			'x'      => 115,
-			'y'      => 280,
+			'x'      => 175,
+			'y'      => 820,
 		),
 		array(
 			'id'     => 'garden',
@@ -72,8 +72,8 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Courtyard & garden',
 			'sub'    => '',
 			'type'   => 'service',
-			'x'      => 420,
-			'y'      => 420,
+			'x'      => 1080,
+			'y'      => 480,
 		),
 		array(
 			'id'     => 'entrance',
@@ -81,16 +81,20 @@ function pediment_child_estate_map_pois() {
 			'name'   => 'Main entrance',
 			'sub'    => '',
 			'type'   => 'service',
-			'x'      => 30,
-			'y'      => 405,
+			'x'      => 225,
+			'y'      => 520,
 		),
 	);
 }
 
 /**
- * Static SVG scenery: grounds, paths, courtyard, garden, traced buildings, trees, entrance.
- * Building groups carry class="estate-map__building" data-poi="{id}" so they highlight.
- * NOTE: coordinates are a first-pass trace; refined in the fidelity loop (Task 6).
+ * Static SVG scenery: grounds, woods, Via Castello + parking, courtyards, garden,
+ * the traced building ring and the entrance. viewBox is 1400x1000.
+ *
+ * Orientation matches the drone photo: the street/entrance are on the LEFT (west),
+ * the buildings wrap as an irregular ring around two courtyards, and the planted
+ * garden bed sits in the main (upper-right) courtyard. Building groups carry
+ * class="estate-map__building" data-poi="{id}" so they highlight with the legend.
  *
  * @return string
  */
@@ -99,52 +103,75 @@ function pediment_child_estate_map_scenery() {
 <defs>
 	<linearGradient id="wc-roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C67E5C"/><stop offset="1" stop-color="#A9583B"/></linearGradient>
 	<linearGradient id="wc-roof2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#BE7150"/><stop offset="1" stop-color="#9E4F35"/></linearGradient>
-	<radialGradient id="wc-grass" cx="50%" cy="40%" r="80%"><stop offset="0" stop-color="#9FBC7A"/><stop offset="1" stop-color="#7E9C5C"/></radialGradient>
+	<radialGradient id="wc-grass" cx="50%" cy="45%" r="80%"><stop offset="0" stop-color="#9FBC7A"/><stop offset="1" stop-color="#7E9C5C"/></radialGradient>
 	<filter id="wc-soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#2c1c0e" flood-opacity="0.22"/></filter>
 </defs>
-<rect width="1200" height="820" fill="url(#wc-grass)"/>
-<ellipse cx="250" cy="700" rx="230" ry="120" fill="#A7C382" opacity=".55"/>
-<ellipse cx="980" cy="640" rx="230" ry="150" fill="#A7C382" opacity=".5"/>
-<ellipse cx="620" cy="120" rx="360" ry="120" fill="#8FAE6A" opacity=".5"/>
-<g stroke="#728e50" stroke-width="3" fill="none" opacity=".5"><path d="M120 70 Q600 20 1080 80"/><path d="M90 110 Q600 60 1120 120"/></g>
-<g fill="none" stroke="#E8DEC4" stroke-width="16" stroke-linecap="round" opacity=".95"><path d="M40 405 L250 405 Q360 405 430 470 L620 640"/><path d="M430 470 L640 470 Q760 470 820 560"/></g>
-<g fill="none" stroke="#c9b98f" stroke-width="16" stroke-linecap="round" stroke-dasharray="2 26" opacity=".8"><path d="M40 405 L250 405 Q360 405 430 470 L620 640"/><path d="M430 470 L640 470 Q760 470 820 560"/></g>
-<path class="estate-map__courtyard" d="M300 330 Q470 300 640 330 Q690 430 600 500 Q440 540 320 480 Q280 400 300 330 Z" fill="#EFE7D2" stroke="#D9CBAA" stroke-width="3"/>
+<rect width="1400" height="1000" fill="url(#wc-grass)"/>
+<ellipse cx="320" cy="880" rx="300" ry="150" fill="#A7C382" opacity=".45"/>
+<ellipse cx="1180" cy="850" rx="320" ry="180" fill="#A7C382" opacity=".4"/>
+<!-- surrounding woods -->
+<g fill="#4f7038">
+	<circle cx="110" cy="80" r="82"/><circle cx="300" cy="64" r="92"/><circle cx="500" cy="72" r="82"/><circle cx="720" cy="54" r="96"/><circle cx="960" cy="64" r="90"/><circle cx="1180" cy="74" r="92"/><circle cx="1340" cy="140" r="92"/>
+	<circle cx="1360" cy="380" r="82"/><circle cx="1360" cy="600" r="82"/><circle cx="1310" cy="820" r="92"/>
+	<circle cx="56" cy="300" r="70"/><circle cx="56" cy="520" r="70"/>
+</g>
+<g fill="#6b9450">
+	<circle cx="110" cy="60" r="54"/><circle cx="300" cy="46" r="60"/><circle cx="720" cy="36" r="62"/><circle cx="960" cy="46" r="58"/><circle cx="1180" cy="56" r="58"/>
+</g>
+<!-- prominent lone tree west of the house -->
+<g transform="translate(175,560)"><circle r="72" fill="#4f7038"/><circle cx="-22" cy="-20" r="46" fill="#6b9450"/></g>
+<!-- Via Castello (enters from the left); guest parking on its south side -->
+<path d="M-30 790 Q180 748 330 646" fill="none" stroke="#CFC3A2" stroke-width="50" stroke-linecap="round"/>
+<path d="M-30 790 Q180 748 330 646" fill="none" stroke="#E7DCBF" stroke-width="36" stroke-linecap="round"/>
+<text x="34" y="744" fill="#5B5042" font-family="'Inria Sans', sans-serif" font-size="24" font-style="italic" transform="rotate(-17 34 744)">Via Castello</text>
+<g fill="#EAE2CF" stroke="#CBBE9E" stroke-width="3">
+	<rect x="74" y="836" width="74" height="48" rx="6" transform="rotate(-17 111 860)"/>
+	<rect x="168" y="818" width="74" height="48" rx="6" transform="rotate(-17 205 842)"/>
+	<rect x="262" y="798" width="74" height="48" rx="6" transform="rotate(-17 299 822)"/>
+</g>
+<!-- driveway to the entrance -->
+<path d="M330 660 Q300 600 258 556" fill="none" stroke="#E7DCBF" stroke-width="22" stroke-linecap="round"/>
+<!-- main courtyard (upper right) + cloister courtyard (centre) -->
+<path class="estate-map__courtyard" d="M985 470 Q1080 360 1235 360 Q1345 400 1362 520 Q1352 622 1240 642 Q1082 652 1020 586 Q980 530 985 470 Z" fill="#EFE7D2" stroke="#D9CBAA" stroke-width="3"/>
+<rect x="560" y="558" width="330" height="196" rx="14" fill="#E7DFCB" stroke="#D3C6A6" stroke-width="3"/>
+<!-- planted garden bed in the main courtyard -->
 <g class="estate-map__building" data-poi="garden">
-	<rect x="360" y="360" width="120" height="120" rx="8" fill="#6E9A4E"/>
-	<g fill="#8CB86B"><circle cx="390" cy="390" r="7"/><circle cx="430" cy="400" r="7"/><circle cx="410" cy="440" r="7"/><circle cx="455" cy="455" r="7"/><circle cx="380" cy="450" r="7"/></g>
+	<circle cx="1080" cy="480" r="60" fill="#6E9A4E"/>
+	<g fill="#8CB86B"><circle cx="1058" cy="460" r="8"/><circle cx="1100" cy="468" r="8"/><circle cx="1076" cy="502" r="8"/><circle cx="1110" cy="500" r="8"/><circle cx="1046" cy="494" r="8"/><circle cx="1088" cy="480" r="8"/></g>
 </g>
-<g filter="url(#wc-soft)" stroke="#6B3B22" stroke-width="4" stroke-linejoin="round">
+<!-- building ring -->
+<g filter="url(#wc-soft)" stroke="#6B3B22" stroke-width="4.5" stroke-linejoin="round">
+	<!-- north wing (historic range, unlabeled) -->
+	<polygon points="300,432 352,300 902,250 1096,306 1068,414 872,366 336,456" fill="url(#wc-roof)"/>
+	<line x1="366" y1="332" x2="1052" y2="364" stroke="#8A4730" stroke-width="3"/>
+	<!-- Casa Tremezzo (east wing) -->
 	<g class="estate-map__building" data-poi="tremezzo">
-		<polygon points="110,235 130,130 600,80 830,120 810,225 590,170 120,205" fill="url(#wc-roof)"/>
-		<line x1="130" y1="150" x2="800" y2="200" stroke="#8A4730" stroke-width="3"/>
-		<polygon points="810,225 900,180 960,300 870,345 800,300" fill="url(#wc-roof2)"/>
-		<polygon points="800,300 870,345 830,420 720,400 700,340" fill="url(#wc-roof)"/>
+		<polygon points="1096,306 1276,378 1380,498 1334,600 1204,604 1122,502 1068,414" fill="url(#wc-roof2)"/>
 	</g>
+	<!-- Bar Breva (lower-right wing) -->
 	<g class="estate-map__building" data-poi="bar">
-		<polygon points="700,340 720,400 620,470 560,430 600,360" fill="url(#wc-roof2)"/>
+		<polygon points="1204,604 1334,600 1300,724 1140,794 1030,722 1086,612" fill="url(#wc-roof)"/>
 	</g>
+	<!-- Co-Working (south wing) -->
 	<g class="estate-map__building" data-poi="coworking">
-		<polygon points="560,430 620,470 520,540 440,510 470,455" fill="url(#wc-roof)"/>
-		<polygon points="440,510 520,540 400,590 320,560 340,500" fill="url(#wc-roof2)"/>
+		<polygon points="1030,722 1140,794 952,884 730,888 666,798 786,728" fill="url(#wc-roof2)"/>
+		<polygon points="666,798 730,888 520,892 470,808 560,740" fill="url(#wc-roof)"/>
 	</g>
+	<!-- Casa Galbiga (bottom-left house) -->
 	<g class="estate-map__building" data-poi="galbiga">
-		<polygon points="320,560 340,500 210,520 190,600 300,610" fill="url(#wc-roof)"/>
-		<polygon points="120,205 120,410 210,430 210,240" fill="url(#wc-roof2)"/>
-		<polygon points="120,410 190,600 210,600 210,430" fill="url(#wc-roof)"/>
-		<polygon points="235,285 360,270 380,430 250,445 250,360 235,360" fill="url(#wc-roof2)"/>
+		<polygon points="250,600 300,440 472,456 498,720 458,888 302,908 236,760" fill="url(#wc-roof2)"/>
+		<line x1="362" y1="474" x2="384" y2="874" stroke="#8A4730" stroke-width="3"/>
 	</g>
+	<!-- central range (unlabeled) -->
+	<polygon points="560,540 862,540 898,632 616,660 540,600" fill="url(#wc-roof)"/>
+	<!-- Waste Collection Point (small structure off the cloister) -->
 	<g class="estate-map__building" data-poi="waste">
-		<rect x="470" y="300" width="130" height="120" rx="6" fill="url(#wc-roof)"/>
+		<rect x="604" y="628" width="112" height="86" rx="6" fill="url(#wc-roof2)"/>
 	</g>
-	<polygon points="880,420 1000,470 950,570 830,520" fill="url(#wc-roof2)"/>
 </g>
-<g>
-	<g transform="translate(70,560)"><circle r="46" fill="#4f7038"/><circle cx="-16" cy="-14" r="30" fill="#6b9450"/></g>
-	<g transform="translate(1040,560)"><circle r="52" fill="#4f7038"/><circle cx="-18" cy="-16" r="34" fill="#6b9450"/></g>
-	<g transform="translate(560,700)"><circle r="44" fill="#4f7038"/><circle cx="-14" cy="-14" r="28" fill="#6b9450"/></g>
-</g>
-<rect x="70" y="250" width="90" height="60" rx="8" fill="#E9E1CE" stroke="#CBBE9E" stroke-width="3" transform="rotate(-6 115 280)"/>
+<!-- a couple of trees flanking the grounds -->
+<g transform="translate(1300,470)"><circle r="30" fill="#4f7038"/><circle cx="-9" cy="-8" r="20" fill="#6b9450"/></g>
+<g transform="translate(560,940)"><circle r="40" fill="#4f7038"/><circle cx="-12" cy="-12" r="26" fill="#6b9450"/></g>
 SVG;
 }
 
@@ -191,7 +218,7 @@ function pediment_child_estate_map_chrome( $attributes = array(), $content = '' 
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 		<div class="wc-wrap estate-map__inner">
 			<div class="estate-map__figure">
-				<svg class="estate-map__svg" viewBox="0 0 1200 820" role="img" aria-label="<?php echo esc_attr__( 'Illustrated map of Workation Castle showing the guest houses, co-working space, bar and grounds', 'pediment-child' ); ?>">
+				<svg class="estate-map__svg" viewBox="0 0 1400 1000" role="img" aria-label="<?php echo esc_attr__( 'Illustrated map of Workation Castle showing the guest houses, co-working space, bar and grounds', 'pediment-child' ); ?>">
 					<?php echo $scenery; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<g class="estate-map__pins"><?php echo $pins; // phpcs:ignore WordPress.Security.EscapeOutput ?></g>
 				</svg>
