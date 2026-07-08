@@ -119,7 +119,7 @@ function pediment_child_estate_map_scenery() {
 <path class="estate-map__building" data-poi="coworking" d="M 480.8 399.2 L 465.6 379.2 L 480.8 399.2 L 496.0 389.6 L 502.4 384.0 L 525.6 364.0 L 507.2 336.8 L 504.8 338.4 L 478.4 356.8 L 457.6 370.4 L 380.8 397.6 L 386.4 453.6 L 422.4 437.6 L 447.2 421.6 L 465.6 409.6 Z" fill="url(#wc-roof)"/>
 <path class="estate-map__building" data-poi="bar" d="M 468.0 332.8 L 478.4 356.8 L 504.8 338.4 L 488.8 316.0 Z" fill="url(#wc-roof)"/>
 <path class="estate-map__building" data-poi="tremezzo" d="M 543.2 304.0 L 525.6 284.8 L 484.8 308.8 L 488.8 316.0 L 504.8 338.4 L 507.2 336.8 L 525.6 364.0 L 548.0 344.8 L 560.8 330.4 L 548.8 312.0 Z" fill="url(#wc-roof)"/>
-<path d="M 450 172 L 578 164 L 586 205 L 456 214 Z" fill="url(#wc-roof)"/>
+<path d="M 442 127 L 585.6 123.2 L 577.6 169.6 L 448 186 Z" fill="url(#wc-roof)"/>
 <path d="M 342 298 L 462 300 L 472 344 L 350 350 Z" fill="url(#wc-roof)"/>
 </g>
 SVG;
