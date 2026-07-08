@@ -2837,6 +2837,13 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 .estate-map__pin[data-poi] {
 	cursor: pointer;
 }
+/* Clicking a map shape focuses it in Chrome; show only the gold .is-active
+   ring, not the browser's default focus outline. (Keyboard users reach the
+   POIs via the focusable legend buttons, which keep their own indicator.) */
+.estate-map__building[data-poi]:focus,
+.estate-map__pin[data-poi]:focus {
+	outline: none;
+}
 .estate-map__building.is-active {
 	filter: brightness(1.08) drop-shadow(0 0 0 var(--wp--preset--color--accent));
 	stroke: var(--wp--preset--color--accent);

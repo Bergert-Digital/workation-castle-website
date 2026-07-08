@@ -24,7 +24,7 @@ function pediment_child_estate_map_pois() {
 		array(
 			'id'     => 'coworking',
 			'marker' => '2',
-			'name'   => 'Co-Working Space',
+			'name'   => 'Workspace',
 			'sub'    => '',
 			'type'   => 'place',
 			'x'      => 467,
@@ -61,7 +61,7 @@ function pediment_child_estate_map_pois() {
 			'id'     => 'parking',
 			'marker' => 'P',
 			'name'   => 'Parking',
-			'sub'    => 'on Via Castello (south side)',
+			'sub'    => 'on Via Castello (on the right side)',
 			'type'   => 'service',
 			'x'      => 44,
 			'y'      => 318,
