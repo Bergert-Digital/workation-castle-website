@@ -87,11 +87,16 @@ class Seed {
 			'pattern_file' => 'patterns/casa-galbiga.php',
 			'parent'       => 'guide',
 		),
+		'faq'               => array(
+			'title'        => 'FAQ',
+			'pattern_file' => 'patterns/faq.php',
+			'parent'       => 'guide',
+		),
 		'check-in'          => array(
 			'title'        => 'Check-in',
 			'pattern_file' => 'patterns/check-in.php',
 		),
-		'contact'           => array(
+		'contact-us'        => array(
 			'title'        => 'Contact',
 			'pattern_file' => 'patterns/contact.php',
 		),
