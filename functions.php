@@ -91,6 +91,28 @@ add_action(
 	}
 );
 
+/**
+ * Retire the generic parent `pediment/cta` block.
+ *
+ * The site uses one closing call-to-action everywhere: the branded
+ * `pediment-child/workation-closing` section from the homepage bottom
+ * (full-bleed image, headline, Check availability / Ask for a custom offer,
+ * Instagram link). The parent's plain `pediment/cta` band is off-brand, so it
+ * is unregistered here to keep it out of the inserter and prevent accidental
+ * reuse in new pages. Runs after registration (priority 20). No pattern ships
+ * `wp:pediment/cta`, so nothing renders blank.
+ */
+add_action(
+	'init',
+	function () {
+		$registry = WP_Block_Type_Registry::get_instance();
+		if ( $registry->is_registered( 'pediment/cta' ) ) {
+			unregister_block_type( 'pediment/cta' );
+		}
+	},
+	20
+);
+
 add_action(
 	'wp_enqueue_scripts',
 	function () {

@@ -13,5 +13,6 @@
 <!-- wp:pediment/feature {"icon":"signpost","title":"How to get here","text":"Directions by car, train and plane — plus where to park.","linkText":"How to get here","linkUrl":"/guide/arrival/"} /-->
 <!-- wp:pediment/feature {"icon":"key","title":"Checking in","text":"Register by your arrival day. Here's the form and what we need.","linkText":"Checking in","linkUrl":"/check-in/"} /-->
 <!-- wp:pediment/feature {"icon":"map-trifold","title":"Find your way around","text":"A map of the two houses, the workspace and the grounds.","linkText":"Find your way around","linkUrl":"/guide/map/"} /-->
+<!-- wp:pediment/feature {"icon":"thermometer","title":"Casa Galbiga","text":"How the heating, room fan-heaters and kitchen air-conditioner work.","linkText":"Casa Galbiga","linkUrl":"/guide/casa-galbiga/"} /-->
 <!-- wp:pediment/feature {"icon":"recycle","title":"Sorting the waste","text":"What goes where, and when each bin is collected.","linkText":"Sorting the waste","linkUrl":"https://workationcastle.com/guide/waste-disposal/"} /-->
 <!-- /wp:pediment/feature-grid -->

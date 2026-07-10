@@ -82,6 +82,11 @@ class Seed {
 			'pattern_file' => 'patterns/map.php',
 			'parent'       => 'guide',
 		),
+		'casa-galbiga'      => array(
+			'title'        => 'Casa Galbiga',
+			'pattern_file' => 'patterns/casa-galbiga.php',
+			'parent'       => 'guide',
+		),
 		'check-in'          => array(
 			'title'        => 'Check-in',
 			'pattern_file' => 'patterns/check-in.php',
