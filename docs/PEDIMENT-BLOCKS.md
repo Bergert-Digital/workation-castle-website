@@ -33,6 +33,15 @@
 **Source:** child
 **Use when:** _(add guidance)_
 
+## pediment-child/estate-map
+
+**Estate Map** — Illustrated map of the estate with a legend of the houses, workspace, bar and grounds.
+
+**Source:** child
+**Use when:** _(add guidance)_
+
+**Align:** full
+
 ## pediment-child/page-hero
 
 **Page Hero** — Cinematic full-bleed hero for interior pages, defaulting to the homepage image.
