@@ -95,6 +95,10 @@ class Seed {
 			'title'        => 'Contact',
 			'pattern_file' => 'patterns/contact.php',
 		),
+		'feedback'          => array(
+			'title'        => 'Feedback',
+			'pattern_file' => 'patterns/feedback.php',
+		),
 		'imprint'           => array(
 			'title'        => 'Imprint',
 			'pattern_file' => 'patterns/imprint.php',
