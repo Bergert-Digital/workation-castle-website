@@ -12,12 +12,6 @@ class CheckInCptTest extends WP_UnitTestCase {
 	}
 
 	public function test_cpt_is_admin_only() {
-		// WP 6.1+ emits a _doing_it_wrong notice when map_meta_cap resolves
-		// delete_post without a post ID during internal cap checks. This is a
-		// known WP quirk with custom CPT capability mappings; suppress it so the
-		// test can focus on the actual access-control assertions.
-		$this->setExpectedIncorrectUsage( 'map_meta_cap' );
-
 		$cpt     = \PedimentChild\CheckIn::CPT;
 		$post_id = self::factory()->post->create(
 			array(
