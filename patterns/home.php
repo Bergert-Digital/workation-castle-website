@@ -9,7 +9,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/workation-hero -->
+<!-- wp:pediment-child/workation-hero {"secondaryUrl":"/contact/"} -->
 <!-- wp:pediment-child/workation-chip {"title":"Up to 9 guests"} /-->
 <!-- wp:pediment-child/workation-chip {"title":"2 vacation homes"} /-->
 <!-- wp:pediment-child/workation-chip {"title":"5 bedrooms"} /-->

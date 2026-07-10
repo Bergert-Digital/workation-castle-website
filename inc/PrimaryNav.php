@@ -39,6 +39,7 @@ function pediment_child_primary_nav_blocks(): string {
 			'<!-- wp:navigation-link {"label":"Find your way around","url":"/guide/map/","kind":"custom"} /-->',
 			'<!-- wp:navigation-link {"label":"Sorting the waste","url":"/guide/waste-disposal/","kind":"custom"} /-->',
 			'<!-- /wp:navigation-submenu -->',
+			'<!-- wp:navigation-link {"label":"Contact","url":"/contact/","kind":"custom","isTopLevelLink":true} /-->',
 		)
 	);
 }
