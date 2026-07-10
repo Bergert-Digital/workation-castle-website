@@ -21,7 +21,7 @@ class PrimaryNavSeedTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '"url":"/photos/"', $markup );
 		$this->assertStringContainsString( 'wp:navigation-submenu', $markup );
 		$this->assertStringContainsString( '"url":"/ways-to-stay/"', $markup );
-		$this->assertStringContainsString( 'https://workationcastle.com/guide/waste-disposal/', $markup );
+		$this->assertStringContainsString( '"url":"/guide/faq/"', $markup );
 	}
 
 	public function test_seed_creates_primary_menu_when_absent() {

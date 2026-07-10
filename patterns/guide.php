@@ -14,6 +14,7 @@
 <!-- wp:pediment/feature {"icon":"key","title":"Checking in","text":"Register by your arrival day. Here's the form and what we need.","linkText":"Checking in","linkUrl":"/check-in/"} /-->
 <!-- wp:pediment/feature {"icon":"map-trifold","title":"Find your way around","text":"A map of the two houses, the workspace and the grounds.","linkText":"Find your way around","linkUrl":"/guide/map/"} /-->
 <!-- wp:pediment/feature {"icon":"thermometer","title":"Casa Galbiga","text":"How the heating, room fan-heaters and kitchen air-conditioner work.","linkText":"Casa Galbiga","linkUrl":"/guide/casa-galbiga/"} /-->
-<!-- wp:pediment/feature {"icon":"recycle","title":"Sorting the waste","text":"What goes where, and when each bin is collected.","linkText":"Sorting the waste","linkUrl":"https://workationcastle.com/guide/waste-disposal/"} /-->
+<!-- wp:pediment/feature {"icon":"fork-knife","title":"Catering","text":"Private chefs, nearby restaurants and where to shop for groceries.","linkText":"Catering","linkUrl":"/catering/"} /-->
+<!-- wp:pediment/feature {"icon":"recycle","title":"Sorting the waste","text":"What goes where, and when each bin is collected.","linkText":"Sorting the waste","linkUrl":"/guide/waste-disposal/"} /-->
 <!-- wp:pediment/feature {"icon":"question","title":"Frequently asked questions","text":"Parking, towels, coffee, dogs, Wi-Fi and more — the common questions answered.","linkText":"Frequently asked questions","linkUrl":"/guide/faq/"} /-->
 <!-- /wp:pediment/feature-grid -->

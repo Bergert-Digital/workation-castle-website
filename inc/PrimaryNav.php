@@ -40,7 +40,7 @@ function pediment_child_primary_nav_blocks(): string {
 			'<!-- wp:navigation-link {"label":"FAQ","url":"/guide/faq/","kind":"custom"} /-->',
 			'<!-- wp:navigation-link {"label":"More","url":"/guide/","kind":"custom"} /-->',
 			'<!-- /wp:navigation-submenu -->',
-			'<!-- wp:navigation-link {"label":"Contact","url":"/contact/","kind":"custom","isTopLevelLink":true} /-->',
+			'<!-- wp:navigation-link {"label":"Contact","url":"/contact-us/","kind":"custom","isTopLevelLink":true} /-->',
 		)
 	);
 }

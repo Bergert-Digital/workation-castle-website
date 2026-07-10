@@ -52,6 +52,11 @@ require_once __DIR__ . '/inc/EstateMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 require_once __DIR__ . '/inc/PrimaryNav.php';
 
+// Legacy URL redirects: 301 retired paths (renamed/re-nested/removed pages) to
+// their new homes so old inbound links and search results keep working.
+require_once __DIR__ . '/inc/Redirects.php';
+\PedimentChild\Redirects::register();
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *

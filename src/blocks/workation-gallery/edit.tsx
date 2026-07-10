@@ -20,8 +20,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2019.jpeg',
+			imageUrl: '',
 			imageAlt: 'Terrace and garden view from the castle',
 			variant: 'tall',
 		},
@@ -29,8 +28,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Lamp.jpeg',
+			imageUrl: '',
 			imageAlt: 'Warm interior detail with lamp',
 			variant: 'wide',
 		},
@@ -38,40 +36,35 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2152.jpeg',
+			imageUrl: '',
 			imageAlt: 'Bright bedroom inside the castle',
 		},
 	],
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2265.jpeg',
+			imageUrl: '',
 			imageAlt: 'Kitchen and dining area',
 		},
 	],
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2247.jpeg',
+			imageUrl: '',
 			imageAlt: 'Castle room with modern furnishings',
 		},
 	],
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2113.jpeg',
+			imageUrl: '',
 			imageAlt: 'Stone stairway inside the castle',
 		},
 	],
 	[
 		'pediment-child/workation-photo',
 		{
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Roofs.jpeg',
+			imageUrl: '',
 			imageAlt: 'Castle roofs and surrounding hills',
 			variant: 'wide',
 		},

@@ -59,6 +59,14 @@
 <p>The Workation Castle is located at Via Castello 12, 22010 Carlazzo, Italy.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Attribution</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Photo of Cusino (Val Cavargna): via <a href="https://de.wikipedia.org/wiki/Val_Cavargna#/media/Datei:Cusino.JPG">Wikipedia</a>.</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:paragraph -->
 <p><a href="/privacy-policy/">Privacy Policy →</a></p>
 <!-- /wp:paragraph -->

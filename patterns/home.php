@@ -9,7 +9,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/workation-hero {"secondaryUrl":"/contact/"} -->
+<!-- wp:pediment-child/workation-hero {"secondaryUrl":"/contact-us/","imageUrl":"https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg","imageAlt":"Aerial view of the castle hamlet above Lago di Piano with the mountains beyond"} -->
 <!-- wp:pediment-child/workation-chip {"title":"Up to 9 guests"} /-->
 <!-- wp:pediment-child/workation-chip {"title":"2 vacation homes"} /-->
 <!-- wp:pediment-child/workation-chip {"title":"5 bedrooms"} /-->
@@ -31,7 +31,7 @@
 <!-- wp:pediment-child/workation-space {"eyebrow":"02","title":"Two vacation homes","text":"Two separately bookable houses with five bedrooms for up to nine guests, each with access to a garden. Modern comfort tucked inside centuries-old walls.","linkText":"Explore the homes","linkUrl":"/photos/?filter=casa-galbiga","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of one of the vacation homes with a bright yellow armchair"} /-->
 <!-- /wp:pediment-child/workation-spaces -->
 
-<!-- wp:pediment-child/workation-location -->
+<!-- wp:pediment-child/workation-location {"imageUrl":"https://workationcastle.com/wp-content/uploads/2022/12/Castello-Map-Screenshot.png","imageAlt":"Map showing the castle's location between Lake Lugano and Lake Como"} -->
 <!-- wp:pediment-child/workation-mode {"icon":"car","title":"By car","text":"Free parking on site"} /-->
 <!-- wp:pediment-child/workation-mode {"icon":"train","title":"By train","text":"Via Lugano"} /-->
 <!-- wp:pediment-child/workation-mode {"icon":"plane","title":"By plane","text":"Via Milan Malpensa"} /-->
@@ -62,4 +62,4 @@
 <!-- wp:pediment-child/workation-review {"text":"We loved the atmosphere of the old stone walls and the view from the terrace. A great, well-thought-out concept — also for larger families, groups, and for working.","title":"Manuelle B."} /-->
 <!-- /wp:pediment-child/workation-reviews -->
 
-<!-- wp:pediment-child/workation-closing /-->
+<!-- wp:pediment-child/workation-closing {"imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2019.jpeg","imageAlt":"Garden terrace at Workation Castle"} /-->

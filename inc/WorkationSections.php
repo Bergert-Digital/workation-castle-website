@@ -223,7 +223,7 @@ function pediment_child_workation_location_chrome( $attributes, $content ) {
 	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead         = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url    = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_url    = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'location-map.png' );
 	$image_alt    = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$primary_url  = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
@@ -273,7 +273,7 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 	$eyebrow         = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline        = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead            = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url       = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_url       = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'hero-default.jpg' );
 	$image_alt       = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text    = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$booking_url     = ! empty( $attributes['bookingUrl'] ) ? (string) $attributes['bookingUrl'] : 'https://workationcastle.holiduhost.com/';
@@ -538,11 +538,18 @@ function pediment_child_activity_list_chrome( $attributes ) {
 }
 
 /**
- * Default page-hero background — the homepage hero image. Mirrors the
- * workation-hero block.json default so interior heroes share the homepage's
- * cinematic photo unless a page overrides it.
+ * URL of a bundled default section image (a theme asset under assets/images/).
+ *
+ * Section blocks default their imagery to the theme's own assets rather than
+ * hotlinking an external media library, so a freshly-inserted block always has
+ * a self-hosted placeholder and the live site never depends on another domain.
+ *
+ * @param string $file File name under assets/images/.
+ * @return string
  */
-const PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE = 'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg';
+function pediment_child_default_image( string $file ): string {
+	return get_theme_file_uri( 'assets/images/' . $file );
+}
 
 /**
  * Render the interior-page hero from attributes.
@@ -560,7 +567,7 @@ function pediment_child_page_hero_chrome( $attributes ) {
 	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : PEDIMENT_CHILD_PAGE_HERO_DEFAULT_IMAGE;
+	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'hero-default.jpg' );
 	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 
 	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
@@ -594,7 +601,7 @@ function pediment_child_page_hero_chrome( $attributes ) {
  */
 function pediment_child_workation_closing_chrome( $attributes ) {
 	$headline       = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
-	$image_url      = isset( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : '';
+	$image_url      = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'closing-default.jpg' );
 	$image_alt      = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text   = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$primary_url    = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';

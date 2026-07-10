@@ -22,8 +22,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		'pediment-child/workation-tile',
 		{
 			title: 'Swim in the lake',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2022/09/IMG_0531-scaled.jpeg',
+			imageUrl: '',
 			imageAlt: 'Clear lake water near the castle',
 		},
 	],
@@ -31,8 +30,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		'pediment-child/workation-tile',
 		{
 			title: 'Forest trails',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/09/IMG_5944.jpeg',
+			imageUrl: '',
 			imageAlt: 'Forest path near Lago di Piano',
 		},
 	],
@@ -40,8 +38,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		'pediment-child/workation-tile',
 		{
 			title: 'Waterfalls',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/09/IMG_5947.jpeg',
+			imageUrl: '',
 			imageAlt: 'Waterfall near the castle',
 		},
 	],
@@ -49,8 +46,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		'pediment-child/workation-tile',
 		{
 			title: 'Mountain views',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/05/IMG_1511.jpeg',
+			imageUrl: '',
 			imageAlt: 'Mountain view above Lake Como',
 		},
 	],
