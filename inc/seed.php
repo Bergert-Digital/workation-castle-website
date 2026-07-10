@@ -86,6 +86,18 @@ class Seed {
 			'title'        => 'Check-in',
 			'pattern_file' => 'patterns/check-in.php',
 		),
+		'contact'           => array(
+			'title'        => 'Contact',
+			'pattern_file' => 'patterns/contact.php',
+		),
+		'imprint'           => array(
+			'title'        => 'Imprint',
+			'pattern_file' => 'patterns/imprint.php',
+		),
+		'privacy-policy'    => array(
+			'title'        => 'Privacy Policy',
+			'pattern_file' => 'patterns/privacy.php',
+		),
 	);
 
 	/** Register the WP-CLI command. */
