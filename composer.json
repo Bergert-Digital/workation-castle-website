@@ -1,6 +1,6 @@
 {
   "name": "bergert/pediment-child-theme",
-  "description": "Agency starter child theme for Pediment",
+  "description": "WordPress theme for Workation Castle",
   "type": "wordpress-theme",
   "license": "GPL-2.0-or-later",
   "require": {

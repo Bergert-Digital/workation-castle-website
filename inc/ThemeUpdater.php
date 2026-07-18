@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class ThemeUpdater {
 	/** Public repo whose GitHub Releases drive theme updates. */
-	private const REPO_URL = 'https://github.com/Bergert-Digital/Pediment-Child-Theme/';
+	private const REPO_URL = 'https://github.com/Bergert-Digital/workation-castle-website/';
 
 	/**
 	 * Wire the update checker to this repo's GitHub releases.
