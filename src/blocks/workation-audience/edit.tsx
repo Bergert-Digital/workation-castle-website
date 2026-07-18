@@ -18,8 +18,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 			text: 'Meeting rooms, focus spaces and beds for the whole team — work, eat and stay together in one place.',
 			linkText: 'Plan a retreat',
 			linkUrl: '#book',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2186.jpeg',
+			imageUrl: '',
 			imageAlt: 'Meeting room with a view over the landscape',
 		},
 	],
@@ -31,8 +30,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 			text: 'Fast Wi-Fi, calm rooms and a view that makes a Monday feel completely different.',
 			linkText: 'See the workspace',
 			linkUrl: '#spaces',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_1758.jpeg',
+			imageUrl: '',
 			imageAlt: 'Vaulted co-working room lit with warm string lights',
 		},
 	],
@@ -44,8 +42,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 			text: 'Two homes, five bedrooms, gardens and a swimmable lake within walking distance.',
 			linkText: 'Explore the homes',
 			linkUrl: '#book',
-			imageUrl:
-				'https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg',
+			imageUrl: '',
 			imageAlt: 'Living room with a bright yellow armchair',
 		},
 	],

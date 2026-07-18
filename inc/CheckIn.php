@@ -62,19 +62,26 @@ class CheckIn {
 				'has_archive'         => false,
 				'rewrite'             => false,
 				'menu_icon'           => 'dashicons-id',
-				'capability_type'     => 'post',
+				// Unique capability type so the singular meta caps (edit_post,
+				// read_post, delete_post) namespace to this CPT. Only the
+				// primitive/plural caps are remapped to manage_options — never
+				// the singular meta caps, which would register manage_options
+				// itself into WordPress's global $post_type_meta_caps and break
+				// manage_options site-wide (hiding every Settings menu).
+				'capability_type'     => array( 'wc_checkin', 'wc_checkins' ),
 				'map_meta_cap'        => true,
 				'capabilities'        => array(
-					'create_posts'        => 'manage_options',
-					'edit_post'           => 'manage_options',
-					'read_post'           => 'manage_options',
-					'delete_post'         => 'manage_options',
-					'edit_posts'          => 'manage_options',
-					'edit_others_posts'   => 'manage_options',
-					'publish_posts'       => 'manage_options',
-					'read_private_posts'  => 'manage_options',
-					'delete_posts'        => 'manage_options',
-					'delete_others_posts' => 'manage_options',
+					'create_posts'           => 'manage_options',
+					'edit_posts'             => 'manage_options',
+					'edit_others_posts'      => 'manage_options',
+					'edit_published_posts'   => 'manage_options',
+					'edit_private_posts'     => 'manage_options',
+					'publish_posts'          => 'manage_options',
+					'read_private_posts'     => 'manage_options',
+					'delete_posts'           => 'manage_options',
+					'delete_others_posts'    => 'manage_options',
+					'delete_published_posts' => 'manage_options',
+					'delete_private_posts'   => 'manage_options',
 				),
 				'supports'            => array( 'title' ),
 			)

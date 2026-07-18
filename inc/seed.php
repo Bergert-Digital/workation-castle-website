@@ -77,9 +77,40 @@ class Seed {
 			'pattern_file' => 'patterns/arrival.php',
 			'parent'       => 'guide',
 		),
+		'map'               => array(
+			'title'        => 'Map',
+			'pattern_file' => 'patterns/map.php',
+			'parent'       => 'guide',
+		),
+		'casa-galbiga'      => array(
+			'title'        => 'Casa Galbiga',
+			'pattern_file' => 'patterns/casa-galbiga.php',
+			'parent'       => 'guide',
+		),
+		'faq'               => array(
+			'title'        => 'FAQ',
+			'pattern_file' => 'patterns/faq.php',
+			'parent'       => 'guide',
+		),
 		'check-in'          => array(
 			'title'        => 'Check-in',
 			'pattern_file' => 'patterns/check-in.php',
+		),
+		'contact-us'        => array(
+			'title'        => 'Contact',
+			'pattern_file' => 'patterns/contact.php',
+		),
+		'feedback'          => array(
+			'title'        => 'Feedback',
+			'pattern_file' => 'patterns/feedback.php',
+		),
+		'imprint'           => array(
+			'title'        => 'Imprint',
+			'pattern_file' => 'patterns/imprint.php',
+		),
+		'privacy-policy'    => array(
+			'title'        => 'Privacy Policy',
+			'pattern_file' => 'patterns/privacy.php',
 		),
 	);
 
@@ -356,7 +387,7 @@ class Seed {
 
 			$alt = isset( $item['alt'] ) ? (string) $item['alt'] : '';
 			if ( '' !== $url ) {
-				$att_id = media_sideload_image( $url, $post_id, $alt, 'id' );
+				$att_id = self::get_or_sideload_attachment_id( $url, $post_id, $alt );
 				if ( is_wp_error( $att_id ) ) {
 					$log[] = "  Warning: sideload failed for {$url}: " . $att_id->get_error_message();
 				} else {
@@ -483,7 +514,7 @@ class Seed {
 				continue;
 			}
 
-			$att_id = media_sideload_image( $url, $post_id, $alt, 'id' );
+			$att_id = self::get_or_sideload_attachment_id( $url, $post_id, $alt );
 			if ( is_wp_error( $att_id ) ) {
 				$log[] = "  Warning: sideload failed for {$url}: " . $att_id->get_error_message();
 				wp_delete_post( $post_id, true );
@@ -571,11 +602,105 @@ class Seed {
 			$verb         = $existing ? 'updated' : 'created';
 			$ids[ $slug ] = $id;
 			$log[]        = "  {$verb} page: {$slug} (#{$id})";
+
+			// Self-host imagery: import any old-site upload URLs embedded in the
+			// pattern into the local media library and rewrite the stored content
+			// to the local copies, so the live site never hotlinks the old domain.
+			list( $rewritten, $img_log ) = self::sideload_content_images( (int) $id, $content );
+			$log                         = array_merge( $log, $img_log );
+			if ( $rewritten !== $content ) {
+				wp_update_post(
+					array(
+						'ID'           => $id,
+						'post_content' => $rewritten,
+					)
+				);
+			}
 		}
 
 		kses_init_filters();
 
 		return array( $ids, $log );
+	}
+
+	/**
+	 * Import every old-site upload URL embedded in a page's content into the
+	 * local media library and return the content rewritten to the local URLs.
+	 *
+	 * Keeps the live site self-hosting its imagery instead of hotlinking the old
+	 * domain: the pattern files stay portable (they reference the canonical old
+	 * URLs), while the seeded DB serves local copies. Idempotent — each source
+	 * URL is imported once and reused on re-seed (see
+	 * get_or_sideload_attachment_id).
+	 *
+	 * @param int    $post_id Page the images belong to (attachment parent).
+	 * @param string $content Page block markup.
+	 * @return array{0:string,1:string[]} [ rewritten content, log lines ].
+	 */
+	private static function sideload_content_images( int $post_id, string $content ): array {
+		$log = array();
+
+		if ( ! preg_match_all( '#https://workationcastle\.com/wp-content/uploads/[^"\s)]+#', $content, $matches ) ) {
+			return array( $content, $log );
+		}
+
+		foreach ( array_unique( $matches[0] ) as $url ) {
+			$att_id = self::get_or_sideload_attachment_id( $url, $post_id );
+			if ( is_wp_error( $att_id ) ) {
+				$log[] = "  Warning: image sideload failed for {$url}: " . $att_id->get_error_message();
+				continue;
+			}
+			$local = wp_get_attachment_url( $att_id );
+			if ( ! $local ) {
+				$log[] = "  Warning: no local URL for imported {$url}";
+				continue;
+			}
+			$content = str_replace( $url, $local, $content );
+			$log[]   = "  imaged: {$url} -> {$local}";
+		}
+
+		return array( $content, $log );
+	}
+
+	/**
+	 * Return the attachment ID for a sideloaded copy of a remote image,
+	 * importing it once. Deduped across page content, photos, activities and
+	 * re-seeds via the _wc_source_url attachment meta marker, so a URL already
+	 * imported (by any of those paths) is reused rather than downloaded again.
+	 *
+	 * @param string $url     Remote image URL.
+	 * @param int    $post_id Attachment parent.
+	 * @param string $desc    Optional attachment title/description.
+	 * @return int|\WP_Error Attachment ID, or WP_Error on failure.
+	 */
+	public static function get_or_sideload_attachment_id( string $url, int $post_id, string $desc = '' ) {
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$existing = get_posts(
+			array(
+				'post_type'   => 'attachment',
+				'post_status' => 'inherit',
+				'numberposts' => 1,
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_key'    => '_wc_source_url',
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'meta_value'  => $url,
+				'fields'      => 'ids',
+			)
+		);
+		if ( $existing ) {
+			return (int) $existing[0];
+		}
+
+		$att_id = media_sideload_image( $url, $post_id, '' !== $desc ? $desc : null, 'id' );
+		if ( is_wp_error( $att_id ) ) {
+			return $att_id;
+		}
+		update_post_meta( $att_id, '_wc_source_url', $url );
+
+		return (int) $att_id;
 	}
 }
 

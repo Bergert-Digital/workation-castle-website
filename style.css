@@ -953,6 +953,17 @@ body.no-hero .wp-site-blocks > main {
 	text-decoration-color: currentColor;
 }
 
+/* Contact form lifted into a white card so the enquiry form reads as a
+   distinct module against the cream page, matching the site's card chrome
+   (surface-elevated panel, soft border, rounded corners, dropped shadow). */
+.wc-form-card {
+	background: var(--wp--preset--color--surface-elevated);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: var(--wc-radius);
+	box-shadow: 0 24px 50px -28px rgba(58, 38, 22, .3);
+	padding: clamp(1.75rem, 4vw, 2.75rem);
+}
+
 /* pediment/cta — make the block legible outside the homepage .closing wrapper:
    the global .wp-site-blocks a{color:inherit} reset otherwise flattens the
    button label to the band colour (cream on cream). Values match the .closing
@@ -1024,6 +1035,53 @@ body.parent-pageid-179 .starter-steps {
 	box-shadow: 0 18px 40px -28px rgba(58, 38, 22, .6);
 	display: block;
 	inline-size: 100%;
+}
+
+/* Catering directory: responsive grid of place cards (image + name + descriptor). */
+.catering-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: var(--wp--preset--spacing--50);
+	margin-block-start: var(--wp--preset--spacing--40);
+}
+
+.catering-grid > * {
+	margin: 0;
+}
+
+.catering-card {
+	text-align: center;
+}
+
+.catering-card img {
+	aspect-ratio: 1 / 1;
+	block-size: 150px;
+	border-radius: 50%;
+	display: block;
+	inline-size: 150px;
+	margin: 0 auto var(--wp--preset--spacing--20);
+	object-fit: cover;
+}
+
+.catering-card h3 {
+	font-size: 1.15rem;
+	margin: 0 0 .15em;
+}
+
+.catering-card p {
+	margin: 0 0 .2em;
+}
+
+/* Amber arrow after each place link signals it opens the restaurant / map. */
+.catering-card a .arr {
+	color: var(--wc-amber);
+	display: inline-block;
+	transition: transform .35s var(--wc-ease);
+}
+
+.catering-card a:hover .arr,
+.catering-card a:focus-visible .arr {
+	transform: translateX(4px);
 }
 
 .intro h2 {
@@ -1455,7 +1513,10 @@ body.parent-pageid-179 .starter-steps {
 }
 
 .gallery .wp-block-image,
-.gallery a {
+.gallery a,
+/* Editor renders each photo as a <span> wrapper (front end uses <a>); match the
+   block class so cells get their 1/1 sizing in both contexts and don't collapse. */
+.gallery .wp-block-pediment-child-workation-photo {
 	aspect-ratio: 1 / 1;
 	border-radius: 18px;
 	box-shadow: 0 16px 36px -26px rgba(58, 38, 22, .5);
@@ -2749,4 +2810,109 @@ body.no-hero .site-header .wp-block-navigation__container > .wp-block-navigation
 	.site-header .wp-block-navigation .wp-block-navigation__responsive-container:not(.is-menu-open):not(.hidden-by-default) {
 		display: none;
 	}
+}
+
+/* Estate map ------------------------------------------------------------- */
+.estate-map__inner {
+	display: grid;
+	gap: 1.5rem;
+}
+.estate-map__figure {
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 20px;
+	overflow: hidden;
+	background: var(--wp--preset--color--surface);
+	box-shadow: 0 24px 60px -30px rgba(58, 38, 22, 0.45);
+}
+.estate-map__svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.estate-map__building,
+.estate-map__pin circle {
+	transition: stroke 0.15s ease, stroke-width 0.15s ease;
+}
+.estate-map__building[data-poi],
+.estate-map__pin[data-poi] {
+	cursor: pointer;
+}
+/* Clicking a map shape focuses it in Chrome; show only the gold .is-active
+   ring, not the browser's default focus outline. (Keyboard users reach the
+   POIs via the focusable legend buttons, which keep their own indicator.) */
+.estate-map__building[data-poi]:focus,
+.estate-map__pin[data-poi]:focus {
+	outline: none;
+}
+.estate-map__building.is-active {
+	filter: brightness(1.08) drop-shadow(0 0 0 var(--wp--preset--color--accent));
+	stroke: var(--wp--preset--color--accent);
+}
+.estate-map__pin--place circle { fill: var(--wp--preset--color--primary); }
+.estate-map__pin--place .estate-map__pin-num { fill: var(--wp--preset--color--accent); font: 700 14px "Inria Sans", sans-serif; }
+.estate-map__pin--service circle { fill: var(--wp--preset--color--surface); stroke: var(--wp--preset--color--primary); stroke-width: 2; }
+.estate-map__pin--service .estate-map__pin-num { fill: var(--wp--preset--color--primary); font: 700 13px "Inria Sans", sans-serif; }
+.estate-map__pin.is-active circle { stroke: var(--wp--preset--color--accent); stroke-width: 3.5; }
+
+.estate-map__legend {
+	list-style: none;
+	margin: 0;
+	padding: 1.4rem 1.6rem;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0.25rem 1.75rem;
+	background: var(--wp--preset--color--surface-elevated);
+	border: 1px solid var(--wp--preset--color--border);
+	border-radius: 16px;
+}
+.estate-map__row {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	width: 100%;
+	padding: 0.4rem 0.5rem;
+	border: 0;
+	border-radius: 10px;
+	background: none;
+	font: inherit;
+	color: inherit;
+	text-align: left;
+	cursor: pointer;
+}
+.estate-map__row:hover,
+.estate-map__row:focus-visible,
+.estate-map__row.is-active {
+	background: var(--wp--preset--color--surface-sunken);
+	outline: none;
+}
+.estate-map__marker {
+	flex: none;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	font-weight: 700;
+	font-size: 0.85rem;
+}
+.estate-map__marker--place { background: var(--wp--preset--color--primary); color: var(--wp--preset--color--accent); }
+.estate-map__marker--service { background: var(--wp--preset--color--surface-sunken); color: var(--wp--preset--color--foreground-muted); border: 1px solid var(--wp--preset--color--border); }
+.estate-map__sub { color: var(--wp--preset--color--foreground-muted); }
+
+@media (max-width: 600px) {
+	.estate-map__legend { grid-template-columns: 1fr; }
+	/* Keep the map legible on phones: hold a minimum width and let it scroll
+	   horizontally instead of shrinking pins and labels to an unusable size. */
+	.estate-map__figure {
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+	}
+	.estate-map__svg {
+		min-width: 640px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.estate-map__building,
+	.estate-map__pin circle { transition: none; }
 }

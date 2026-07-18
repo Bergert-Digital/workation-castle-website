@@ -48,8 +48,14 @@ require_once __DIR__ . '/inc/Brevo.php';
 // but required here so helpers are available outside the block rendering path,
 // e.g. in unit tests and direct template includes).
 require_once __DIR__ . '/inc/WorkationSections.php';
+require_once __DIR__ . '/inc/EstateMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 require_once __DIR__ . '/inc/PrimaryNav.php';
+
+// Legacy URL redirects: 301 retired paths (renamed/re-nested/removed pages) to
+// their new homes so old inbound links and search results keep working.
+require_once __DIR__ . '/inc/Redirects.php';
+\PedimentChild\Redirects::register();
 
 /**
  * Register every block in the given directory (defaults to build/blocks).
@@ -88,6 +94,28 @@ add_action(
 	function () {
 		pediment_child_register_blocks();
 	}
+);
+
+/**
+ * Retire the generic parent `pediment/cta` block.
+ *
+ * The site uses one closing call-to-action everywhere: the branded
+ * `pediment-child/workation-closing` section from the homepage bottom
+ * (full-bleed image, headline, Check availability / Ask for a custom offer,
+ * Instagram link). The parent's plain `pediment/cta` band is off-brand, so it
+ * is unregistered here to keep it out of the inserter and prevent accidental
+ * reuse in new pages. Runs after registration (priority 20). No pattern ships
+ * `wp:pediment/cta`, so nothing renders blank.
+ */
+add_action(
+	'init',
+	function () {
+		$registry = WP_Block_Type_Registry::get_instance();
+		if ( $registry->is_registered( 'pediment/cta' ) ) {
+			unregister_block_type( 'pediment/cta' );
+		}
+	},
+	20
 );
 
 add_action(
@@ -155,6 +183,15 @@ add_action(
 			true
 		);
 		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', pediment_child_range_picker_l10n() );
+
+		$estate_map_js_path = get_stylesheet_directory() . '/assets/js/estate-map.js';
+		wp_enqueue_script(
+			'workation-castle-estate-map',
+			get_stylesheet_directory_uri() . '/assets/js/estate-map.js',
+			array(),
+			file_exists( $estate_map_js_path ) ? (string) filemtime( $estate_map_js_path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
 
 		// Activity locator maps (Leaflet) — only on single activity pages.
 		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {

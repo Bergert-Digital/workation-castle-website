@@ -30,9 +30,9 @@ class PageHeroRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'alt="The castle"', $html );
 	}
 
-	public function test_falls_back_to_homepage_image_when_none_set() {
+	public function test_falls_back_to_bundled_hero_image_when_none_set() {
 		$html = pediment_child_page_hero_chrome( array( 'headline' => 'Hi' ) );
-		$this->assertStringContainsString( 'Workation_Castle_Piano_Lake.jpg', $html );
+		$this->assertStringContainsString( 'assets/images/hero-default.jpg', $html );
 		$this->assertStringContainsString( 'page-hero-img', $html );
 	}
 

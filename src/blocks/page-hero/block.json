@@ -10,7 +10,7 @@
     "eyebrow": { "type": "string", "default": "" },
     "headline": { "type": "string", "default": "" },
     "lead": { "type": "string", "default": "" },
-    "imageUrl": { "type": "string", "default": "https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg" },
+    "imageUrl": { "type": "string", "default": "" },
     "imageAlt": { "type": "string", "default": "Aerial view of the castle hamlet above Lago di Piano with the mountains beyond" },
     "imageId": { "type": "number", "default": 0 }
   },

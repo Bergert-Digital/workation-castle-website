@@ -133,7 +133,7 @@ return array(
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link" href="https://www.komoot.com/smarttour/12063275?ref=wsd">Open the Komoot Tour</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link" href="https://www.komoot.com/de-de/smarttour/e2581061611/sentiero-riserva-lago-del-piano?ref=wdd&amp;t_s=referral&amp;t_cid=route_share&amp;t_ref_username=572710290313">Open the Komoot Tour</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->',
 	),
@@ -154,7 +154,7 @@ return array(
 
 <!-- wp:paragraph --><p>To get you started quickly, we planned two tours through the canyon in Komoot, a hiking app. One tour is basically just a short walk and the other one is a bit longer, from Menaggio all the way back to the castle.</p><!-- /wp:paragraph -->
 
-<!-- wp:paragraph --><p>Especially when starting in Menaggio it will make sense to take the bus there, so you can simply walk back. The <a href="https://maps.app.goo.gl/b7gM4xtoWdFZ74CZ9">bus stop</a> is at the intersection on the main street and it passes at around 10 am and 12 am (please refer to the time tables for <a href="https://www.asfautolinee.it/orari_pdf/estivo/C12.pdf">summer</a> and <a href="https://www.asfautolinee.it/orari_pdf/invernale/C12.pdf">winter</a>).</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p>Especially when starting in Menaggio it will make sense to take the bus there, so you can simply walk back. The <a href="https://maps.app.goo.gl/b7gM4xtoWdFZ74CZ9">bus stop</a> is at the intersection on the main street and it passes at around 10 am and 12 am (please refer to the time tables for <a href="' . esc_url( get_theme_file_uri( 'assets/pdf/C112_Summer_2026.pdf' ) ) . '">summer</a> and <a href="' . esc_url( get_theme_file_uri( 'assets/pdf/C112_Winter_2026.pdf' ) ) . '">winter</a>).</p><!-- /wp:paragraph -->
 
 <!-- wp:html -->
 <figure class="wp-block-embed activity-map">

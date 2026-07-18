@@ -8,9 +8,6 @@ import {
 } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
 
-const DEFAULT_IMAGE =
-	'https://workationcastle.com/wp-content/uploads/2024/01/Workation_Castle_Piano_Lake.jpg';
-
 type Attrs = {
 	eyebrow: string;
 	headline: string;
@@ -28,7 +25,9 @@ export default function Edit( {
 	setAttributes: ( a: Partial< Attrs > ) => void;
 } ) {
 	const blockProps = useBlockProps( { className: 'page-hero' } );
-	const imageUrl = attributes.imageUrl || DEFAULT_IMAGE;
+	// The live render falls back to the bundled theme hero image when no image
+	// is set; the editor can't resolve that theme URL, so it previews empty.
+	const imageUrl = attributes.imageUrl;
 
 	return (
 		<section { ...blockProps }>
@@ -40,11 +39,13 @@ export default function Edit( {
 							'pediment-child'
 						) }
 					</p>
-					<img
-						src={ imageUrl }
-						alt=""
-						style={ { width: '100%', marginBottom: 8 } }
-					/>
+					{ imageUrl && (
+						<img
+							src={ imageUrl }
+							alt=""
+							style={ { width: '100%', marginBottom: 8 } }
+						/>
+					) }
 					<MediaUploadCheck>
 						<MediaUpload
 							allowedTypes={ [ 'image' ] }
@@ -91,7 +92,9 @@ export default function Edit( {
 			</InspectorControls>
 
 			<div className="page-hero-img">
-				<img src={ imageUrl } alt={ attributes.imageAlt } />
+				{ imageUrl && (
+					<img src={ imageUrl } alt={ attributes.imageAlt } />
+				) }
 			</div>
 			<div className="page-hero-grad"></div>
 			<div className="page-hero-inner wc-wrap">

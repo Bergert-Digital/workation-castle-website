@@ -117,7 +117,7 @@
 <p>Get off at the bus stop <strong>Ghiacciata</strong> in Carlazzo — the 2nd stop after crossing the river, or just ask the driver. From there it's a short walk up to the castle.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
-<p>Timetables: <a href="https://workationcastle.com/wp-content/uploads/2026/04/C112_Winter_2026.pdf" target="_blank" rel="noreferrer noopener">Winter</a> (14.09.–08.06.) and <a href="https://workationcastle.com/wp-content/uploads/2026/05/C112_Orario_in_vigore_dal_09_06_2026.pdf" target="_blank" rel="noreferrer noopener">Summer</a> (09.06.–13.09.). The Ghiacciata stop isn't listed on them — the closest one shown is Piano Mulino.</p>
+<p>Timetables: <a href="<?php echo esc_url( get_theme_file_uri( 'assets/pdf/C112_Winter_2026.pdf' ) ); ?>" target="_blank" rel="noreferrer noopener">Winter</a> (14.09.–08.06.) and <a href="<?php echo esc_url( get_theme_file_uri( 'assets/pdf/C112_Summer_2026.pdf' ) ); ?>" target="_blank" rel="noreferrer noopener">Summer</a> (09.06.–13.09.). The Ghiacciata stop isn't listed on them — the closest one shown is Piano Mulino.</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph -->
 <p>You can also use Google Maps to check departure times, but the trip duration it shows is wrong, and it always pretends you have to change at the border — you don't.</p>
@@ -139,4 +139,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment/cta {"title":"Ready to come and stay?","body":"Check available dates and book your time at Workation Castle.","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Contact us","secondaryUrl":"/contact/"} /-->
+<!-- wp:pediment-child/workation-closing {"align":"full","headline":"Ready to come and stay?","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/"} /-->
