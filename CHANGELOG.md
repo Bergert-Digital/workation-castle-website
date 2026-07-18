@@ -1,5 +1,74 @@
 # Changelog
 
+## [0.7.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.6.0...v0.7.0) (2026-07-18)
+
+
+### Features
+
+* **activities:** self-host bus timetable PDFs ([3ad5ae7](https://github.com/Bergert-Digital/workation-castle-website/commit/3ad5ae774b674e8b7f29562bc388a3235d6fa744))
+* **avail:** Airbnb-style range calendar picker with e2e ([3f810d7](https://github.com/Bergert-Digital/workation-castle-website/commit/3f810d76758f9a6cdbf339f1c65a2e15d4bbe871))
+* **avail:** enqueue + localize range picker; add picker styles ([0ec4293](https://github.com/Bergert-Digital/workation-castle-website/commit/0ec4293b167aae50ee96ee54ee9e544c8579bf78))
+* **avail:** shared availability-form renderer + range-picker l10n ([2d5cd6c](https://github.com/Bergert-Digital/workation-castle-website/commit/2d5cd6cd13a49a643b5db23078a95cb8e0efba0d))
+* **catering:** add place-card grid and link-arrow styles ([7cd7d11](https://github.com/Bergert-Digital/workation-castle-website/commit/7cd7d118fc066f693c45c0c0b741aa515b22ec89))
+* **check-in:** add resume-banner config strings ([69f874d](https://github.com/Bergert-Digital/workation-castle-website/commit/69f874de1d99bad615527a57b8488d230d1edda1))
+* **check-in:** persist wizard progress so guests can resume after reload ([#7](https://github.com/Bergert-Digital/workation-castle-website/issues/7)) ([4fd5138](https://github.com/Bergert-Digital/workation-castle-website/commit/4fd51387ec85d04ff03b776ccf077d12de43e60a))
+* **check-in:** persist wizard progress to localStorage with resume banner ([007c3aa](https://github.com/Bergert-Digital/workation-castle-website/commit/007c3aac93f492686765ff685312c7dd93c66245))
+* **feedback:** add feedback page pattern ([f56610c](https://github.com/Bergert-Digital/workation-castle-website/commit/f56610c94c22973582520e4520539d680d30e2d4))
+* **feedback:** link feedback page in footer ([1ce9ee1](https://github.com/Bergert-Digital/workation-castle-website/commit/1ce9ee1accbc3e51b766a7273cbdd99dcd9d0051))
+* **feedback:** seed feedback page from pattern ([9812190](https://github.com/Bergert-Digital/workation-castle-website/commit/9812190d19d59de0345972d66acba6f2c947caf2))
+* **guide:** add Casa Galbiga page, unify closing CTA ([9f69db1](https://github.com/Bergert-Digital/workation-castle-website/commit/9f69db142a246f9795bed032697129ec05435eb3))
+* **guide:** add FAQ page under guest guide ([14b54df](https://github.com/Bergert-Digital/workation-castle-website/commit/14b54df91d1337ce29c56f7006180e52ce634e02))
+* **home:** link testimonials section to the reviews page ([d03501e](https://github.com/Bergert-Digital/workation-castle-website/commit/d03501ecbdd1d8ebeead56a094089d688aec081f))
+* **legal:** add Imprint and Privacy Policy pages ([745d528](https://github.com/Bergert-Digital/workation-castle-website/commit/745d528fee5725c21fe5b7d277ea9284f4fcf3e6))
+* **map:** add estate-map block wrapper ([138814e](https://github.com/Bergert-Digital/workation-castle-website/commit/138814eab75f6141c11fa059e68c8d997ae81f63))
+* **map:** add estate-map POI data and SVG section renderer ([4138ce1](https://github.com/Bergert-Digital/workation-castle-website/commit/4138ce15b8c923e431b0d2422d214488d6a1e8ce))
+* **map:** apply plan feedback — bridge houses, parking on street, drop garden pin/entrance/waste box ([9048090](https://github.com/Bergert-Digital/workation-castle-website/commit/90480904a815db1ced96d7dc4cf263870b43a2f1))
+* **map:** hover/focus/tap highlight linking legend to buildings ([007c41b](https://github.com/Bergert-Digital/workation-castle-website/commit/007c41b191aa508e667cddc31ac30cc153a2d285))
+* **map:** make SVG buildings and pins interactive (hover/click), not just the legend ([810b5bb](https://github.com/Bergert-Digital/workation-castle-website/commit/810b5bb502bfe0d77b4a63b59abaec8768bef7ec))
+* **map:** make the estate map horizontally scrollable on phones ([f6c7e9f](https://github.com/Bergert-Digital/workation-castle-website/commit/f6c7e9f45aaf87feeeb6f7102938e19861a0c56c))
+* **map:** re-trace estate to real footprint (ring, street, parking, garden) ([74b5d41](https://github.com/Bergert-Digital/workation-castle-website/commit/74b5d4173f36caacb3743efa21ac46c19d70a568))
+* **map:** relabel Bar to 'Bar — coffee machine and water dispenser' ([94a6a8b](https://github.com/Bergert-Digital/workation-castle-website/commit/94a6a8b71deaae194f53fa7abf996c375b722ac6))
+* **map:** seed /guide/map/ page and relink guide card internally ([16691a9](https://github.com/Bergert-Digital/workation-castle-website/commit/16691a9c776732df682d61a923312d2aee42a993))
+* **map:** suppress focus ring on clicked map shapes; relabel Workspace + parking ([34df05e](https://github.com/Bergert-Digital/workation-castle-website/commit/34df05e3f94d7ad8eafc0406fc895b3cc1d38402))
+* **map:** trace footprint precisely from client's source vector plan ([f8c0c95](https://github.com/Bergert-Digital/workation-castle-website/commit/f8c0c9539823a5e0ea065465b60577ee0c30b15d))
+* **migration:** decouple site from legacy workationcastle.com ([40f8c18](https://github.com/Bergert-Digital/workation-castle-website/commit/40f8c18c4c1e02c5cab3dcf4f574bd0d446d1f8a))
+* **nav:** accessible custom mobile menu toggle (superseded by native nav) ([d668ab1](https://github.com/Bergert-Digital/workation-castle-website/commit/d668ab19762f92768607d3d21aa0a260e6b80983))
+* **nav:** add Photos link to primary nav ([1e3521d](https://github.com/Bergert-Digital/workation-castle-website/commit/1e3521de4028a1e07b4124a34426d998531c1d43))
+* **nav:** mark active header links with underline, not colour ([d0bc21b](https://github.com/Bergert-Digital/workation-castle-website/commit/d0bc21b048f0883b6329da1ee168ab5519e6cd92))
+* **nav:** native core Navigation block in header; retire custom mobile menu ([b5c2da7](https://github.com/Bergert-Digital/workation-castle-website/commit/b5c2da7b6e4cf72cf82e43f6f746791f1ecdf6b1))
+* **nav:** resolve header Primary menu by slug at render time ([988b668](https://github.com/Bergert-Digital/workation-castle-website/commit/988b66882560fb4d85c42860ae0f55ae084a524f))
+* **nav:** seed editable Primary wp_navigation menu (create-if-absent) ([35d178f](https://github.com/Bergert-Digital/workation-castle-website/commit/35d178f1a4382a9e328cfd9b6790c3fe492f7a7b))
+* **nav:** wire footer, nav and home CTA to real pages ([2703018](https://github.com/Bergert-Digital/workation-castle-website/commit/27030186ddc3ce7dcd8a4a146ec40d6910c237da))
+* **reviews:** add /reviews/ page listing all guest reviews ([b0d0ea3](https://github.com/Bergert-Digital/workation-castle-website/commit/b0d0ea33b85947c88ab767b3afe7d77ac29e37b0))
+* **reviews:** editor CTA controls and button style ([ef2be63](https://github.com/Bergert-Digital/workation-castle-website/commit/ef2be63d0c9867ff5c588f70c154c4609c8d3a2e))
+* **reviews:** optional CTA button on the reviews block ([5307709](https://github.com/Bergert-Digital/workation-castle-website/commit/5307709bc2dd9fe77ec6c3b4724ed7f38f9fb3eb))
+* **sections:** wire section CTAs to pages with unified text-link style ([dc64d98](https://github.com/Bergert-Digital/workation-castle-website/commit/dc64d9870532fe50952cbb6cfb832d4d7542bc60))
+* **ui:** underline button hovers, ghost CTAs, visible hamburger ([c6f9745](https://github.com/Bergert-Digital/workation-castle-website/commit/c6f9745c99df7025f4f39c96b0c3302375292777))
+* **wp-env:** assign each workspace a random free port ([b020dfc](https://github.com/Bergert-Digital/workation-castle-website/commit/b020dfcc59614b7797aaf5fc0f95c7e43c58112a))
+
+
+### Bug Fixes
+
+* **avail:** accessible labels for calendar month-nav buttons ([6256cd7](https://github.com/Bergert-Digital/workation-castle-website/commit/6256cd7cdd35871796369e240a3a8e6be551c748))
+* **avail:** visible keyboard focus for calendar day/nav buttons ([d0141b3](https://github.com/Bergert-Digital/workation-castle-website/commit/d0141b3b1272f9a14366a2d0610a75f890df17c2))
+* **check-in:** remove corrupt draft entry on parse failure ([855af8f](https://github.com/Bergert-Digital/workation-castle-website/commit/855af8f5b465935fe11831cacb45bdeaecfaddb5))
+* **check-in:** use unique capability type so manage_options survives ([49d1434](https://github.com/Bergert-Digital/workation-castle-website/commit/49d1434ced46cf8528e8092e0366993911d62f4f))
+* **contact:** collapse section gaps and card the form ([b527523](https://github.com/Bergert-Digital/workation-castle-website/commit/b527523378cf97927ba77b33df1cfda512627365))
+* **e2e:** resolve baseURL without import.meta to keep config CJS ([9148412](https://github.com/Bergert-Digital/workation-castle-website/commit/9148412664a3673a7b4feef0a9fedd7504ed9c1b))
+* **gallery:** keep photo cells sized in the block editor ([5760b98](https://github.com/Bergert-Digital/workation-castle-website/commit/5760b98fd831da9f32607b52fbe14bd8ec9ad044))
+* **map:** fit north-wing bridge building flush between neighbours (out of courtyard) ([618cf55](https://github.com/Bergert-Digital/workation-castle-website/commit/618cf55d5dc5f318ef34ecb0474151225390908d))
+* **map:** point top-nav 'Find your way around' to internal /guide/map/ ([6567fbc](https://github.com/Bergert-Digital/workation-castle-website/commit/6567fbc5feb57429fa1337ce509418ca9baa839a))
+* **map:** ring active pin instead of scaling it (CSS transform teleported it) ([725a133](https://github.com/Bergert-Digital/workation-castle-website/commit/725a1331e649bd77baa13615d9af463285293c14))
+* **nav:** collapse to hamburger up to 899px; white carets; hover underline ([1b7026e](https://github.com/Bergert-Digital/workation-castle-website/commit/1b7026e2f61708f612bfe5e5a0167b4613af280a))
+* **nav:** keep mobile overlay full-screen once the header is solid ([0b031b4](https://github.com/Bergert-Digital/workation-castle-website/commit/0b031b435400890223838c5e64729135ec73b8dc))
+* **nav:** render nothing (not Page List) when Primary menu is absent ([be71551](https://github.com/Bergert-Digital/workation-castle-website/commit/be71551bd26324dd975b302fea969847628c48ce))
+* **seed:** register CPT rewrite rules so activity singles resolve ([41bde91](https://github.com/Bergert-Digital/workation-castle-website/commit/41bde91f235a6efdb66bd05a550a733883998ece))
+
+
+### Refactors
+
+* **avail:** render hero + block form via shared renderer ([c40003a](https://github.com/Bergert-Digital/workation-castle-website/commit/c40003abd6ae9b5709db546a2c3dd90a3255079f))
+
 ## [0.6.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.5.0...v0.6.0) (2026-06-30)
 
 
