@@ -53,12 +53,12 @@ final class ThemeUpdater {
 			$checker->setBranch( 'main' );
 		}
 
-		// Install the built release asset (pediment-child-theme.zip) rather than
+		// Install the built release asset (workation-castle-theme.zip) rather than
 		// GitHub's auto-generated "Source code" zip, which has the wrong folder
 		// name and ships no vendor/ autoloader.
 		$api = $checker->getVcsApi();
 		if ( method_exists( $api, 'enableReleaseAssets' ) ) {
-			$api->enableReleaseAssets( '/pediment-child-theme\.zip$/' );
+			$api->enableReleaseAssets( '/workation-castle-theme\.zip$/' );
 		}
 	}
 }
