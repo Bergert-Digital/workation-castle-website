@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="Pediment Child Theme">
+<ruleset name="Workation Castle">
   <description>Coding standards for pediment-child-theme.</description>
 
   <file>functions.php</file>

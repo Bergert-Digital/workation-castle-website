@@ -1,6 +1,6 @@
 <?php
 /**
- * Pediment Child Theme bootstrap.
+ * Workation Castle theme bootstrap.
  *
  * Fork target. Pediment (parent) is read-only; your blocks,
  * theme.json overrides and child-specific PHP live here.
