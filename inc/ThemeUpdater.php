@@ -1,10 +1,12 @@
 <?php
 /**
- * GitHub-release auto-updates for the Pediment child theme.
+ * GitHub-release auto-updates for the Workation Castle theme.
  *
- * Points Plugin Update Checker at the public GitHub repo's releases so theme
+ * Points Plugin Update Checker at the (private) GitHub repo's releases so theme
  * updates arrive through wp-admin's normal one-click flow (Dashboard → Updates
- * / Appearance → Themes) instead of manual zip uploads.
+ * / Appearance → Themes) instead of manual zip uploads. Because the repo is
+ * private, both the release lookup and the asset download are authenticated
+ * with an access token (see github_token()).
  *
  * @package PedimentChild
  */
@@ -20,8 +22,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class ThemeUpdater {
-	/** Public repo whose GitHub Releases drive theme updates. */
+	/** Private repo whose GitHub Releases drive theme updates (needs a token). */
 	private const REPO_URL = 'https://github.com/Bergert-Digital/workation-castle-website/';
+
+	/** Name of the wp-config constant / env var holding the repo access token. */
+	private const TOKEN_KEY = 'WORKATION_CASTLE_UPDATE_TOKEN';
 
 	/**
 	 * Wire the update checker to this repo's GitHub releases.
@@ -48,6 +53,14 @@ final class ThemeUpdater {
 			'pediment-child-theme'
 		);
 
+		// The releases repo is private, so authenticate the release lookup and the
+		// asset download with a token. Without it WordPress cannot see or fetch
+		// updates from a private repo, so one-click updates silently do nothing.
+		$token = self::github_token();
+		if ( '' !== $token && method_exists( $checker, 'setAuthentication' ) ) {
+			$checker->setAuthentication( $token );
+		}
+
 		// Fallback branch for reading the version header if a release is ever absent.
 		if ( method_exists( $checker, 'setBranch' ) ) {
 			$checker->setBranch( 'main' );
@@ -60,5 +73,23 @@ final class ThemeUpdater {
 		if ( method_exists( $api, 'enableReleaseAssets' ) ) {
 			$api->enableReleaseAssets( '/workation-castle-theme\.zip$/' );
 		}
+	}
+
+	/**
+	 * Access token for the private releases repo, or '' if none is configured.
+	 *
+	 * Read from the WORKATION_CASTLE_UPDATE_TOKEN constant (define it in
+	 * wp-config.php) with an environment variable of the same name as a
+	 * fallback. The token only needs read access to the repo's contents. Never
+	 * commit a token — keep it in wp-config.php or the server environment.
+	 *
+	 * @return string
+	 */
+	private static function github_token(): string {
+		if ( defined( self::TOKEN_KEY ) && is_string( constant( self::TOKEN_KEY ) ) ) {
+			return trim( (string) constant( self::TOKEN_KEY ) );
+		}
+		$env = getenv( self::TOKEN_KEY );
+		return is_string( $env ) ? trim( $env ) : '';
 	}
 }
