@@ -6,7 +6,7 @@
     "https://github.com/Bergert-Digital/pediment/releases/download/v2.2.0/pediment.zip"
   ],
   "plugins": [
-    "https://github.com/Bergert-Digital/pediment-ai/releases/download/v0.4.0/pediment-ai.zip"
+    "https://github.com/Bergert-Digital/pediment-ai/releases/download/v0.5.0/pediment-ai.zip"
   ],
   "port": 8890,
   "testsPort": 8891,
