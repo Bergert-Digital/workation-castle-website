@@ -6,7 +6,7 @@
  * updates arrive through wp-admin's normal one-click flow (Dashboard → Updates
  * / Appearance → Themes) instead of manual zip uploads. Because the repo is
  * private, both the release lookup and the asset download are authenticated
- * with an access token (see github_token()).
+ * with an access token resolved by UpdateToken (constant → env → stored option).
  *
  * @package PedimentChild
  */
@@ -25,8 +25,12 @@ final class ThemeUpdater {
 	/** Private repo whose GitHub Releases drive theme updates (needs a token). */
 	private const REPO_URL = 'https://github.com/Bergert-Digital/workation-castle-website/';
 
-	/** Name of the wp-config constant / env var holding the repo access token. */
-	private const TOKEN_KEY = 'WORKATION_CASTLE_UPDATE_TOKEN';
+	/**
+	 * Release-asset regex: the built zip is `workation-castle-theme.zip`, whose
+	 * name is fixed by the release workflow and independent of the installed
+	 * theme-folder slug — so it is not derived from get_stylesheet().
+	 */
+	private const ASSET_REGEX = '/workation-castle-theme\.zip$/';
 
 	/**
 	 * Wire the update checker to this repo's GitHub releases.
@@ -53,14 +57,6 @@ final class ThemeUpdater {
 			'pediment-child-theme'
 		);
 
-		// The releases repo is private, so authenticate the release lookup and the
-		// asset download with a token. Without it WordPress cannot see or fetch
-		// updates from a private repo, so one-click updates silently do nothing.
-		$token = self::github_token();
-		if ( '' !== $token && method_exists( $checker, 'setAuthentication' ) ) {
-			$checker->setAuthentication( $token );
-		}
-
 		// Fallback branch for reading the version header if a release is ever absent.
 		if ( method_exists( $checker, 'setBranch' ) ) {
 			$checker->setBranch( 'main' );
@@ -71,25 +67,43 @@ final class ThemeUpdater {
 		// name and ships no vendor/ autoloader.
 		$api = $checker->getVcsApi();
 		if ( method_exists( $api, 'enableReleaseAssets' ) ) {
-			$api->enableReleaseAssets( '/workation-castle-theme\.zip$/' );
+			$api->enableReleaseAssets( self::assetPattern() );
+		}
+
+		// The releases repo is private, so authenticate the release lookup and the
+		// asset download with a token. Precedence: WORKATION_CASTLE_UPDATE_TOKEN
+		// constant → env var of the same name → the encrypted option saved in
+		// Settings → Pediment Theme → Updates → none. Unset everywhere → no
+		// setAuthentication() call → updates simply absent, never a fatal.
+		$auth = UpdateToken::resolve();
+		if ( '' !== $auth['token'] && method_exists( $checker, 'setAuthentication' ) ) {
+			$checker->setAuthentication( $auth['token'] );
 		}
 	}
 
 	/**
-	 * Access token for the private releases repo, or '' if none is configured.
+	 * The GitHub repository URL that drives updates.
 	 *
-	 * Read from the WORKATION_CASTLE_UPDATE_TOKEN constant (define it in
-	 * wp-config.php) with an environment variable of the same name as a
-	 * fallback. The token only needs read access to the repo's contents. Never
-	 * commit a token — keep it in wp-config.php or the server environment.
-	 *
-	 * @return string
+	 * Exposed so the settings "Test connection" probe hits the same private repo
+	 * the updater installs from.
 	 */
-	private static function github_token(): string {
-		if ( defined( self::TOKEN_KEY ) && is_string( constant( self::TOKEN_KEY ) ) ) {
-			return trim( (string) constant( self::TOKEN_KEY ) );
-		}
-		$env = getenv( self::TOKEN_KEY );
-		return is_string( $env ) ? trim( $env ) : '';
+	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- camelCase mirrors the template's ThemeUpdater API so the vendored inc/settings-updates.php calls it unchanged.
+	public static function repoUrl(): string {
+		return self::REPO_URL;
+	}
+
+	/**
+	 * The release-asset regex the updater installs.
+	 *
+	 * Exposed for the settings "Test connection" probe. The asset name is fixed
+	 * (`workation-castle-theme.zip`), so the $slug the template's probe passes is
+	 * accepted for call-site compatibility but intentionally ignored here.
+	 *
+	 * @param string $slug Unused; kept to match the template settings call site.
+	 */
+	// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid -- camelCase mirrors the template's ThemeUpdater API so the vendored inc/settings-updates.php calls it unchanged.
+	public static function assetPattern( string $slug = '' ): string {
+		unset( $slug );
+		return self::ASSET_REGEX;
 	}
 }
