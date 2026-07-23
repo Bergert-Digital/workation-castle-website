@@ -62,6 +62,7 @@ Grep-replace these tokens with your client's identity before first client ship:
 - `pediment-child` → your text domain (in `style.css`, `functions.php`, `block.json`, `edit.tsx`, CSS classes)
 - `PedimentChild` → your PHP `@package` tag
 - `pediment_child_register_blocks` / `PEDIMENT_CHILD_*` → your prefixed function/constant names
+- Update-token names in `inc/UpdateToken.php` (`inc/settings-updates.php` reads them via the class constants): `PEDIMENT_CHILD_UPDATE_TOKEN` → your token constant/env var, `PEDIMENT_CHILD_UPDATE_SECRET` → your encryption-key override constant, and the option key `pediment_child_update_token` → your prefixed option. (In this fork: `WORKATION_CASTLE_UPDATE_TOKEN`, `WORKATION_CASTLE_UPDATE_SECRET`, `workation_castle_update_token`.)
 
 Then **replace or delete** `src/blocks/promo-banner/` — it's a worked example, not production content.
 

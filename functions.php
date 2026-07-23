@@ -23,8 +23,16 @@ if ( ! defined( 'PEDIMENT_CHILD_VERSION' ) ) {
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
+// UpdateToken (token storage/precedence/encryption) must load before
+// ThemeUpdater::register(), which resolves the token through it.
+require_once __DIR__ . '/inc/UpdateToken.php';
 require_once __DIR__ . '/inc/ThemeUpdater.php';
 \PedimentChild\ThemeUpdater::register();
+// Settings → Pediment Theme → Updates: configure/rotate the update token from
+// wp-admin instead of wp-config.php. Admin-only.
+if ( is_admin() ) {
+	require_once __DIR__ . '/inc/settings-updates.php';
+}
 
 // Content seed: rebuild pages from theme block patterns (`wp pediment-child seed`
 // or Tools → Seed content). Keeps the homepage in version control, not just the DB.
