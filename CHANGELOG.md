@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.8.1...v0.9.0) (2026-07-23)
+
+
+### Features
+
+* **updates:** add wp-admin settings UI for the theme update token ([c415b64](https://github.com/Bergert-Digital/workation-castle-website/commit/c415b64a2d577266b7ee4ecac2058212cc25d937))
+* **updates:** add wp-admin settings UI for the theme update token ([#18](https://github.com/Bergert-Digital/workation-castle-website/issues/18)) ([2b427b1](https://github.com/Bergert-Digital/workation-castle-website/commit/2b427b157255a967341dcd6409a9df1e0df5f72d))
+
 ## [0.8.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.8.0...v0.8.1) (2026-07-23)
 
 
