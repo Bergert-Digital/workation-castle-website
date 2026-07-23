@@ -33,6 +33,14 @@ Or browse the source on GitHub: <https://github.com/bergert/pediment>.
   `functions.php`.
 - **Stick to WordPress standards.** Prefer official APIs (hooks, filters, block APIs)
   over custom solutions.
+- **Long-running admin actions must lift PHP limits.** Any wp-admin handler that does
+  heavy work in one request — sideloading remote images, batch imports, the content seed
+  (`Tools → Seed content`) — must call `wp_raise_memory_limit( 'admin' )` and
+  `@set_time_limit( 0 )` before the work. Shared hosts cap `max_execution_time` at 30–60s,
+  so a first full run dies with WordPress's generic "critical error" page — really a PHP
+  timeout deep in the image editor — while the *identical* code finishes under WP-CLI,
+  which has no time or memory limit. A green `wp …` run does **not** prove the admin
+  button is safe; test the actual wp-admin path (or trust this rule).
 - **No color literals in custom block CSS.** Use `var(--wp--preset--…)` tokens declared
   in `theme.json`.
 - **`theme.json` merge is per-subtree, not per-slug.** A declared `palette` /
