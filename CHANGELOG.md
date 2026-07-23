@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.8.0...v0.8.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* **seed:** raise PHP limits so the admin seed doesn't 500 on shared hosts ([#16](https://github.com/Bergert-Digital/workation-castle-website/issues/16)) ([9c1db2b](https://github.com/Bergert-Digital/workation-castle-website/commit/9c1db2bb87736b3f43dae584c52133a14d64bfc3))
+* **seed:** raise time & memory limits for the admin seed run ([bfd550f](https://github.com/Bergert-Digital/workation-castle-website/commit/bfd550fa82f195103aefd76c434334368314751d))
+
 ## [0.8.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.7.0...v0.8.0) (2026-07-21)
 
 
