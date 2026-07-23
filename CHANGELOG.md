@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.7.0...v0.8.0) (2026-07-21)
+
+
+### Features
+
+* **updater:** authenticate one-click updates against private repo ([#12](https://github.com/Bergert-Digital/workation-castle-website/issues/12)) ([10f938f](https://github.com/Bergert-Digital/workation-castle-website/commit/10f938f3dd0cb0ed116dd9a0c57375eec525845a))
+* **updater:** authenticate one-click updates against the private repo ([f23dc07](https://github.com/Bergert-Digital/workation-castle-website/commit/f23dc072dcd3a50f4eb5f2b298196459246780c7))
+
 ## [0.7.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.6.0...v0.7.0) (2026-07-18)
 
 
