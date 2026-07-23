@@ -283,6 +283,21 @@ class Seed {
 		}
 		check_admin_referer( 'pediment_child_seed_run' );
 
+		// A first full seed sideloads and regenerates dozens of remote images in
+		// this single request. On shared hosts the default max_execution_time
+		// (30–60s) and memory_limit are too low for that, so the request dies
+		// with a generic "critical error" — a PHP timeout deep in the image
+		// editor — even though the identical seed finishes fine under WP-CLI,
+		// which runs with no time or memory limit. Lift both ceilings for the
+		// duration of this admin action. WP-CLI never reaches this handler, and
+		// on mod_php / LiteSpeed (which honour set_time_limit()) this is the
+		// standard pattern WordPress itself uses for long-running admin tasks.
+		if ( function_exists( 'wp_raise_memory_limit' ) ) {
+			wp_raise_memory_limit( 'admin' );
+		}
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_time_limit
+		@set_time_limit( 0 );
+
 		$result = self::seed();
 		set_transient( 'pediment_child_seed_result_' . get_current_user_id(), $result, MINUTE_IN_SECONDS );
 
