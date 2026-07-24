@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.1...v0.9.2) (2026-07-24)
+
+
+### Bug Fixes
+
+* **updates:** bump committed theme version on release so updates are offered ([b361f03](https://github.com/Bergert-Digital/workation-castle-website/commit/b361f031453f20e9322280f7ecbbcdc40ee84dac))
+* **updates:** bump committed theme version on release so updates are offered ([#22](https://github.com/Bergert-Digital/workation-castle-website/issues/22)) ([b9fce28](https://github.com/Bergert-Digital/workation-castle-website/commit/b9fce283eb549e07f955ec7ee2af7b390fd27332))
+
 ## [0.9.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.0...v0.9.1) (2026-07-24)
 
 
