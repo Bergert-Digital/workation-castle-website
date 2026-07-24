@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.0...v0.9.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* **i18n:** make custom block text and URL attributes translatable via WPML ([d4a177e](https://github.com/Bergert-Digital/workation-castle-website/commit/d4a177ed7d64e490568595fff1488a8ed11a29d9))
+
 ## [0.9.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.8.1...v0.9.0) (2026-07-23)
 
 
