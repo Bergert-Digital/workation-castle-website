@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.4](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.3...v0.9.4) (2026-07-25)
+
+
+### Bug Fixes
+
+* **seed:** adopt an unpublished Primary menu instead of forking its slug ([220e0b7](https://github.com/Bergert-Digital/workation-castle-website/commit/220e0b7b387e6c2f2fc362d1fb47ca93f1af54cd))
+* **seed:** adopt an unpublished Primary menu instead of forking its slug ([#26](https://github.com/Bergert-Digital/workation-castle-website/issues/26)) ([31caba3](https://github.com/Bergert-Digital/workation-castle-website/commit/31caba3d46478a79e23de3b41e877e0921d69e81))
+
 ## [0.9.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.2...v0.9.3) (2026-07-25)
 
 
