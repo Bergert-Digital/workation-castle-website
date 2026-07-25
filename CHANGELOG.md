@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.2...v0.9.3) (2026-07-25)
+
+
+### Bug Fixes
+
+* **seed:** create pages and the Primary menu before sideloading media ([845e91e](https://github.com/Bergert-Digital/workation-castle-website/commit/845e91efce97e4e39e475f0c5dc23540cef6ea7c))
+* **seed:** create pages and the Primary menu before sideloading media ([#24](https://github.com/Bergert-Digital/workation-castle-website/issues/24)) ([0e875ba](https://github.com/Bergert-Digital/workation-castle-website/commit/0e875ba9bba860d88478de2c5ef4c5fc6edc650c))
+
 ## [0.9.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.1...v0.9.2) (2026-07-24)
 
 
