@@ -153,13 +153,20 @@ class Seed {
 	 * @return array{ok:bool,summary:string,log:string[]}
 	 */
 	public static function seed(): array {
-		self::seed_photo_terms();
-		$photo_log    = self::seed_photos( self::photo_manifest() );
-		$activity_log = self::seed_activities( self::activities_manifest() );
-		$nav_log      = self::seed_primary_nav();
-
+		// Structure first, media last. The pages, the Primary menu and the
+		// front-page/permalink options are what make the site navigable, and they
+		// are cheap: pattern files and a few inserts, no remote requests. The
+		// photo and activity steps sideload and regenerate dozens of remote
+		// images in this same request, which is what exhausts a shared host's
+		// PHP time limit. While those ran first, a timeout there left the site
+		// with no Primary menu (the header renders nothing without it) even
+		// though the seed had "run". Ordering it this way means a media timeout
+		// costs only images, never the site's structure — and re-running picks
+		// up where it left off, since every step is idempotent.
 		list( $ids, $page_log ) = self::upsert_pages();
-		$log                    = array_merge( $page_log, $photo_log, $activity_log, $nav_log );
+		$nav_log                = self::seed_primary_nav();
+
+		$log = array_merge( $page_log, $nav_log );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -192,6 +199,14 @@ class Seed {
 				$taxonomy_object->add_rewrite_rules();
 			}
 		}
+
+		// Media-heavy steps last: see the ordering note at the top of this method.
+		self::seed_photo_terms();
+		$log = array_merge(
+			$log,
+			self::seed_photos( self::photo_manifest() ),
+			self::seed_activities( self::activities_manifest() )
+		);
 
 		// Always flush so the CPT rewrite rules (the public wc_activity singles
 		// at /activities/<slug>/) take effect on existing installs too.
