@@ -437,11 +437,12 @@ class Seed {
 	}
 
 	/**
-	 * Seed the editable "Primary" navigation menu, create-if-absent.
+	 * Seed the editable "Primary" navigation menu, adopting whatever holds the slug.
 	 *
-	 * The header's core/navigation block resolves this wp_navigation post by
-	 * slug at render time. Create-if-absent so re-seeding never clobbers menu
-	 * edits made in the Site Editor.
+	 * The header's core/navigation block resolves this wp_navigation post by the
+	 * exact slug `primary` *and* requires it to be published (see
+	 * pediment_child_get_primary_nav_menu()). Content is never overwritten, so
+	 * re-seeding keeps menu edits made in the Site Editor.
 	 *
 	 * @return string[] Log lines.
 	 */
@@ -450,13 +451,48 @@ class Seed {
 			array(
 				'post_type'        => 'wp_navigation',
 				'name'             => 'primary',
-				'post_status'      => 'any',
+				'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future', 'auto-draft' ),
 				'numberposts'      => 1,
 				'suppress_filters' => false,
 			)
 		);
 		if ( ! empty( $existing ) ) {
-			return array( 'skipped (exists): wp_navigation "primary"' );
+			// Adopt the post that owns the slug rather than skipping or inserting
+			// a rival. An unpublished `primary` otherwise deadlocks the site: the
+			// header ignores it (not published) while WordPress's unique-slug rule
+			// hands any newly inserted menu `primary-2`, which the header cannot
+			// resolve either — so the site renders no navigation and re-seeding
+			// never recovers, it just accumulates orphans.
+			$menu = $existing[0];
+			$log  = array();
+
+			if ( 'publish' !== $menu->post_status ) {
+				wp_update_post(
+					array(
+						'ID'          => $menu->ID,
+						'post_status' => 'publish',
+					)
+				);
+				$log[] = 'published: wp_navigation "primary" (ID ' . $menu->ID . ', was ' . $menu->post_status . ')';
+			}
+
+			// An empty menu renders an empty header, so restore the canonical
+			// items — but only when there is nothing to lose. A menu with content
+			// is the site owner's, and is left untouched.
+			if ( '' === trim( (string) $menu->post_content ) ) {
+				wp_update_post(
+					array(
+						'ID'           => $menu->ID,
+						'post_content' => pediment_child_primary_nav_blocks(),
+					)
+				);
+				$log[] = 'filled: wp_navigation "primary" (ID ' . $menu->ID . ') was empty';
+			}
+
+			if ( empty( $log ) ) {
+				$log[] = 'skipped (exists, published): wp_navigation "primary" (ID ' . $menu->ID . ')';
+			}
+			return $log;
 		}
 		$id = wp_insert_post(
 			array(
