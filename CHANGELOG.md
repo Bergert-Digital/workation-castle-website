@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.5](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.4...v0.9.5) (2026-07-26)
+
+
+### Bug Fixes
+
+* **nav:** keep the header menu when a language filter hides it ([d306b70](https://github.com/Bergert-Digital/workation-castle-website/commit/d306b708e710500d2a660257b3998a4d6f0052ca))
+* **nav:** keep the header menu when a language filter hides it ([#28](https://github.com/Bergert-Digital/workation-castle-website/issues/28)) ([ac72cff](https://github.com/Bergert-Digital/workation-castle-website/commit/ac72cff2b9f4c9ffe162ba6ac7a6238d8e72cb43))
+
 ## [0.9.4](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.3...v0.9.4) (2026-07-25)
 
 
