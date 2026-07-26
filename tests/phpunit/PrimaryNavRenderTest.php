@@ -67,4 +67,48 @@ class PrimaryNavRenderTest extends WP_UnitTestCase {
 		$this->assertNotSame( '', trim( $html ) );
 		$this->assertStringContainsString( 'Activities', $html );
 	}
+
+	/**
+	 * Hide the menu from filtered queries only, the way a multilingual plugin
+	 * scopes results to the language being rendered. WP_Query skips these
+	 * filters when suppress_filters is true, so this leaves the unfiltered
+	 * fallback query intact — exactly the asymmetry the lookup relies on.
+	 *
+	 * @return callable The filter, so the caller can remove it.
+	 */
+	private function hide_from_filtered_queries(): callable {
+		$filter = static function ( $where ) {
+			return $where . ' AND 1=0';
+		};
+		add_filter( 'posts_where', $filter );
+		return $filter;
+	}
+
+	public function test_menu_is_found_even_when_a_language_filter_hides_it() {
+		$id     = $this->make_primary_menu();
+		$filter = $this->hide_from_filtered_queries();
+
+		$menu = pediment_child_get_primary_nav_menu();
+
+		remove_filter( 'posts_where', $filter );
+		$this->assertNotNull( $menu, 'A language-scoped query must not cost the site its navigation' );
+		$this->assertSame( $id, $menu->ID );
+	}
+
+	public function test_navigation_still_renders_when_a_language_filter_hides_the_menu() {
+		$this->make_primary_menu();
+		$filter = $this->hide_from_filtered_queries();
+
+		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );
+
+		remove_filter( 'posts_where', $filter );
+		$this->assertStringContainsString( 'Activities', $html, 'The header must keep its links' );
+	}
+
+	public function test_absent_menu_still_renders_nothing_when_filters_are_bypassed() {
+		// The fallback must not resurrect the page-list fallback on a fresh site.
+		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );
+		$this->assertSame( '', trim( $html ) );
+		$this->assertNull( pediment_child_get_primary_nav_menu() );
+	}
 }

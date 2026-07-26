@@ -51,15 +51,31 @@ function pediment_child_primary_nav_blocks(): string {
  * @return WP_Post|null
  */
 function pediment_child_get_primary_nav_menu() {
-	$menu = get_posts(
-		array(
-			'post_type'        => 'wp_navigation',
-			'name'             => 'primary',
-			'post_status'      => 'publish',
-			'numberposts'      => 1,
-			'suppress_filters' => false,
-		)
+	$query = array(
+		'post_type'        => 'wp_navigation',
+		'name'             => 'primary',
+		'post_status'      => 'publish',
+		'numberposts'      => 1,
+		'suppress_filters' => false,
 	);
+
+	// Filtered first, so a multilingual plugin can hand back the menu that
+	// belongs to the language being rendered.
+	$menu = get_posts( $query );
+	if ( $menu ) {
+		return $menu[0];
+	}
+
+	// Nothing matched, so retry without filters. Polylang and WPML scope queries
+	// to the current language, and a Primary menu tagged with a *different*
+	// language is invisible to the query above — which, because the header's
+	// navigation block is suppressed when no menu is found, silently strips the
+	// site's entire navigation (observed on a site whose Primary menu was English
+	// while the default language was German). A menu in the right language still
+	// wins above; this only decides between the canonical menu and none at all.
+	$query['suppress_filters'] = true;
+	$menu                      = get_posts( $query );
+
 	return $menu ? $menu[0] : null;
 }
 
