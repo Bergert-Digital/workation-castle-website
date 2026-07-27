@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.6](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.5...v0.9.6) (2026-07-27)
+
+
+### Refactors
+
+* **nav:** identify the Primary menu by post meta, not by its slug ([7d7ca30](https://github.com/Bergert-Digital/workation-castle-website/commit/7d7ca30addb3b1480636f7cfd57c50b436374173))
+* **nav:** identify the Primary menu by post meta, not by its slug ([#32](https://github.com/Bergert-Digital/workation-castle-website/issues/32)) ([90353bc](https://github.com/Bergert-Digital/workation-castle-website/commit/90353bcc1ab6997cf73f434c5843c35822ba86c2))
+
 ## [0.9.5](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.4...v0.9.5) (2026-07-26)
 
 
