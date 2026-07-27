@@ -148,6 +148,43 @@ class PrimaryNavRenderTest extends WP_UnitTestCase {
 		$this->assertSame( '1', get_post_meta( $id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, true ), 'Lookup must stamp the marker so the slug stops mattering' );
 	}
 
+	/**
+	 * Two marked menus should not make the bound menu depend on database order —
+	 * the header must keep the original rather than switching when another one
+	 * appears.
+	 */
+	public function test_oldest_marked_menu_wins_when_several_exist() {
+		// Dated so get_posts()' default (date DESC) would return the *newer* one,
+		// which is what makes this pin the ordering rather than pass by luck.
+		// Both dates stay in the past: a future date would make WordPress mark
+		// the post 'future', excluding it from the publish lookup and letting the
+		// test pass for the wrong reason.
+		$first = $this->make_primary_menu();
+		wp_update_post(
+			array(
+				'ID'            => $first,
+				'post_date'     => '2020-01-01 00:00:00',
+				'post_date_gmt' => '2020-01-01 00:00:00',
+			)
+		);
+		update_post_meta( $first, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+
+		$second = $this->make_primary_menu();
+		wp_update_post(
+			array(
+				'ID'            => $second,
+				'post_date'     => '2021-01-01 00:00:00',
+				'post_date_gmt' => '2021-01-01 00:00:00',
+			)
+		);
+		update_post_meta( $second, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+
+		$menu = pediment_child_get_primary_nav_menu();
+
+		$this->assertNotNull( $menu );
+		$this->assertSame( $first, $menu->ID, 'The oldest marked menu must stay bound' );
+	}
+
 	public function test_absent_menu_still_renders_nothing_when_filters_are_bypassed() {
 		// The fallback must not resurrect the page-list fallback on a fresh site.
 		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );

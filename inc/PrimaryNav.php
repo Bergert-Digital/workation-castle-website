@@ -40,8 +40,13 @@ const PEDIMENT_CHILD_PRIMARY_NAV_MARKER = '_pediment_child_primary_nav';
  * @return WP_Post|null
  */
 function pediment_child_find_nav_post( array $args ) {
-	$args['post_type']        = 'wp_navigation';
-	$args['numberposts']      = 1;
+	$args['post_type']   = 'wp_navigation';
+	$args['numberposts'] = 1;
+	// Oldest wins. Should a site ever end up with more than one matching menu,
+	// the header keeps binding the original instead of silently switching to
+	// whichever the database happened to return first.
+	$args['orderby']          = 'ID';
+	$args['order']            = 'ASC';
 	$args['suppress_filters'] = false;
 
 	$found = get_posts( $args );
