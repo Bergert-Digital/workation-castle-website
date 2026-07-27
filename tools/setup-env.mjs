@@ -27,6 +27,7 @@ import { execFileSync } from 'node:child_process';
 import { basename } from 'node:path';
 import process from 'node:process';
 import { ensurePort } from './ensure-port.mjs';
+import { setupPolylang } from './setup-polylang.mjs';
 
 const themeSlug = basename(process.cwd());
 
@@ -49,6 +50,10 @@ try {
 		'npx',
 		['wp-env', 'run', 'cli', 'wp', 'pediment-child', 'seed']
 	);
+	// After the seed, never before: the seed creates pages, the navigation menu
+	// and CPT posts with no language attached, and Polylang needs them tagged.
+	console.log('\n› set up Polylang');
+	setupPolylang();
 	console.log('\n✔ env ready.');
 } catch (err) {
 	process.exit(err.status ?? 1);
