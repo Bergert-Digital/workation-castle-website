@@ -627,7 +627,7 @@
 
 **Source:** parent
 **Wrapper class:** `starter-stat-grid`
-**Use when:** _(add guidance)_
+**Use when:** a "numbers & facts" / Zahlen & Fakten section — a row of key figures. Wraps `pediment/stat` child blocks.
 
 **Align:** wide, full
 
