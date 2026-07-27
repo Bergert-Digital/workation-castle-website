@@ -105,6 +105,49 @@ class PrimaryNavRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Activities', $html, 'The header must keep its links' );
 	}
 
+	/**
+	 * The slug is no longer what identifies the menu, so a post squatting
+	 * `primary` cannot hide the real one. WordPress keeps slugs unique, so a
+	 * squatter used to force every replacement to `primary-2` — invisible to a
+	 * slug lookup, and the site rendered no navigation at all.
+	 */
+	public function test_marked_menu_wins_over_a_post_squatting_the_slug() {
+		$squatter = wp_insert_post(
+			array(
+				'post_type'    => 'wp_navigation',
+				'post_title'   => 'Squatter',
+				'post_name'    => 'primary',
+				'post_status'  => 'draft',
+				'post_content' => '<!-- wp:navigation-link {"label":"Wrong","url":"/wrong/"} /-->',
+			)
+		);
+		// Inserted second, so WordPress hands it the suffixed slug.
+		$real = $this->make_primary_menu();
+		update_post_meta( $real, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+
+		$menu = pediment_child_get_primary_nav_menu();
+
+		$this->assertNotNull( $menu );
+		$this->assertSame( $real, $menu->ID, 'The marked menu must win regardless of its slug' );
+		$this->assertNotSame( $squatter, $menu->ID );
+	}
+
+	/**
+	 * Sites seeded before the marker existed only have the `primary` slug. They
+	 * must keep working, and get stamped so later lookups no longer depend on
+	 * the slug at all.
+	 */
+	public function test_legacy_slug_menu_is_still_found_and_gets_stamped() {
+		$id = $this->make_primary_menu();
+		delete_post_meta( $id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER );
+
+		$menu = pediment_child_get_primary_nav_menu();
+
+		$this->assertNotNull( $menu, 'A pre-marker site must keep its navigation' );
+		$this->assertSame( $id, $menu->ID );
+		$this->assertSame( '1', get_post_meta( $id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, true ), 'Lookup must stamp the marker so the slug stops mattering' );
+	}
+
 	public function test_absent_menu_still_renders_nothing_when_filters_are_bypassed() {
 		// The fallback must not resurrect the page-list fallback on a fresh site.
 		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );

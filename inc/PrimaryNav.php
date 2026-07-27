@@ -16,6 +16,80 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Post meta stamped on the Primary menu.
+ *
+ * Identifying the menu by meta rather than by the slug `primary` is what makes
+ * it un-squattable: WordPress keeps slugs unique, so a stray post holding
+ * `primary` used to push every replacement to `primary-2`, where a slug lookup
+ * could never find it and the header rendered nothing. Meta has no such
+ * collision rule. Mirrors the parent template's nav-seed marker approach.
+ */
+const PEDIMENT_CHILD_PRIMARY_NAV_MARKER = '_pediment_child_primary_nav';
+
+/**
+ * Run a wp_navigation lookup, retrying unfiltered when it comes back empty.
+ *
+ * Polylang and WPML scope queries to the language being rendered, so a menu
+ * tagged with a different language is invisible to the filtered query — and
+ * because the header suppresses its navigation block when no menu is found,
+ * that silently strips the site's whole navigation. Filtered runs first, so a
+ * correctly-translated per-language menu still wins; the retry only decides
+ * between the canonical menu and none at all.
+ *
+ * @param array<string,mixed> $args get_posts() arguments (without suppress_filters).
+ * @return WP_Post|null
+ */
+function pediment_child_find_nav_post( array $args ) {
+	$args['post_type']        = 'wp_navigation';
+	$args['numberposts']      = 1;
+	$args['suppress_filters'] = false;
+
+	$found = get_posts( $args );
+	if ( $found ) {
+		return $found[0];
+	}
+
+	$args['suppress_filters'] = true;
+	$found                    = get_posts( $args );
+
+	return $found ? $found[0] : null;
+}
+
+/**
+ * The Primary menu whatever its status, by marker and then by legacy slug.
+ *
+ * Stamps the marker when it has to fall back to the slug, so sites seeded
+ * before the marker existed migrate themselves on first lookup and stop
+ * depending on the slug.
+ *
+ * @param string|string[] $post_status Status(es) to accept.
+ * @return WP_Post|null
+ */
+function pediment_child_find_primary_nav( $post_status ) {
+	$menu = pediment_child_find_nav_post(
+		array(
+			'post_status' => $post_status,
+			'meta_key'    => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One indexed lookup per request; the consumer early-returns for non-navigation blocks.
+		)
+	);
+	if ( $menu ) {
+		return $menu;
+	}
+
+	$menu = pediment_child_find_nav_post(
+		array(
+			'post_status' => $post_status,
+			'name'        => 'primary',
+		)
+	);
+	if ( $menu ) {
+		update_post_meta( $menu->ID, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+	}
+
+	return $menu;
+}
+
+/**
  * Canonical Primary-menu block markup (core/navigation inner blocks).
  *
  * Single source of truth for the seeded menu; mirrors the header links.
@@ -51,32 +125,9 @@ function pediment_child_primary_nav_blocks(): string {
  * @return WP_Post|null
  */
 function pediment_child_get_primary_nav_menu() {
-	$query = array(
-		'post_type'        => 'wp_navigation',
-		'name'             => 'primary',
-		'post_status'      => 'publish',
-		'numberposts'      => 1,
-		'suppress_filters' => false,
-	);
-
-	// Filtered first, so a multilingual plugin can hand back the menu that
-	// belongs to the language being rendered.
-	$menu = get_posts( $query );
-	if ( $menu ) {
-		return $menu[0];
-	}
-
-	// Nothing matched, so retry without filters. Polylang and WPML scope queries
-	// to the current language, and a Primary menu tagged with a *different*
-	// language is invisible to the query above — which, because the header's
-	// navigation block is suppressed when no menu is found, silently strips the
-	// site's entire navigation (observed on a site whose Primary menu was English
-	// while the default language was German). A menu in the right language still
-	// wins above; this only decides between the canonical menu and none at all.
-	$query['suppress_filters'] = true;
-	$menu                      = get_posts( $query );
-
-	return $menu ? $menu[0] : null;
+	// Only a published menu renders; an unpublished one is the seed's problem to
+	// heal, not something to bind the header to.
+	return pediment_child_find_primary_nav( 'publish' );
 }
 
 /**

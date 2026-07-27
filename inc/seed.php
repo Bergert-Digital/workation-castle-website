@@ -447,24 +447,16 @@ class Seed {
 	 * @return string[] Log lines.
 	 */
 	public static function seed_primary_nav(): array {
-		$existing = get_posts(
-			array(
-				'post_type'        => 'wp_navigation',
-				'name'             => 'primary',
-				'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future', 'auto-draft' ),
-				'numberposts'      => 1,
-				'suppress_filters' => false,
-			)
-		);
-		if ( ! empty( $existing ) ) {
-			// Adopt the post that owns the slug rather than skipping or inserting
-			// a rival. An unpublished `primary` otherwise deadlocks the site: the
-			// header ignores it (not published) while WordPress's unique-slug rule
-			// hands any newly inserted menu `primary-2`, which the header cannot
-			// resolve either — so the site renders no navigation and re-seeding
-			// never recovers, it just accumulates orphans.
-			$menu = $existing[0];
-			$log  = array();
+		$menu = pediment_child_find_primary_nav( array( 'publish', 'draft', 'pending', 'private', 'future', 'auto-draft' ) );
+		if ( $menu ) {
+			// Adopt the menu we already own rather than skipping or inserting a
+			// rival. An unpublished one otherwise deadlocks the site: the header
+			// ignores it (not published), and WordPress's unique-slug rule hands
+			// any newly inserted menu `primary-2` — so the site renders no
+			// navigation and re-seeding never recovers, it just accumulates
+			// orphans. The lookup resolves by marker first, so this holds even
+			// when an unrelated post has taken the `primary` slug.
+			$log = array();
 
 			if ( 'publish' !== $menu->post_status ) {
 				wp_update_post(
@@ -507,6 +499,9 @@ class Seed {
 		if ( is_wp_error( $id ) ) {
 			return array( 'ERROR seeding primary nav: ' . $id->get_error_message() );
 		}
+		// Stamp the marker so the menu is found by meta from here on. WordPress
+		// may have suffixed the slug if something else already held `primary`.
+		update_post_meta( $id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
 		return array( 'created: wp_navigation "primary" (ID ' . $id . ')' );
 	}
 
