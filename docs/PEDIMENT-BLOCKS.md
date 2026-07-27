@@ -517,7 +517,7 @@
 
 **Source:** parent
 **Wrapper class:** `starter-media-text`
-**Use when:** _(add guidance)_
+**Use when:** a section pairing body copy with a supporting image side by side — about sections, feature explanations, alternating content rows. Put the text in innerBlocks; set `mediaPosition` left/right.
 
 **Attributes:**
   - `mediaId` (number)
@@ -586,7 +586,7 @@
 
 **Source:** parent
 **Wrapper class:** `starter-slider`
-**Use when:** _(add guidance)_
+**Use when:** a full-bleed carousel showing one slide at a time, each pairing an image with a colored content panel — showcase rotators, project highlights. Manage slides in the block sidebar.
 
 **Attributes:**
   - `mediaPosition` (string)
@@ -659,7 +659,7 @@
 
 **Source:** parent
 **Wrapper class:** `starter-testimonial`
-**Use when:** _(add guidance)_
+**Use when:** a single customer quote card with author, role, and optional avatar. For several side by side, use `pediment/testimonial-grid` instead.
 
 **Attributes:**
   - `quote` (string)
@@ -673,7 +673,7 @@
 
 **Source:** parent
 **Wrapper class:** `starter-testimonial-grid`
-**Use when:** _(add guidance)_
+**Use when:** a "what our clients say" / Kundenstimmen section — several testimonial cards in a responsive grid. Wraps `pediment/testimonial` child blocks.
 
 **Align:** wide, full
 
