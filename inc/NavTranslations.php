@@ -130,8 +130,10 @@ function pediment_child_translate_nav_url( string $url, string $lang ) {
 		return null;
 	}
 
+	// Core appends `attachment` to a string post type, so the match is confirmed
+	// to be a page rather than an attachment sharing the path.
 	$page = get_page_by_path( $path );
-	if ( ! $page ) {
+	if ( ! $page instanceof WP_Post || 'page' !== $page->post_type ) {
 		return null;
 	}
 
@@ -140,7 +142,16 @@ function pediment_child_translate_nav_url( string $url, string $lang ) {
 		return null;
 	}
 
-	return wp_make_link_relative( (string) get_permalink( $translated ) );
+	// Status is re-checked rather than trusted: pll_get_post() returns a
+	// translation whatever its status, and a draft or trashed one must not become
+	// a live menu link to unpublished content. Declining here leaves the caller
+	// with the English URL and its existing "cannot map" warning.
+	$post = get_post( $translated );
+	if ( ! $post instanceof WP_Post || 'publish' !== $post->post_status ) {
+		return null;
+	}
+
+	return wp_make_link_relative( (string) get_permalink( $post ) );
 }
 
 /**
