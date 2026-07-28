@@ -84,9 +84,9 @@ foreach ( PEDIMENT_CHILD_DEV_LANGUAGES as $index => $language ) {
 $model->clean_languages_cache();
 
 // -----------------------------------------------------------------------------
-// 2. Options: default language + what is translatable
+// 2. Options: default language, language roots, what is translatable
 // -----------------------------------------------------------------------------
-$options = get_option( 'polylang', array() );
+$options = PLL()->options;
 
 // wp_navigation has to be translatable for a menu to exist per language. The
 // header resolves its menu with a language-scoped query, so each language binds
@@ -98,11 +98,58 @@ foreach ( array( 'PEDIMENT_CHILD_ACTIVITY_CPT', 'PEDIMENT_CHILD_PHOTO_CPT' ) as 
 	}
 }
 
-$options['default_lang'] = PEDIMENT_CHILD_DEV_DEFAULT_LANG;
-$options['post_types']   = array_values( array_unique( array_merge( isset( $options['post_types'] ) ? (array) $options['post_types'] : array(), $translatable ) ) );
-update_option( 'polylang', $options );
+$desired = array(
+	'default_lang'  => PEDIMENT_CHILD_DEV_DEFAULT_LANG,
+	'post_types'    => array_values( array_unique( array_merge( (array) $options['post_types'], $translatable ) ) ),
 
-printf( "polylang: default language %s, translatable: %s\n", PEDIMENT_CHILD_DEV_DEFAULT_LANG, implode( ', ', $translatable ) );
+	/*
+	 * Serve each language at its own root: /de/, not /de/startseite/.
+	 *
+	 * Polylang defaults `redirect_lang` to 0, which makes a language's home URL
+	 * the permalink of its *translated front page* -- see
+	 * set_language_home_url() in Polylang's links-model.php. Every /de/ request
+	 * then canonically 301s to /de/startseite/, and the language switcher,
+	 * hreflang tags and menu home links all point at the page URL. Turning it on
+	 * inverts the pair: /de/ serves the front page, /de/startseite/ redirects
+	 * there.
+	 *
+	 * This is the checkbox "The front page url contains the language code
+	 * instead of the page name or page id" under Languages -> Settings -> URL
+	 * modifications, so a live site needs it ticked there too.
+	 */
+	'redirect_lang' => 1,
+);
+
+/*
+ * Written through Polylang's own options object, never with update_option().
+ *
+ * Since 3.7 Polylang holds its options in memory and flushes them to the
+ * database on `shutdown`. A raw update_option() therefore loses twice: nothing
+ * else in this process sees the new value -- including the language home URLs
+ * cached further down -- and Polylang's shutdown save writes its stale copy back
+ * over the row. That is what left `post_types` empty and every language root
+ * still redirecting even though the option had visibly been written.
+ *
+ * merge() applies the keys in Polylang's own registration order, which matters
+ * because some of its options validate against others.
+ */
+$saved = $options->merge( $desired );
+if ( is_wp_error( $saved ) && $saved->has_errors() ) {
+	printf( "polylang: WARNING option write rejected — %s\n", implode( '; ', $saved->get_error_messages() ) );
+}
+$options->save();
+
+// Every language object caches the home URL derived from the options above, and
+// that cache outlives the write. Without dropping it a re-run against an
+// existing database saves the new setting and still serves the old URLs, which
+// reads as "the fix did not work".
+$model->clean_languages_cache();
+
+printf(
+	"polylang: default language %s, language roots serve the front page, translatable: %s\n",
+	PEDIMENT_CHILD_DEV_DEFAULT_LANG,
+	implode( ', ', $translatable )
+);
 
 // -----------------------------------------------------------------------------
 // 3. Tag everything the seed left untagged
