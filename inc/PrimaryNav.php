@@ -27,14 +27,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 const PEDIMENT_CHILD_PRIMARY_NAV_MARKER = '_pediment_child_primary_nav';
 
 /**
- * Run a wp_navigation lookup, retrying unfiltered when it comes back empty.
+ * Run a wp_navigation lookup, retrying without language scoping when it comes
+ * back empty.
  *
  * Polylang and WPML scope queries to the language being rendered, so a menu
- * tagged with a different language is invisible to the filtered query — and
- * because the header suppresses its navigation block when no menu is found,
- * that silently strips the site's whole navigation. Filtered runs first, so a
- * correctly-translated per-language menu still wins; the retry only decides
+ * tagged with a different language — or, on a site that predates the menus
+ * becoming translatable, tagged with none at all — is invisible to the filtered
+ * query. Because the header suppresses its navigation block when no menu is
+ * found, that silently strips the site's whole navigation. Filtered runs first,
+ * so a correctly-translated per-language menu still wins; the retry only decides
  * between the canonical menu and none at all.
+ *
+ * The retry needs both escape hatches, because the two plugins filter through
+ * different doors:
+ *
+ * - `suppress_filters` covers WPML, which scopes results through the `posts_*`
+ *   query filters that this flag turns off.
+ * - `lang => ''` covers Polylang, which never reads `suppress_filters`. It hooks
+ *   `parse_query` and mutates `query_vars['tax_query']` directly, and WordPress
+ *   re-parses that tax query inside WP_Query::get_posts() on a branch gated on
+ *   `! $this->is_singular` — nothing there consults `suppress_filters`, so the
+ *   language clause survives it. What Polylang does honour is the `lang` query
+ *   var: PLL_Query::is_already_filtered() treats it as "the caller has already
+ *   decided", and `isset()` is the whole test, so an empty value is enough.
+ *
+ * An empty `lang` is inert everywhere else: without Polylang no taxonomy claims
+ * that query var, and WP_Query skips taxonomy query vars whose value is empty.
  *
  * @param array<string,mixed> $args get_posts() arguments (without suppress_filters).
  * @return WP_Post|null
@@ -50,6 +68,7 @@ function pediment_child_find_nav_post( array $args ) {
 	}
 
 	$args['suppress_filters'] = true;
+	$args['lang']             = '';
 	$found                    = get_posts( $args );
 
 	return $found ? $found[0] : null;
