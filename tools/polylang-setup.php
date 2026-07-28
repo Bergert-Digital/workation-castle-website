@@ -324,59 +324,161 @@ if ( $missing ) {
 	);
 }
 
-// German Primary menu. It links only to the two pages that exist in German —
-// pointing at the untranslated rest would just manufacture 404s.
-$existing_de_menu = get_posts(
-	array(
-		'post_type'        => 'wp_navigation',
-		'post_status'      => 'any',
-		'numberposts'      => 1,
-		'name'             => 'primary-de',
-		'suppress_filters' => true,
-	)
+// -----------------------------------------------------------------------------
+// 5. A Primary menu per language
+// -----------------------------------------------------------------------------
+
+/**
+ * Menu labels, keyed by the English label they replace.
+ *
+ * Only labels live here. Menu *structure* is derived from
+ * pediment_child_primary_nav_blocks(), which the theme already treats as the
+ * single source of truth for the menu -- four hardcoded markup blobs would drift
+ * the moment somebody edited the English menu, and the drift would stay invisible
+ * until a client clicked it.
+ */
+const PEDIMENT_CHILD_DEV_NAV_LABELS = array(
+	'Activities'           => array( 'de' => 'Aktivitäten', 'nl' => 'Activiteiten', 'fr' => 'Activités', 'it' => 'Attività' ),
+	'Photos'               => array( 'de' => 'Fotos', 'nl' => 'Fotogalerij', 'fr' => 'Photographies', 'it' => 'Fotografie' ),
+	'Ways to stay'         => array( 'de' => 'Aufenthaltsarten', 'nl' => 'Manieren van verblijf', 'fr' => 'Façons de séjourner', 'it' => 'Modi di soggiornare' ),
+	'Team retreats'        => array( 'de' => 'Team-Retreats', 'nl' => 'Teamretraites', 'fr' => "Séminaires d'équipe", 'it' => 'Ritiri aziendali' ),
+	'Workations'           => array( 'de' => 'Workations', 'nl' => 'Workations', 'fr' => 'Workations', 'it' => 'Workation' ),
+	'Family & group stays' => array( 'de' => 'Familien & Gruppen', 'nl' => 'Familie & groepen', 'fr' => 'Familles & groupes', 'it' => 'Famiglie e gruppi' ),
+	'Guest Guide'          => array( 'de' => 'Gästeführer', 'nl' => 'Gastengids', 'fr' => 'Guide du séjour', 'it' => "Guida dell'ospite" ),
+	'How to get here'      => array( 'de' => 'Anreise', 'nl' => 'Hoe u ons bereikt', 'fr' => 'Comment venir', 'it' => 'Come arrivare' ),
+	'Checking in'          => array( 'de' => 'Anmeldung', 'nl' => 'Inchecken', 'fr' => 'Enregistrement', 'it' => 'Registrazione' ),
+	'Find your way around' => array( 'de' => 'Orientierung', 'nl' => 'Vind uw weg', 'fr' => "S'orienter", 'it' => 'Orientarsi' ),
+	'FAQ'                  => array( 'de' => 'FAQ', 'nl' => 'FAQ', 'fr' => 'FAQ', 'it' => 'FAQ' ),
+	'More'                 => array( 'de' => 'Mehr', 'nl' => 'Meer', 'fr' => 'Plus', 'it' => 'Altro' ),
+	'Contact'              => array( 'de' => 'Kontakt', 'nl' => 'Contact opnemen', 'fr' => 'Contactez-nous', 'it' => 'Contatti' ),
 );
 
-if ( $existing_de_menu ) {
-	printf( "polylang: German menu already present (ID %d)\n", $existing_de_menu[0]->ID );
-} elseif ( $de_home && $de_contact ) {
-	$items = implode(
-		"\n",
-		array(
-			'<!-- wp:navigation-link {"label":"Startseite","url":"' . wp_make_link_relative( (string) get_permalink( $de_home ) ) . '","kind":"custom","isTopLevelLink":true} /-->',
-			'<!-- wp:navigation-link {"label":"Kontakt","url":"' . wp_make_link_relative( (string) get_permalink( $de_contact ) ) . '","kind":"custom","isTopLevelLink":true} /-->',
-		)
-	);
+/**
+ * Map an English menu URL to the same page's permalink in another language.
+ *
+ * @param string                $url           English URL, e.g. `/guide/faq/`.
+ * @param string                $lang          Target language slug.
+ * @param array<string,WP_Post> $english_pages Slug => English page.
+ * @return string|null Relative translated URL, or null when it cannot be mapped.
+ */
+function pediment_child_dev_translate_nav_url( string $url, string $lang, array $english_pages ) {
+	$path = trim( (string) wp_parse_url( $url, PHP_URL_PATH ), '/' );
+	if ( '' === $path ) {
+		return null;
+	}
 
-	$menu_id = wp_insert_post(
-		array(
-			'post_type'    => 'wp_navigation',
-			'post_status'  => 'publish',
-			'post_title'   => 'Primary (Deutsch)',
-			'post_name'    => 'primary-de',
-			'post_content' => $items,
-		),
-		true
-	);
+	$segments = explode( '/', $path );
+	$slug     = (string) end( $segments );
+	if ( ! isset( $english_pages[ $slug ] ) ) {
+		return null;
+	}
 
-	if ( is_wp_error( $menu_id ) ) {
-		printf( "polylang: FAILED creating German menu — %s\n", $menu_id->get_error_message() );
-	} else {
-		pll_set_post_language( $menu_id, 'de' );
-		// Same marker as the English menu, so the header's language-scoped lookup
-		// binds whichever menu matches the request's language.
+	$translated = pll_get_post( $english_pages[ $slug ]->ID, $lang );
+	if ( ! $translated ) {
+		return null;
+	}
+
+	return wp_make_link_relative( (string) get_permalink( $translated ) );
+}
+
+/**
+ * Translate labels and URLs through a parsed navigation block tree.
+ *
+ * Operates on parsed blocks rather than by string surgery so nested
+ * navigation-submenu items are handled by the same code as top-level links, and
+ * so innerContent stays consistent for serialize_blocks().
+ *
+ * @param array[]               $blocks        Parsed blocks.
+ * @param string                $lang          Target language slug.
+ * @param array<string,WP_Post> $english_pages Slug => English page.
+ * @return array[] Translated parsed blocks.
+ */
+function pediment_child_dev_translate_nav_blocks( array $blocks, string $lang, array $english_pages ): array {
+	foreach ( $blocks as &$block ) {
+		if ( isset( $block['attrs']['label'] ) ) {
+			$label = $block['attrs']['label'];
+			if ( isset( PEDIMENT_CHILD_DEV_NAV_LABELS[ $label ][ $lang ] ) ) {
+				$block['attrs']['label'] = PEDIMENT_CHILD_DEV_NAV_LABELS[ $label ][ $lang ];
+			} else {
+				printf( "polylang: WARNING no %s label for menu item '%s'\n", $lang, $label );
+			}
+		}
+
+		if ( isset( $block['attrs']['url'] ) ) {
+			$translated = pediment_child_dev_translate_nav_url( $block['attrs']['url'], $lang, $english_pages );
+			if ( null === $translated ) {
+				printf( "polylang: WARNING cannot map %s url '%s'\n", $lang, $block['attrs']['url'] );
+			} else {
+				$block['attrs']['url'] = $translated;
+			}
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$block['innerBlocks'] = pediment_child_dev_translate_nav_blocks( $block['innerBlocks'], $lang, $english_pages );
+		}
+	}
+	unset( $block );
+
+	return $blocks;
+}
+
+$english_menu = pediment_child_get_primary_nav_menu();
+
+if ( ! $english_menu ) {
+	echo "polylang: no English Primary menu — has the content seed run?\n";
+} else {
+	foreach ( PEDIMENT_CHILD_DEV_LANGUAGES as $language ) {
+		$lang = $language['slug'];
+		if ( PEDIMENT_CHILD_DEV_DEFAULT_LANG === $lang ) {
+			continue;
+		}
+
+		$content = serialize_blocks(
+			pediment_child_dev_translate_nav_blocks(
+				parse_blocks( pediment_child_primary_nav_blocks() ),
+				$lang,
+				$english_pages
+			)
+		);
+
+		$existing = pll_get_post( $english_menu->ID, $lang );
+
+		if ( $existing ) {
+			// Rewrite the body only. Keeping the ID preserves the translation
+			// group and anything already pointing at this menu.
+			wp_update_post(
+				array(
+					'ID'           => (int) $existing,
+					'post_content' => $content,
+				)
+			);
+			$menu_id = (int) $existing;
+			printf( "polylang: updated %s menu (ID %d)\n", $lang, $menu_id );
+		} else {
+			$menu_id = wp_insert_post(
+				array(
+					'post_type'    => 'wp_navigation',
+					'post_status'  => 'publish',
+					'post_title'   => 'Primary (' . $language['name'] . ')',
+					'post_name'    => 'primary-' . $lang,
+					'post_content' => $content,
+				),
+				true
+			);
+			if ( is_wp_error( $menu_id ) ) {
+				printf( "polylang: FAILED creating %s menu — %s\n", $lang, $menu_id->get_error_message() );
+				continue;
+			}
+			pll_set_post_language( $menu_id, $lang );
+			pediment_child_dev_link_translation( (int) $english_menu->ID, $lang, (int) $menu_id );
+			printf( "polylang: created %s menu (ID %d)\n", $lang, $menu_id );
+		}
+
+		// The header finds a menu by this marker, not by slug; without it the
+		// language-scoped lookup returns nothing and the header renders no nav.
 		if ( defined( 'PEDIMENT_CHILD_PRIMARY_NAV_MARKER' ) ) {
 			update_post_meta( $menu_id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
 		}
-		$english_menu = pediment_child_get_primary_nav_menu();
-		if ( $english_menu ) {
-			pll_save_post_translations(
-				array(
-					'en' => $english_menu->ID,
-					'de' => $menu_id,
-				)
-			);
-		}
-		printf( "polylang: created German menu (ID %d)\n", $menu_id );
 	}
 }
 
