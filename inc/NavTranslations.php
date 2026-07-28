@@ -200,6 +200,51 @@ function pediment_child_translate_nav_blocks( array $blocks, string $lang, array
 }
 
 /**
+ * The marked Primary menu in Polylang's default language, resolved explicitly
+ * rather than through the current-language-following lookup.
+ *
+ * The helper pediment_child_find_primary_nav() (inc/PrimaryNav.php) follows
+ * pll_current_language() to hand back whatever menu the *current* language
+ * resolves to. Under WP-CLI that language is unset; in wp-admin — exactly
+ * where the Tools -> Seed content button runs — it is whatever the admin-bar
+ * language filter happens to be set to. Both callers below need the
+ * *default*-language menu specifically, regardless of what is currently
+ * selected: pediment_child_seed_nav_translations() to know which menu is the
+ * translation source, and Seed::seed_primary_nav() to know which menu it
+ * owns and is allowed to create or fill. Handing either of them a menu
+ * resolved by current language risks operating on the wrong language's menu
+ * entirely — see the regression this guards against in the seed step's log
+ * line below.
+ *
+ * @param string|string[] $post_status Status(es) to accept.
+ * @return WP_Post|null Null when Polylang is inactive/unconfigured, or no
+ *                       such menu exists yet.
+ */
+function pediment_child_find_default_language_nav( $post_status ) {
+	if ( ! function_exists( 'pll_default_language' ) ) {
+		return null;
+	}
+
+	$default = (string) pll_default_language();
+	if ( '' === $default ) {
+		return null;
+	}
+
+	$found = get_posts(
+		array(
+			'post_type'        => 'wp_navigation',
+			'post_status'      => $post_status,
+			'numberposts'      => 1,
+			'lang'             => $default,
+			'meta_key'         => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Runs once per seed, not per request.
+			'suppress_filters' => false,
+		)
+	);
+
+	return $found ? $found[0] : null;
+}
+
+/**
  * Create or refresh one Primary menu per non-default language.
  *
  * Called by Seed::seed(), so the Tools -> Seed content button and the WP-CLI
@@ -226,27 +271,14 @@ function pediment_child_seed_nav_translations(): array {
 		return array( 'nav translations: fewer than two languages configured — skipped' );
 	}
 
-	/*
-	 * Resolve the default-language menu explicitly rather than through
-	 * pediment_child_get_primary_nav_menu(). That helper follows the current
-	 * language, which under WP-CLI is unset and in wp-admin is whatever the
-	 * language filter happens to be -- so it can hand back a *translated* menu,
-	 * and everything below would then treat it as the translation group's source.
-	 */
-	$sources = get_posts(
-		array(
-			'post_type'        => 'wp_navigation',
-			'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future' ),
-			'numberposts'      => 1,
-			'lang'             => $default,
-			'meta_key'         => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Runs once per seed, not per request.
-			'suppress_filters' => false,
-		)
-	);
-	if ( ! $sources ) {
+	// See pediment_child_find_default_language_nav() for why this cannot be
+	// pediment_child_get_primary_nav_menu() or pediment_child_find_primary_nav():
+	// both follow the current language, and everything below must treat the
+	// *default*-language menu as the translation group's source.
+	$source = pediment_child_find_default_language_nav( array( 'publish', 'draft', 'pending', 'private', 'future' ) );
+	if ( ! $source ) {
 		return array( 'nav translations: no Primary menu in the default language — has the seed run?' );
 	}
-	$source = $sources[0];
 
 	$log = array();
 
@@ -263,7 +295,17 @@ function pediment_child_seed_nav_translations(): array {
 			)
 		);
 
+		// pll_get_post() returns whatever ID the translation group holds even when
+		// the post behind it is gone (e.g. deleted straight from the Site Editor
+		// without unlinking the translation). Requiring the post to still exist
+		// keeps a stale group entry from permanently wedging this language:
+		// without the check, wp_update_post() below would fail with
+		// WP_Error( 'invalid_post' ) on every future run and this step would
+		// never fall through to create a replacement.
 		$existing = pll_get_post( $source->ID, $lang );
+		if ( $existing && ! get_post( $existing ) ) {
+			$existing = 0;
+		}
 
 		if ( $existing ) {
 			// Keep the ID: it preserves the translation group and anything already

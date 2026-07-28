@@ -166,7 +166,7 @@ class Seed {
 		list( $ids, $page_log ) = self::upsert_pages();
 		$nav_log                = self::seed_primary_nav();
 
-		$log = array_merge( $page_log, $nav_log, pediment_child_seed_nav_translations() );
+		$log = array_merge( $page_log, $nav_log );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -199,6 +199,13 @@ class Seed {
 				$taxonomy_object->add_rewrite_rules();
 			}
 		}
+
+		// Translated menus link to real page permalinks (see
+		// pediment_child_translate_nav_url()), so this must run after the
+		// permalink structure above is set — on a still-plain-permalinks install,
+		// get_permalink() would return /?page_id=n and that would be baked into
+		// every translated menu.
+		$log = array_merge( $log, pediment_child_seed_nav_translations() );
 
 		// Media-heavy steps last: see the ordering note at the top of this method.
 		self::seed_photo_terms();
@@ -270,7 +277,7 @@ class Seed {
 				<?php esc_html_e( 'This is idempotent and safe to re-run. Existing pages with those slugs are overwritten with the pattern content.', 'pediment-child' ); ?>
 			</p>
 			<p style="max-width:640px">
-				<?php esc_html_e( 'When Polylang is active, this also creates one Primary navigation menu per language, with translated labels. Menu links point at the translated page where one exists, and at the English page where it does not — so re-running this after translating a page updates the menus to match.', 'pediment-child' ); ?>
+				<?php esc_html_e( 'When Polylang is active, this also creates one Primary navigation menu per language, with translated labels. Menu links point at the translated page where one exists, and at the default-language page where it does not — so re-running this after translating a page updates the menus to match.', 'pediment-child' ); ?>
 			</p>
 
 			<?php if ( is_array( $result ) ) : ?>
@@ -447,10 +454,25 @@ class Seed {
 	 * pediment_child_get_primary_nav_menu()). Content is never overwritten, so
 	 * re-seeding keeps menu edits made in the Site Editor.
 	 *
+	 * This step must own the default-language menu specifically, not whatever
+	 * pediment_child_find_primary_nav() resolves for the *current* language.
+	 * That helper follows pll_current_language(), which in wp-admin — exactly
+	 * where the Tools -> Seed content button runs — is whatever the admin-bar
+	 * language filter happens to be set to: with it on German, this step could
+	 * adopt the German menu and fill it with English markup instead of healing
+	 * the default-language one. pediment_child_find_default_language_nav() is
+	 * tried first because it is immune to that; it returns null when Polylang
+	 * is inactive or nothing is marked yet, in which case the legacy
+	 * language-agnostic lookup below still applies.
+	 *
 	 * @return string[] Log lines.
 	 */
 	public static function seed_primary_nav(): array {
-		$menu = pediment_child_find_primary_nav( array( 'publish', 'draft', 'pending', 'private', 'future', 'auto-draft' ) );
+		$statuses = array( 'publish', 'draft', 'pending', 'private', 'future', 'auto-draft' );
+		$menu     = pediment_child_find_default_language_nav( $statuses );
+		if ( ! $menu ) {
+			$menu = pediment_child_find_primary_nav( $statuses );
+		}
 		if ( $menu ) {
 			// Adopt the menu we already own rather than skipping or inserting a
 			// rival. An unpublished one otherwise deadlocks the site: the header
