@@ -446,12 +446,21 @@ if ( ! $english_menu ) {
 		if ( $existing ) {
 			// Rewrite the body only. Keeping the ID preserves the translation
 			// group and anything already pointing at this menu.
-			wp_update_post(
+			$updated = wp_update_post(
 				array(
 					'ID'           => (int) $existing,
 					'post_content' => $content,
-				)
+				),
+				true
 			);
+			if ( is_wp_error( $updated ) ) {
+				printf( "polylang: FAILED updating %s menu — %s\n", $lang, $updated->get_error_message() );
+				continue;
+			}
+			if ( ! $updated ) {
+				printf( "polylang: FAILED updating %s menu (ID %d)\n", $lang, (int) $existing );
+				continue;
+			}
 			$menu_id = (int) $existing;
 			printf( "polylang: updated %s menu (ID %d)\n", $lang, $menu_id );
 		} else {
