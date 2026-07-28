@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.10.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.6...v0.10.0) (2026-07-28)
+
+
+### Features
+
+* **dev:** give every language its own Primary menu ([1169093](https://github.com/Bergert-Digital/workation-castle-website/commit/1169093f8351a8a6e86012e8b50a06843edba753))
+* **dev:** set up Polylang when the dev environment starts ([83e9d97](https://github.com/Bergert-Digital/workation-castle-website/commit/83e9d97e53827a1e32011f1055afb1c9be32fbaa))
+* **dev:** set up Polylang when the dev environment starts ([#34](https://github.com/Bergert-Digital/workation-castle-website/issues/34)) ([347971d](https://github.com/Bergert-Digital/workation-castle-website/commit/347971d10d41377b8c5d5ed31b788f85a2a40f00))
+* **dev:** stub every seeded page in all four extra languages ([aaf4581](https://github.com/Bergert-Digital/workation-castle-website/commit/aaf4581b2fd17e855397041e8d7ed40d9eaf2040))
+* **polylang:** declare wp_navigation translatable from the theme ([607244c](https://github.com/Bergert-Digital/workation-castle-website/commit/607244c8fa0cccddd89a74f545d79d11683c7fa7))
+* **polylang:** translate the navigation across all five languages ([#36](https://github.com/Bergert-Digital/workation-castle-website/issues/36)) ([8aa69d2](https://github.com/Bergert-Digital/workation-castle-website/commit/8aa69d2320566322819cf5682c4dd4f1267ddd8e))
+
+
+### Bug Fixes
+
+* **dev:** flush rewrite rules once the languages exist ([fe67436](https://github.com/Bergert-Digital/workation-castle-website/commit/fe67436fb5157a5fc424f60ca8666c0f956d1d5e))
+* **dev:** slash menu and page bodies before they are stored ([2abc9ee](https://github.com/Bergert-Digital/workation-castle-website/commit/2abc9eecad053b3868369e49deb6b03d8cc55400))
+* **dev:** surface a failed menu update instead of reporting success ([05e1b7c](https://github.com/Bergert-Digital/workation-castle-website/commit/05e1b7c5d62de1b236f597fff1ad19d14a76adee))
+* **nav:** let the menu lookup escape Polylang's language scoping ([dd23712](https://github.com/Bergert-Digital/workation-castle-website/commit/dd23712878cd02b1c90a2eeb8ce59f0c9d70cfc7))
+* **polylang:** serve each language at its own root ([3847af3](https://github.com/Bergert-Digital/workation-castle-website/commit/3847af3bbb942e3176e9c0df1cd92db499065f74))
+* **polylang:** serve every language at its own root ([#37](https://github.com/Bergert-Digital/workation-castle-website/issues/37)) ([bdd9f42](https://github.com/Bergert-Digital/workation-castle-website/commit/bdd9f42be986ead7f45c2a3ee608e0a8aefa9dc7))
+
 ## [0.9.6](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.5...v0.9.6) (2026-07-27)
 
 
