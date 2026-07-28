@@ -208,14 +208,24 @@ function pediment_child_dev_english_pages(): array {
  * (`en` + the language being processed) silently unlinks every language saved
  * before it -- invisible with one translation, fatal with four.
  *
- * @param int    $source_id     English post ID.
+ * The source's own language is read back from Polylang rather than assumed to be
+ * `en`: filing a post under the wrong key makes validate_translations() drop it,
+ * and save_translations() then unlinks whichever post really held that key.
+ *
+ * @param int    $source_id     Source post ID (normally the English one).
  * @param string $lang          Language slug being added.
  * @param int    $translated_id Post ID in that language.
  */
 function pediment_child_dev_link_translation( int $source_id, string $lang, int $translated_id ): void {
-	$translations          = pll_get_post_translations( $source_id );
-	$translations['en']    = $source_id;
-	$translations[ $lang ] = $translated_id;
+	$source_lang = pll_get_post_language( $source_id );
+	if ( ! $source_lang ) {
+		printf( "polylang: FAILED linking %s translation — source post %d has no language\n", $lang, $source_id );
+		return;
+	}
+
+	$translations                 = pll_get_post_translations( $source_id );
+	$translations[ $source_lang ] = $source_id;
+	$translations[ $lang ]        = $translated_id;
 	pll_save_post_translations( $translations );
 }
 
@@ -422,7 +432,24 @@ function pediment_child_dev_translate_nav_blocks( array $blocks, string $lang, a
 	return $blocks;
 }
 
-$english_menu = pediment_child_get_primary_nav_menu();
+/*
+ * Resolve the English menu explicitly rather than through
+ * pediment_child_get_primary_nav_menu(). Under WP-CLI Polylang has no current
+ * language, so nothing scopes that lookup and it returns the newest menu by
+ * date -- which, once this script has run once, is the Italian one. Everything
+ * below treats the result as the translation group's English source, so getting
+ * it wrong quietly rewires the group.
+ */
+$english_menus = get_posts(
+	array(
+		'post_type'   => 'wp_navigation',
+		'post_status' => 'publish',
+		'numberposts' => 1,
+		'lang'        => PEDIMENT_CHILD_DEV_DEFAULT_LANG,
+		'meta_key'    => PEDIMENT_CHILD_PRIMARY_NAV_MARKER,
+	)
+);
+$english_menu  = $english_menus ? $english_menus[0] : null;
 
 if ( ! $english_menu ) {
 	echo "polylang: no English Primary menu — has the content seed run?\n";
@@ -444,11 +471,15 @@ if ( ! $english_menu ) {
 		$existing = pll_get_post( $english_menu->ID, $lang );
 
 		if ( $existing ) {
-			// Rewrite the body only. Keeping the ID preserves the translation
-			// group and anything already pointing at this menu.
+			// Rewrite the body, and re-assert publish. Keeping the ID preserves
+			// the translation group and anything already pointing at this menu;
+			// re-asserting the status heals a menu a developer unpublished or
+			// trashed in the Site Editor, which otherwise leaves that language's
+			// header with no navigation while this script reports success.
 			$updated = wp_update_post(
 				array(
 					'ID'           => (int) $existing,
+					'post_status'  => 'publish',
 					'post_content' => $content,
 				),
 				true
