@@ -166,7 +166,7 @@ class Seed {
 		list( $ids, $page_log ) = self::upsert_pages();
 		$nav_log                = self::seed_primary_nav();
 
-		$log = array_merge( $page_log, $nav_log );
+		$log = array_merge( $page_log, $nav_log, pediment_child_seed_nav_translations() );
 
 		update_option( 'show_on_front', 'page' );
 		if ( ! empty( $ids['home'] ) ) {
@@ -268,6 +268,9 @@ class Seed {
 			<p style="max-width:640px">
 				<strong><?php esc_html_e( 'Note:', 'pediment-child' ); ?></strong>
 				<?php esc_html_e( 'This is idempotent and safe to re-run. Existing pages with those slugs are overwritten with the pattern content.', 'pediment-child' ); ?>
+			</p>
+			<p style="max-width:640px">
+				<?php esc_html_e( 'When Polylang is active, this also creates one Primary navigation menu per language, with translated labels. Menu links point at the translated page where one exists, and at the English page where it does not — so re-running this after translating a page updates the menus to match.', 'pediment-child' ); ?>
 			</p>
 
 			<?php if ( is_array( $result ) ) : ?>

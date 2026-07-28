@@ -107,4 +107,14 @@ class NavTranslationsTest extends WP_UnitTestCase {
 			return false !== strpos( $line, 'cannot map de url' );
 		} ) );
 	}
+
+	public function test_seeding_is_a_no_op_without_polylang() {
+		$before = wp_count_posts( 'wp_navigation' );
+		$log    = pediment_child_seed_nav_translations();
+		$after  = wp_count_posts( 'wp_navigation' );
+
+		$this->assertEquals( $before, $after, 'No navigation post may be written without Polylang.' );
+		$this->assertNotEmpty( $log, 'The guard must explain itself rather than returning silence.' );
+		$this->assertStringContainsString( 'Polylang', $log[0] );
+	}
 }

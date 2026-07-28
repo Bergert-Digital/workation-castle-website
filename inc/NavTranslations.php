@@ -198,3 +198,133 @@ function pediment_child_translate_nav_blocks( array $blocks, string $lang, array
 
 	return $blocks;
 }
+
+/**
+ * Create or refresh one Primary menu per non-default language.
+ *
+ * Called by Seed::seed(), so the Tools -> Seed content button and the WP-CLI
+ * command both produce translated menus. Idempotent: every run rebuilds each
+ * translated menu's content from the nav source, which is also what upgrades its
+ * URLs as real page translations appear.
+ *
+ * Translated menus are generated artifacts, not curated content. An item added
+ * to one in the Site Editor is replaced on the next run -- a nav item that should
+ * exist in German belongs in pediment_child_primary_nav_blocks(), where every
+ * language gets it and the change is in version control. The English menu is not
+ * touched here; seed_primary_nav() owns it and never overwrites its content.
+ *
+ * @return string[] Log lines.
+ */
+function pediment_child_seed_nav_translations(): array {
+	if ( ! function_exists( 'pll_languages_list' ) || ! function_exists( 'pll_get_post' ) ) {
+		return array( 'nav translations: Polylang inactive — skipped' );
+	}
+
+	$languages = (array) pll_languages_list();
+	$default   = (string) pll_default_language();
+	if ( count( $languages ) < 2 || '' === $default ) {
+		return array( 'nav translations: fewer than two languages configured — skipped' );
+	}
+
+	/*
+	 * Resolve the default-language menu explicitly rather than through
+	 * pediment_child_get_primary_nav_menu(). That helper follows the current
+	 * language, which under WP-CLI is unset and in wp-admin is whatever the
+	 * language filter happens to be -- so it can hand back a *translated* menu,
+	 * and everything below would then treat it as the translation group's source.
+	 */
+	$sources = get_posts(
+		array(
+			'post_type'        => 'wp_navigation',
+			'post_status'      => array( 'publish', 'draft', 'pending', 'private', 'future' ),
+			'numberposts'      => 1,
+			'lang'             => $default,
+			'meta_key'         => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Runs once per seed, not per request.
+			'suppress_filters' => false,
+		)
+	);
+	if ( ! $sources ) {
+		return array( 'nav translations: no Primary menu in the default language — has the seed run?' );
+	}
+	$source = $sources[0];
+
+	$log = array();
+
+	foreach ( $languages as $lang ) {
+		if ( $lang === $default ) {
+			continue;
+		}
+
+		$content = serialize_blocks(
+			pediment_child_translate_nav_blocks(
+				parse_blocks( pediment_child_primary_nav_blocks() ),
+				$lang,
+				$log
+			)
+		);
+
+		$existing = pll_get_post( $source->ID, $lang );
+
+		if ( $existing ) {
+			// Keep the ID: it preserves the translation group and anything already
+			// pointing at this menu. Re-assert publish, which heals a menu someone
+			// unpublished in the Site Editor -- that otherwise leaves the language
+			// with no navigation while this step reports success.
+			$updated = wp_update_post(
+				array(
+					'ID'           => (int) $existing,
+					'post_status'  => 'publish',
+					'post_content' => wp_slash( $content ),
+				),
+				true
+			);
+			if ( is_wp_error( $updated ) || ! $updated ) {
+				$log[] = sprintf(
+					'nav translations: FAILED updating %s menu (ID %d)%s',
+					$lang,
+					(int) $existing,
+					is_wp_error( $updated ) ? ' — ' . $updated->get_error_message() : ''
+				);
+				continue;
+			}
+			$menu_id = (int) $existing;
+			$log[]   = sprintf( 'nav translations: updated %s menu (ID %d)', $lang, $menu_id );
+		} else {
+			$menu_id = wp_insert_post(
+				array(
+					'post_type'    => 'wp_navigation',
+					'post_status'  => 'publish',
+					'post_title'   => 'Primary (' . strtoupper( $lang ) . ')',
+					'post_name'    => 'primary-' . $lang,
+					'post_content' => wp_slash( $content ),
+				),
+				true
+			);
+			if ( is_wp_error( $menu_id ) ) {
+				$log[] = sprintf( 'nav translations: FAILED creating %s menu — %s', $lang, $menu_id->get_error_message() );
+				continue;
+			}
+
+			pll_set_post_language( $menu_id, $lang );
+
+			/*
+			 * pll_save_post_translations() replaces the whole group, so the existing
+			 * members have to be passed back in. Handing it a bare pair silently
+			 * unlinks every language saved before it -- invisible with one
+			 * translation, wrong with four.
+			 */
+			$translations             = pll_get_post_translations( $source->ID );
+			$translations[ $default ] = $source->ID;
+			$translations[ $lang ]    = $menu_id;
+			pll_save_post_translations( $translations );
+
+			$log[] = sprintf( 'nav translations: created %s menu (ID %d)', $lang, $menu_id );
+		}
+
+		// The header resolves menus by this marker. Without it the language-scoped
+		// lookup misses and the language falls back to the default menu.
+		update_post_meta( $menu_id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+	}
+
+	return $log;
+}
