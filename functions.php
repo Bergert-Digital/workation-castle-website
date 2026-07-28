@@ -60,6 +60,10 @@ require_once __DIR__ . '/inc/EstateMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 require_once __DIR__ . '/inc/PrimaryNav.php';
 
+// Polylang: declare wp_navigation translatable so each language binds its own
+// Primary menu. Must load after PrimaryNav.php, which is what consumes the effect.
+require_once __DIR__ . '/inc/Polylang.php';
+
 // Legacy URL redirects: 301 retired paths (renamed/re-nested/removed pages) to
 // their new homes so old inbound links and search results keep working.
 require_once __DIR__ . '/inc/Redirects.php';
