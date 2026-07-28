@@ -57,6 +57,14 @@ export function setupPolylang() {
 			.map((line) => `  ${line}\n`)
 			.join('')
 	);
+
+	// Flush again from a *fresh* WordPress process. Polylang bootstraps to a
+	// no-op on a site with no languages, so on the very first run it had
+	// registered no rewrite rules by the time the script above created them and
+	// flushed — leaving rules with no /xx/ prefixes, and every non-default
+	// language 404ing until something flushed a second time. This invocation
+	// loads Polylang with the languages already in place.
+	wp('rewrite', 'flush', '--hard');
 }
 
 // Allow `node tools/setup-polylang.mjs` as well as being imported by setup-env.
