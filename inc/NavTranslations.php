@@ -107,3 +107,83 @@ const PEDIMENT_CHILD_NAV_LABELS = array(
 		'it' => 'Contatti',
 	),
 );
+
+/**
+ * Map a canonical English menu URL to the same page's permalink in one language.
+ *
+ * Resolution is by *full path*, not by trailing slug: `faq` exists under
+ * `guide/` in English and under `gastefuhrer/` in German, and WordPress scopes
+ * slug uniqueness for hierarchical types by parent, so a bare slug lookup cannot
+ * disambiguate them.
+ *
+ * @param string $url  Canonical URL from the nav source, e.g. `/guide/faq/`.
+ * @param string $lang Target language slug.
+ * @return string|null Relative translated URL, or null when it cannot be mapped.
+ */
+function pediment_child_translate_nav_url( string $url, string $lang ) {
+	if ( ! function_exists( 'pll_get_post' ) ) {
+		return null;
+	}
+
+	$path = trim( (string) wp_parse_url( $url, PHP_URL_PATH ), '/' );
+	if ( '' === $path ) {
+		return null;
+	}
+
+	$page = get_page_by_path( $path );
+	if ( ! $page ) {
+		return null;
+	}
+
+	$translated = pll_get_post( $page->ID, $lang );
+	if ( ! $translated ) {
+		return null;
+	}
+
+	return wp_make_link_relative( (string) get_permalink( $translated ) );
+}
+
+/**
+ * Translate labels and URLs through a parsed navigation block tree.
+ *
+ * Operates on parsed blocks rather than by string surgery, so nested
+ * navigation-submenu items are handled by the same code as top-level links and
+ * innerContent stays consistent for serialize_blocks().
+ *
+ * A label with no entry, or a URL with no translated target, is left as it is
+ * and logged. Leaving the English value is deliberate: a menu that is half
+ * translated still navigates, whereas a dropped item does not.
+ *
+ * @param array[] $blocks Parsed blocks.
+ * @param string  $lang   Target language slug.
+ * @param array   $log    Log lines, appended to by reference.
+ * @return array[] Translated parsed blocks.
+ */
+function pediment_child_translate_nav_blocks( array $blocks, string $lang, array &$log ): array {
+	foreach ( $blocks as &$block ) {
+		if ( isset( $block['attrs']['label'] ) ) {
+			$label = $block['attrs']['label'];
+			if ( isset( PEDIMENT_CHILD_NAV_LABELS[ $label ][ $lang ] ) ) {
+				$block['attrs']['label'] = PEDIMENT_CHILD_NAV_LABELS[ $label ][ $lang ];
+			} else {
+				$log[] = sprintf( 'nav translations: WARNING no %s label for menu item "%s"', $lang, $label );
+			}
+		}
+
+		if ( isset( $block['attrs']['url'] ) ) {
+			$translated = pediment_child_translate_nav_url( $block['attrs']['url'], $lang );
+			if ( null === $translated ) {
+				$log[] = sprintf( 'nav translations: WARNING cannot map %s url "%s"', $lang, $block['attrs']['url'] );
+			} else {
+				$block['attrs']['url'] = $translated;
+			}
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$block['innerBlocks'] = pediment_child_translate_nav_blocks( $block['innerBlocks'], $lang, $log );
+		}
+	}
+	unset( $block );
+
+	return $blocks;
+}
