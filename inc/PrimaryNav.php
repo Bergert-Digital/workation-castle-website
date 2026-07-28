@@ -75,6 +75,72 @@ function pediment_child_find_nav_post( array $args ) {
 }
 
 /**
+ * Swap a menu resolved in one language for the current language's translation.
+ *
+ * The lookups below are language-scoped first, so they only return the right
+ * menu per language when *every* translation carries the marker. Translations
+ * made the only way a site owner can make them -- the "+" buttons on the
+ * Navigation Menus screen -- never do: wp_navigation is registered without
+ * `custom-fields` support, so no admin screen exists on which post meta could be
+ * stamped by hand. The scoped query therefore finds nothing, the unscoped retry
+ * in pediment_child_find_nav_post() falls back to the default language's menu,
+ * and every translated page silently renders the default language's navigation.
+ *
+ * Following Polylang's translation group instead is what makes menus created
+ * through the admin work with no further steps. The marker is stamped on
+ * whatever is adopted, so the scoped query resolves it directly from then on and
+ * this path is walked once per menu rather than once per request.
+ *
+ * The default language is tried second, and that ordering is load-bearing. Once
+ * this function has stamped the marker across a translation group, the unscoped
+ * retry in pediment_child_find_nav_post() can no longer tell the translations
+ * apart -- it takes the newest of several equally-marked menus, so a language
+ * whose own menu is missing or unpublished would inherit whichever translation
+ * happened to be saved last. Falling back to the default language keeps that
+ * deterministic and comprehensible.
+ *
+ * @param WP_Post         $menu        Menu resolved by marker or slug.
+ * @param string|string[] $post_status Status(es) to accept.
+ * @return WP_Post Current-language translation, else default-language, else $menu.
+ */
+function pediment_child_adopt_translated_nav( WP_Post $menu, $post_status ): WP_Post {
+	if ( ! function_exists( 'pll_current_language' ) || ! function_exists( 'pll_get_post' ) ) {
+		return $menu;
+	}
+
+	$statuses = (array) $post_status;
+	$default  = function_exists( 'pll_default_language' ) ? pll_default_language() : '';
+
+	foreach ( array( pll_current_language(), $default ) as $lang ) {
+		if ( ! $lang ) {
+			continue;
+		}
+		if ( pll_get_post_language( $menu->ID ) === $lang ) {
+			return $menu;
+		}
+
+		$translated = pll_get_post( $menu->ID, $lang );
+		if ( ! $translated ) {
+			continue;
+		}
+
+		// Status is re-checked rather than trusted: the caller asking only for
+		// `publish` must not be handed a draft translation, which would put an
+		// unfinished menu in front of visitors.
+		$post = get_post( $translated );
+		if ( ! $post instanceof WP_Post || ! in_array( $post->post_status, $statuses, true ) ) {
+			continue;
+		}
+
+		update_post_meta( $post->ID, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+
+		return $post;
+	}
+
+	return $menu;
+}
+
+/**
  * The Primary menu whatever its status, by marker and then by legacy slug.
  *
  * Stamps the marker when it has to fall back to the slug, so sites seeded
@@ -91,21 +157,24 @@ function pediment_child_find_primary_nav( $post_status ) {
 			'meta_key'    => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- One indexed lookup per request; the consumer early-returns for non-navigation blocks.
 		)
 	);
-	if ( $menu ) {
-		return $menu;
+
+	if ( ! $menu ) {
+		$menu = pediment_child_find_nav_post(
+			array(
+				'post_status' => $post_status,
+				'name'        => 'primary',
+			)
+		);
+		if ( $menu ) {
+			update_post_meta( $menu->ID, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+		}
 	}
 
-	$menu = pediment_child_find_nav_post(
-		array(
-			'post_status' => $post_status,
-			'name'        => 'primary',
-		)
-	);
-	if ( $menu ) {
-		update_post_meta( $menu->ID, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
+	if ( ! $menu ) {
+		return null;
 	}
 
-	return $menu;
+	return pediment_child_adopt_translated_nav( $menu, $post_status );
 }
 
 /**
