@@ -269,7 +269,10 @@ function pediment_child_dev_translate_page( WP_Post $source, string $lang, strin
 			'post_title'   => $title,
 			'post_name'    => $slug,
 			'post_parent'  => $parent,
-			'post_content' => $source->post_content,
+			// Slashed: wp_insert_post() unslashes what it is given, so raw block
+			// markup would lose every backslash it carries. See the note on the
+			// menu bodies below for what that costs.
+			'post_content' => wp_slash( $source->post_content ),
 		),
 		true
 	);
@@ -460,6 +463,13 @@ if ( ! $english_menu ) {
 			continue;
 		}
 
+		// serialize_block_attributes() encodes with JSON_HEX_AMP but
+		// JSON_UNESCAPED_UNICODE, so an ampersand becomes the escape sequence
+		// backslash-u0026 while `ä` stays literal. Both wp_insert_post() and
+		// wp_update_post() unslash what they are
+		// given, so this has to be re-slashed at the call site or the backslash is
+		// eaten and "Familie & groepen" renders as "Familie u0026 groepen". Accented
+		// labels hid the bug: having no backslash, they survived untouched.
 		$content = serialize_blocks(
 			pediment_child_dev_translate_nav_blocks(
 				parse_blocks( pediment_child_primary_nav_blocks() ),
@@ -480,7 +490,7 @@ if ( ! $english_menu ) {
 				array(
 					'ID'           => (int) $existing,
 					'post_status'  => 'publish',
-					'post_content' => $content,
+					'post_content' => wp_slash( $content ),
 				),
 				true
 			);
@@ -501,7 +511,7 @@ if ( ! $english_menu ) {
 					'post_status'  => 'publish',
 					'post_title'   => 'Primary (' . $language['name'] . ')',
 					'post_name'    => 'primary-' . $lang,
-					'post_content' => $content,
+					'post_content' => wp_slash( $content ),
 				),
 				true
 			);
