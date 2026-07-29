@@ -6,8 +6,16 @@ name: Build release zip
 # workation-castle-theme.zip via rsync + .distignore, and uploads it to the
 # matching GitHub Release.
 #
-# Called from release-please.yml (automatic when release-please publishes a
+# Called from release-please.yml (automatic when release-please drafts a
 # release) and release.yml (workflow_dispatch fallback for re-attaching).
+#
+# release-please creates the release as a DRAFT; the final step here publishes
+# it once the zip is attached. Client sites must never see a published release
+# without its asset: the theme's update checker requires the asset, so an
+# assetless release would simply offer no update until this job finishes.
+#
+# Because a draft release has no git tag yet, callers that draft a release pass
+# the commit SHA as `ref`; `tag` is still used to address the release itself.
 #
 # The asset filename is intentionally version-less so the GitHub download URL
 # is stable (/releases/download/v<X.Y.Z>/workation-castle-theme.zip) and the
@@ -20,6 +28,11 @@ on:
         description: 'Release tag to build workation-castle-theme.zip for (e.g. v0.2.0)'
         required: true
         type: string
+      ref:
+        description: 'Commit-ish to build from. Defaults to `tag`; pass a SHA when the tag does not exist yet (draft release).'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -30,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.tag }}
+          ref: ${{ inputs.ref != '' && inputs.ref || inputs.tag }}
 
       - uses: actions/setup-node@v6
         with:
@@ -76,3 +89,15 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ inputs.tag }}
         run: gh release upload "$TAG" workation-castle-theme.zip --clobber
+
+      # Only now does the release become visible to client sites (and only now
+      # does the git tag exist, since publishing a draft creates it). Idempotent:
+      # a no-op when release.yml re-attaches to an already-published release.
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          gh release edit "$TAG" --draft=false
+          gh release view "$TAG" --json isDraft,tagName,assets \
+            -q '"published: \(.isDraft == false)  tag: \(.tagName)  assets: \([.assets[].name] | join(","))"'

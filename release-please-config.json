@@ -6,7 +6,7 @@
       "release-type": "simple",
       "include-v-in-tag": true,
       "include-component-in-tag": false,
-      "draft": false,
+      "draft": true,
       "prerelease": false,
       "extra-files": [
         "style.css",
