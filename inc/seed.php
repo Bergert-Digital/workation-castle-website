@@ -200,6 +200,14 @@ class Seed {
 			}
 		}
 
+		// Untagged content has no Polylang language, which makes
+		// pll_get_post() return nothing for it: silently breaking the
+		// translated-menu URL mapping below, and, if the wp_navigation
+		// itself is untagged, the header's language-scoped menu lookup.
+		// This must run after seed_primary_nav() has created/adopted the
+		// menu and before the mapping below runs against it.
+		$log = array_merge( $log, pediment_child_tag_untagged_content() );
+
 		// Translated menus link to real page permalinks (see
 		// pediment_child_translate_nav_url()), so this must run after the
 		// permalink structure above is set — on a still-plain-permalinks install,
