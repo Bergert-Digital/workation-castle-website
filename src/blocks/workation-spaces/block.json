@@ -7,9 +7,9 @@
   "description": "Workspace and vacation homes section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": { "type": "string", "default": "The spaces" },
-    "headline": { "type": "string", "default": "Room to work, and room to stay." },
-    "lead": { "type": "string", "default": "Original stone and vaulted ceilings, paired with modern, comfortable interiors — historic character without the heaviness." }
+    "eyebrow": { "type": "string" },
+    "headline": { "type": "string" },
+    "lead": { "type": "string" }
   },
   "supports": { "html": false, "align": [ "full" ] },
   "editorScript": "file:./index.js",

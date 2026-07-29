@@ -3,7 +3,12 @@ name: Release Please
 # Opens (and keeps updating) a Release PR on every push to main, computing
 # the next semver from conventional-commit prefixes (feat → minor, fix →
 # patch, BREAKING CHANGE / feat! → major). Merging the Release PR creates
-# the tag + GitHub Release.
+# a DRAFT GitHub Release; attach-zip builds the theme zip, attaches it, and
+# only then publishes the release (which is also what creates the git tag).
+#
+# The draft matters: a published release with no asset yet is a release the
+# theme's update checker must refuse, so drafting keeps the several minutes of
+# build time invisible to client sites instead of merely harmless.
 #
 # The release-asset upload is colocated as a downstream job in this same
 # workflow (rather than a separate workflow on `release: published`)
@@ -25,6 +30,7 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
+      sha: ${{ steps.release.outputs.sha }}
     steps:
       - id: release
         uses: googleapis/release-please-action@v4
@@ -38,3 +44,6 @@ jobs:
     uses: ./.github/workflows/build-release-zip.yml
     with:
       tag: ${{ needs.release-please.outputs.tag_name }}
+      # The release is still a draft here, so its tag does not exist yet —
+      # build from the release commit instead.
+      ref: ${{ needs.release-please.outputs.sha }}

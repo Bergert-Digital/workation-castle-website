@@ -255,6 +255,25 @@ class PrimaryNavRenderTest extends WP_UnitTestCase {
 		$this->assertSame( $menu, $out );
 	}
 
+	/**
+	 * The nav source carries Polylang's navigation-language-switcher block, which
+	 * is unregistered whenever the plugin is inactive -- on a monolingual site, or
+	 * with the plugin switched off mid-incident. An unregistered block must degrade
+	 * to nothing rather than emit a stray block comment or cost the menu its links.
+	 */
+	public function test_menu_renders_without_polylang_though_the_switcher_is_unregistered() {
+		$this->assertFalse(
+			WP_Block_Type_Registry::get_instance()->is_registered( 'polylang/navigation-language-switcher' ),
+			'This environment has no Polylang, which is what makes the assertions below meaningful.'
+		);
+		$this->make_primary_menu();
+
+		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );
+
+		$this->assertStringContainsString( 'Activities', $html, 'The menu must keep its links' );
+		$this->assertStringNotContainsString( 'polylang', $html, 'No trace of the unrendered block may reach the page' );
+	}
+
 	public function test_absent_menu_still_renders_nothing_when_filters_are_bypassed() {
 		// The fallback must not resurrect the page-list fallback on a fresh site.
 		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );

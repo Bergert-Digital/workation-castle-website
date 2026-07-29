@@ -7,13 +7,13 @@
   "description": "Location and getting-here section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": { "type": "string", "default": "Location & getting here" },
-    "headline": { "type": "string", "default": "Between two lakes, near the Swiss border." },
-    "lead": { "type": "string", "default": "In an Italian valley near the Swiss border, between Lake Lugano and Lake Como — with the little Lago di Piano a short walk away. Restaurants, a bakery and shops are within walking distance; most guests leave the car parked all week." },
+    "eyebrow": { "type": "string" },
+    "headline": { "type": "string" },
+    "lead": { "type": "string" },
     "imageUrl": { "type": "string", "default": "" },
-    "imageAlt": { "type": "string", "default": "Map showing the castle's location between Lake Lugano and Lake Como" },
+    "imageAlt": { "type": "string" },
     "imageId": { "type": "number", "default": 0 },
-    "primaryText": { "type": "string", "default": "Plan your arrival" },
+    "primaryText": { "type": "string" },
     "primaryUrl": { "type": "string", "default": "/guide/arrival/" }
   },
   "supports": { "html": false, "align": [ "full" ] },

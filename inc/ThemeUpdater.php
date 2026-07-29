@@ -64,10 +64,27 @@ final class ThemeUpdater {
 
 		// Install the built release asset (workation-castle-theme.zip) rather than
 		// GitHub's auto-generated "Source code" zip, which has the wrong folder
-		// name and ships no vendor/ autoloader.
+		// name and ships neither vendor/ nor build/ (both gitignored).
+		//
+		// REQUIRE, not PREFER: PUC's default preference silently falls back to
+		// $release->zipball_url when no asset matches the pattern, and a release
+		// legitimately has no assets during the minutes between release-please
+		// publishing it and the attach-zip job finishing its build. Installing
+		// that source zip strips build/blocks — every block silently unregisters
+		// and each page renders empty — and strips vendor/, which kills the
+		// update checker itself so the site cannot recover on its own. REQUIRE
+		// makes PUC report "no update" for that window instead, which is
+		// recoverable: the next check picks up the real asset.
 		$api = $checker->getVcsApi();
 		if ( method_exists( $api, 'enableReleaseAssets' ) ) {
-			$api->enableReleaseAssets( self::assetPattern() );
+			// Read the constant off the instance so this does not hard-code PUC's
+			// vendored vXpY namespace, which changes on every PUC bump.
+			$api_class = get_class( $api );
+			if ( defined( $api_class . '::REQUIRE_RELEASE_ASSETS' ) ) {
+				$api->enableReleaseAssets( self::assetPattern(), constant( $api_class . '::REQUIRE_RELEASE_ASSETS' ) );
+			} else {
+				$api->enableReleaseAssets( self::assetPattern() );
+			}
 		}
 
 		// The releases repo is private, so authenticate the release lookup and the

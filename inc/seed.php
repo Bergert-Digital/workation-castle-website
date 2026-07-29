@@ -150,9 +150,12 @@ class Seed {
 	 * Run the full seed. Returns a structured result instead of printing, so
 	 * both the CLI command and the admin handler can present it.
 	 *
+	 * @param bool $rebuild_nav Regenerate the translated navigation menus from the
+	 *                          theme's nav source, discarding Site-Editor edits.
+	 *                          Everything else the seed does is unaffected.
 	 * @return array{ok:bool,summary:string,log:string[]}
 	 */
-	public static function seed(): array {
+	public static function seed( bool $rebuild_nav = false ): array {
 		// Structure first, media last. The pages, the Primary menu and the
 		// front-page/permalink options are what make the site navigable, and they
 		// are cheap: pattern files and a few inserts, no remote requests. The
@@ -213,7 +216,7 @@ class Seed {
 		// permalink structure above is set — on a still-plain-permalinks install,
 		// get_permalink() would return /?page_id=n and that would be baked into
 		// every translated menu.
-		$log = array_merge( $log, pediment_child_seed_nav_translations() );
+		$log = array_merge( $log, pediment_child_seed_nav_translations( $rebuild_nav ) );
 
 		// Media-heavy steps last: see the ordering note at the top of this method.
 		self::seed_photo_terms();
@@ -239,9 +242,22 @@ class Seed {
 	// WP-CLI entry point
 	// -------------------------------------------------------------------------
 
-	/** CLI command callback: run the seed and stream the log to WP-CLI. */
-	public static function run_cli(): void {
-		$result = self::seed();
+	/**
+	 * CLI command callback: run the seed and stream the log to WP-CLI.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--rebuild-nav]
+	 * : Regenerate the translated navigation menus from the theme's nav source,
+	 *   discarding any edits made to them in the Site Editor. Use this after
+	 *   changing the nav source, or after translating pages the menus should
+	 *   now link to.
+	 *
+	 * @param array $args       Positional arguments (unused).
+	 * @param array $assoc_args Associative arguments.
+	 */
+	public static function run_cli( $args = array(), $assoc_args = array() ): void {
+		$result = self::seed( ! empty( $assoc_args['rebuild-nav'] ) );
 		foreach ( $result['log'] as $line ) {
 			\WP_CLI::log( $line );
 		}
@@ -285,7 +301,10 @@ class Seed {
 				<?php esc_html_e( 'This is idempotent and safe to re-run. Existing pages with those slugs are overwritten with the pattern content.', 'pediment-child' ); ?>
 			</p>
 			<p style="max-width:640px">
-				<?php esc_html_e( 'When Polylang is active, this also creates one Primary navigation menu per language, with translated labels. Menu links point at the translated page where one exists, and at the default-language page where it does not — so re-running this after translating a page updates the menus to match.', 'pediment-child' ); ?>
+				<?php esc_html_e( 'When Polylang is active, this also creates one Primary navigation menu per language, with translated labels. Each menu is created once and then left alone, so you can edit it in the Site Editor without the next seed undoing your work.', 'pediment-child' ); ?>
+			</p>
+			<p style="max-width:640px">
+				<?php esc_html_e( 'Use “Rebuild translated menus” to regenerate them from the theme instead. That discards edits made to the translated menus, and is how they pick up new menu items and the links of pages you have translated since. Your default-language menu is never touched either way.', 'pediment-child' ); ?>
 			</p>
 
 			<?php if ( is_array( $result ) ) : ?>
@@ -304,6 +323,12 @@ class Seed {
 				<?php wp_nonce_field( 'pediment_child_seed_run' ); ?>
 				<input type="hidden" name="action" value="pediment_child_seed_run">
 				<?php submit_button( __( 'Seed content now', 'pediment-child' ), 'primary', 'submit', false ); ?>
+				<?php
+				// A separate submit button rather than a checkbox: this discards
+				// work, so it should take a deliberate click on something that says
+				// what it does, not a tickbox that stays ticked from last time.
+				submit_button( __( 'Seed and rebuild translated menus', 'pediment-child' ), 'secondary', 'rebuild_nav', false );
+				?>
 			</form>
 		</div>
 		<?php
@@ -331,7 +356,11 @@ class Seed {
 		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_set_time_limit
 		@set_time_limit( 0 );
 
-		$result = self::seed();
+		// Which of the two submit buttons was pressed; check_admin_referer() above
+		// has already verified the nonce on this request.
+		$rebuild_nav = isset( $_POST['rebuild_nav'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+		$result = self::seed( $rebuild_nav );
 		set_transient( 'pediment_child_seed_result_' . get_current_user_id(), $result, MINUTE_IN_SECONDS );
 
 		wp_safe_redirect( add_query_arg( 'page', 'pediment-child-seed', admin_url( 'tools.php' ) ) );
@@ -677,7 +706,15 @@ class Seed {
 				'post_title'   => $info['title'],
 				'post_name'    => $slug,
 				'post_parent'  => $parent_id,
-				'post_content' => $content,
+				// wp_insert_post()/wp_update_post() expect slashed data and
+				// wp_unslash() what they are given. Block attributes are
+				// serialized the way core's serialize_block_attributes() does
+				// it, so any attribute containing <, >, & or a quote arrives
+				// here carrying backslash-u escapes. Unslashing would eat those
+				// backslashes and turn the hero headline's highlight span into
+				// a literal `u003cspan`. Slashing here is a no-op for content
+				// that holds no backslashes.
+				'post_content' => wp_slash( $content ),
 			);
 
 			if ( $existing ) {
@@ -706,7 +743,8 @@ class Seed {
 				wp_update_post(
 					array(
 						'ID'           => $id,
-						'post_content' => $rewritten,
+						// Slashed for the same reason as the upsert above.
+						'post_content' => wp_slash( $rewritten ),
 					)
 				);
 			}

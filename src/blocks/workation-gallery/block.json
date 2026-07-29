@@ -7,9 +7,9 @@
   "description": "Homepage castle gallery section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": { "type": "string", "default": "Inside the castle" },
-    "headline": { "type": "string", "default": "Old stone, warm rooms and space to breathe." },
-    "primaryText": { "type": "string", "default": "See more photos" },
+    "eyebrow": { "type": "string" },
+    "headline": { "type": "string" },
+    "primaryText": { "type": "string" },
     "primaryUrl": { "type": "string", "default": "/photos/" }
   },
   "supports": { "html": false, "align": [ "full" ] },

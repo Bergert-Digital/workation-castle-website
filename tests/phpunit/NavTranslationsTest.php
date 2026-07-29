@@ -108,6 +108,72 @@ class NavTranslationsTest extends WP_UnitTestCase {
 		} ) );
 	}
 
+	public function test_the_language_switcher_is_carried_into_translated_menus() {
+		$log    = array();
+		$blocks = pediment_child_translate_nav_blocks(
+			parse_blocks( pediment_child_primary_nav_blocks() ),
+			'de',
+			$log
+		);
+
+		$this->assertStringContainsString(
+			'wp:polylang/navigation-language-switcher',
+			serialize_blocks( $blocks ),
+			'Every language needs the switcher, or only the default language can be left.'
+		);
+		$this->assertEmpty(
+			array_filter(
+				$log,
+				function ( $line ) {
+					return false !== strpos( $line, 'no de label' );
+				}
+			),
+			'The switcher carries no label, so it must not be reported as untranslated.'
+		);
+	}
+
+	/** A wp_navigation post with the given content, standing in for a menu. */
+	private function menu_with( string $content ): WP_Post {
+		return self::factory()->post->create_and_get(
+			array(
+				'post_type'    => 'wp_navigation',
+				'post_status'  => 'publish',
+				'post_content' => $content,
+			)
+		);
+	}
+
+	public function test_a_language_with_no_menu_yet_gets_one_written() {
+		$this->assertTrue( pediment_child_nav_translation_needs_content( null, false ) );
+	}
+
+	public function test_an_edited_translated_menu_is_left_alone() {
+		$menu = $this->menu_with( '<!-- wp:navigation-link {"label":"Edited","url":"/x/"} /-->' );
+
+		$this->assertFalse(
+			pediment_child_nav_translation_needs_content( $menu, false ),
+			'Re-seeding must not discard what a site owner edited in the Site Editor.'
+		);
+	}
+
+	public function test_an_emptied_translated_menu_is_refilled() {
+		$menu = $this->menu_with( '   ' );
+
+		$this->assertTrue(
+			pediment_child_nav_translation_needs_content( $menu, false ),
+			'An empty menu leaves that language with no navigation and must be healed.'
+		);
+	}
+
+	public function test_a_requested_rebuild_overwrites_an_edited_menu() {
+		$menu = $this->menu_with( '<!-- wp:navigation-link {"label":"Edited","url":"/x/"} /-->' );
+
+		$this->assertTrue(
+			pediment_child_nav_translation_needs_content( $menu, true ),
+			'Rebuilding is the explicit opt-in that regenerates menus from the theme source.'
+		);
+	}
+
 	public function test_seeding_is_a_no_op_without_polylang() {
 		$before = wp_count_posts( 'wp_navigation' );
 		$log    = pediment_child_seed_nav_translations();

@@ -63,4 +63,4 @@
 <!-- wp:pediment-child/workation-review {"text":"A wonderful and very relaxing place to work or take a holiday. The house and the shared workspaces are superbly equipped.","title":"Simone S."} /-->
 <!-- /wp:pediment-child/workation-reviews -->
 
-<!-- wp:pediment-child/workation-closing {"align":"full","headline":"Ready to plan your team retreat?","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/"} /-->
+<!-- wp:pediment-child/workation-closing {"headline":"Ready to plan your team retreat?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

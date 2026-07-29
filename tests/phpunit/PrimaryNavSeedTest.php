@@ -24,6 +24,14 @@ class PrimaryNavSeedTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '"url":"/guide/faq/"', $markup );
 	}
 
+	public function test_blocks_markup_carries_the_language_switcher() {
+		$this->assertStringContainsString(
+			'wp:polylang/navigation-language-switcher',
+			pediment_child_primary_nav_blocks(),
+			'The switcher belongs in the version-controlled source so every language gets it.'
+		);
+	}
+
 	public function test_seed_creates_primary_menu_when_absent() {
 		\PedimentChild\Seed::seed_primary_nav();
 		$menus = $this->primary_menu();
