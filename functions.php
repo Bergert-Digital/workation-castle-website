@@ -84,11 +84,20 @@ require_once __DIR__ . '/inc/Redirects.php';
  * @param string|null $base_dir Directory containing block subfolders.
  */
 function pediment_child_register_blocks( $base_dir = null ) {
-	if ( null === $base_dir || '' === $base_dir ) {
+	$is_default_dir = ( null === $base_dir || '' === $base_dir );
+	if ( $is_default_dir ) {
 		$base_dir = PEDIMENT_CHILD_DIR . '/build/blocks';
 	}
 
 	if ( ! is_dir( $base_dir ) ) {
+		// A missing build/blocks unregisters every block at once: the editor
+		// reports each section as unsupported and the front end renders empty,
+		// with nothing in the logs. Flag it so the cause is visible in wp-admin
+		// rather than inferred from a blank page. Only the real build dir is
+		// flagged; callers passing an explicit path (tests) are not.
+		if ( $is_default_dir ) {
+			pediment_child_flag_missing_build();
+		}
 		return;
 	}
 
@@ -112,6 +121,50 @@ add_action(
 		pediment_child_register_blocks();
 	}
 );
+
+/**
+ * Record that the theme's built blocks are missing, and surface it in wp-admin.
+ *
+ * The usual cause is a theme package built without `npm run build`, or an
+ * update that installed GitHub's auto-generated source zip (which excludes the
+ * gitignored `build/`) instead of the release asset. See inc/ThemeUpdater.php.
+ */
+function pediment_child_flag_missing_build() {
+	// Idempotent: init can fire more than once in CLI/eval contexts, and two
+	// copies of the same notice help nobody.
+	if ( has_action( 'admin_notices', 'pediment_child_render_missing_build_notice' ) ) {
+		return;
+	}
+	add_action( 'admin_notices', 'pediment_child_render_missing_build_notice' );
+}
+
+/**
+ * Render the "no blocks are registered" notice.
+ *
+ * Kept separate from pediment_child_flag_missing_build() so the capability gate
+ * is exercisable on its own.
+ */
+function pediment_child_render_missing_build_notice() {
+	if ( ! current_user_can( 'switch_themes' ) ) {
+		return;
+	}
+	?>
+	<div class="notice notice-error">
+		<p>
+			<strong><?php esc_html_e( 'Workation Castle theme: no blocks are registered.', 'pediment-child' ); ?></strong>
+		</p>
+		<p>
+			<?php
+			printf(
+				/* translators: %s: absolute path to the theme's build/blocks directory. */
+				esc_html__( 'The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation-castle-theme.zip release asset (not the "Source code" zip).', 'pediment-child' ),
+				'<code>' . esc_html( PEDIMENT_CHILD_DIR . '/build/blocks' ) . '</code>'
+			);
+			?>
+		</p>
+	</div>
+	<?php
+}
 
 /**
  * Retire the generic parent `pediment/cta` block.
