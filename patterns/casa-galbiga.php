@@ -103,4 +103,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-closing {"align":"full","headline":"Ready to come and stay?","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/"} /-->
+<!-- wp:pediment-child/workation-closing {"headline":"Ready to come and stay?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

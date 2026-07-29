@@ -63,4 +63,4 @@
 <!-- wp:pediment-child/workation-review {"text":"A great, well-thought-out concept — for larger groups and for working. We loved the atmosphere of the old stone walls and the view from the terrace.","title":"Manuelle B."} /-->
 <!-- /wp:pediment-child/workation-reviews -->
 
-<!-- wp:pediment-child/workation-closing {"align":"full","headline":"Ready for a change of view?","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/"} /-->
+<!-- wp:pediment-child/workation-closing {"headline":"Ready for a change of view?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

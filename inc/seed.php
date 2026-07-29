@@ -706,7 +706,15 @@ class Seed {
 				'post_title'   => $info['title'],
 				'post_name'    => $slug,
 				'post_parent'  => $parent_id,
-				'post_content' => $content,
+				// wp_insert_post()/wp_update_post() expect slashed data and
+				// wp_unslash() what they are given. Block attributes are
+				// serialized the way core's serialize_block_attributes() does
+				// it, so any attribute containing <, >, & or a quote arrives
+				// here carrying backslash-u escapes. Unslashing would eat those
+				// backslashes and turn the hero headline's highlight span into
+				// a literal `u003cspan`. Slashing here is a no-op for content
+				// that holds no backslashes.
+				'post_content' => wp_slash( $content ),
 			);
 
 			if ( $existing ) {
@@ -735,7 +743,8 @@ class Seed {
 				wp_update_post(
 					array(
 						'ID'           => $id,
-						'post_content' => $rewritten,
+						// Slashed for the same reason as the upsert above.
+						'post_content' => wp_slash( $rewritten ),
 					)
 				);
 			}
