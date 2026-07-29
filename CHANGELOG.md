@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.12.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.11.0...v0.12.0) (2026-07-29)
+
+
+### Features
+
+* **nav:** keep translated menus editable and add a switcher ([9f23778](https://github.com/Bergert-Digital/workation-castle-website/commit/9f237781e0b00631c96dcfac8e903b8f0035f566))
+
+
+### Bug Fixes
+
+* **blocks:** surface a missing build/blocks instead of failing silently ([73383e2](https://github.com/Bergert-Digital/workation-castle-website/commit/73383e2edc0d2e11bf8856ab2889bad28b037848))
+* **i18n:** drop block.json defaults for translatable text ([7ab10eb](https://github.com/Bergert-Digital/workation-castle-website/commit/7ab10eb7bc9a32875f320c20add500bf5dc82614))
+* **i18n:** write translatable block text into the patterns ([a9724aa](https://github.com/Bergert-Digital/workation-castle-website/commit/a9724aaaf8d94ff0341230d276aa5d0a8365eaaa))
+* stop shipping the source zip to client sites ([#40](https://github.com/Bergert-Digital/workation-castle-website/issues/40)) ([2c0a10f](https://github.com/Bergert-Digital/workation-castle-website/commit/2c0a10fc056af0f7a90343ab037a67c5b14abc20))
+* **updater:** require the release asset instead of the source zip ([382c832](https://github.com/Bergert-Digital/workation-castle-website/commit/382c832952e254c752aa25b93360c6b184659b42))
+
 ## [0.11.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.10.0...v0.11.0) (2026-07-29)
 
 
