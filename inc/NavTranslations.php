@@ -245,6 +245,38 @@ function pediment_child_find_default_language_nav( $post_status ) {
 }
 
 /**
+ * The marked Primary menu already tagged with a given language, regardless of
+ * translation-group membership.
+ *
+ * Callers normally find a language's menu through
+ * pll_get_post( $source->ID, $lang ), which depends on the menu being
+ * linked into the source's translation group. That lookup misses a menu that
+ * exists and carries the marker but was never linked in -- e.g. left behind by
+ * an older buggy run, or created by hand -- and the caller would otherwise
+ * insert a second one. WordPress then makes its slug unique (`primary-de-2`),
+ * and the header's own marker lookup picks between the two by date. This is
+ * the fallback that finds the orphan so it can be adopted instead.
+ *
+ * @param string          $lang        Language slug.
+ * @param string|string[] $post_status Status(es) to accept.
+ * @return WP_Post|null Null when no such menu exists.
+ */
+function pediment_child_find_marked_nav_for_language( string $lang, $post_status ) {
+	$found = get_posts(
+		array(
+			'post_type'        => 'wp_navigation',
+			'post_status'      => $post_status,
+			'numberposts'      => 1,
+			'lang'             => $lang,
+			'meta_key'         => PEDIMENT_CHILD_PRIMARY_NAV_MARKER, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Runs once per seed, not per request.
+			'suppress_filters' => false,
+		)
+	);
+
+	return $found ? $found[0] : null;
+}
+
+/**
  * Create or refresh one Primary menu per non-default language.
  *
  * Called by Seed::seed(), so the Tools -> Seed content button and the WP-CLI
@@ -307,14 +339,25 @@ function pediment_child_seed_nav_translations(): array {
 			$existing = 0;
 		}
 
-		if ( $existing ) {
-			// Keep the ID: it preserves the translation group and anything already
-			// pointing at this menu. Re-assert publish, which heals a menu someone
-			// unpublished in the Site Editor -- that otherwise leaves the language
-			// with no navigation while this step reports success.
+		// A group miss does not yet mean nothing exists for this language: it may
+		// mean a menu exists but was never linked into the group. Look for that
+		// orphan before falling through to insert a duplicate.
+		$adopted = $existing ? null : pediment_child_find_marked_nav_for_language(
+			$lang,
+			array( 'publish', 'draft', 'pending', 'private', 'future' )
+		);
+
+		if ( $existing || $adopted ) {
+			$menu_id = $existing ? (int) $existing : (int) $adopted->ID;
+
+			// Keep the ID: it preserves the translation group (or, for an adopted
+			// menu, becomes the anchor for one) and anything already pointing at
+			// this menu. Re-assert publish, which heals a menu someone unpublished
+			// in the Site Editor -- that otherwise leaves the language with no
+			// navigation while this step reports success.
 			$updated = wp_update_post(
 				array(
-					'ID'           => (int) $existing,
+					'ID'           => $menu_id,
 					'post_status'  => 'publish',
 					'post_content' => wp_slash( $content ),
 				),
@@ -324,13 +367,29 @@ function pediment_child_seed_nav_translations(): array {
 				$log[] = sprintf(
 					'nav translations: FAILED updating %s menu (ID %d)%s',
 					$lang,
-					(int) $existing,
+					$menu_id,
 					is_wp_error( $updated ) ? ' — ' . $updated->get_error_message() : ''
 				);
 				continue;
 			}
-			$menu_id = (int) $existing;
-			$log[]   = sprintf( 'nav translations: updated %s menu (ID %d)', $lang, $menu_id );
+
+			if ( $adopted ) {
+				/*
+				 * pll_save_post_translations() replaces the whole group, so the
+				 * existing members have to be passed back in -- see the same call
+				 * in the create branch below for why a bare pair is not enough.
+				 * Linking the orphan in here is what stops it from being missed,
+				 * and a duplicate inserted, on every future run.
+				 */
+				$translations             = pll_get_post_translations( $source->ID );
+				$translations[ $default ] = $source->ID;
+				$translations[ $lang ]    = $menu_id;
+				pll_save_post_translations( $translations );
+
+				$log[] = sprintf( 'nav translations: adopted existing %s menu (ID %d)', $lang, $menu_id );
+			} else {
+				$log[] = sprintf( 'nav translations: updated %s menu (ID %d)', $lang, $menu_id );
+			}
 		} else {
 			$menu_id = wp_insert_post(
 				array(
