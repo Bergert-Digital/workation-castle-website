@@ -277,22 +277,71 @@ function pediment_child_find_marked_nav_for_language( string $lang, $post_status
 }
 
 /**
- * Create or refresh one Primary menu per non-default language.
+ * The theme's nav source, translated into one language and serialized ready for
+ * a wp_navigation post_content.
+ *
+ * @param string $lang Target language slug.
+ * @param array  $log  Log lines, appended to by reference.
+ * @return string Serialized block markup.
+ */
+function pediment_child_translated_nav_content( string $lang, array &$log ): string {
+	return serialize_blocks(
+		pediment_child_translate_nav_blocks(
+			parse_blocks( pediment_child_primary_nav_blocks() ),
+			$lang,
+			$log
+		)
+	);
+}
+
+/**
+ * Whether a language's menu should have its content written from the nav source.
+ *
+ * Translated menus used to be regenerated on every run, which made them
+ * uneditable in the one place a site owner can reach them. An item added in the
+ * Site Editor -- Polylang's language switcher is the case that surfaced this,
+ * since Polylang requires that block to be added per language by hand -- survived
+ * until the next seed and then silently vanished. Menus are now created once and
+ * left alone, which is how Seed::seed_primary_nav() has always treated the
+ * default language's menu.
+ *
+ * Two cases still write. An absent or emptied menu has no edits to lose and would
+ * otherwise leave that language with no navigation at all. And an explicit
+ * rebuild re-applies the theme source on demand -- which is now also the only
+ * thing that upgrades a menu's URLs as real page translations appear, since that
+ * no longer happens by itself.
+ *
+ * @param WP_Post|null $menu    The language's existing menu, or null if it has none.
+ * @param bool         $rebuild Whether a rebuild was explicitly requested.
+ * @return bool
+ */
+function pediment_child_nav_translation_needs_content( $menu, bool $rebuild ): bool {
+	if ( $rebuild || ! $menu instanceof WP_Post ) {
+		return true;
+	}
+
+	return '' === trim( $menu->post_content );
+}
+
+/**
+ * Create one Primary menu per non-default language, and thereafter leave it alone.
  *
  * Called by Seed::seed(), so the Tools -> Seed content button and the WP-CLI
- * command both produce translated menus. Idempotent: every run rebuilds each
- * translated menu's content from the nav source, which is also what upgrades its
- * URLs as real page translations appear.
+ * command both produce translated menus. Idempotent, and non-destructive by
+ * default: pediment_child_nav_translation_needs_content() decides when content is
+ * written and when a site owner's edits are preserved. The English menu is not
+ * touched here at all; seed_primary_nav() owns it.
  *
- * Translated menus are generated artifacts, not curated content. An item added
- * to one in the Site Editor is replaced on the next run -- a nav item that should
- * exist in German belongs in pediment_child_primary_nav_blocks(), where every
- * language gets it and the change is in version control. The English menu is not
- * touched here; seed_primary_nav() owns it and never overwrites its content.
+ * Status, the marker and the translation link are re-asserted every run
+ * regardless, because none of them is content: a menu someone unpublished in the
+ * Site Editor leaves its language with no navigation, and a missing marker sends
+ * the header to the default language's menu instead.
  *
+ * @param bool $rebuild Regenerate every translated menu from the theme's nav
+ *                      source, discarding Site-Editor edits.
  * @return string[] Log lines.
  */
-function pediment_child_seed_nav_translations(): array {
+function pediment_child_seed_nav_translations( bool $rebuild = false ): array {
 	if ( ! function_exists( 'pll_languages_list' ) || ! function_exists( 'pll_get_post' ) ) {
 		return array( 'nav translations: Polylang inactive — skipped' );
 	}
@@ -312,20 +361,13 @@ function pediment_child_seed_nav_translations(): array {
 		return array( 'nav translations: no Primary menu in the default language — has the seed run?' );
 	}
 
-	$log = array();
+	$log      = array();
+	$statuses = array( 'publish', 'draft', 'pending', 'private', 'future' );
 
 	foreach ( $languages as $lang ) {
 		if ( $lang === $default ) {
 			continue;
 		}
-
-		$content = serialize_blocks(
-			pediment_child_translate_nav_blocks(
-				parse_blocks( pediment_child_primary_nav_blocks() ),
-				$lang,
-				$log
-			)
-		);
 
 		// pll_get_post() returns whatever ID the translation group holds even when
 		// the post behind it is gone (e.g. deleted straight from the Site Editor
@@ -342,35 +384,46 @@ function pediment_child_seed_nav_translations(): array {
 		// A group miss does not yet mean nothing exists for this language: it may
 		// mean a menu exists but was never linked into the group. Look for that
 		// orphan before falling through to insert a duplicate.
-		$adopted = $existing ? null : pediment_child_find_marked_nav_for_language(
-			$lang,
-			array( 'publish', 'draft', 'pending', 'private', 'future' )
-		);
+		$adopted = $existing ? null : pediment_child_find_marked_nav_for_language( $lang, $statuses );
 
 		if ( $existing || $adopted ) {
 			$menu_id = $existing ? (int) $existing : (int) $adopted->ID;
+			$menu    = get_post( $menu_id );
 
-			// Keep the ID: it preserves the translation group (or, for an adopted
-			// menu, becomes the anchor for one) and anything already pointing at
-			// this menu. Re-assert publish, which heals a menu someone unpublished
-			// in the Site Editor -- that otherwise leaves the language with no
-			// navigation while this step reports success.
-			$updated = wp_update_post(
-				array(
-					'ID'           => $menu_id,
-					'post_status'  => 'publish',
-					'post_content' => wp_slash( $content ),
-				),
-				true
-			);
-			if ( is_wp_error( $updated ) || ! $updated ) {
-				$log[] = sprintf(
-					'nav translations: FAILED updating %s menu (ID %d)%s',
-					$lang,
-					$menu_id,
-					is_wp_error( $updated ) ? ' — ' . $updated->get_error_message() : ''
+			$write = pediment_child_nav_translation_needs_content( $menu, $rebuild );
+
+			// Translating is what emits the "cannot map" and "no label" warnings, so
+			// doing it only when the result is used keeps a routine re-seed from
+			// reporting problems with content it is not going to touch.
+			$content = $write ? pediment_child_translated_nav_content( $lang, $log ) : '';
+
+			// Re-assert publish, which heals a menu someone unpublished in the Site
+			// Editor -- that otherwise leaves the language with no navigation while
+			// this step reports success.
+			$unpublished = $menu instanceof WP_Post && 'publish' !== $menu->post_status;
+
+			// Nothing to change is not "update it with the same values": every
+			// wp_update_post() bumps post_modified, and a menu whose timestamp moves
+			// on every seed reads as edited when it was not.
+			if ( $write || $unpublished ) {
+				$update = array(
+					'ID'          => $menu_id,
+					'post_status' => 'publish',
 				);
-				continue;
+				if ( $write ) {
+					$update['post_content'] = wp_slash( $content );
+				}
+
+				$updated = wp_update_post( $update, true );
+				if ( is_wp_error( $updated ) || ! $updated ) {
+					$log[] = sprintf(
+						'nav translations: FAILED updating %s menu (ID %d)%s',
+						$lang,
+						$menu_id,
+						is_wp_error( $updated ) ? ' — ' . $updated->get_error_message() : ''
+					);
+					continue;
+				}
 			}
 
 			if ( $adopted ) {
@@ -388,7 +441,12 @@ function pediment_child_seed_nav_translations(): array {
 
 				$log[] = sprintf( 'nav translations: adopted existing %s menu (ID %d)', $lang, $menu_id );
 			} else {
-				$log[] = sprintf( 'nav translations: updated %s menu (ID %d)', $lang, $menu_id );
+				$log[] = sprintf(
+					'nav translations: %s %s menu (ID %d)',
+					$write ? 'rebuilt' : 'kept',
+					$lang,
+					$menu_id
+				);
 			}
 		} else {
 			$menu_id = wp_insert_post(
@@ -397,7 +455,7 @@ function pediment_child_seed_nav_translations(): array {
 					'post_status'  => 'publish',
 					'post_title'   => 'Primary (' . strtoupper( $lang ) . ')',
 					'post_name'    => 'primary-' . $lang,
-					'post_content' => wp_slash( $content ),
+					'post_content' => wp_slash( pediment_child_translated_nav_content( $lang, $log ) ),
 				),
 				true
 			);

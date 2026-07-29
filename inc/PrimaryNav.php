@@ -203,6 +203,30 @@ function pediment_child_primary_nav_blocks(): string {
 			'<!-- wp:navigation-link {"label":"More","url":"/guide/","kind":"custom"} /-->',
 			'<!-- /wp:navigation-submenu -->',
 			'<!-- wp:navigation-link {"label":"Contact","url":"/contact-us/","kind":"custom","isTopLevelLink":true} /-->',
+
+			/*
+			 * Polylang's own switcher, kept in the source so every generated
+			 * language menu carries it. Polylang requires the block to be added to
+			 * each language's menu by hand (its docs say so explicitly), which on a
+			 * five-language site means five edits that nothing keeps in sync.
+			 *
+			 * `dropdown` is not cosmetic: flat mode renders one top-level item per
+			 * language, which would put five extra entries in a header that already
+			 * has four.
+			 *
+			 * Do not add `hide_current` to make the list stop repeating the language
+			 * named on the toggle. In dropdown mode Polylang renders the *first list
+			 * item* as the toggle, so removing the current language promotes an
+			 * arbitrary other one: on /de/ the header then reads "English", and
+			 * "English" still appears in the list below it. Verified against free
+			 * Polylang 3.8.6. The repetition is the lesser evil.
+			 *
+			 * Free Polylang 3.8 registers this with `parent: core/navigation`, so it
+			 * is only valid here. When the plugin is inactive the block is
+			 * unregistered and renders as nothing -- guarded by
+			 * PrimaryNavRenderTest, which runs in an environment without Polylang.
+			 */
+			'<!-- wp:polylang/navigation-language-switcher {"dropdown":true} /-->',
 		)
 	);
 }
