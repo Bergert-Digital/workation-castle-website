@@ -388,194 +388,24 @@ if ( $missing ) {
 // 5. A Primary menu per language
 // -----------------------------------------------------------------------------
 
-/**
- * Menu labels, keyed by the English label they replace.
- *
- * Only labels live here. Menu *structure* is derived from
- * pediment_child_primary_nav_blocks(), which the theme already treats as the
- * single source of truth for the menu -- four hardcoded markup blobs would drift
- * the moment somebody edited the English menu, and the drift would stay invisible
- * until a client clicked it.
- */
-const PEDIMENT_CHILD_DEV_NAV_LABELS = array(
-	'Activities'           => array( 'de' => 'Aktivitäten', 'nl' => 'Activiteiten', 'fr' => 'Activités', 'it' => 'Attività' ),
-	'Photos'               => array( 'de' => 'Fotos', 'nl' => 'Fotogalerij', 'fr' => 'Photographies', 'it' => 'Fotografie' ),
-	'Ways to stay'         => array( 'de' => 'Aufenthaltsarten', 'nl' => 'Manieren van verblijf', 'fr' => 'Façons de séjourner', 'it' => 'Modi di soggiornare' ),
-	'Team retreats'        => array( 'de' => 'Team-Retreats', 'nl' => 'Teamretraites', 'fr' => "Séminaires d'équipe", 'it' => 'Ritiri aziendali' ),
-	'Workations'           => array( 'de' => 'Workations', 'nl' => 'Workations', 'fr' => 'Workations', 'it' => 'Workation' ),
-	'Family & group stays' => array( 'de' => 'Familien & Gruppen', 'nl' => 'Familie & groepen', 'fr' => 'Familles & groupes', 'it' => 'Famiglie e gruppi' ),
-	'Guest Guide'          => array( 'de' => 'Gästeführer', 'nl' => 'Gastengids', 'fr' => 'Guide du séjour', 'it' => "Guida dell'ospite" ),
-	'How to get here'      => array( 'de' => 'Anreise', 'nl' => 'Hoe u ons bereikt', 'fr' => 'Comment venir', 'it' => 'Come arrivare' ),
-	'Checking in'          => array( 'de' => 'Anmeldung', 'nl' => 'Inchecken', 'fr' => 'Enregistrement', 'it' => 'Registrazione' ),
-	'Find your way around' => array( 'de' => 'Orientierung', 'nl' => 'Vind uw weg', 'fr' => "S'orienter", 'it' => 'Orientarsi' ),
-	'FAQ'                  => array( 'de' => 'FAQ', 'nl' => 'FAQ', 'fr' => 'FAQ', 'it' => 'FAQ' ),
-	'More'                 => array( 'de' => 'Mehr', 'nl' => 'Meer', 'fr' => 'Plus', 'it' => 'Altro' ),
-	'Contact'              => array( 'de' => 'Kontakt', 'nl' => 'Contact opnemen', 'fr' => 'Contactez-nous', 'it' => 'Contatti' ),
-);
-
-/**
- * Map an English menu URL to the same page's permalink in another language.
- *
- * @param string                $url           English URL, e.g. `/guide/faq/`.
- * @param string                $lang          Target language slug.
- * @param array<string,WP_Post> $english_pages Slug => English page.
- * @return string|null Relative translated URL, or null when it cannot be mapped.
- */
-function pediment_child_dev_translate_nav_url( string $url, string $lang, array $english_pages ) {
-	$path = trim( (string) wp_parse_url( $url, PHP_URL_PATH ), '/' );
-	if ( '' === $path ) {
-		return null;
-	}
-
-	$segments = explode( '/', $path );
-	$slug     = (string) end( $segments );
-	if ( ! isset( $english_pages[ $slug ] ) ) {
-		return null;
-	}
-
-	$translated = pll_get_post( $english_pages[ $slug ]->ID, $lang );
-	if ( ! $translated ) {
-		return null;
-	}
-
-	return wp_make_link_relative( (string) get_permalink( $translated ) );
-}
-
-/**
- * Translate labels and URLs through a parsed navigation block tree.
- *
- * Operates on parsed blocks rather than by string surgery so nested
- * navigation-submenu items are handled by the same code as top-level links, and
- * so innerContent stays consistent for serialize_blocks().
- *
- * @param array[]               $blocks        Parsed blocks.
- * @param string                $lang          Target language slug.
- * @param array<string,WP_Post> $english_pages Slug => English page.
- * @return array[] Translated parsed blocks.
- */
-function pediment_child_dev_translate_nav_blocks( array $blocks, string $lang, array $english_pages ): array {
-	foreach ( $blocks as &$block ) {
-		if ( isset( $block['attrs']['label'] ) ) {
-			$label = $block['attrs']['label'];
-			if ( isset( PEDIMENT_CHILD_DEV_NAV_LABELS[ $label ][ $lang ] ) ) {
-				$block['attrs']['label'] = PEDIMENT_CHILD_DEV_NAV_LABELS[ $label ][ $lang ];
-			} else {
-				printf( "polylang: WARNING no %s label for menu item '%s'\n", $lang, $label );
-			}
-		}
-
-		if ( isset( $block['attrs']['url'] ) ) {
-			$translated = pediment_child_dev_translate_nav_url( $block['attrs']['url'], $lang, $english_pages );
-			if ( null === $translated ) {
-				printf( "polylang: WARNING cannot map %s url '%s'\n", $lang, $block['attrs']['url'] );
-			} else {
-				$block['attrs']['url'] = $translated;
-			}
-		}
-
-		if ( ! empty( $block['innerBlocks'] ) ) {
-			$block['innerBlocks'] = pediment_child_dev_translate_nav_blocks( $block['innerBlocks'], $lang, $english_pages );
-		}
-	}
-	unset( $block );
-
-	return $blocks;
-}
-
 /*
- * Resolve the English menu explicitly rather than through
- * pediment_child_get_primary_nav_menu(). Under WP-CLI Polylang has no current
- * language, so nothing scopes that lookup and it returns the newest menu by
- * date -- which, once this script has run once, is the Italian one. Everything
- * below treats the result as the translation group's English source, so getting
- * it wrong quietly rewires the group.
+ * Delegates to the shipped pediment_child_seed_nav_translations() (see
+ * inc/NavTranslations.php) rather than keeping a second copy of the
+ * menu-building logic here. The near-copy that used to live in this file
+ * mapped URLs by bare last slug, which is exactly the ambiguity the shipped
+ * version's full-path resolution exists to avoid -- `faq` lives under `guide/`
+ * in English and under `gastefuhrer/` in German, and a bare slug lookup cannot
+ * tell those apart. Because this script runs after the content seed, the dev
+ * environment was exercising the buggy mapping instead of the one that ships.
  */
-$english_menus = get_posts(
-	array(
-		'post_type'   => 'wp_navigation',
-		'post_status' => 'publish',
-		'numberposts' => 1,
-		'lang'        => PEDIMENT_CHILD_DEV_DEFAULT_LANG,
-		'meta_key'    => PEDIMENT_CHILD_PRIMARY_NAV_MARKER,
-	)
-);
-$english_menu  = $english_menus ? $english_menus[0] : null;
-
-if ( ! $english_menu ) {
-	echo "polylang: no English Primary menu — has the content seed run?\n";
+if ( ! function_exists( 'pediment_child_seed_nav_translations' ) ) {
+	echo "polylang: pediment_child_seed_nav_translations() unavailable — is the theme active?\n";
 } else {
-	foreach ( PEDIMENT_CHILD_DEV_LANGUAGES as $language ) {
-		$lang = $language['slug'];
-		if ( PEDIMENT_CHILD_DEV_DEFAULT_LANG === $lang ) {
-			continue;
-		}
-
-		// serialize_block_attributes() encodes with JSON_HEX_AMP but
-		// JSON_UNESCAPED_UNICODE, so an ampersand becomes the escape sequence
-		// backslash-u0026 while `ä` stays literal. Both wp_insert_post() and
-		// wp_update_post() unslash what they are
-		// given, so this has to be re-slashed at the call site or the backslash is
-		// eaten and "Familie & groepen" renders as "Familie u0026 groepen". Accented
-		// labels hid the bug: having no backslash, they survived untouched.
-		$content = serialize_blocks(
-			pediment_child_dev_translate_nav_blocks(
-				parse_blocks( pediment_child_primary_nav_blocks() ),
-				$lang,
-				$english_pages
-			)
-		);
-
-		$existing = pll_get_post( $english_menu->ID, $lang );
-
-		if ( $existing ) {
-			// Rewrite the body, and re-assert publish. Keeping the ID preserves
-			// the translation group and anything already pointing at this menu;
-			// re-asserting the status heals a menu a developer unpublished or
-			// trashed in the Site Editor, which otherwise leaves that language's
-			// header with no navigation while this script reports success.
-			$updated = wp_update_post(
-				array(
-					'ID'           => (int) $existing,
-					'post_status'  => 'publish',
-					'post_content' => wp_slash( $content ),
-				),
-				true
-			);
-			if ( is_wp_error( $updated ) ) {
-				printf( "polylang: FAILED updating %s menu — %s\n", $lang, $updated->get_error_message() );
-				continue;
-			}
-			if ( ! $updated ) {
-				printf( "polylang: FAILED updating %s menu (ID %d)\n", $lang, (int) $existing );
-				continue;
-			}
-			$menu_id = (int) $existing;
-			printf( "polylang: updated %s menu (ID %d)\n", $lang, $menu_id );
-		} else {
-			$menu_id = wp_insert_post(
-				array(
-					'post_type'    => 'wp_navigation',
-					'post_status'  => 'publish',
-					'post_title'   => 'Primary (' . $language['name'] . ')',
-					'post_name'    => 'primary-' . $lang,
-					'post_content' => wp_slash( $content ),
-				),
-				true
-			);
-			if ( is_wp_error( $menu_id ) ) {
-				printf( "polylang: FAILED creating %s menu — %s\n", $lang, $menu_id->get_error_message() );
-				continue;
-			}
-			pll_set_post_language( $menu_id, $lang );
-			pediment_child_dev_link_translation( (int) $english_menu->ID, $lang, (int) $menu_id );
-			printf( "polylang: created %s menu (ID %d)\n", $lang, $menu_id );
-		}
-
-		// The header finds a menu by this marker, not by slug; without it the
-		// language-scoped lookup returns nothing and the header renders no nav.
-		if ( defined( 'PEDIMENT_CHILD_PRIMARY_NAV_MARKER' ) ) {
-			update_post_meta( $menu_id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, '1' );
-		}
+	foreach ( pediment_child_seed_nav_translations() as $line ) {
+		// Prefixed to survive setup-polylang.mjs's `polylang:` output filter.
+		// Without it every menu line is dropped from `npm run env:setup`, and a
+		// menu step that silently did nothing looks exactly like one that worked.
+		echo 'polylang: ' . $line . "\n";
 	}
 }
 

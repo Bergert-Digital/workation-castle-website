@@ -240,6 +240,21 @@ class PrimaryNavRenderTest extends WP_UnitTestCase {
 		$this->assertSame( '1', get_post_meta( $id, PEDIMENT_CHILD_PRIMARY_NAV_MARKER, true ), 'Lookup must stamp the marker so the slug stops mattering' );
 	}
 
+	/**
+	 * Without Polylang, pediment_child_adopt_translated_nav() must return the
+	 * menu it was given, unchanged. This is the only branch reachable in this
+	 * test environment, which does not load Polylang -- the language-following
+	 * branches are exercised on the live multilingual dev site instead.
+	 */
+	public function test_adopt_translated_nav_returns_menu_unchanged_without_polylang() {
+		$id   = $this->make_primary_menu();
+		$menu = get_post( $id );
+
+		$out = pediment_child_adopt_translated_nav( $menu, 'publish' );
+
+		$this->assertSame( $menu, $out );
+	}
+
 	public function test_absent_menu_still_renders_nothing_when_filters_are_bypassed() {
 		// The fallback must not resurrect the page-list fallback on a fresh site.
 		$html = do_blocks( '<!-- wp:navigation {"overlayMenu":"mobile"} /-->' );

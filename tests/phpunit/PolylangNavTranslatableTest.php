@@ -30,4 +30,19 @@ class PolylangNavTranslatableTest extends WP_UnitTestCase {
 			has_filter( 'pll_get_post_types', 'pediment_child_translate_navigation_menus' )
 		);
 	}
+
+	/**
+	 * Polylang is not installed in the PHPUnit environment, so this is the
+	 * only branch of pediment_child_tag_untagged_content() reachable here:
+	 * with pll_default_language()/pll_set_post_language() both absent, it must
+	 * report the guard and touch nothing.
+	 */
+	public function test_tag_untagged_content_is_a_noop_without_polylang() {
+		$this->assertFalse( function_exists( 'pll_default_language' ) );
+		$this->assertFalse( function_exists( 'pll_set_post_language' ) );
+
+		$log = pediment_child_tag_untagged_content();
+
+		$this->assertSame( array( 'polylang tagging: Polylang inactive — skipped' ), $log );
+	}
 }

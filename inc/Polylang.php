@@ -35,3 +35,69 @@ function pediment_child_translate_navigation_menus( $post_types, $is_settings ) 
 	return $post_types;
 }
 add_filter( 'pll_get_post_types', 'pediment_child_translate_navigation_menus', 10, 2 );
+
+/**
+ * Tag any seeded content that carries no Polylang language with the site's
+ * default language.
+ *
+ * The seed inserts pages, the Primary menu, photos and activities via
+ * wp_insert_post() directly, which Polylang never sees — none of that content
+ * is tagged with a language unless something else does it. Untagged content
+ * is invisible to pll_get_post(): pediment_child_seed_nav_translations() maps
+ * translated menu items to real page permalinks by looking up
+ * pll_get_post( $page_id, $lang ), and an untagged page returns nothing there
+ * even when a linked translation exists, so every translated menu item
+ * silently falls back to the default-language URL forever. An untagged
+ * wp_navigation is worse: the header's language-scoped menu lookup (see
+ * inc/PrimaryNav.php) misses it entirely, which has previously removed a live
+ * site's header outright.
+ *
+ * Only ever tags a post with no language at all — an already-tagged post is
+ * never re-tagged or moved — which is what makes this idempotent and safe to
+ * run on every seed.
+ *
+ * @return string[] A single log line describing the outcome.
+ */
+function pediment_child_tag_untagged_content(): array {
+	if ( ! function_exists( 'pll_default_language' ) || ! function_exists( 'pll_set_post_language' ) ) {
+		return array( 'polylang tagging: Polylang inactive — skipped' );
+	}
+
+	$default = (string) pll_default_language();
+	if ( '' === $default ) {
+		return array( 'polylang tagging: no default language configured — skipped' );
+	}
+
+	$post_types = array( 'page', 'wp_navigation' );
+	if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) ) {
+		$post_types[] = PEDIMENT_CHILD_ACTIVITY_CPT;
+	}
+	if ( defined( 'PEDIMENT_CHILD_PHOTO_CPT' ) ) {
+		$post_types[] = PEDIMENT_CHILD_PHOTO_CPT;
+	}
+
+	// suppress_filters is required here, not optional: Polylang otherwise
+	// scopes this query to a single language, which is precisely the content
+	// this needs to find never has — it would never see the untagged posts.
+	$ids = get_posts(
+		array(
+			'post_type'        => $post_types,
+			'post_status'      => 'any',
+			'numberposts'      => -1,
+			'fields'           => 'ids',
+			'suppress_filters' => true,
+		)
+	);
+
+	$tagged = 0;
+	foreach ( $ids as $id ) {
+		$language = function_exists( 'pll_get_post_language' ) ? pll_get_post_language( (int) $id ) : false;
+		if ( $language ) {
+			continue;
+		}
+		pll_set_post_language( (int) $id, $default );
+		++$tagged;
+	}
+
+	return array( sprintf( 'polylang tagging: tagged %d untagged object(s) as %s', $tagged, $default ) );
+}
