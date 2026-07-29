@@ -7,15 +7,15 @@
   "description": "Homepage closing call-to-action section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "headline": { "type": "string", "default": "Bring your next week of work somewhere memorable." },
+    "headline": { "type": "string" },
     "imageUrl": { "type": "string", "default": "" },
-    "imageAlt": { "type": "string", "default": "Garden terrace at Workation Castle" },
+    "imageAlt": { "type": "string" },
     "imageId": { "type": "number", "default": 0 },
-    "primaryText": { "type": "string", "default": "Check availability" },
+    "primaryText": { "type": "string" },
     "primaryUrl": { "type": "string", "default": "https://workationcastle.holiduhost.com/" },
-    "secondaryText": { "type": "string", "default": "Ask for a custom offer" },
+    "secondaryText": { "type": "string" },
     "secondaryUrl": { "type": "string", "default": "#book" },
-    "linkText": { "type": "string", "default": "Follow on Instagram" },
+    "linkText": { "type": "string" },
     "linkUrl": { "type": "string", "default": "https://www.instagram.com/workation_castle/" }
   },
   "supports": {

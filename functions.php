@@ -60,6 +60,11 @@ require_once __DIR__ . '/inc/EstateMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 require_once __DIR__ . '/inc/PrimaryNav.php';
 
+// Section copy for pages stored before that copy moved into the pattern markup.
+// Must load after WorkationSections.php, whose render helpers consume the
+// attributes it supplies. Transitional — see the file header.
+require_once __DIR__ . '/inc/LegacyBlockCopy.php';
+
 // Polylang: declare wp_navigation translatable so each language binds its own
 // Primary menu. Must load after PrimaryNav.php, which is what consumes the effect.
 require_once __DIR__ . '/inc/Polylang.php';

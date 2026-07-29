@@ -7,9 +7,9 @@
   "description": "Workation Castle homepage intro section.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": { "type": "string", "default": "Why here" },
-    "headline": { "type": "string", "default": "Centuries-old walls, bright modern interiors" },
-    "lead": { "type": "string", "default": "Set on a small hill beside the Lago di Piano nature reserve, Workation Castle pairs historic stone with light, comfortable rooms. Come to focus, to bring your team together, or simply to slow down — with lakes, mountains and quiet walks right outside the door." }
+    "eyebrow": { "type": "string" },
+    "headline": { "type": "string" },
+    "lead": { "type": "string" }
   },
   "supports": {
     "html": false,

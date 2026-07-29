@@ -145,12 +145,69 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 
 		$this->assertNotNull( $hero, 'The seeded home page has no workation-hero block.' );
 
-		$defaults = $this->block_defaults();
+		// The headline no longer has a block.json default; the legacy copy map
+		// holds the same English string, so it doubles as the reference here
+		// and keeps the map and the patterns from drifting apart.
+		$legacy = pediment_child_legacy_block_copy();
 		$this->assertSame(
-			$defaults['pediment-child/workation-hero']['headline'],
+			$legacy['pediment-child/workation-hero']['headline'],
 			$hero['attrs']['headline'],
-			'The stored headline no longer matches the block default byte for byte.'
+			'The seeded headline and the legacy copy map have drifted apart.'
 		);
 		$this->assertStringContainsString( '<span class="hl">', $hero['attrs']['headline'] );
+	}
+
+	/**
+	 * Gutenberg's getCommentAttributes() omits any attribute whose value equals
+	 * its default when it serializes a block, so a translatable attribute that
+	 * carries a default is stripped out of post_content the moment someone
+	 * saves the page in the editor -- undoing the fix above. Keeping these
+	 * attributes default-free is what makes that impossible.
+	 */
+	public function test_no_translatable_attribute_carries_a_block_json_default() {
+		$translatable = $this->translatable_keys();
+		$offenders    = array();
+
+		foreach ( $this->block_defaults() as $block => $attributes ) {
+			if ( ! isset( $translatable[ $block ] ) ) {
+				continue;
+			}
+			foreach ( $translatable[ $block ] as $key ) {
+				$default = $attributes[ $key ] ?? null;
+				if ( is_string( $default ) && '' !== trim( $default ) ) {
+					$offenders[] = "{$block}.{$key}";
+				}
+			}
+		}
+
+		$this->assertSame(
+			array(),
+			$offenders,
+			"These translatable attributes still have a block.json default, so an\n"
+				. "editor save will strip them back out of post_content:\n"
+				. implode( "\n", $offenders )
+		);
+	}
+
+	/**
+	 * Dropping the defaults would otherwise blank the hero, section headers and
+	 * closing CTA on any page seeded before the copy moved into the patterns.
+	 */
+	public function test_legacy_content_without_attributes_still_renders_its_copy() {
+		$rendered = do_blocks(
+			'<!-- wp:pediment-child/workation-spaces --><!-- /wp:pediment-child/workation-spaces -->'
+		);
+
+		$this->assertStringContainsString( 'The spaces', $rendered );
+		$this->assertStringContainsString( 'Room to work, and room to stay.', $rendered );
+	}
+
+	/** An attribute emptied on purpose hides its element and is not refilled. */
+	public function test_an_emptied_attribute_is_not_refilled() {
+		$rendered = do_blocks(
+			'<!-- wp:pediment-child/workation-spaces {"headline":""} --><!-- /wp:pediment-child/workation-spaces -->'
+		);
+
+		$this->assertStringNotContainsString( 'Room to work, and room to stay.', $rendered );
 	}
 }

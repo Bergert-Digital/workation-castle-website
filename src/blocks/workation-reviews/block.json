@@ -7,8 +7,8 @@
   "description": "Guest reviews card grid.",
   "textdomain": "pediment-child",
   "attributes": {
-    "eyebrow": { "type": "string", "default": "Guest reviews" },
-    "headline": { "type": "string", "default": "People come for focus, family time and the quiet." },
+    "eyebrow": { "type": "string" },
+    "headline": { "type": "string" },
     "ctaText": { "type": "string", "default": "" },
     "ctaUrl": { "type": "string", "default": "" }
   },
