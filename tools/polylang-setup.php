@@ -402,7 +402,10 @@ if ( ! function_exists( 'pediment_child_seed_nav_translations' ) ) {
 	echo "polylang: pediment_child_seed_nav_translations() unavailable — is the theme active?\n";
 } else {
 	foreach ( pediment_child_seed_nav_translations() as $line ) {
-		echo $line . "\n";
+		// Prefixed to survive setup-polylang.mjs's `polylang:` output filter.
+		// Without it every menu line is dropped from `npm run env:setup`, and a
+		// menu step that silently did nothing looks exactly like one that worked.
+		echo 'polylang: ' . $line . "\n";
 	}
 }
 
