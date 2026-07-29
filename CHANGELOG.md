@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.11.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.10.0...v0.11.0) (2026-07-29)
+
+
+### Features
+
+* **nav:** add the translated menu label map ([48b4655](https://github.com/Bergert-Digital/workation-castle-website/commit/48b465529c0aa410fafed6ad85f4bcb37c3b0088))
+* **nav:** seed a Primary menu for every language ([2e1bb00](https://github.com/Bergert-Digital/workation-castle-website/commit/2e1bb00f5c5d7868c88bd4be7e87abea97767a42))
+* **nav:** seed a Primary navigation menu for every language ([#38](https://github.com/Bergert-Digital/workation-castle-website/issues/38)) ([1d43a2a](https://github.com/Bergert-Digital/workation-castle-website/commit/1d43a2aeede0cc4cf4ea565ea706d4827ad96a54))
+* **nav:** translate menu labels and urls per language ([6f27063](https://github.com/Bergert-Digital/workation-castle-website/commit/6f2706384f36ef49b252aee79d13201df03daf4c))
+
+
+### Bug Fixes
+
+* **dev:** keep the delegated menu log out of the wrapper's filter ([c688bfe](https://github.com/Bergert-Digital/workation-castle-website/commit/c688bfeda127de26124de4a5fa9b40dff585e48f))
+* **nav:** adopt an orphaned language menu instead of duplicating it ([45c9ca5](https://github.com/Bergert-Digital/workation-castle-website/commit/45c9ca54464a96cb4fd486e843c1b1a48ca7449b))
+* **nav:** bind the menu a language actually has, not the marked one ([694f95a](https://github.com/Bergert-Digital/workation-castle-website/commit/694f95a68262b841d17d1b86a510ec67197febed))
+* **nav:** only map urls to published page translations ([d26eaaa](https://github.com/Bergert-Digital/workation-castle-website/commit/d26eaaa0fba66ed9c45ba58f9e7ff37b6c3966ba))
+* **nav:** resolve the default-language menu explicitly for seeding ([17e3efb](https://github.com/Bergert-Digital/workation-castle-website/commit/17e3efbd5249b78dbf790bba98a7a48f63257c11))
+* **seed:** tag untagged content with the default Polylang language ([8593c73](https://github.com/Bergert-Digital/workation-castle-website/commit/8593c733a4a080f03691494b3b0169ff730b4e78))
+
+
+### Refactors
+
+* **dev:** delegate the dev script's nav menu step to the shipped seed ([f3c9a40](https://github.com/Bergert-Digital/workation-castle-website/commit/f3c9a402bd5d456cba2dd299944b4003679862fa))
+
 ## [0.10.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.9.6...v0.10.0) (2026-07-28)
 
 
