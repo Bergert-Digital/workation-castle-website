@@ -413,9 +413,13 @@ msgstr "Externe content laden"
 msgid "Your privacy"
 msgstr "Jouw privacy"
 
+#. The "Cookie settings" button is intentionally left in English: parts/footer.html
+#. (out of scope for this branch) still renders that label as literal English in
+#. every language. Translating it here would send users looking for a control
+#. that doesn't exist. Revisit once the footer i18n follow-up lands.
 #: inc/Consent.php:181
 msgid "We use cookies and external services. Choose what to allow. You can change this anytime via \"Cookie settings\" in the footer."
-msgstr "We gebruiken cookies en externe diensten. Kies wat je wilt toestaan. Je kunt dit op elk moment wijzigen via \"Cookie-instellingen\" in de footer."
+msgstr "We gebruiken cookies en externe diensten. Kies wat je wilt toestaan. Je kunt dit op elk moment wijzigen via \"Cookie settings\" in de footer."
 
 #: inc/Consent.php:182
 msgid "Reject all"
