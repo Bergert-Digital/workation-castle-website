@@ -58,4 +58,4 @@ msgstr "an der Via Castello (auf der rechten Seite)"
 
 #: inc/Consent.php:80
 msgid "this provider"
-msgstr "diesen Anbieter"
+msgstr "diesem Anbieter"
