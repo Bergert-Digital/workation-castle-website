@@ -27,3 +27,35 @@ msgstr "Gäste"
 #: inc/AvailabilityForm.php:59
 msgid "Select dates"
 msgstr "Zeitraum wählen"
+
+#: inc/EstateMap.php
+msgid "guest house"
+msgstr "Gästehaus"
+
+#: inc/EstateMap.php
+msgid "Workspace"
+msgstr "Arbeitsraum"
+
+#: inc/EstateMap.php
+msgid "Bar"
+msgstr "Bar"
+
+#: inc/EstateMap.php
+msgid "coffee machine and water dispenser"
+msgstr "Kaffeemaschine und Wasserspender"
+
+#: inc/EstateMap.php
+msgid "Waste Collection Point"
+msgstr "Müllsammelstelle"
+
+#: inc/EstateMap.php
+msgid "Parking"
+msgstr "Parkplatz"
+
+#: inc/EstateMap.php
+msgid "on Via Castello (on the right side)"
+msgstr "an der Via Castello (auf der rechten Seite)"
+
+#: inc/Consent.php:80
+msgid "this provider"
+msgstr "diesen Anbieter"
