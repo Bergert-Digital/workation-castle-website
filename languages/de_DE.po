@@ -59,3 +59,59 @@ msgstr "an der Via Castello (auf der rechten Seite)"
 #: inc/Consent.php:80
 msgid "this provider"
 msgstr "diesem Anbieter"
+
+#: inc/Consent.php
+msgid "Your privacy"
+msgstr "Deine Privatsphäre"
+
+#: inc/Consent.php
+msgid "We use cookies and external services. Choose what to allow. You can change this anytime via \"Cookie settings\" in the footer."
+msgstr "Wir verwenden Cookies und externe Dienste. Entscheide, was du erlauben möchtest. Du kannst das jederzeit über „Cookie-Einstellungen“ im Footer ändern."
+
+#: inc/Consent.php
+msgid "Reject all"
+msgstr "Alle ablehnen"
+
+#: inc/Consent.php
+msgid "Customize"
+msgstr "Anpassen"
+
+#: inc/Consent.php
+msgid "Save preferences"
+msgstr "Auswahl speichern"
+
+#: inc/Consent.php
+msgid "Accept all"
+msgstr "Alle akzeptieren"
+
+#: inc/Consent.php
+msgid "Necessary"
+msgstr "Notwendig"
+
+#: inc/Consent.php
+msgid "Required for the site to work. Always on."
+msgstr "Für den Betrieb der Website erforderlich. Immer aktiv."
+
+#: inc/Consent.php
+msgid "Functional"
+msgstr "Funktional"
+
+#: inc/Consent.php
+msgid "External maps and embeds (Komoot, Google Maps)."
+msgstr "Externe Karten und Einbettungen (Komoot, Google Maps)."
+
+#: inc/Consent.php
+msgid "Analytics"
+msgstr "Statistik"
+
+#: inc/Consent.php
+msgid "Anonymous usage statistics (PostHog) to improve the site."
+msgstr "Anonyme Nutzungsstatistiken (PostHog), um die Website zu verbessern."
+
+#: inc/Consent.php
+msgid "Marketing"
+msgstr "Marketing"
+
+#: inc/Consent.php
+msgid "Personalised content and ad measurement."
+msgstr "Personalisierte Inhalte und Werbemessung."
