@@ -163,6 +163,13 @@ translation in all four locales, if placeholders don't match, or if a `.mo` is
 stale. Adding a new `__()` string means running both commands and translating
 the new entry in four `.po` files.
 
+`inc/seed.php` and `inc/settings-updates.php` are deliberately excluded from
+extraction (see the `--exclude` list in `i18n:pot`): seeded content is
+Polylang's job, not gettext's, and the updater screen is admin-only. Their
+domain-tagged strings are permanently untranslatable and invisible to the
+gate — don't remove them from the exclude list expecting the gate to catch
+what's inside.
+
 ## Check-in form (guest registration)
 
 The `/check-in/` page renders the `workation/check-in-form` block — a
