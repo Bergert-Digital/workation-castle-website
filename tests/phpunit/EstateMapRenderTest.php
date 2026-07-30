@@ -66,11 +66,15 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 		$this->assertSame( 'Parkplatz', $by_id['parking']['name'] );
 	}
 
-	public function test_proper_nouns_are_left_alone() {
-		switch_to_locale( 'de_DE' );
-		$by_id = array_column( pediment_child_estate_map_pois(), null, 'id' );
+	public function test_proper_nouns_are_not_wrapped_for_translation() {
+		// __() on an untranslated msgid returns the msgid, so asserting the
+		// rendered value cannot tell a literal from a wrapped-but-untranslated
+		// string. Guard the source instead: brand names must never reach a
+		// translator or DeepL.
+		$source = file_get_contents( get_stylesheet_directory() . '/inc/EstateMap.php' );
 
-		$this->assertSame( 'Casa Galbiga', $by_id['galbiga']['name'] );
-		$this->assertSame( 'Casa Tremezzo', $by_id['tremezzo']['name'] );
+		$this->assertMatchesRegularExpression( "/'name'\\s*=>\\s*'Casa Galbiga'/", $source );
+		$this->assertMatchesRegularExpression( "/'name'\\s*=>\\s*'Casa Tremezzo'/", $source );
+		$this->assertDoesNotMatchRegularExpression( "/__\\(\\s*'Casa /", $source );
 	}
 }

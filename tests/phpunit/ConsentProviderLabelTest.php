@@ -16,7 +16,7 @@ class ConsentProviderLabelTest extends WP_UnitTestCase {
 		switch_to_locale( 'de_DE' );
 
 		$this->assertSame(
-			'diesen Anbieter',
+			'diesem Anbieter',
 			pediment_child_consent_provider_label( 'https://example.com/embed' ),
 			'An untranslated fallback renders "gehostet von this provider" mid-sentence.'
 		);
