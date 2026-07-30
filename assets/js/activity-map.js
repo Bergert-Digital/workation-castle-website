@@ -9,6 +9,8 @@
 ( function () {
 	'use strict';
 
+	var L10N = window.wcActivityMap || {};
+
 	// The castle is the same on every activity map.
 	var CASTLE = {
 		lat: 46.03897378894044,
@@ -57,7 +59,9 @@
 			// Destination — default Leaflet pin, popup links to Google Maps.
 			var gmaps = 'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng;
 			var popup = ( title ? '<strong>' + title + '</strong><br>' : '' ) +
-				'<a href="' + gmaps + '" target="_blank" rel="noopener">See on Google Maps</a>';
+				'<a href="' + gmaps + '" target="_blank" rel="noopener">' +
+				( L10N.seeOnGoogleMaps || 'See on Google Maps' ) +
+				'</a>';
 			window.L.marker( [ lat, lng ] ).addTo( map ).bindPopup( popup );
 
 			// Frame both markers so the castle is always visible.

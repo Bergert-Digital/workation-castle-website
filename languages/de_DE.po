@@ -115,3 +115,19 @@ msgstr "Marketing"
 #: inc/Consent.php
 msgid "Personalised content and ad measurement."
 msgstr "Personalisierte Inhalte und Werbemessung."
+
+#: functions.php
+msgid "Image viewer"
+msgstr "Bildansicht"
+
+#: functions.php
+msgid "Previous image"
+msgstr "Vorheriges Bild"
+
+#: functions.php
+msgid "Next image"
+msgstr "Nächstes Bild"
+
+#: functions.php
+msgid "See on Google Maps"
+msgstr "Auf Google Maps ansehen"

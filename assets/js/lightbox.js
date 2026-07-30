@@ -14,6 +14,13 @@
 
 	var LINK_SELECTOR = '.gallery a, .photo-grid .photo';
 
+	var L10N = window.wcLightbox || {};
+
+	/** Escape a translated string for use inside an HTML attribute. */
+	function attr( value ) {
+		return String( value ).replace( /&/g, '&amp;' ).replace( /"/g, '&quot;' ).replace( /</g, '&lt;' );
+	}
+
 	var links = [];
 	var current = 0;
 	var lastFocus = null;
@@ -26,16 +33,22 @@
 		overlay.className = 'wc-lightbox';
 		overlay.setAttribute( 'role', 'dialog' );
 		overlay.setAttribute( 'aria-modal', 'true' );
-		overlay.setAttribute( 'aria-label', 'Image viewer' );
+		overlay.setAttribute( 'aria-label', L10N.viewer || 'Image viewer' );
 
 		overlay.innerHTML =
-			'<button type="button" class="wc-lightbox-close" aria-label="Close">×</button>' +
-			'<button type="button" class="wc-lightbox-nav wc-lightbox-prev" aria-label="Previous image">‹</button>' +
+			'<button type="button" class="wc-lightbox-close" aria-label="' +
+			attr( L10N.close || 'Close' ) +
+			'">×</button>' +
+			'<button type="button" class="wc-lightbox-nav wc-lightbox-prev" aria-label="' +
+			attr( L10N.prev || 'Previous image' ) +
+			'">‹</button>' +
 			'<figure class="wc-lightbox-stage">' +
 			'<img class="wc-lightbox-img" src="" alt="">' +
 			'<figcaption class="wc-lightbox-cap"></figcaption>' +
 			'</figure>' +
-			'<button type="button" class="wc-lightbox-nav wc-lightbox-next" aria-label="Next image">›</button>';
+			'<button type="button" class="wc-lightbox-nav wc-lightbox-next" aria-label="' +
+			attr( L10N.next || 'Next image' ) +
+			'">›</button>';
 
 		imgEl = overlay.querySelector( '.wc-lightbox-img' );
 		capEl = overlay.querySelector( '.wc-lightbox-cap' );
