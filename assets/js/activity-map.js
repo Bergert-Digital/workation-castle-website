@@ -11,6 +11,15 @@
 
 	var L10N = window.wcActivityMap || {};
 
+	/** Escape a translated string for interpolation into innerHTML. */
+	function esc( value ) {
+		return String( value )
+			.replace( /&/g, '&amp;' )
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' )
+			.replace( /"/g, '&quot;' );
+	}
+
 	// The castle is the same on every activity map.
 	var CASTLE = {
 		lat: 46.03897378894044,
@@ -60,7 +69,7 @@
 			var gmaps = 'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng;
 			var popup = ( title ? '<strong>' + title + '</strong><br>' : '' ) +
 				'<a href="' + gmaps + '" target="_blank" rel="noopener">' +
-				( L10N.seeOnGoogleMaps || 'See on Google Maps' ) +
+				esc( L10N.seeOnGoogleMaps || 'See on Google Maps' ) +
 				'</a>';
 			window.L.marker( [ lat, lng ] ).addTo( map ).bindPopup( popup );
 
