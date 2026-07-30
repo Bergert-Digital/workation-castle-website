@@ -168,6 +168,43 @@ function workation_consent_filter_block( $block_content, $block ) {
 add_filter( 'render_block', 'workation_consent_filter_block', 20, 2 );
 
 /**
+ * Localization payload for the consent modal.
+ *
+ * The consent script builds its whole UI in JavaScript, so every string it
+ * renders has to arrive from PHP or it can never be translated.
+ *
+ * @return array<string,mixed>
+ */
+function pediment_child_consent_l10n(): array {
+	return array(
+		'title'      => __( 'Your privacy', 'pediment-child' ),
+		'intro'      => __( 'We use cookies and external services. Choose what to allow. You can change this anytime via "Cookie settings" in the footer.', 'pediment-child' ),
+		'rejectAll'  => __( 'Reject all', 'pediment-child' ),
+		'customize'  => __( 'Customize', 'pediment-child' ),
+		'save'       => __( 'Save preferences', 'pediment-child' ),
+		'acceptAll'  => __( 'Accept all', 'pediment-child' ),
+		'categories' => array(
+			'necessary'  => array(
+				'label' => __( 'Necessary', 'pediment-child' ),
+				'desc'  => __( 'Required for the site to work. Always on.', 'pediment-child' ),
+			),
+			'functional' => array(
+				'label' => __( 'Functional', 'pediment-child' ),
+				'desc'  => __( 'External maps and embeds (Komoot, Google Maps).', 'pediment-child' ),
+			),
+			'analytics'  => array(
+				'label' => __( 'Analytics', 'pediment-child' ),
+				'desc'  => __( 'Anonymous usage statistics (PostHog) to improve the site.', 'pediment-child' ),
+			),
+			'marketing'  => array(
+				'label' => __( 'Marketing', 'pediment-child' ),
+				'desc'  => __( 'Personalised content and ad measurement.', 'pediment-child' ),
+			),
+		),
+	);
+}
+
+/**
  * Enqueue the consent manager (CSS + JS) on every front-end view, and pass its
  * runtime config (cookie name, schema version, PostHog key) to JS.
  */
@@ -195,6 +232,7 @@ function workation_consent_enqueue() {
 		'days'        => (int) WORKATION_CONSENT_DAYS,
 		'posthogKey'  => (string) WORKATION_POSTHOG_KEY,
 		'posthogHost' => (string) WORKATION_POSTHOG_HOST,
+		'strings'     => pediment_child_consent_l10n(),
 	);
 	wp_scripts()->add_data(
 		'workation-castle-consent',

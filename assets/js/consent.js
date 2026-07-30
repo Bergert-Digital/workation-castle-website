@@ -16,29 +16,51 @@
 	var VERSION = CONFIG.version || 1;
 	var DAYS = CONFIG.days || 365;
 
+	var STRINGS = CONFIG.strings || {};
+	var CAT_STRINGS = STRINGS.categories || {};
+
+	/**
+	 * Escape a translated string for interpolation into innerHTML.
+	 *
+	 * Translations are data, and this modal is assembled as a markup string —
+	 * an unescaped quote in a .po file would otherwise break the panel or worse.
+	 */
+	function esc( value ) {
+		return String( value )
+			.replace( /&/g, '&amp;' )
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' )
+			.replace( /"/g, '&quot;' );
+	}
+
+	/** A localized category string, falling back to the English source text. */
+	function cat( id, key, fallback ) {
+		return ( CAT_STRINGS[ id ] && CAT_STRINGS[ id ][ key ] ) || fallback;
+	}
+
 	var CATEGORIES = [
 		{
 			id: 'necessary',
-			label: 'Necessary',
-			desc: 'Required for the site to work. Always on.',
+			label: cat( 'necessary', 'label', 'Necessary' ),
+			desc: cat( 'necessary', 'desc', 'Required for the site to work. Always on.' ),
 			locked: true,
 		},
 		{
 			id: 'functional',
-			label: 'Functional',
-			desc: 'External maps and embeds (Komoot, Google Maps).',
+			label: cat( 'functional', 'label', 'Functional' ),
+			desc: cat( 'functional', 'desc', 'External maps and embeds (Komoot, Google Maps).' ),
 			locked: false,
 		},
 		{
 			id: 'analytics',
-			label: 'Analytics',
-			desc: 'Anonymous usage statistics (PostHog) to improve the site.',
+			label: cat( 'analytics', 'label', 'Analytics' ),
+			desc: cat( 'analytics', 'desc', 'Anonymous usage statistics (PostHog) to improve the site.' ),
 			locked: false,
 		},
 		{
 			id: 'marketing',
-			label: 'Marketing',
-			desc: 'Personalised content and ad measurement.',
+			label: cat( 'marketing', 'label', 'Marketing' ),
+			desc: cat( 'marketing', 'desc', 'Personalised content and ad measurement.' ),
 			locked: false,
 		},
 	];
@@ -219,9 +241,9 @@
 			return (
 				'<label class="wc-consent-row">' +
 				'<span class="wc-consent-row__text"><strong>' +
-				c.label +
+				esc( c.label ) +
 				'</strong><span>' +
-				c.desc +
+				esc( c.desc ) +
 				'</span></span>' +
 				'<input type="checkbox" class="wc-consent-toggle" data-category="' +
 				c.id +
@@ -234,16 +256,31 @@
 		modal.innerHTML =
 			'<div class="wc-consent-modal__backdrop"></div>' +
 			'<div class="wc-consent-modal__panel">' +
-			'<h2 id="wc-consent-title" class="wc-consent-modal__title">Your privacy</h2>' +
-			'<p class="wc-consent-modal__intro">We use cookies and external services. Choose what to allow. You can change this anytime via "Cookie settings" in the footer.</p>' +
+			'<h2 id="wc-consent-title" class="wc-consent-modal__title">' +
+			esc( STRINGS.title || 'Your privacy' ) +
+			'</h2>' +
+			'<p class="wc-consent-modal__intro">' +
+			esc(
+				STRINGS.intro ||
+					'We use cookies and external services. Choose what to allow. You can change this anytime via "Cookie settings" in the footer.'
+			) +
+			'</p>' +
 			'<div class="wc-consent-modal__detail" hidden>' +
 			rows +
 			'</div>' +
 			'<div class="wc-consent-modal__actions">' +
-			'<button type="button" class="wc-consent-modal__reject-all">Reject all</button>' +
-			'<button type="button" class="wc-consent-modal__customize">Customize</button>' +
-			'<button type="button" class="wc-consent-modal__save" hidden>Save preferences</button>' +
-			'<button type="button" class="wc-consent-modal__accept-all">Accept all</button>' +
+			'<button type="button" class="wc-consent-modal__reject-all">' +
+			esc( STRINGS.rejectAll || 'Reject all' ) +
+			'</button>' +
+			'<button type="button" class="wc-consent-modal__customize">' +
+			esc( STRINGS.customize || 'Customize' ) +
+			'</button>' +
+			'<button type="button" class="wc-consent-modal__save" hidden>' +
+			esc( STRINGS.save || 'Save preferences' ) +
+			'</button>' +
+			'<button type="button" class="wc-consent-modal__accept-all">' +
+			esc( STRINGS.acceptAll || 'Accept all' ) +
+			'</button>' +
 			'</div>' +
 			'</div>';
 
