@@ -118,3 +118,32 @@ test('compileMo round-trips entries in sorted msgid order', () => {
   assert.deepEqual(ids, [...ids].sort(), 'msgids must be sorted for binary search');
   assert.equal(ids[0], '', 'the header entry sorts first');
 });
+
+test('compileMo points the hash-table offset just past the index tables', () => {
+  // Regression guard. WordPress's legacy MO reader (wp-includes/pomo/mo.php)
+  // derives the translations index table's length as
+  // hash_addr - translations_addr and refuses the file unless that equals
+  // total * 8. Writing anything else here -- notably the string cursor after
+  // the blob-writing loops, which points at end-of-file -- makes WordPress
+  // reject the ENTIRE catalog, so every string silently renders in English.
+  // msgunfmt and WP 6.5+'s newer loader both tolerate a wrong value, so this
+  // assertion is the only thing standing between that bug and production.
+  const mo = compileMo(
+    new Map([
+      ['', 'Language: de_DE\n'],
+      ['Arrival', 'Anreise'],
+      ['Gäste', 'Gäste'],
+    ])
+  );
+
+  const count = mo.readUInt32LE(8);
+  const translationsOffset = mo.readUInt32LE(16);
+
+  assert.equal(mo.readUInt32LE(20), 0, 'no hash table is written, so its size must be 0');
+  assert.equal(
+    mo.readUInt32LE(24),
+    translationsOffset + count * 8,
+    'hash-table offset must sit directly after the translations index table, ' +
+      'or WordPress rejects the whole .mo and ships untranslated English'
+  );
+});
