@@ -24,6 +24,7 @@
     "env:mode": "node tools/wp-env-mode.mjs status",
     "env:link-local": "node tools/link-local-deps.mjs",
     "blocks:catalog": "node tools/blocks-catalog.mjs",
+    "i18n:mo": "node tools/i18n-mo.mjs languages",
     "test:tools": "node --test tests/tools/*.test.mjs"
   },
   "devDependencies": {
