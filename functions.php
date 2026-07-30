@@ -302,6 +302,26 @@ add_action(
 	}
 );
 
+/**
+ * Load the child theme's translation catalog.
+ *
+ * The theme wraps its own UI strings in __(), but gettext only resolves them
+ * once a catalog is bound to the domain — without this, every string falls
+ * through to its English msgid in all five languages.
+ *
+ * Hooked on after_setup_theme so the catalog is present before init, which is
+ * when the CPT labels and the check-in / consent payloads are built. Passing an
+ * explicit path also registers it with WP_Textdomain_Registry, so Polylang's
+ * per-request locale switch reloads the right catalog instead of keeping the
+ * first one it loaded.
+ *
+ * @return void
+ */
+function pediment_child_load_textdomain(): void {
+	load_child_theme_textdomain( 'pediment-child', get_stylesheet_directory() . '/languages' );
+}
+add_action( 'after_setup_theme', 'pediment_child_load_textdomain' );
+
 add_action(
 	'after_setup_theme',
 	function () {
