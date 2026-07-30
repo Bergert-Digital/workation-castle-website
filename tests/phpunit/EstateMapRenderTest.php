@@ -10,6 +10,7 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 
 	public function tearDown(): void {
 		WP_Block_Supports::$block_to_render = null;
+		restore_previous_locale();
 		parent::tearDown();
 	}
 
@@ -49,11 +50,6 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 		$html = do_blocks( '<!-- wp:workation/estate-map /-->' );
 		$this->assertStringContainsString( 'estate-map__svg', $html );
 		$this->assertStringContainsString( 'Casa Galbiga', $html );
-	}
-
-	public function tear_down() {
-		restore_previous_locale();
-		parent::tear_down();
 	}
 
 	public function test_poi_names_and_subtitles_are_translatable() {

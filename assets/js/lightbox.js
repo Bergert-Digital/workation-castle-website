@@ -18,7 +18,11 @@
 
 	/** Escape a translated string for use inside an HTML attribute. */
 	function attr( value ) {
-		return String( value ).replace( /&/g, '&amp;' ).replace( /"/g, '&quot;' ).replace( /</g, '&lt;' );
+		return String( value )
+			.replace( /&/g, '&amp;' )
+			.replace( /</g, '&lt;' )
+			.replace( />/g, '&gt;' )
+			.replace( /"/g, '&quot;' );
 	}
 
 	var links = [];
