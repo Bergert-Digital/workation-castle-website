@@ -148,6 +148,21 @@ npm run env:start     # restart to apply
 These only touch `.wp-env.override.json`, so the committed config is always
 push-ready.
 
+### Translations
+
+The theme's own UI strings live in `languages/`. Content (pages, block
+attributes) is translated by Polylang and is not affected by any of this.
+
+```bash
+npm run i18n:pot   # re-extract languages/pediment-child.pot (needs wp-env running)
+npm run i18n:mo    # compile every .po to .mo — run after editing any .po, and commit both
+```
+
+`TranslationCatalogTest` fails the build if a msgid in the `.pot` has no
+translation in all four locales, if placeholders don't match, or if a `.mo` is
+stale. Adding a new `__()` string means running both commands and translating
+the new entry in four `.po` files.
+
 ## Check-in form (guest registration)
 
 The `/check-in/` page renders the `workation/check-in-form` block — a
