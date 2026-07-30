@@ -1,0 +1,540 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Workation Castle\n"
+"Report-Msgid-Bugs-To: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl_NL\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "Workation Castle"
+msgstr "Workation Castle"
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://github.com/Bergert-Digital/workation-castle-website"
+msgstr "https://github.com/Bergert-Digital/workation-castle-website"
+
+#. Description of the theme
+#: style.css
+msgid "Custom WordPress theme for Workation Castle — an Italian castle between Lake Como and Lake Lugano where teams work, gather and unwind."
+msgstr "Aangepast WordPress-thema voor Workation Castle — een Italiaans kasteel tussen het Comomeer en het Luganomeer waar teams werken, samenkomen en ontspannen."
+
+#. Author of the theme
+#: style.css
+msgid "Jonas Bergert"
+msgstr "Jonas Bergert"
+
+#. Author URI of the theme
+#: style.css
+msgid "https://bergert.digital"
+msgstr "https://bergert.digital"
+
+#: functions.php:159
+msgid "Workation Castle theme: no blocks are registered."
+msgstr "Workation Castle-thema: er zijn geen blokken geregistreerd."
+
+#. translators: %s: absolute path to the theme's build/blocks directory.
+#: functions.php:165
+#, php-format
+msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation-castle-theme.zip release asset (not the \"Source code\" zip)."
+msgstr "De build-map met blokken %s ontbreekt, waardoor elk sectieblok niet beschikbaar is en pagina's die deze gebruiken leeg worden weergegeven. Installeer het thema opnieuw via het release-bestand workation-castle-theme.zip (niet de \"Source code\"-zip)."
+
+#: functions.php:237
+msgid "Image viewer"
+msgstr "Afbeeldingsviewer"
+
+#: functions.php:238
+#: inc/AvailabilityForm.php:112
+msgid "Close"
+msgstr "Sluiten"
+
+#: functions.php:239
+msgid "Previous image"
+msgstr "Vorige afbeelding"
+
+#: functions.php:240
+msgid "Next image"
+msgstr "Volgende afbeelding"
+
+#: functions.php:309
+msgid "See on Google Maps"
+msgstr "Bekijk op Google Maps"
+
+#: inc/Activities.php:35
+#: inc/Activities.php:39
+msgid "Activities"
+msgstr "Activiteiten"
+
+#: inc/Activities.php:36
+msgid "Activity"
+msgstr "Activiteit"
+
+#: inc/Activities.php:37
+msgid "Add New Activity"
+msgstr "Nieuwe activiteit toevoegen"
+
+#: inc/Activities.php:38
+msgid "Edit Activity"
+msgstr "Activiteit bewerken"
+
+#: inc/AvailabilityForm.php:39
+#: inc/AvailabilityForm.php:46
+msgid "Check availability"
+msgstr "Beschikbaarheid bekijken"
+
+#: inc/AvailabilityForm.php:50
+msgid "Arrival"
+msgstr "Aankomst"
+
+#: inc/AvailabilityForm.php:54
+msgid "Departure"
+msgstr "Vertrek"
+
+#: inc/AvailabilityForm.php:59
+#: inc/AvailabilityForm.php:110
+msgid "Select dates"
+msgstr "Kies je data"
+
+#: inc/AvailabilityForm.php:63
+#: inc/Brevo.php:88
+#: inc/Brevo.php:121
+#: inc/CheckIn.php:387
+#: inc/CheckIn.php:440
+msgid "Guests"
+msgstr "Gasten"
+
+#: inc/AvailabilityForm.php:64
+msgid "2 guests"
+msgstr "2 gasten"
+
+#: inc/AvailabilityForm.php:65
+msgid "1 guest"
+msgstr "1 gast"
+
+#: inc/AvailabilityForm.php:66
+msgid "3 guests"
+msgstr "3 gasten"
+
+#: inc/AvailabilityForm.php:67
+msgid "4 guests"
+msgstr "4 gasten"
+
+#: inc/AvailabilityForm.php:68
+msgid "5 guests"
+msgstr "5 gasten"
+
+#: inc/AvailabilityForm.php:69
+msgid "6 guests"
+msgstr "6 gasten"
+
+#: inc/AvailabilityForm.php:70
+msgid "7 guests"
+msgstr "7 gasten"
+
+#: inc/AvailabilityForm.php:71
+msgid "8 guests"
+msgstr "8 gasten"
+
+#: inc/AvailabilityForm.php:72
+msgid "9 guests"
+msgstr "9 gasten"
+
+#: inc/AvailabilityForm.php:111
+msgid "Clear"
+msgstr "Wissen"
+
+#: inc/AvailabilityForm.php:113
+msgid "Choose your dates"
+msgstr "Kies jouw data"
+
+#: inc/AvailabilityForm.php:114
+msgid "Next month"
+msgstr "Volgende maand"
+
+#: inc/AvailabilityForm.php:115
+msgid "night"
+msgstr "nacht"
+
+#: inc/AvailabilityForm.php:116
+msgid "nights"
+msgstr "nachten"
+
+#: inc/AvailabilityForm.php:117
+msgid "Previous month"
+msgstr "Vorige maand"
+
+#: inc/Brevo.php:33
+#: inc/CheckIn.php:166
+msgid "Identity card"
+msgstr "Identiteitskaart"
+
+#: inc/Brevo.php:34
+#: inc/CheckIn.php:170
+msgid "Driver’s licence"
+msgstr "Rijbewijs"
+
+#: inc/Brevo.php:35
+#: inc/CheckIn.php:174
+msgid "Passport"
+msgstr "Paspoort"
+
+#: inc/Brevo.php:48
+#: inc/CheckIn.php:150
+msgid "Male"
+msgstr "Man"
+
+#: inc/Brevo.php:49
+#: inc/CheckIn.php:154
+msgid "Female"
+msgstr "Vrouw"
+
+#: inc/Brevo.php:50
+#: inc/CheckIn.php:158
+msgid "Other"
+msgstr "Anders"
+
+#. translators: 1: guest count, 2: accommodation count.
+#: inc/Brevo.php:79
+#, php-format
+msgid "New check-in: %1$d guests, %2$d accommodations"
+msgstr "Nieuwe check-in: %1$d gasten, %2$d accommodaties"
+
+#. translators: %s: city of residence.
+#: inc/Brevo.php:101
+#, php-format
+msgid "residing in %s"
+msgstr "woonachtig in %s"
+
+#: inc/Brevo.php:105
+#: inc/Brevo.php:136
+#: inc/CheckIn.php:456
+msgid "Identity documents (one per accommodation)"
+msgstr "Identiteitsbewijzen (één per accommodatie)"
+
+#: inc/CheckIn.php:52
+#: inc/CheckIn.php:54
+msgid "Check-ins"
+msgstr "Check-ins"
+
+#: inc/CheckIn.php:53
+msgid "Check-in"
+msgstr "Check-in"
+
+#: inc/CheckIn.php:108
+msgid "First name"
+msgstr "Voornaam"
+
+#: inc/CheckIn.php:114
+msgid "Last name"
+msgstr "Achternaam"
+
+#: inc/CheckIn.php:120
+msgid "Nationality"
+msgstr "Nationaliteit"
+
+#: inc/CheckIn.php:126
+msgid "City of residence"
+msgstr "Woonplaats"
+
+#: inc/CheckIn.php:132
+msgid "Birthdate"
+msgstr "Geboortedatum"
+
+#: inc/CheckIn.php:138
+msgid "City of birth"
+msgstr "Geboorteplaats"
+
+#: inc/CheckIn.php:144
+msgid "Gender"
+msgstr "Geslacht"
+
+#: inc/CheckIn.php:177
+msgid "I agree that Workation Castle processes and forwards my personal data to the Italian authorities."
+msgstr "Ik ga ermee akkoord dat Workation Castle mijn persoonsgegevens verwerkt en doorstuurt naar de Italiaanse autoriteiten."
+
+#: inc/CheckIn.php:179
+msgid "Who’s checking in?"
+msgstr "Wie checkt in?"
+
+#: inc/CheckIn.php:180
+msgid "How many guests are checking in (including children)?"
+msgstr "Hoeveel gasten checken in (inclusief kinderen)?"
+
+#: inc/CheckIn.php:181
+msgid "How many accommodations did you book?"
+msgstr "Hoeveel accommodaties heb je geboekt?"
+
+#. translators: 1: current guest number, 2: total guests.
+#: inc/CheckIn.php:183
+#, php-format
+msgid "Guest %1$d of %2$d"
+msgstr "Gast %1$d van %2$d"
+
+#. translators: 1: current accommodation number, 2: total accommodations.
+#: inc/CheckIn.php:185
+#, php-format
+msgid "Accommodation %1$d of %2$d"
+msgstr "Accommodatie %1$d van %2$d"
+
+#: inc/CheckIn.php:186
+msgid "We need one identity document for each accommodation you booked."
+msgstr "We hebben één identiteitsbewijs nodig voor elke accommodatie die je hebt geboekt."
+
+#: inc/CheckIn.php:187
+msgid "Which guest does this document belong to?"
+msgstr "Bij welke gast hoort dit document?"
+
+#: inc/CheckIn.php:188
+msgid "Type of identity document"
+msgstr "Type identiteitsbewijs"
+
+#: inc/CheckIn.php:189
+msgid "Document number"
+msgstr "Documentnummer"
+
+#: inc/CheckIn.php:190
+msgid "Review and submit"
+msgstr "Controleren en versturen"
+
+#: inc/CheckIn.php:191
+msgid "Back"
+msgstr "Terug"
+
+#: inc/CheckIn.php:192
+msgid "Next"
+msgstr "Volgende"
+
+#: inc/CheckIn.php:193
+msgid "Submit check-in"
+msgstr "Check-in versturen"
+
+#: inc/CheckIn.php:194
+msgid "Thank you — your check-in details have been received."
+msgstr "Bedankt — je check-in-gegevens zijn ontvangen."
+
+#: inc/CheckIn.php:195
+#: inc/CheckIn.php:321
+msgid "This field is required."
+msgstr "Dit veld is verplicht."
+
+#: inc/CheckIn.php:196
+msgid "Enter a valid birthdate (not in the future)."
+msgstr "Voer een geldige geboortedatum in (niet in de toekomst)."
+
+#: inc/CheckIn.php:197
+msgid "Something went wrong submitting the form. Please try again or email info@workationcastle.com."
+msgstr "Er is iets misgegaan bij het versturen van het formulier. Probeer het opnieuw of mail naar info@workationcastle.com."
+
+#: inc/CheckIn.php:198
+msgid "We restored your in-progress check-in."
+msgstr "We hebben je lopende check-in hersteld."
+
+#: inc/CheckIn.php:199
+msgid "Start over"
+msgstr "Opnieuw beginnen"
+
+#: inc/CheckIn.php:311
+msgid "Invalid number of guests or accommodations."
+msgstr "Ongeldig aantal gasten of accommodaties."
+
+#: inc/CheckIn.php:328
+msgid "Enter a valid birthdate."
+msgstr "Voer een geldige geboortedatum in."
+
+#: inc/CheckIn.php:334
+msgid "Select a gender."
+msgstr "Selecteer een geslacht."
+
+#: inc/CheckIn.php:346
+msgid "Select which guest this document belongs to."
+msgstr "Selecteer bij welke gast dit document hoort."
+
+#: inc/CheckIn.php:350
+msgid "Select a document type."
+msgstr "Selecteer een documenttype."
+
+#: inc/CheckIn.php:354
+msgid "Enter the document number."
+msgstr "Voer het documentnummer in."
+
+#: inc/CheckIn.php:364
+msgid "Consent is required."
+msgstr "Toestemming is verplicht."
+
+#: inc/CheckIn.php:388
+msgid "Accommodations"
+msgstr "Accommodaties"
+
+#: inc/CheckIn.php:389
+msgid "Email"
+msgstr "E-mail"
+
+#: inc/CheckIn.php:421
+msgid "Check-in details"
+msgstr "Check-in-gegevens"
+
+#: inc/CheckIn.php:448
+msgid "born"
+msgstr "geboren"
+
+#: inc/CheckIn.php:449
+msgid "in"
+msgstr "in"
+
+#: inc/CheckIn.php:450
+msgid "residing in"
+msgstr "woonachtig in"
+
+#. translators: 1: guest count, 2: accommodation count, 3: date/time.
+#: inc/CheckIn.php:494
+#, php-format
+msgid "Check-in — %1$d guests, %2$d accommodations — %3$s"
+msgstr "Check-in — %1$d gasten, %2$d accommodaties — %3$s"
+
+#: inc/Consent.php:80
+msgid "this provider"
+msgstr "deze aanbieder"
+
+#. translators: %s: third-party provider name.
+#: inc/Consent.php:127
+#, php-format
+msgid "This content is hosted by %s. Loading it sends data to that provider."
+msgstr "Deze content wordt gehost door %s. Als je deze laadt, worden gegevens naar die aanbieder verzonden."
+
+#: inc/Consent.php:132
+msgid "Load external content"
+msgstr "Externe content laden"
+
+#: inc/Consent.php:180
+msgid "Your privacy"
+msgstr "Jouw privacy"
+
+#: inc/Consent.php:181
+msgid "We use cookies and external services. Choose what to allow. You can change this anytime via \"Cookie settings\" in the footer."
+msgstr "We gebruiken cookies en externe diensten. Kies wat je wilt toestaan. Je kunt dit op elk moment wijzigen via \"Cookie-instellingen\" in de footer."
+
+#: inc/Consent.php:182
+msgid "Reject all"
+msgstr "Alles weigeren"
+
+#: inc/Consent.php:183
+msgid "Customize"
+msgstr "Aanpassen"
+
+#: inc/Consent.php:184
+msgid "Save preferences"
+msgstr "Voorkeuren opslaan"
+
+#: inc/Consent.php:185
+msgid "Accept all"
+msgstr "Alles accepteren"
+
+#: inc/Consent.php:188
+msgid "Necessary"
+msgstr "Noodzakelijk"
+
+#: inc/Consent.php:189
+msgid "Required for the site to work. Always on."
+msgstr "Vereist om de site te laten werken. Altijd actief."
+
+#: inc/Consent.php:192
+msgid "Functional"
+msgstr "Functioneel"
+
+#: inc/Consent.php:193
+msgid "External maps and embeds (Komoot, Google Maps)."
+msgstr "Externe kaarten en embeds (Komoot, Google Maps)."
+
+#: inc/Consent.php:196
+msgid "Analytics"
+msgstr "Statistieken"
+
+#: inc/Consent.php:197
+msgid "Anonymous usage statistics (PostHog) to improve the site."
+msgstr "Anonieme gebruiksstatistieken (PostHog) om de site te verbeteren."
+
+#: inc/Consent.php:200
+msgid "Marketing"
+msgstr "Marketing"
+
+#: inc/Consent.php:201
+msgid "Personalised content and ad measurement."
+msgstr "Gepersonaliseerde content en advertentiemeting."
+
+#: inc/EstateMap.php:19
+#: inc/EstateMap.php:46
+msgid "guest house"
+msgstr "gastenverblijf"
+
+#: inc/EstateMap.php:27
+msgid "Workspace"
+msgstr "Werkruimte"
+
+#: inc/EstateMap.php:36
+msgid "Bar"
+msgstr "Bar"
+
+#: inc/EstateMap.php:37
+msgid "coffee machine and water dispenser"
+msgstr "koffiemachine en waterdispenser"
+
+#: inc/EstateMap.php:54
+msgid "Waste Collection Point"
+msgstr "Afvalinzamelpunt"
+
+#: inc/EstateMap.php:63
+msgid "Parking"
+msgstr "Parkeren"
+
+#: inc/EstateMap.php:64
+msgid "on Via Castello (on the right side)"
+msgstr "aan de Via Castello (aan de rechterkant)"
+
+#: inc/EstateMap.php:171
+msgid "Illustrated map of Workation Castle showing the guest houses, co-working space, bar and grounds"
+msgstr "Geïllustreerde kaart van Workation Castle met de gastenverblijven, de coworkingruimte, de bar en het terrein"
+
+#: inc/Photos.php:31
+#: inc/Photos.php:35
+msgid "Photos"
+msgstr "Foto's"
+
+#: inc/Photos.php:32
+msgid "Photo"
+msgstr "Foto"
+
+#: inc/Photos.php:33
+msgid "Add New Photo"
+msgstr "Nieuwe foto toevoegen"
+
+#: inc/Photos.php:34
+msgid "Edit Photo"
+msgstr "Foto bewerken"
+
+#: inc/Photos.php:56
+msgid "Photo categories"
+msgstr "Fotocategorieën"
+
+#: inc/Photos.php:57
+msgid "Photo category"
+msgstr "Fotocategorie"
+
+#: inc/Photos.php:58
+msgid "Categories"
+msgstr "Categorieën"
+
+#: inc/WorkationSections.php:450
+msgid "Filter photos"
+msgstr "Foto's filteren"
+
+#: inc/WorkationSections.php:451
+msgid "All"
+msgstr "Alle"
+
+#: src/blocks/check-in-form/render.php:30
+msgid "This check-in form needs JavaScript. Please enable it, or email your details to info@workationcastle.com."
+msgstr "Dit check-informulier heeft JavaScript nodig. Schakel het in, of mail je gegevens naar info@workationcastle.com."
