@@ -236,6 +236,16 @@ add_action(
 			file_exists( $lightbox_js_path ) ? (string) filemtime( $lightbox_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
+		wp_localize_script(
+			'workation-castle-lightbox',
+			'wcLightbox',
+			array(
+				'viewer' => __( 'Image viewer', 'pediment-child' ),
+				'close'  => __( 'Close', 'pediment-child' ),
+				'prev'   => __( 'Previous image', 'pediment-child' ),
+				'next'   => __( 'Next image', 'pediment-child' ),
+			)
+		);
 
 		$photo_filter_js_path = get_stylesheet_directory() . '/assets/js/photo-filter.js';
 		wp_enqueue_script(
@@ -297,6 +307,13 @@ add_action(
 				array( 'leaflet' ),
 				file_exists( $activity_map_js_path ) ? (string) filemtime( $activity_map_js_path ) : wp_get_theme()->get( 'Version' ),
 				true
+			);
+			wp_localize_script(
+				'workation-castle-activity-map',
+				'wcActivityMap',
+				array(
+					'seeOnGoogleMaps' => __( 'See on Google Maps', 'pediment-child' ),
+				)
 			);
 		}
 	}
