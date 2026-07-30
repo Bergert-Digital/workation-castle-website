@@ -29,7 +29,10 @@ class TextdomainLoadTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'Anreise', $html );
 		$this->assertStringContainsString( 'Abreise', $html );
 		$this->assertStringContainsString( 'Verfügbarkeit prüfen', $html );
-		$this->assertStringNotContainsString( '>Arrival<', $html );
+		// The label renders as "</span> Arrival</label>" — the space before the
+		// text is load bearing. Without it this needle appears in neither
+		// locale and the assertion can never fail.
+		$this->assertStringNotContainsString( '> Arrival<', $html );
 	}
 
 	public function test_english_is_untouched() {
