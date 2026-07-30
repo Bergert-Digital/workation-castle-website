@@ -112,7 +112,13 @@ export function compileMo(entries) {
   const headerSize = 28;
   const originalsOffset = headerSize;
   const translationsOffset = originalsOffset + count * 8;
-  let cursor = translationsOffset + count * 8;
+  // Per the GNU MO format, the hash table sits directly after the
+  // translations index table, i.e. before any string data. With no hash
+  // table written (size 0), this address doubles as where string data
+  // begins, and readers that validate it (WordPress's own MO class among
+  // them) reject the file if it doesn't land exactly here.
+  const hashOffset = translationsOffset + count * 8;
+  let cursor = hashOffset;
 
   const originals = Buffer.alloc(count * 8);
   const translations = Buffer.alloc(count * 8);
@@ -138,7 +144,7 @@ export function compileMo(entries) {
   header.writeUInt32LE(originalsOffset, 12);
   header.writeUInt32LE(translationsOffset, 16);
   header.writeUInt32LE(0, 20);          // hash table size
-  header.writeUInt32LE(cursor, 24);     // hash table offset
+  header.writeUInt32LE(hashOffset, 24); // hash table offset
 
   return Buffer.concat([header, originals, translations, ...blobs]);
 }
