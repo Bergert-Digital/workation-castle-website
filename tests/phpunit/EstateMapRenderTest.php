@@ -50,4 +50,27 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'estate-map__svg', $html );
 		$this->assertStringContainsString( 'Casa Galbiga', $html );
 	}
+
+	public function tear_down() {
+		restore_previous_locale();
+		parent::tear_down();
+	}
+
+	public function test_poi_names_and_subtitles_are_translatable() {
+		switch_to_locale( 'de_DE' );
+		$pois = pediment_child_estate_map_pois();
+
+		$by_id = array_column( $pois, null, 'id' );
+		$this->assertSame( 'Arbeitsraum', $by_id['coworking']['name'] );
+		$this->assertSame( 'Gästehaus', $by_id['galbiga']['sub'] );
+		$this->assertSame( 'Parkplatz', $by_id['parking']['name'] );
+	}
+
+	public function test_proper_nouns_are_left_alone() {
+		switch_to_locale( 'de_DE' );
+		$by_id = array_column( pediment_child_estate_map_pois(), null, 'id' );
+
+		$this->assertSame( 'Casa Galbiga', $by_id['galbiga']['name'] );
+		$this->assertSame( 'Casa Tremezzo', $by_id['tremezzo']['name'] );
+	}
 }

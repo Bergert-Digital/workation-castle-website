@@ -77,7 +77,7 @@ function workation_consent_provider_label( $src ) {
 	if ( false !== strpos( $host, 'maps.google.' ) ) {
 		return 'Google Maps';
 	}
-	return 'this provider';
+	return __( 'this provider', 'pediment-child' );
 }
 
 /**
