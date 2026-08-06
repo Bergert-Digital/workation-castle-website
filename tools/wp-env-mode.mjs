@@ -3,9 +3,9 @@
  * Switches the local wp-env between two source modes by toggling the
  * theme/plugin refs in `.wp-env.override.json` (which is gitignored):
  *
- *   dev      — mount the sibling working copies for fast iteration:
- *                themes:  [".", "../pediment"]
- *                plugins: ["../pediment-ai"]
+ *   dev      — mount the sibling working copy of the Pediment plugin for fast
+ *              iteration:
+ *                plugins: ["../pediment/plugin"]
  *   publish  — drop the override refs so the *committed* `.wp-env.json`
  *              release-zip URLs take effect (the push-ready config).
  *
@@ -39,11 +39,14 @@ import process from 'node:process';
 const here = dirname(fileURLToPath(import.meta.url));
 const overridePath = resolve(here, '..', '.wp-env.override.json');
 
-// The sibling working copies mounted in dev mode. These must match the
-// repo layout documented in AGENTS.md (child + parent + pediment-ai checked
-// out side by side).
-const DEV_THEMES = ['.', '../pediment'];
-const DEV_PLUGINS = ['../pediment-ai'];
+// The sibling working copy mounted in dev mode. This must match the repo
+// layout documented in AGENTS.md (this client theme and the Pediment monorepo
+// checked out side by side). wp-env names a mounted plugin after its directory
+// basename, which is why the path ends in `plugin` — the same slug the release
+// zip installs under is `pediment-plugin`, so `npm run env:start`'s activate
+// step has to be told which one it is looking at.
+const DEV_THEMES = ['.'];
+const DEV_PLUGINS = ['../pediment/plugin'];
 
 const FIELDS = ['themes', 'plugins'];
 

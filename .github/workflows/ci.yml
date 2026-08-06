@@ -28,23 +28,17 @@ jobs:
       - run: npm ci
       - run: npm run lint:js
       - run: npm run build
+      - run: npm run test:tools
+      - run: node --test tools/manifest-from-wxr.test.mjs
 
   phpunit:
     runs-on: ubuntu-latest
     steps:
+      # The theme is mounted at wp-content/themes/<basename of the checkout>,
+      # so the checkout path is what fixes the --env-cwd below.
       - uses: actions/checkout@v6
         with:
           path: workation
-      - uses: actions/checkout@v6
-        with:
-          repository: Bergert-Digital/pediment
-          ref: development
-          path: pediment
-      - uses: actions/checkout@v6
-        with:
-          repository: Bergert-Digital/pediment-ai
-          ref: development
-          path: pediment-ai
       - uses: actions/setup-node@v6
         with:
           node-version: '20'
@@ -54,20 +48,11 @@ jobs:
         with:
           php-version: '8.1'
           tools: composer
-      - name: Build parent theme blocks
-        run: cd pediment && npm ci && npm run build
-      - name: Build plugin
-        run: cd pediment-ai && composer install --prefer-dist --no-progress && npm ci && npm run build
-      - name: Install child deps
+      - name: Install dependencies
         run: cd workation && composer install --prefer-dist --no-progress && npm ci
-      - name: Point wp-env at locally-checked-out parent + plugin
-        run: |
-          cat > workation/.wp-env.override.json <<'JSON'
-          { "themes": [".", "../pediment"], "plugins": ["../pediment-ai"] }
-          JSON
       - name: Start wp-env
         run: cd workation && npm run env:start
-      - name: Build child blocks
+      - name: Build client blocks
         run: cd workation && npm run build
       - name: Run PHPUnit
         run: cd workation && npx wp-env run tests-wordpress --env-cwd=wp-content/themes/workation vendor/bin/phpunit
@@ -80,38 +65,21 @@ jobs:
       - uses: actions/checkout@v6
         with:
           path: workation
-      - uses: actions/checkout@v6
-        with:
-          repository: Bergert-Digital/pediment
-          ref: development
-          path: pediment
-      - uses: actions/checkout@v6
-        with:
-          repository: Bergert-Digital/pediment-ai
-          ref: development
-          path: pediment-ai
       - uses: actions/setup-node@v6
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: workation/package-lock.json
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          tools: composer
-      - run: cd pediment && npm ci && npm run build
-      - run: cd pediment-ai && composer install --prefer-dist --no-progress && npm ci && npm run build
       - run: cd workation && npm ci
       - run: cd workation && npx playwright install --with-deps chromium
-      - name: Point wp-env at locally-checked-out parent + plugin
-        run: |
-          cat > workation/.wp-env.override.json <<'JSON'
-          { "themes": [".", "../pediment"], "plugins": ["../pediment-ai"] }
-          JSON
       - run: cd workation && npm run env:start
       - run: cd workation && npm run build
-      - run: cd workation && npx wp-env run cli wp theme activate workation
-      - run: cd workation && npx wp-env run cli wp workation seed
+      # Everything the specs navigate to comes from seed/manifest.php, so the
+      # site has to be seeded before they run. Languages first: `wp pediment
+      # seed` crosses every entry with every language Polylang reports.
+      - run: cd workation && npm run languages
+      - run: cd workation && npm run seed
+      - run: cd workation && npm run seed:cpt
       # Write .htaccess so Apache serves pretty permalinks. The seed's
       # flush_rewrite_rules() runs under WP-CLI where got_mod_rewrite() is false,
       # so it never writes .htaccess; without it every /slug/ URL 404s at Apache

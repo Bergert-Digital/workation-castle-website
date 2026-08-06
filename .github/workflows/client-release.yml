@@ -1,0 +1,19 @@
+name: Client theme release
+
+# Stamps style.css, builds the blocks, and attaches workation.zip to the tag's
+# release. The reusable workflow resolves the theme slug from style.css's
+# `Text Domain:` header, so the zip's top directory is always the slug
+# WordPress will install the theme under.
+
+on:
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    uses: Bergert-Digital/pediment/.github/workflows/client-release.yml@main
+    with:
+      tag: ${{ github.ref_name }}

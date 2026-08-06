@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
- * Opt-in: re-point wp-env at LOCAL checkouts of the parent theme (`pediment`)
- * and AI plugin (`pediment-ai`) instead of the official release zips pinned in
- * `.wp-env.json`. Writes a gitignored `.wp-env.override.json` that wp-env
+ * Opt-in: re-point wp-env at a LOCAL checkout of the Pediment plugin instead of
+ * the official release zip pinned in `.wp-env.json`. Writes a gitignored `.wp-env.override.json` that wp-env
  * deep-merges over the committed config (arrays are replaced wholesale, so we
  * emit each full array with only the matching dep swapped for its local path).
  *
@@ -15,16 +14,16 @@
  *   - not running in a cloud workspace (CONDUCTOR_IS_LOCAL !== '0').
  *
  * Dep paths resolve, in order:
- *   1. PEDIMENT_PATH / PEDIMENT_AI_PATH env vars (explicit override), else
+ *   1. the PEDIMENT_PATH env var (explicit override), else
  *   2. sibling convention relative to the repo root checkout:
- *        <root>/../pediment  and  <root>/../pediment-ai
+ *        <root>/../pediment/plugin
  * Only deps whose directory actually exists are mounted; a missing one keeps
  * its pinned release (and is reported). When opted in but nothing resolves,
  * the file is left untouched.
  *
- * This script deliberately does NOT build the local deps — that mutates
- * external repos and would race across parallel workspaces. Build the parent /
- * plugin in their own repos when you change them.
+ * This script deliberately does NOT build the local dep — that mutates an
+ * external repo and would race across parallel workspaces. Build the plugin in
+ * its own repo when you change it.
  *
  * Idempotent: only rewrites `.wp-env.override.json` when the content changes.
  *
@@ -47,18 +46,11 @@ const overridePath = resolve(here, '..', '.wp-env.override.json');
 // its pinned release URL, and how to find a local checkout.
 const DEPS = [
 	{
-		field: 'themes',
-		label: 'parent theme (pediment)',
+		field: 'plugins',
+		label: 'Pediment plugin',
 		match: /Bergert-Digital\/pediment\/releases\//i,
 		envPath: 'PEDIMENT_PATH',
-		sibling: 'pediment',
-	},
-	{
-		field: 'plugins',
-		label: 'AI plugin (pediment-ai)',
-		match: /Bergert-Digital\/pediment-ai\/releases\//i,
-		envPath: 'PEDIMENT_AI_PATH',
-		sibling: 'pediment-ai',
+		sibling: 'pediment/plugin',
 	},
 ];
 

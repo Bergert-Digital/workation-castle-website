@@ -1,22 +1,24 @@
 #!/usr/bin/env node
 /**
- * One-shot dev-env bootstrap. Boots wp-env, activates this child theme,
- * and runs the child seed command so a fresh clone goes from `npm install`
- * to a working demo page in a single step.
+ * One-shot dev-env bootstrap. Boots wp-env, activates the theme and the
+ * Pediment plugin, configures Polylang from the manifest's language list, and
+ * builds the whole site from seed/manifest.php — so a fresh clone goes from
+ * `npm install` to a working site in a single step.
  *
  * Why this script exists:
- *   - `wp-env start` installs themes/plugins but doesn't activate them.
- *     Out of the box, WP falls back to `twentytwentyfive`, which means the
- *     child's `inc/seed.php` (and its `wp workation seed` CLI command)
- *     never loads — so a new contributor running just `env:start` sees no demo
- *     and gets "workation is not a registered wp command" if they seed.
- *   - The child theme's slug is the host directory's basename (that's how
- *     wp-env names the mount). Hard-coding it in package.json would break
- *     for anyone who clones into a differently-named folder, so we resolve
- *     it dynamically here.
+ *   - `wp-env start` installs themes and plugins but does not reliably leave
+ *     the right one active, and every `wp pediment …` command needs the plugin
+ *     loaded.
+ *   - The theme is mounted under its host directory's basename (that is how
+ *     wp-env names the mount), which is the Conductor workspace name, not
+ *     `workation`. Hard-coding a slug in package.json would break for anyone
+ *     who clones into a differently-named folder, so it is resolved here.
  *
- * Idempotent: re-running is safe (theme activate + seed are both no-ops on
- * already-active / already-seeded state).
+ * Order matters: languages before the seed. `wp pediment seed` crosses every
+ * entry with every language Polylang reports, so seeding first would create the
+ * English pages and then have to reconcile them.
+ *
+ * Idempotent: every step is a no-op on already-active / already-seeded state.
  *
  * Exit codes:
  *   0 — full flow completed
@@ -27,7 +29,6 @@ import { execFileSync } from 'node:child_process';
 import { basename } from 'node:path';
 import process from 'node:process';
 import { ensurePort } from './ensure-port.mjs';
-import { setupPolylang } from './setup-polylang.mjs';
 
 const themeSlug = basename(process.cwd());
 
@@ -36,24 +37,22 @@ const run = (label, cmd, args) => {
 	execFileSync(cmd, args, { stdio: 'inherit' });
 };
 
+const wp = (label, ...args) =>
+	run(label, 'npx', ['wp-env', 'run', 'cli', 'wp', ...args]);
+
 try {
 	const { port } = await ensurePort();
 	console.log(`\n› wp-env port ${port} → http://localhost:${port}`);
 	run('wp-env start', 'npx', ['wp-env', 'start']);
-	run(
-		`activate child theme (${themeSlug})`,
-		'npx',
-		['wp-env', 'run', 'cli', 'wp', 'theme', 'activate', themeSlug]
-	);
-	run(
-		'seed demo content',
-		'npx',
-		['wp-env', 'run', 'cli', 'wp', 'workation', 'seed']
-	);
-	// After the seed, never before: the seed creates pages, the navigation menu
-	// and CPT posts with no language attached, and Polylang needs them tagged.
-	console.log('\n› set up Polylang');
-	setupPolylang();
+	wp(`activate theme (${themeSlug})`, 'theme', 'activate', themeSlug);
+	wp('activate the Pediment plugin', 'plugin', 'activate', 'pediment-plugin');
+	wp('activate Polylang', 'plugin', 'activate', 'polylang');
+	wp('configure languages', 'pediment', 'languages');
+	wp('seed pages and navigations', 'pediment', 'seed');
+	wp('seed the photo library and activities', 'workation', 'content');
+	// The seed's flush_rewrite_rules() runs under WP-CLI, where got_mod_rewrite()
+	// is false, so it never writes .htaccess and every pretty URL 404s at Apache.
+	wp('flush rewrite rules', 'rewrite', 'flush', '--hard');
 	console.log('\n✔ env ready.');
 } catch (err) {
 	process.exit(err.status ?? 1);
