@@ -63,6 +63,13 @@ require_once __DIR__ . '/inc/LegacyBlockCopy.php';
 require_once __DIR__ . '/inc/Redirects.php';
 \Workation\Redirects::register();
 
+// TEMPORARY: the cutover's one-shot block-namespace rewrite. Delete in the
+// release after the cutover — see inc/NamespaceRewrite.php.
+require_once __DIR__ . '/inc/NamespaceRewrite.php';
+if ( is_admin() ) {
+	Workation\NamespaceRewrite::register_admin();
+}
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
