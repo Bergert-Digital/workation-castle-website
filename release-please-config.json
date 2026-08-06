@@ -6,8 +6,8 @@
       "release-type": "simple",
       "include-v-in-tag": true,
       "include-component-in-tag": false,
-      "draft": true,
       "prerelease": false,
+      "bump-major-pre-major": true,
       "extra-files": [
         "style.css",
         "functions.php"
