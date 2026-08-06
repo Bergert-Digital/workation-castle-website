@@ -30,9 +30,7 @@ export default function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Card image & link', 'pediment-child' ) }
-				>
+				<PanelBody title={ __( 'Card image & link', 'workation' ) }>
 					{ attributes.imageUrl && (
 						<img
 							src={ attributes.imageUrl }
@@ -54,25 +52,19 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __(
-												'Replace image',
-												'pediment-child'
-										  )
-										: __(
-												'Select image',
-												'pediment-child'
-										  ) }
+										? __( 'Replace image', 'workation' )
+										: __( 'Select image', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Link URL', 'pediment-child' ) }
+						label={ __( 'Link URL', 'workation' ) }
 						value={ attributes.linkUrl }
 						onChange={ ( v ) => setAttributes( { linkUrl: v } ) }
 					/>
@@ -91,26 +83,26 @@ export default function Edit( {
 						className="way-num"
 						value={ attributes.eyebrow }
 						onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-						placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+						placeholder={ __( 'Eyebrow…', 'workation' ) }
 					/>
 					<RichText
 						tagName="h3"
 						value={ attributes.title }
 						onChange={ ( v ) => setAttributes( { title: v } ) }
-						placeholder={ __( 'Title…', 'pediment-child' ) }
+						placeholder={ __( 'Title…', 'workation' ) }
 					/>
 					<RichText
 						tagName="p"
 						value={ attributes.text }
 						onChange={ ( v ) => setAttributes( { text: v } ) }
-						placeholder={ __( 'Text…', 'pediment-child' ) }
+						placeholder={ __( 'Text…', 'workation' ) }
 					/>
 					<RichText
 						tagName="span"
 						className="link"
 						value={ attributes.linkText }
 						onChange={ ( v ) => setAttributes( { linkText: v } ) }
-						placeholder={ __( 'Link text…', 'pediment-child' ) }
+						placeholder={ __( 'Link text…', 'workation' ) }
 					/>
 				</div>
 			</article>

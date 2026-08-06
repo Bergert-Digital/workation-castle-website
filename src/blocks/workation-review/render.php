@@ -1,7 +1,7 @@
 <?php
 // phpcs:ignoreFile
 /**
- * Server-side render for pediment-child/workation-review.
+ * Server-side render for workation/workation-review.
  *
  * @var array $attributes
  */

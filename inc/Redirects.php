@@ -8,10 +8,10 @@
  * results keep working. Pages whose slug is unchanged need no entry — they
  * resolve normally.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
-namespace PedimentChild;
+namespace Workation;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

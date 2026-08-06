@@ -26,7 +26,7 @@ export default function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Activity image', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Activity image', 'workation' ) }>
 					{ attributes.imageUrl && (
 						<img
 							src={ attributes.imageUrl }
@@ -48,20 +48,14 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __(
-												'Replace image',
-												'pediment-child'
-										  )
-										: __(
-												'Select image',
-												'pediment-child'
-										  ) }
+										? __( 'Replace image', 'workation' )
+										: __( 'Select image', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
@@ -78,7 +72,7 @@ export default function Edit( {
 					tagName="b"
 					value={ attributes.title }
 					onChange={ ( v ) => setAttributes( { title: v } ) }
-					placeholder={ __( 'Activity…', 'pediment-child' ) }
+					placeholder={ __( 'Activity…', 'workation' ) }
 				/>
 			</article>
 		</>

@@ -18,7 +18,7 @@ export default function Edit( {
 				tagName="p"
 				value={ attributes.text }
 				onChange={ ( v ) => setAttributes( { text: v } ) }
-				placeholder={ __( 'Review…', 'pediment-child' ) }
+				placeholder={ __( 'Review…', 'workation' ) }
 				allowedFormats={ [ 'core/bold', 'core/italic' ] }
 			/>
 			<div className="cite">
@@ -30,14 +30,14 @@ export default function Edit( {
 						tagName="b"
 						value={ attributes.title }
 						onChange={ ( v ) => setAttributes( { title: v } ) }
-						placeholder={ __( 'Name…', 'pediment-child' ) }
+						placeholder={ __( 'Name…', 'workation' ) }
 						allowedFormats={ [] }
 					/>
 					<RichText
 						tagName="span"
 						value={ attributes.role }
 						onChange={ ( v ) => setAttributes( { role: v } ) }
-						placeholder={ __( 'Role…', 'pediment-child' ) }
+						placeholder={ __( 'Role…', 'workation' ) }
 						allowedFormats={ [] }
 					/>
 				</div>

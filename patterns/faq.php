@@ -1,14 +1,14 @@
 <?php
 /**
  * Title: FAQ
- * Slug: pediment-child/faq
- * Categories: pediment-child
+ * Slug: workation/faq
+ * Categories: workation
  * Description: Frequently asked questions — a guest-guide accordion of the topics that help you get started at the Workation Castle.
  * Inserter: no
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Frequently asked questions","lead":"Here we collected a few topics that help you getting started at the Workation Castle.","imageUrl":"https://workationcastle.com/wp-content/uploads/2025/08/F7488FF3-FCC2-4D46-8AB9-6CAD0FCA765E_1_105_c.jpeg","imageAlt":"Lounge inside the castle with sofas and armchairs"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Frequently asked questions","lead":"Here we collected a few topics that help you getting started at the Workation Castle.","imageUrl":"https://workationcastle.com/wp-content/uploads/2025/08/F7488FF3-FCC2-4D46-8AB9-6CAD0FCA765E_1_105_c.jpeg","imageAlt":"Lounge inside the castle with sofas and armchairs"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
@@ -31,4 +31,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-closing {"headline":"Still have a question?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->
+<!-- wp:workation/workation-closing {"headline":"Still have a question?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

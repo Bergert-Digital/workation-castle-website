@@ -22,11 +22,11 @@ export default function Edit( {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Photo gallery', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Photo gallery', 'workation' ) }>
 					<p>
 						{ __(
 							'Displays every published Photo, ordered by the Order field. Manage photos under Photos in the admin menu.',
-							'pediment-child'
+							'workation'
 						) }
 					</p>
 				</PanelBody>
@@ -39,7 +39,7 @@ export default function Edit( {
 					onChange={ ( eyebrow: string ) =>
 						setAttributes( { eyebrow } )
 					}
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
@@ -47,13 +47,13 @@ export default function Edit( {
 					onChange={ ( headline: string ) =>
 						setAttributes( { headline } )
 					}
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<p className="photo-grid-placeholder">
 				{ __(
 					'Filterable photo grid renders here on the front end.',
-					'pediment-child'
+					'workation'
 				) }
 			</p>
 		</div>

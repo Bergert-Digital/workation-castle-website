@@ -1,4 +1,4 @@
-# pediment-child-theme
+# workation
 
 The agency starting point. A child theme of [Pediment](https://github.com/bergert/pediment). Fork or download as a zip, rename it, add your blocks and `theme.json` overrides, and push to your own git for per-client install.
 
@@ -57,12 +57,12 @@ Rule of thumb: omit a subtree to keep Pediment; declare an array and you own all
 
 Grep-replace these tokens with your client's identity before first client ship:
 
-- `pediment-child-theme` → your theme slug (also rename the repo/directory)
+- `workation` → your theme slug (also rename the repo/directory)
 - `Pediment Child Theme` → your theme's display name (`style.css` `Theme Name`)
-- `pediment-child` → your text domain (in `style.css`, `functions.php`, `block.json`, `edit.tsx`, CSS classes)
-- `PedimentChild` → your PHP `@package` tag
-- `pediment_child_register_blocks` / `PEDIMENT_CHILD_*` → your prefixed function/constant names
-- Update-token names in `inc/UpdateToken.php` (`inc/settings-updates.php` reads them via the class constants): `PEDIMENT_CHILD_UPDATE_TOKEN` → your token constant/env var, `PEDIMENT_CHILD_UPDATE_SECRET` → your encryption-key override constant, and the option key `pediment_child_update_token` → your prefixed option. (In this fork: `WORKATION_CASTLE_UPDATE_TOKEN`, `WORKATION_CASTLE_UPDATE_SECRET`, `workation_castle_update_token`.)
+- `workation` → your text domain (in `style.css`, `functions.php`, `block.json`, `edit.tsx`, CSS classes)
+- `Workation` → your PHP `@package` tag
+- `workation_register_blocks` / `WORKATION_*` → your prefixed function/constant names
+- Update-token names in `inc/UpdateToken.php` (`inc/settings-updates.php` reads them via the class constants): `WORKATION_UPDATE_TOKEN` → your token constant/env var, `WORKATION_UPDATE_SECRET` → your encryption-key override constant, and the option key `workation_update_token` → your prefixed option. (In this fork: `WORKATION_CASTLE_UPDATE_TOKEN`, `WORKATION_CASTLE_UPDATE_SECRET`, `workation_castle_update_token`.)
 
 Then **replace or delete** `src/blocks/promo-banner/` — it's a worked example, not production content.
 
@@ -76,7 +76,7 @@ npm install
 npm run env:setup            # boots wp-env, activates this child, seeds demo content
 npm run build                # build child blocks
 npm run e2e                  # Playwright
-npx wp-env run tests-wordpress --env-cwd=wp-content/themes/pediment-child-theme vendor/bin/phpunit
+npx wp-env run tests-wordpress --env-cwd=wp-content/themes/workation vendor/bin/phpunit
 composer lint
 npm run check:wpenv-deps     # verify .wp-env.json refs are at latest upstream tags
 ```
@@ -106,7 +106,7 @@ npm run check:wpenv-deps
 
 ## Check-in form (guest registration)
 
-The `/check-in/` page renders the `pediment-child/check-in-form` block — a
+The `/check-in/` page renders the `workation/check-in-form` block — a
 multi-step wizard collecting guest + ID data for the Italian authorities
 (AlloggiatiWeb / ISTAT). Submissions are stored as private `wc_checkin` posts
 (admin-only) and a readable summary is emailed to `info@workationcastle.com`

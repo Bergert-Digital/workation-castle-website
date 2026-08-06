@@ -40,7 +40,7 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 	}
 
 	public function test_payload_addresses_and_subject() {
-		$p = \PedimentChild\Brevo::build_checkin_payload( $this->sample() );
+		$p = \Workation\Brevo::build_checkin_payload( $this->sample() );
 		$this->assertSame( 'noreply@workationcastle.com', $p['sender']['email'] );
 		$this->assertSame( 'info@workationcastle.com', $p['to'][0]['email'] );
 		$this->assertStringContainsString( '2 guest', $p['subject'] );
@@ -48,7 +48,7 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 	}
 
 	public function test_payload_lists_every_guest_and_id_in_both_bodies() {
-		$p = \PedimentChild\Brevo::build_checkin_payload( $this->sample() );
+		$p = \Workation\Brevo::build_checkin_payload( $this->sample() );
 		foreach ( array( 'htmlContent', 'textContent' ) as $body ) {
 			$this->assertStringContainsString( 'Jane', $p[ $body ] );
 			$this->assertStringContainsString( 'Tim', $p[ $body ] );
@@ -59,7 +59,7 @@ class BrevoPayloadTest extends WP_UnitTestCase {
 
 	public function test_id_line_names_the_owning_guest() {
 		// The single ID belongs to guest_index 1 (Tim Doe), not Jane (index 0).
-		$p = \PedimentChild\Brevo::build_checkin_payload( $this->sample() );
+		$p = \Workation\Brevo::build_checkin_payload( $this->sample() );
 		$this->assertStringContainsString( 'Tim Doe — Passport — X1234567', $p['textContent'] );
 		$this->assertStringContainsString( 'Tim Doe: Passport — X1234567', $p['htmlContent'] );
 	}

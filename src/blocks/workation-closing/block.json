@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-closing",
+  "name": "workation/workation-closing",
   "title": "Workation Closing CTA",
   "category": "design",
   "description": "Homepage closing call-to-action section.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "headline": { "type": "string" },
     "imageUrl": { "type": "string", "default": "" },

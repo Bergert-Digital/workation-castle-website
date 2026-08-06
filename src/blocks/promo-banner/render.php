@@ -10,19 +10,19 @@ if ( '' === $headline && '' === $body ) {
 	return '';
 }
 
-$wrapper = get_block_wrapper_attributes( array( 'class' => 'pediment-child-promo-banner' ) );
+$wrapper = get_block_wrapper_attributes( array( 'class' => 'workation-promo-banner' ) );
 
 ob_start();
 ?>
 <aside <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	<?php if ( '' !== $headline ) : ?>
-		<strong class="pediment-child-promo-banner__headline"><?php echo wp_kses_post( $headline ); ?></strong>
+		<strong class="workation-promo-banner__headline"><?php echo wp_kses_post( $headline ); ?></strong>
 	<?php endif; ?>
 	<?php if ( '' !== $body ) : ?>
-		<p class="pediment-child-promo-banner__body"><?php echo wp_kses_post( $body ); ?></p>
+		<p class="workation-promo-banner__body"><?php echo wp_kses_post( $body ); ?></p>
 	<?php endif; ?>
 	<?php if ( '' !== $link_text && '' !== $link_url ) : ?>
-		<a class="pediment-child-promo-banner__link" href="<?php echo esc_url( $link_url ); ?>"><?php echo wp_kses_post( $link_text ); ?></a>
+		<a class="workation-promo-banner__link" href="<?php echo esc_url( $link_url ); ?>"><?php echo wp_kses_post( $link_text ); ?></a>
 	<?php endif; ?>
 </aside>
 <?php

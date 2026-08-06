@@ -1,4 +1,4 @@
-# AGENTS.md — pediment-child-theme
+# AGENTS.md — workation
 
 Project-level agent instructions for this child theme. User-level `~/.claude/CLAUDE.md`
 and explicit user requests take precedence over this file.
@@ -114,7 +114,7 @@ catalog follows one split, and so must child blocks. Reference implementations:
 1. `composer lint` (PHP) · `npm run lint:js` (JS/TS). No color literals in custom block
    CSS — use `var(--wp--preset--…)` tokens (this is a manual rule; there's no linter for it).
 2. PHPUnit:
-   `npx wp-env run tests-wordpress --env-cwd=wp-content/themes/pediment-child-theme vendor/bin/phpunit`
+   `npx wp-env run tests-wordpress --env-cwd=wp-content/themes/workation vendor/bin/phpunit`
 3. Playwright: `npm run e2e`
 4. **Visual / CSS changes** — DevTools → Computed is the only authoritative check. Curling
    the page and grepping inline `<style>` blocks tells you whether a rule was emitted, not

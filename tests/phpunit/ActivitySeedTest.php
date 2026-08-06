@@ -49,7 +49,7 @@ class ActivitySeedTest extends WP_UnitTestCase {
 	}
 
 	public function test_seed_activities_creates_posts() {
-		\PedimentChild\CptContent::seed_activities( $this->manifest() );
+		\Workation\CptContent::seed_activities( $this->manifest() );
 		$posts = get_posts( array( 'post_type' => 'wc_activity', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC' ) );
 		$this->assertCount( 2, $posts );
 		$this->assertSame( 'Alpha Activity', $posts[0]->post_title );
@@ -62,14 +62,14 @@ class ActivitySeedTest extends WP_UnitTestCase {
 	}
 
 	public function test_seed_activities_is_idempotent() {
-		\PedimentChild\CptContent::seed_activities( $this->manifest() );
-		\PedimentChild\CptContent::seed_activities( $this->manifest() );
+		\Workation\CptContent::seed_activities( $this->manifest() );
+		\Workation\CptContent::seed_activities( $this->manifest() );
 		$posts = get_posts( array( 'post_type' => 'wc_activity', 'numberposts' => -1 ) );
 		$this->assertCount( 2, $posts );
 	}
 
 	public function test_activities_manifest_reads_file() {
-		$manifest = \PedimentChild\CptContent::activities_manifest();
+		$manifest = \Workation\CptContent::activities_manifest();
 		$this->assertNotEmpty( $manifest );
 		$this->assertArrayHasKey( 'slug', $manifest[0] );
 	}

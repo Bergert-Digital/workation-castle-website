@@ -15,10 +15,10 @@ type Attrs = {
 	primaryUrl: string;
 };
 
-const ALLOWED = [ 'pediment-child/workation-photo' ];
+const ALLOWED = [ 'workation/workation-photo' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Terrace and garden view from the castle',
@@ -26,7 +26,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Warm interior detail with lamp',
@@ -34,35 +34,35 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Bright bedroom inside the castle',
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Kitchen and dining area',
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Castle room with modern furnishings',
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Stone stairway inside the castle',
 		},
 	],
 	[
-		'pediment-child/workation-photo',
+		'workation/workation-photo',
 		{
 			imageUrl: '',
 			imageAlt: 'Castle roofs and surrounding hills',
@@ -95,9 +95,9 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Gallery button', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Gallery button', 'workation' ) }>
 					<TextControl
-						label={ __( 'Button URL', 'pediment-child' ) }
+						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
 					/>
@@ -109,13 +109,13 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<div className="wc-wrap">
@@ -128,7 +128,7 @@ export default function Edit( {
 						onChange={ ( v ) =>
 							setAttributes( { primaryText: v } )
 						}
-						placeholder={ __( 'Button…', 'pediment-child' ) }
+						placeholder={ __( 'Button…', 'workation' ) }
 					/>
 				</div>
 			</div>

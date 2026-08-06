@@ -12,13 +12,13 @@
  * costs nothing and never duplicates a row.
  *
  * Runnable two ways, both calling the same core:
- *   - WP-CLI:  `wp pediment-child content`
+ *   - WP-CLI:  `wp workation content`
  *   - wp-admin: Tools → Seed CPT content
  *
- * @package PedimentChild
+ * @package Workation
  */
 
-namespace PedimentChild;
+namespace Workation;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -40,13 +40,13 @@ class CptContent {
 
 	/** Register the WP-CLI command. */
 	public static function register(): void {
-		\WP_CLI::add_command( 'pediment-child content', array( __CLASS__, 'run_cli' ) );
+		\WP_CLI::add_command( 'workation content', array( __CLASS__, 'run_cli' ) );
 	}
 
 	/** Register the wp-admin Tools page + its form handler. */
 	public static function register_admin(): void {
 		add_action( 'admin_menu', array( __CLASS__, 'add_admin_page' ) );
-		add_action( 'admin_post_pediment_child_seed_cpt_content', array( __CLASS__, 'handle_admin_run' ) );
+		add_action( 'admin_post_workation_seed_cpt_content', array( __CLASS__, 'handle_admin_run' ) );
 	}
 
 	// -------------------------------------------------------------------------
@@ -63,10 +63,10 @@ class CptContent {
 		$log = array_merge( $log, array_map( static fn( $slug ) => "  term: {$slug}", array_keys( self::seed_photo_terms() ) ) );
 
 		$log[] = 'Photos:';
-		$log = array_merge( $log, self::seed_photos( self::photo_manifest() ) );
+		$log   = array_merge( $log, self::seed_photos( self::photo_manifest() ) );
 
 		$log[] = 'Activities:';
-		$log = array_merge( $log, self::seed_activities( self::activities_manifest() ) );
+		$log   = array_merge( $log, self::seed_activities( self::activities_manifest() ) );
 
 		return array(
 			'ok'      => true,
@@ -116,7 +116,7 @@ class CptContent {
 
 			$existing = get_posts(
 				array(
-					'post_type'   => PEDIMENT_CHILD_ACTIVITY_CPT,
+					'post_type'   => WORKATION_ACTIVITY_CPT,
 					'post_status' => 'any',
 					'numberposts' => 1,
 					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -149,7 +149,7 @@ class CptContent {
 
 			$post_id = wp_insert_post(
 				array(
-					'post_type'    => PEDIMENT_CHILD_ACTIVITY_CPT,
+					'post_type'    => WORKATION_ACTIVITY_CPT,
 					'post_status'  => 'publish',
 					'post_title'   => isset( $item['title'] ) ? (string) $item['title'] : $slug,
 					'post_name'    => $slug,
@@ -191,12 +191,12 @@ class CptContent {
 	public static function seed_photo_terms(): array {
 		$map = array();
 		foreach ( self::PHOTO_TERMS as $slug => $label ) {
-			$existing = get_term_by( 'slug', $slug, PEDIMENT_CHILD_PHOTO_TAX );
+			$existing = get_term_by( 'slug', $slug, WORKATION_PHOTO_TAX );
 			if ( $existing ) {
 				$map[ $slug ] = (int) $existing->term_id;
 				continue;
 			}
-			$res = wp_insert_term( $label, PEDIMENT_CHILD_PHOTO_TAX, array( 'slug' => $slug ) );
+			$res = wp_insert_term( $label, WORKATION_PHOTO_TAX, array( 'slug' => $slug ) );
 			if ( ! is_wp_error( $res ) ) {
 				$map[ $slug ] = (int) $res['term_id'];
 			}
@@ -225,7 +225,7 @@ class CptContent {
 
 			$existing = get_posts(
 				array(
-					'post_type'   => PEDIMENT_CHILD_PHOTO_CPT,
+					'post_type'   => WORKATION_PHOTO_CPT,
 					'post_status' => 'any',
 					'numberposts' => 1,
 					// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
@@ -245,7 +245,7 @@ class CptContent {
 
 			$post_id = wp_insert_post(
 				array(
-					'post_type'   => PEDIMENT_CHILD_PHOTO_CPT,
+					'post_type'   => WORKATION_PHOTO_CPT,
 					'post_status' => 'publish',
 					'post_title'  => '' !== $alt ? $alt : wp_basename( $url ),
 					'menu_order'  => $order,
@@ -270,7 +270,7 @@ class CptContent {
 			}
 
 			if ( ! empty( $item['category'] ) ) {
-				wp_set_object_terms( $post_id, array( (string) $item['category'] ), PEDIMENT_CHILD_PHOTO_TAX );
+				wp_set_object_terms( $post_id, array( (string) $item['category'] ), WORKATION_PHOTO_TAX );
 			}
 
 			$log[] = "  created photo: {$post_id} ({$url})";
@@ -330,7 +330,7 @@ class CptContent {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     wp pediment-child content
+	 *     wp workation content
 	 *
 	 * @param array $args       Positional args (unused).
 	 * @param array $assoc_args Associative args (unused).
@@ -352,10 +352,10 @@ class CptContent {
 	/** Add Tools → Seed CPT content. */
 	public static function add_admin_page(): void {
 		add_management_page(
-			__( 'Seed CPT content', 'pediment-child' ),
-			__( 'Seed CPT content', 'pediment-child' ),
+			__( 'Seed CPT content', 'workation' ),
+			__( 'Seed CPT content', 'workation' ),
 			'manage_options',
-			'pediment-child-cpt-content',
+			'workation-cpt-content',
 			array( __CLASS__, 'render_admin_page' )
 		);
 	}
@@ -364,19 +364,19 @@ class CptContent {
 	public static function render_admin_page(): void {
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Seed CPT content', 'pediment-child' ); ?></h1>
+			<h1><?php esc_html_e( 'Seed CPT content', 'workation' ); ?></h1>
 			<p>
 				<?php
 				esc_html_e(
 					'Imports the photo library and the activities from the theme manifests. Idempotent: rows already imported are skipped, and nothing is overwritten.',
-					'pediment-child'
+					'workation'
 				);
 				?>
 			</p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="pediment_child_seed_cpt_content">
-				<?php wp_nonce_field( 'pediment_child_seed_cpt_content' ); ?>
-				<?php submit_button( __( 'Seed now', 'pediment-child' ) ); ?>
+				<input type="hidden" name="action" value="workation_seed_cpt_content">
+				<?php wp_nonce_field( 'workation_seed_cpt_content' ); ?>
+				<?php submit_button( __( 'Seed now', 'workation' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -385,16 +385,16 @@ class CptContent {
 	/** Handle the Tools form submission. */
 	public static function handle_admin_run(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'pediment-child' ) );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'workation' ) );
 		}
-		check_admin_referer( 'pediment_child_seed_cpt_content' );
+		check_admin_referer( 'workation_seed_cpt_content' );
 
 		self::seed();
 
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'page'   => 'pediment-child-cpt-content',
+					'page'   => 'workation-cpt-content',
 					'seeded' => '1',
 				),
 				admin_url( 'tools.php' )

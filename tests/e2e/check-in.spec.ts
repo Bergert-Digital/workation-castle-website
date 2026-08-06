@@ -18,7 +18,7 @@ async function fillGuest( page, first: string, last: string ) {
 
 test( 'completes the multi-step check-in', async ( { page } ) => {
 	// Mock the REST submit so the test never sends a real email.
-	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+	await page.route( '**/workation/v1/check-in', ( route ) =>
 		route.fulfill( {
 			status: 200,
 			contentType: 'application/json',
@@ -54,7 +54,7 @@ test( 'completes the multi-step check-in', async ( { page } ) => {
 } );
 
 test( 'associates an ID with a chosen guest and shows it in review', async ( { page } ) => {
-	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+	await page.route( '**/workation/v1/check-in', ( route ) =>
 		route.fulfill( {
 			status: 200,
 			contentType: 'application/json',
@@ -100,7 +100,7 @@ test( 'associates an ID with a chosen guest and shows it in review', async ( { p
 test( 'truncates stale guest data when count is reduced after going Back', async ( { page } ) => {
 	let capturedBody: { counts: { guests: number; houses: number }; guests: unknown[] } | null = null;
 
-	await page.route( '**/pediment-child/v1/check-in', async ( route ) => {
+	await page.route( '**/workation/v1/check-in', async ( route ) => {
 		capturedBody = route.request().postDataJSON();
 		await route.fulfill( {
 			status: 200,
@@ -172,7 +172,7 @@ test( 'blocks a future birthdate client-side', async ( { page } ) => {
 test( 'surfaces a server validation error on the offending step', async ( { page } ) => {
 	// Server rejects with a field error; the wizard should jump back to that
 	// guest and show the message instead of an opaque generic failure.
-	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+	await page.route( '**/workation/v1/check-in', ( route ) =>
 		route.fulfill( {
 			status: 400,
 			contentType: 'application/json',
@@ -258,7 +258,7 @@ test( 'Start over clears the saved draft', async ( { page } ) => {
 } );
 
 test( 'a successful submit clears the saved draft', async ( { page } ) => {
-	await page.route( '**/pediment-child/v1/check-in', ( route ) =>
+	await page.route( '**/workation/v1/check-in', ( route ) =>
 		route.fulfill( {
 			status: 200,
 			contentType: 'application/json',

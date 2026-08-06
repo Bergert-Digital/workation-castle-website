@@ -8,7 +8,7 @@
  * Harvested full-fidelity from workationcastle.com/activities/<slug>/.
  * Consumed by inc/seed.php; after seeding, activities are managed in wp-admin.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 return array(

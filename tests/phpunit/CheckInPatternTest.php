@@ -10,12 +10,12 @@ class CheckInPatternTest extends PatternTestCase {
 	public function test_the_pattern_declares_the_check_in_slug() {
 		$source = file_get_contents( $this->theme_dir() . '/patterns/check-in.php' );
 
-		$this->assertStringContainsString( 'Slug: pediment-child/check-in', $source );
+		$this->assertStringContainsString( 'Slug: workation/check-in', $source );
 	}
 
 	public function test_the_pattern_carries_the_check_in_form_block() {
 		$markup = $this->render_pattern( 'check-in.php' );
 
-		$this->assertStringContainsString( 'wp:pediment-child/check-in-form', $markup );
+		$this->assertStringContainsString( 'wp:workation/check-in-form', $markup );
 	}
 }

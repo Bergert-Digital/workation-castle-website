@@ -4,35 +4,35 @@
  *
  * Each wc_photo post is a single photo; its featured image is the image.
  * Photos are managed in wp-admin after the one-time seed; they render only
- * through the pediment-child/photo-gallery block (no public single pages).
+ * through the workation/photo-gallery block (no public single pages).
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'PEDIMENT_CHILD_PHOTO_CPT' ) ) {
-	define( 'PEDIMENT_CHILD_PHOTO_CPT', 'wc_photo' );
+if ( ! defined( 'WORKATION_PHOTO_CPT' ) ) {
+	define( 'WORKATION_PHOTO_CPT', 'wc_photo' );
 }
-if ( ! defined( 'PEDIMENT_CHILD_PHOTO_TAX' ) ) {
-	define( 'PEDIMENT_CHILD_PHOTO_TAX', 'wc_photo_category' );
+if ( ! defined( 'WORKATION_PHOTO_TAX' ) ) {
+	define( 'WORKATION_PHOTO_TAX', 'wc_photo_category' );
 }
 
 /**
  * Register the photo CPT and its category taxonomy.
  */
-function pediment_child_register_photos() {
+function workation_register_photos() {
 	register_post_type(
-		PEDIMENT_CHILD_PHOTO_CPT,
+		WORKATION_PHOTO_CPT,
 		array(
 			'labels'              => array(
-				'name'          => __( 'Photos', 'pediment-child' ),
-				'singular_name' => __( 'Photo', 'pediment-child' ),
-				'add_new_item'  => __( 'Add New Photo', 'pediment-child' ),
-				'edit_item'     => __( 'Edit Photo', 'pediment-child' ),
-				'menu_name'     => __( 'Photos', 'pediment-child' ),
+				'name'          => __( 'Photos', 'workation' ),
+				'singular_name' => __( 'Photo', 'workation' ),
+				'add_new_item'  => __( 'Add New Photo', 'workation' ),
+				'edit_item'     => __( 'Edit Photo', 'workation' ),
+				'menu_name'     => __( 'Photos', 'workation' ),
 			),
 			'public'              => false,
 			'show_ui'             => true,
@@ -44,18 +44,18 @@ function pediment_child_register_photos() {
 			'rewrite'             => false,
 			'menu_icon'           => 'dashicons-format-gallery',
 			'supports'            => array( 'title', 'thumbnail', 'page-attributes' ),
-			'taxonomies'          => array( PEDIMENT_CHILD_PHOTO_TAX ),
+			'taxonomies'          => array( WORKATION_PHOTO_TAX ),
 		)
 	);
 
 	register_taxonomy(
-		PEDIMENT_CHILD_PHOTO_TAX,
-		PEDIMENT_CHILD_PHOTO_CPT,
+		WORKATION_PHOTO_TAX,
+		WORKATION_PHOTO_CPT,
 		array(
 			'labels'            => array(
-				'name'          => __( 'Photo categories', 'pediment-child' ),
-				'singular_name' => __( 'Photo category', 'pediment-child' ),
-				'menu_name'     => __( 'Categories', 'pediment-child' ),
+				'name'          => __( 'Photo categories', 'workation' ),
+				'singular_name' => __( 'Photo category', 'workation' ),
+				'menu_name'     => __( 'Categories', 'workation' ),
 			),
 			'hierarchical'      => true,
 			'public'            => false,
@@ -66,4 +66,4 @@ function pediment_child_register_photos() {
 		)
 	);
 }
-add_action( 'init', 'pediment_child_register_photos' );
+add_action( 'init', 'workation_register_photos' );

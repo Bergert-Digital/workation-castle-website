@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-review",
+  "name": "workation/workation-review",
   "title": "Workation Review",
   "category": "design",
   "description": "A single guest review card.",
-  "parent": [ "pediment-child/workation-reviews" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-reviews" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "text": { "type": "string", "default": "" },

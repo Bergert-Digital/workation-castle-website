@@ -13,30 +13,30 @@
  * /activities/ (the landing/archive view) while CPT singles resolve to
  * /activities/<slug>/.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) ) {
-	define( 'PEDIMENT_CHILD_ACTIVITY_CPT', 'wc_activity' );
+if ( ! defined( 'WORKATION_ACTIVITY_CPT' ) ) {
+	define( 'WORKATION_ACTIVITY_CPT', 'wc_activity' );
 }
 
 /**
  * Register the activity CPT (public, with single pages, no taxonomy).
  */
-function pediment_child_register_activities() {
+function workation_register_activities() {
 	register_post_type(
-		PEDIMENT_CHILD_ACTIVITY_CPT,
+		WORKATION_ACTIVITY_CPT,
 		array(
 			'labels'             => array(
-				'name'          => __( 'Activities', 'pediment-child' ),
-				'singular_name' => __( 'Activity', 'pediment-child' ),
-				'add_new_item'  => __( 'Add New Activity', 'pediment-child' ),
-				'edit_item'     => __( 'Edit Activity', 'pediment-child' ),
-				'menu_name'     => __( 'Activities', 'pediment-child' ),
+				'name'          => __( 'Activities', 'workation' ),
+				'singular_name' => __( 'Activity', 'workation' ),
+				'add_new_item'  => __( 'Add New Activity', 'workation' ),
+				'edit_item'     => __( 'Edit Activity', 'workation' ),
+				'menu_name'     => __( 'Activities', 'workation' ),
 			),
 			'public'             => true,
 			'show_ui'            => true,
@@ -50,4 +50,4 @@ function pediment_child_register_activities() {
 		)
 	);
 }
-add_action( 'init', 'pediment_child_register_activities' );
+add_action( 'init', 'workation_register_activities' );

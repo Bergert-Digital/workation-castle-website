@@ -1,19 +1,17 @@
 /*
 Theme Name: Workation Castle
 Theme URI: https://github.com/Bergert-Digital/workation-castle-website
-Template: pediment
 Author: Jonas Bergert
 Author URI: https://bergert.digital
 Description: Custom WordPress theme for Workation Castle — an Italian castle between Lake Como and Lake Lugano where teams work, gather and unwind.
 x-release-please-start-version
 Version: 0.12.0
 x-release-please-end-version
-Requires at least: 6.4
+Requires at least: 6.9
 Requires PHP: 8.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: pediment-child
-Update URI: https://github.com/Bergert-Digital/workation-castle-website
+Text Domain: workation
 */
 
 /* Self-hosted Inria families — no third-party (Google Fonts) request, GDPR-clean. */
@@ -470,7 +468,7 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 
 /* ------------------------------------------------------------
    Pages with no cinematic hero behind the fixed header.
-   `body.no-hero` is added by pediment_child_body_class() when the page has
+   `body.no-hero` is added by workation_body_class() when the page has
    no workation-hero block. Render the header solid (legible) from the top
    and pad the content clear of the fixed header — a generic fix, not per-page.
    ------------------------------------------------------------ */
@@ -489,7 +487,7 @@ body.no-hero .wp-site-blocks > main {
 }
 
 /* ------------------------------------------------------------
-   Interior page hero (pediment-child/page-hero).
+   Interior page hero (workation/page-hero).
    A cinematic full-bleed photo with the homepage hero's gradient; the
    transparent header overlays it. Defaults to the homepage image.
    ------------------------------------------------------------ */
@@ -1518,7 +1516,7 @@ body.parent-pageid-179 .starter-steps {
 .gallery a,
 /* Editor renders each photo as a <span> wrapper (front end uses <a>); match the
    block class so cells get their 1/1 sizing in both contexts and don't collapse. */
-.gallery .wp-block-pediment-child-workation-photo {
+.gallery .wp-block-workation-workation-photo {
 	aspect-ratio: 1 / 1;
 	border-radius: 18px;
 	box-shadow: 0 16px 36px -26px rgba(58, 38, 22, .5);
@@ -2154,7 +2152,7 @@ body.parent-pageid-179 .starter-steps {
 		.wc-wrap > .space-row,
 		.modes > .mode,
 		.act-grid > .act,
-		.gallery > .wp-block-pediment-child-workation-photo,
+		.gallery > .wp-block-workation-workation-photo,
 		.reviews-grid > .review,
 		.gallery-foot,
 		.closing-inner
@@ -2181,7 +2179,7 @@ body.parent-pageid-179 .starter-steps {
 			.wc-wrap > .space-row,
 			.modes > .mode,
 			.act-grid > .act,
-			.gallery > .wp-block-pediment-child-workation-photo,
+			.gallery > .wp-block-workation-workation-photo,
 			.reviews-grid > .review
 		):nth-child(2) {
 		transition-delay: 0.07s;
@@ -2194,7 +2192,7 @@ body.parent-pageid-179 .starter-steps {
 			.wc-wrap > .space-row,
 			.modes > .mode,
 			.act-grid > .act,
-			.gallery > .wp-block-pediment-child-workation-photo,
+			.gallery > .wp-block-workation-workation-photo,
 			.reviews-grid > .review
 		):nth-child(3) {
 		transition-delay: 0.14s;
@@ -2205,7 +2203,7 @@ body.parent-pageid-179 .starter-steps {
 			.ways-grid > .way,
 			.modes > .mode,
 			.act-grid > .act,
-			.gallery > .wp-block-pediment-child-workation-photo
+			.gallery > .wp-block-workation-workation-photo
 		):nth-child(4) {
 		transition-delay: 0.21s;
 	}
@@ -2213,19 +2211,19 @@ body.parent-pageid-179 .starter-steps {
 		:where(
 			.hero .wc-wrap > *,
 			.act-grid > .act,
-			.gallery > .wp-block-pediment-child-workation-photo
+			.gallery > .wp-block-workation-workation-photo
 		):nth-child(5) {
 		transition-delay: 0.28s;
 	}
 	html.js
 		:where(
 			.hero .wc-wrap > *,
-			.gallery > .wp-block-pediment-child-workation-photo
+			.gallery > .wp-block-workation-workation-photo
 		):nth-child(6) {
 		transition-delay: 0.35s;
 	}
 	html.js
-		:where(.gallery > .wp-block-pediment-child-workation-photo):nth-child(
+		:where(.gallery > .wp-block-workation-workation-photo):nth-child(
 			7
 		) {
 		transition-delay: 0.42s;

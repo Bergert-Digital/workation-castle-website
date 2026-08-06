@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          path: pediment-child-theme
+          path: workation
       - uses: actions/checkout@v6
         with:
           repository: Bergert-Digital/pediment
@@ -49,7 +49,7 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-          cache-dependency-path: pediment-child-theme/package-lock.json
+          cache-dependency-path: workation/package-lock.json
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
@@ -59,27 +59,27 @@ jobs:
       - name: Build plugin
         run: cd pediment-ai && composer install --prefer-dist --no-progress && npm ci && npm run build
       - name: Install child deps
-        run: cd pediment-child-theme && composer install --prefer-dist --no-progress && npm ci
+        run: cd workation && composer install --prefer-dist --no-progress && npm ci
       - name: Point wp-env at locally-checked-out parent + plugin
         run: |
-          cat > pediment-child-theme/.wp-env.override.json <<'JSON'
+          cat > workation/.wp-env.override.json <<'JSON'
           { "themes": [".", "../pediment"], "plugins": ["../pediment-ai"] }
           JSON
       - name: Start wp-env
-        run: cd pediment-child-theme && npm run env:start
+        run: cd workation && npm run env:start
       - name: Build child blocks
-        run: cd pediment-child-theme && npm run build
+        run: cd workation && npm run build
       - name: Run PHPUnit
-        run: cd pediment-child-theme && npx wp-env run tests-wordpress --env-cwd=wp-content/themes/pediment-child-theme vendor/bin/phpunit
+        run: cd workation && npx wp-env run tests-wordpress --env-cwd=wp-content/themes/workation vendor/bin/phpunit
       - if: always()
-        run: cd pediment-child-theme && npm run env:stop
+        run: cd workation && npm run env:stop
 
   e2e:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          path: pediment-child-theme
+          path: workation
       - uses: actions/checkout@v6
         with:
           repository: Bergert-Digital/pediment
@@ -94,34 +94,34 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-          cache-dependency-path: pediment-child-theme/package-lock.json
+          cache-dependency-path: workation/package-lock.json
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
           tools: composer
       - run: cd pediment && npm ci && npm run build
       - run: cd pediment-ai && composer install --prefer-dist --no-progress && npm ci && npm run build
-      - run: cd pediment-child-theme && npm ci
-      - run: cd pediment-child-theme && npx playwright install --with-deps chromium
+      - run: cd workation && npm ci
+      - run: cd workation && npx playwright install --with-deps chromium
       - name: Point wp-env at locally-checked-out parent + plugin
         run: |
-          cat > pediment-child-theme/.wp-env.override.json <<'JSON'
+          cat > workation/.wp-env.override.json <<'JSON'
           { "themes": [".", "../pediment"], "plugins": ["../pediment-ai"] }
           JSON
-      - run: cd pediment-child-theme && npm run env:start
-      - run: cd pediment-child-theme && npm run build
-      - run: cd pediment-child-theme && npx wp-env run cli wp theme activate pediment-child-theme
-      - run: cd pediment-child-theme && npx wp-env run cli wp pediment-child seed
+      - run: cd workation && npm run env:start
+      - run: cd workation && npm run build
+      - run: cd workation && npx wp-env run cli wp theme activate workation
+      - run: cd workation && npx wp-env run cli wp workation seed
       # Write .htaccess so Apache serves pretty permalinks. The seed's
       # flush_rewrite_rules() runs under WP-CLI where got_mod_rewrite() is false,
       # so it never writes .htaccess; without it every /slug/ URL 404s at Apache
       # (and WP canonical-redirects ?page_id= URLs to those 404ing pretty URLs).
-      - run: cd pediment-child-theme && npx wp-env run cli wp rewrite flush --hard
-      - run: cd pediment-child-theme && npm run e2e
+      - run: cd workation && npx wp-env run cli wp rewrite flush --hard
+      - run: cd workation && npm run e2e
       - if: always()
-        run: cd pediment-child-theme && npm run env:stop
+        run: cd workation && npm run env:stop
       - if: failure()
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report
-          path: pediment-child-theme/playwright-report/
+          path: workation/playwright-report/

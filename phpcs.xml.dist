@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="Workation Castle">
-  <description>Coding standards for pediment-child-theme.</description>
+  <description>Coding standards for workation.</description>
 
   <file>functions.php</file>
   <file>inc/</file>
@@ -9,16 +9,6 @@
   <exclude-pattern>build/*</exclude-pattern>
   <exclude-pattern>node_modules/*</exclude-pattern>
   <exclude-pattern>vendor/*</exclude-pattern>
-
-  <!--
-    Vendored verbatim from the Pediment child-theme template (the update-token
-    settings feature). Upstream ships them under a camelCase-method / laxer
-    doc-comment house style and lints only functions.php + src/blocks/, so it
-    never checks these. We keep them byte-identical to the template so `/update`
-    re-pulls stay conflict-free, and exclude them here rather than reformatting.
-  -->
-  <exclude-pattern>inc/UpdateToken.php</exclude-pattern>
-  <exclude-pattern>inc/settings-updates.php</exclude-pattern>
 
   <arg name="extensions" value="php"/>
   <arg name="colors"/>

@@ -6,7 +6,7 @@
  * theme, so a test can no longer reach the page a pattern produced. The pattern
  * file itself is the theme-owned artefact, and it is what these tests read.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 /**

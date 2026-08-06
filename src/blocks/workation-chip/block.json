@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-chip",
+  "name": "workation/workation-chip",
   "title": "Workation Hero Chip",
   "category": "design",
   "description": "A single hero feature pill.",
-  "parent": [ "pediment-child/workation-hero" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-hero" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "title": { "type": "string", "default": "" }

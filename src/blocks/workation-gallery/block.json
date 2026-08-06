@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-gallery",
+  "name": "workation/workation-gallery",
   "title": "Workation Gallery",
   "category": "design",
   "description": "Homepage castle gallery section.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string" },
     "headline": { "type": "string" },

@@ -9,13 +9,13 @@ class ReviewsPatternTest extends PatternTestCase {
 	public function test_the_pattern_declares_the_reviews_slug() {
 		$source = file_get_contents( $this->theme_dir() . '/patterns/reviews.php' );
 
-		$this->assertStringContainsString( 'Slug: pediment-child/reviews', $source );
+		$this->assertStringContainsString( 'Slug: workation/reviews', $source );
 	}
 
 	public function test_the_pattern_carries_the_reviews_block() {
 		$markup = $this->render_pattern( 'reviews.php' );
 
-		$this->assertStringContainsString( 'wp:pediment-child/workation-reviews', $markup );
+		$this->assertStringContainsString( 'wp:workation/workation-reviews', $markup );
 	}
 
 	public function test_the_pattern_lists_all_fifteen_reviewers() {
@@ -29,6 +29,6 @@ class ReviewsPatternTest extends PatternTestCase {
 		foreach ( $names as $name ) {
 			$this->assertStringContainsString( $name, $markup );
 		}
-		$this->assertSame( 15, substr_count( $markup, 'wp:pediment-child/workation-review ' ) );
+		$this->assertSame( 15, substr_count( $markup, 'wp:workation/workation-review ' ) );
 	}
 }

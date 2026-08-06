@@ -21,18 +21,18 @@ type Attrs = {
 	primaryUrl: string;
 };
 
-const ALLOWED = [ 'pediment-child/workation-mode' ];
+const ALLOWED = [ 'workation/workation-mode' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
-		'pediment-child/workation-mode',
+		'workation/workation-mode',
 		{ icon: 'car', title: 'By car', text: 'Free parking on site' },
 	],
 	[
-		'pediment-child/workation-mode',
+		'workation/workation-mode',
 		{ icon: 'train', title: 'By train', text: 'Via Lugano' },
 	],
 	[
-		'pediment-child/workation-mode',
+		'workation/workation-mode',
 		{ icon: 'plane', title: 'By plane', text: 'Via Milan Malpensa' },
 	],
 ];
@@ -61,7 +61,7 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Map image', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Map image', 'workation' ) }>
 					{ attributes.imageUrl && (
 						<img
 							src={ attributes.imageUrl }
@@ -83,21 +83,21 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __( 'Replace map', 'pediment-child' )
-										: __( 'Select map', 'pediment-child' ) }
+										? __( 'Replace map', 'workation' )
+										: __( 'Select map', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 				</PanelBody>
-				<PanelBody title={ __( 'Arrival button', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Arrival button', 'workation' ) }>
 					<TextControl
-						label={ __( 'Button URL', 'pediment-child' ) }
+						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
 					/>
@@ -109,13 +109,13 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<div className="wc-wrap">
@@ -133,7 +133,7 @@ export default function Edit( {
 							tagName="p"
 							value={ attributes.lead }
 							onChange={ ( v ) => setAttributes( { lead: v } ) }
-							placeholder={ __( 'Lead…', 'pediment-child' ) }
+							placeholder={ __( 'Lead…', 'workation' ) }
 						/>
 						<div { ...innerProps } />
 						<RichText
@@ -143,7 +143,7 @@ export default function Edit( {
 							onChange={ ( v ) =>
 								setAttributes( { primaryText: v } )
 							}
-							placeholder={ __( 'Button…', 'pediment-child' ) }
+							placeholder={ __( 'Button…', 'workation' ) }
 						/>
 					</div>
 				</div>

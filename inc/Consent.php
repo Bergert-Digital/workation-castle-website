@@ -8,27 +8,27 @@
  * reach the browser (moving src -> data-consent-src so the request never fires)
  * and enqueues the manager with its config.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'PEDIMENT_CHILD_CONSENT_COOKIE' ) ) {
-	define( 'PEDIMENT_CHILD_CONSENT_COOKIE', 'wc_consent' );
+if ( ! defined( 'WORKATION_CONSENT_COOKIE' ) ) {
+	define( 'WORKATION_CONSENT_COOKIE', 'wc_consent' );
 }
-if ( ! defined( 'PEDIMENT_CHILD_CONSENT_VERSION' ) ) {
-	define( 'PEDIMENT_CHILD_CONSENT_VERSION', 1 );
+if ( ! defined( 'WORKATION_CONSENT_VERSION' ) ) {
+	define( 'WORKATION_CONSENT_VERSION', 1 );
 }
-if ( ! defined( 'PEDIMENT_CHILD_CONSENT_DAYS' ) ) {
-	define( 'PEDIMENT_CHILD_CONSENT_DAYS', 365 );
+if ( ! defined( 'WORKATION_CONSENT_DAYS' ) ) {
+	define( 'WORKATION_CONSENT_DAYS', 365 );
 }
-if ( ! defined( 'PEDIMENT_CHILD_POSTHOG_KEY' ) ) {
-	define( 'PEDIMENT_CHILD_POSTHOG_KEY', '' );
+if ( ! defined( 'WORKATION_POSTHOG_KEY' ) ) {
+	define( 'WORKATION_POSTHOG_KEY', '' );
 }
-if ( ! defined( 'PEDIMENT_CHILD_POSTHOG_HOST' ) ) {
-	define( 'PEDIMENT_CHILD_POSTHOG_HOST', 'https://eu.i.posthog.com' );
+if ( ! defined( 'WORKATION_POSTHOG_HOST' ) ) {
+	define( 'WORKATION_POSTHOG_HOST', 'https://eu.i.posthog.com' );
 }
 
 /**
@@ -39,7 +39,7 @@ if ( ! defined( 'PEDIMENT_CHILD_POSTHOG_HOST' ) ) {
  *
  * @return string[]
  */
-function pediment_child_consent_gated_hosts() {
+function workation_consent_gated_hosts() {
 	return array( 'komoot.', 'maps.google.' );
 }
 
@@ -49,13 +49,13 @@ function pediment_child_consent_gated_hosts() {
  * @param string $src Iframe src URL.
  * @return bool
  */
-function pediment_child_consent_is_external_embed( $src ) {
+function workation_consent_is_external_embed( $src ) {
 	$host = wp_parse_url( $src, PHP_URL_HOST );
 	if ( ! $host ) {
 		return false;
 	}
 	$host = strtolower( $host );
-	foreach ( pediment_child_consent_gated_hosts() as $needle ) {
+	foreach ( workation_consent_gated_hosts() as $needle ) {
 		if ( false !== strpos( $host, $needle ) ) {
 			return true;
 		}
@@ -69,7 +69,7 @@ function pediment_child_consent_is_external_embed( $src ) {
  * @param string $src Iframe src URL.
  * @return string
  */
-function pediment_child_consent_provider_label( $src ) {
+function workation_consent_provider_label( $src ) {
 	$host = strtolower( (string) wp_parse_url( $src, PHP_URL_HOST ) );
 	if ( false !== strpos( $host, 'komoot.' ) ) {
 		return 'Komoot';
@@ -91,7 +91,7 @@ function pediment_child_consent_provider_label( $src ) {
  * @param string $content Rendered HTML.
  * @return string
  */
-function pediment_child_consent_defuse_iframes( $content ) {
+function workation_consent_defuse_iframes( $content ) {
 	if ( false === stripos( $content, '<iframe' ) ) {
 		return $content;
 	}
@@ -104,7 +104,7 @@ function pediment_child_consent_defuse_iframes( $content ) {
 				return $m[0];
 			}
 			$src = $src_m[2];
-			if ( ! pediment_child_consent_is_external_embed( $src ) ) {
+			if ( ! workation_consent_is_external_embed( $src ) ) {
 				return $m[0];
 			}
 
@@ -116,7 +116,7 @@ function pediment_child_consent_defuse_iframes( $content ) {
 				1
 			);
 			$iframe    = '<iframe' . $new_attrs . '>' . $m[2] . '</iframe>';
-			$provider  = pediment_child_consent_provider_label( $src );
+			$provider  = workation_consent_provider_label( $src );
 
 			return '<div class="wc-consent-embed" data-consent-category="functional">'
 				. $iframe
@@ -124,12 +124,12 @@ function pediment_child_consent_defuse_iframes( $content ) {
 				. '<p class="wc-consent-embed__text">'
 				. sprintf(
 					/* translators: %s: third-party provider name. */
-					esc_html__( 'This content is hosted by %s. Loading it sends data to that provider.', 'pediment-child' ),
+					esc_html__( 'This content is hosted by %s. Loading it sends data to that provider.', 'workation' ),
 					esc_html( $provider )
 				)
 				. '</p>'
 				. '<button type="button" class="wc-consent-embed__load">'
-				. esc_html__( 'Load external content', 'pediment-child' )
+				. esc_html__( 'Load external content', 'workation' )
 				. '</button>'
 				. '</div>'
 				. '</div>';
@@ -144,10 +144,10 @@ function pediment_child_consent_defuse_iframes( $content ) {
  * @param string $content Block or post content HTML.
  * @return string
  */
-function pediment_child_consent_filter_content( $content ) {
-	return pediment_child_consent_defuse_iframes( $content );
+function workation_consent_filter_content( $content ) {
+	return workation_consent_defuse_iframes( $content );
 }
-add_filter( 'the_content', 'pediment_child_consent_filter_content', 20 );
+add_filter( 'the_content', 'workation_consent_filter_content', 20 );
 
 /**
  * Defuse gated iframes inside core/html blocks via the render_block hook.
@@ -159,19 +159,19 @@ add_filter( 'the_content', 'pediment_child_consent_filter_content', 20 );
  * @param array  $block         Parsed block.
  * @return string
  */
-function pediment_child_consent_filter_block( $block_content, $block ) {
+function workation_consent_filter_block( $block_content, $block ) {
 	if ( isset( $block['blockName'] ) && 'core/html' === $block['blockName'] ) {
-		return pediment_child_consent_defuse_iframes( $block_content );
+		return workation_consent_defuse_iframes( $block_content );
 	}
 	return $block_content;
 }
-add_filter( 'render_block', 'pediment_child_consent_filter_block', 20, 2 );
+add_filter( 'render_block', 'workation_consent_filter_block', 20, 2 );
 
 /**
  * Enqueue the consent manager (CSS + JS) on every front-end view, and pass its
  * runtime config (cookie name, schema version, PostHog key) to JS.
  */
-function pediment_child_consent_enqueue() {
+function workation_consent_enqueue() {
 	$css_path = get_stylesheet_directory() . '/assets/css/consent.css';
 	wp_enqueue_style(
 		'workation-castle-consent',
@@ -190,11 +190,11 @@ function pediment_child_consent_enqueue() {
 	);
 
 	$config = array(
-		'cookieName'  => PEDIMENT_CHILD_CONSENT_COOKIE,
-		'version'     => (int) PEDIMENT_CHILD_CONSENT_VERSION,
-		'days'        => (int) PEDIMENT_CHILD_CONSENT_DAYS,
-		'posthogKey'  => (string) PEDIMENT_CHILD_POSTHOG_KEY,
-		'posthogHost' => (string) PEDIMENT_CHILD_POSTHOG_HOST,
+		'cookieName'  => WORKATION_CONSENT_COOKIE,
+		'version'     => (int) WORKATION_CONSENT_VERSION,
+		'days'        => (int) WORKATION_CONSENT_DAYS,
+		'posthogKey'  => (string) WORKATION_POSTHOG_KEY,
+		'posthogHost' => (string) WORKATION_POSTHOG_HOST,
 	);
 	wp_scripts()->add_data(
 		'workation-castle-consent',
@@ -202,4 +202,4 @@ function pediment_child_consent_enqueue() {
 		'var wcConsentConfig = ' . wp_json_encode( $config ) . ';'
 	);
 }
-add_action( 'wp_enqueue_scripts', 'pediment_child_consent_enqueue' );
+add_action( 'wp_enqueue_scripts', 'workation_consent_enqueue' );

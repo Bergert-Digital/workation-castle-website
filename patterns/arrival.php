@@ -1,14 +1,14 @@
 <?php
 /**
  * Title: Arrival
- * Slug: pediment-child/arrival
- * Categories: pediment-child
+ * Slug: workation/arrival
+ * Categories: workation
  * Description: Guest guide — how to reach the castle by car, plane, train, bus or taxi.
  * Inserter: no
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Arrival","lead":"How to reach Workation Castle — by car, plane, train, bus or taxi. The address is Via Castello 12, Carlazzo, Italy.","imageUrl":"https://workationcastle.com/wp-content/uploads/2022/12/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Arrival","lead":"How to reach Workation Castle — by car, plane, train, bus or taxi. The address is Via Castello 12, Carlazzo, Italy.","imageUrl":"https://workationcastle.com/wp-content/uploads/2022/12/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
@@ -139,4 +139,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-closing {"headline":"Ready to come and stay?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->
+<!-- wp:workation/workation-closing {"headline":"Ready to come and stay?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

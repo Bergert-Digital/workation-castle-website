@@ -105,9 +105,9 @@ cards on navy. If the structure doesn't match the source, it is a NEW BLOCK, not
 a CSS patch.
 
 **Worked bespoke patterns already in `src/blocks/` — reuse / extend, don't
-reinvent:** `pediment-child/site-hero` (full-bleed band + edge media + CTA),
-`pediment-child/testimonial-carousel` (rotating quotes on a band),
-`pediment-child/teaser-row` (image-beside-text teasers on a band). Heroes and any
+reinvent:** `workation/site-hero` (full-bleed band + edge media + CTA),
+`workation/testimonial-carousel` (rotating quotes on a band),
+`workation/teaser-row` (image-beside-text teasers on a band). Heroes and any
 "signature" section are almost always NEW BLOCK.
 
 Write `.context/port/<slug>/mapping.md`: a table of
@@ -125,7 +125,7 @@ reproduces.
 If `mapping.md` contains any `NEW BLOCK` rows, STOP and present **all proposals
 at once** to the user. For each proposed block:
 
-- Proposed name (`pediment-child/<name>`)
+- Proposed name (`workation/<name>`)
 - Why tier 1 and tier 2 cannot match the section's visual treatment
 - Proposed attributes and inner slots (referencing the `promo-banner` shape:
   `block.json` + `render.php` + `edit.tsx` + `index.tsx` + `style.scss`)
@@ -134,8 +134,8 @@ Wait for the user's decision on every proposal before proceeding.
 
 **Approved blocks:**
 1. Scaffold `src/blocks/<name>/` following `src/blocks/promo-banner/`:
-   `block.json` (`name: "pediment-child/<name>"`,
-   `textdomain: "pediment-child"`), `render.php`, `edit.tsx`, `index.tsx`,
+   `block.json` (`name: "workation/<name>"`,
+   `textdomain: "workation"`), `render.php`, `edit.tsx`, `index.tsx`,
    `style.scss`.
 2. CSS rule: use `var(--wp--preset--…)` only — no color literals anywhere
    in the new block's styles.
@@ -263,7 +263,7 @@ Once `overallPass: true`:
 ### 9. Persist to version control (make it permanent)
 
 The built page lives only in the wp-env database — a re-seed (`npm run
-env:setup`, or `wp pediment-child seed`, which runs on env setup) rebuilds every
+env:setup`, or `wp workation seed`, which runs on env setup) rebuilds every
 page from `patterns/*.php` and **overwrites/loses** DB-only edits. To make the
 port survive, add it to the seed:
 
@@ -277,8 +277,8 @@ port survive, add it to the seed:
      match). Any block that *only* renders from an attachment ID must be swapped
      for a URL-based equivalent — it renders blank when seeded otherwise.
    - **Keep raw-HTML blocks** (`wp:html` map `<iframe>`s, etc.) verbatim.
-   - File header: `Title`, `Slug: pediment-child/<slug>`,
-     `Categories: pediment-child`, `Inserter: no`, then
+   - File header: `Title`, `Slug: workation/<slug>`,
+     `Categories: workation`, `Inserter: no`, then
      `// phpcs:ignoreFile` and the markup (mirror `patterns/guide.php`).
 2. **Register it in `inc/seed.php`** — add to the `PAGES` map:
    `'<slug>' => [ 'title' => '<Title>', 'pattern_file' => 'patterns/<slug>.php',
@@ -293,10 +293,10 @@ port survive, add it to the seed:
    Add these if missing (both are small, idempotent additions).
 4. **Update any linking pattern** — e.g. point the hub/index card from the
    remote source URL to the local path (`/<parent>/<slug>/`).
-5. **Confirm `tools/setup-env.mjs` seeds via `wp pediment-child seed`** (the
+5. **Confirm `tools/setup-env.mjs` seeds via `wp workation seed`** (the
    child command), not a stale `wp pediment seed`.
 6. **Verify the from-scratch path:** delete the page, run
-   `npx wp-env run cli wp pediment-child seed`, and confirm it is **re-created**
+   `npx wp-env run cli wp workation seed`, and confirm it is **re-created**
    at the right URL with images and iframes intact. Then re-render and eyeball.
 7. **Commit** the pattern + `inc/seed.php` (+ any linking pattern / setup-env)
    per the commit convention.

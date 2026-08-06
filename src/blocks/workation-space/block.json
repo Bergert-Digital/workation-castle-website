@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-space",
+  "name": "workation/workation-space",
   "title": "Workation Space",
   "category": "design",
   "description": "A single space row: image, eyebrow, title, text, link.",
-  "parent": [ "pediment-child/workation-spaces" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-spaces" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },

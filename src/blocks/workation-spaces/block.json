@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-spaces",
+  "name": "workation/workation-spaces",
   "title": "Workation Spaces",
   "category": "design",
   "description": "Workspace and vacation homes section.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string" },
     "headline": { "type": "string" },

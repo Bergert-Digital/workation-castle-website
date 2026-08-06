@@ -16,10 +16,10 @@ type Attrs = {
 	primaryUrl: string;
 };
 
-const ALLOWED = [ 'pediment-child/workation-tile' ];
+const ALLOWED = [ 'workation/workation-tile' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
-		'pediment-child/workation-tile',
+		'workation/workation-tile',
 		{
 			title: 'Swim in the lake',
 			imageUrl: '',
@@ -27,7 +27,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-tile',
+		'workation/workation-tile',
 		{
 			title: 'Forest trails',
 			imageUrl: '',
@@ -35,7 +35,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-tile',
+		'workation/workation-tile',
 		{
 			title: 'Waterfalls',
 			imageUrl: '',
@@ -43,7 +43,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-tile',
+		'workation/workation-tile',
 		{
 			title: 'Mountain views',
 			imageUrl: '',
@@ -76,11 +76,9 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Activities button', 'pediment-child' ) }
-				>
+				<PanelBody title={ __( 'Activities button', 'workation' ) }>
 					<TextControl
-						label={ __( 'Button URL', 'pediment-child' ) }
+						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
 					/>
@@ -92,19 +90,19 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 				<RichText
 					tagName="p"
 					value={ attributes.lead }
 					onChange={ ( v ) => setAttributes( { lead: v } ) }
-					placeholder={ __( 'Lead…', 'pediment-child' ) }
+					placeholder={ __( 'Lead…', 'workation' ) }
 				/>
 			</div>
 			<div className="wc-wrap">
@@ -117,7 +115,7 @@ export default function Edit( {
 						onChange={ ( v ) =>
 							setAttributes( { primaryText: v } )
 						}
-						placeholder={ __( 'Button…', 'pediment-child' ) }
+						placeholder={ __( 'Button…', 'workation' ) }
 					/>
 				</div>
 			</div>
