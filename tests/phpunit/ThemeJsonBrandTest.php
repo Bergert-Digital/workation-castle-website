@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Guards the Workation Castle child-theme reskin.
+ * Guards the Workation Castle brand in theme.json.
  *
- * The child theme intentionally forks the parent's palette and typography
- * subtrees. These tests make sure we keep the full Pediment slug surface
- * while applying the Workation Castle brand.
+ * There is no parent theme to inherit from — the Pediment design system ships
+ * in the plugin — so theme.json declares the full token surface itself. These
+ * tests make sure it keeps every Pediment slug a shared block might reference
+ * while carrying the Workation Castle brand values.
  */
-class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
+class ThemeJsonBrandTest extends WP_UnitTestCase {
 
 	/**
-	 * Clean the resolver caches and return the freshly merged
-	 * (parent ⊕ child) global settings.
+	 * Clean the resolver caches and return the freshly resolved global settings.
 	 *
 	 * @return array<string,mixed>
 	 */
@@ -24,7 +24,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 	 * Identify the theme by its text domain, not its directory name — see the
 	 * note on SmokeTest::test_this_theme_is_active().
 	 */
-	private function assert_child_theme_active() {
+	private function assert_theme_active() {
 		$this->assertSame(
 			'workation',
 			wp_get_theme()->get( 'TextDomain' ),
@@ -37,7 +37,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 	 */
 	private function theme_palette() {
 		$settings = $this->fresh_settings();
-		$this->assert_child_theme_active();
+		$this->assert_theme_active();
 		$palette = isset( $settings['color']['palette']['theme'] )
 			? $settings['color']['palette']['theme']
 			: array();
@@ -67,7 +67,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 				'border-strong',
 			),
 			array_keys( $by_slug ),
-			'The child palette must keep the full Pediment slug surface.'
+			'The palette must keep the full Pediment slug surface.'
 		);
 	}
 
@@ -82,7 +82,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 
 	public function test_workation_castle_typography_uses_inria_families() {
 		$settings = $this->fresh_settings();
-		$this->assert_child_theme_active();
+		$this->assert_theme_active();
 		$families = isset( $settings['typography']['fontFamilies']['theme'] )
 			? $settings['typography']['fontFamilies']['theme']
 			: array();
@@ -98,8 +98,8 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 		$this->assertArrayHasKey( 'mono', $by_slug );
 	}
 
-	public function test_child_theme_json_declares_intentional_settings_override() {
-		$this->assert_child_theme_active();
+	public function test_theme_json_declares_its_own_settings() {
+		$this->assert_theme_active();
 		$path = get_stylesheet_directory() . '/theme.json';
 		$this->assertFileIsReadable( $path );
 		$data = json_decode( file_get_contents( $path ), true );
