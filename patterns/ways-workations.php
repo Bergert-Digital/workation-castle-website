@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Workations
- * Slug: workation/ways-workations
+ * Slug: workation/workations
  * Categories: workation
  * Description: Ways to stay — work remotely from the castle with fast Wi-Fi and a view.
  * Inserter: no

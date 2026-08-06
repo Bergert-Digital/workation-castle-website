@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Team retreats
- * Slug: workation/ways-team-retreats
+ * Slug: workation/team-retreats
  * Categories: workation
  * Description: Ways to stay — bring the whole team for a retreat at the castle.
  * Inserter: no

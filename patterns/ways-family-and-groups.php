@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Family & group stays
- * Slug: workation/ways-family-and-groups
+ * Slug: workation/family-and-groups
  * Categories: workation
  * Description: Ways to stay — two homes and a garden for families and groups.
  * Inserter: no
