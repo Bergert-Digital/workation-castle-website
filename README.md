@@ -1,108 +1,148 @@
-# workation
+# Workation Castle
 
-The agency starting point. A child theme of [Pediment](https://github.com/bergert/pediment). Fork or download as a zip, rename it, add your blocks and `theme.json` overrides, and push to your own git for per-client install.
+The WordPress theme for [workationcastle.com](https://workationcastle.com) — an
+Italian castle between Lake Como and Lake Lugano where teams work, gather and
+unwind.
 
-## Install order on a fresh WordPress
+It is a standalone **Pediment client theme**. The
+[Pediment plugin](https://github.com/Bergert-Digital/pediment) ships the design
+system, the shared blocks, the block templates and the seeding engine; this
+repository holds what is specific to this client:
 
-WordPress has no automatic theme-dependency resolution, so order matters:
+- 23 bespoke blocks under `src/blocks/`
+- the guest check-in flow (`inc/CheckIn.php`, `inc/Brevo.php`)
+- the photo library and activities custom post types, and their content
+  manifests (`inc/photos-manifest.php`, `inc/activities-manifest.php`)
+- the site's structure and page content — `seed/manifest.php` plus `patterns/`
 
-1. Upload and install the **parent**: `pediment` zip (Appearance → Add New → Upload).
-2. Upload and install **this child** theme zip.
-3. **Activate the child** (`Pediment Child Theme`).
-4. Install the **pediment-ai** plugin zip any time (Plugins → Add New → Upload).
+It is **not** a child theme. Everything it used to inherit from the `pediment`
+parent theme now comes from the plugin, so there is no parent to install.
 
-## Overriding the Pediment design per client
+## Install on a fresh WordPress
 
-This child theme ships **no `theme.json` `settings`** on purpose: it inherits
-the parent (`pediment`) Pediment design system as-is — Deep Cyan
-accent, Plus Jakarta Sans, the navy/surface palette. Child-theme sites get the
-locked look with zero configuration.
+1. Install and activate the **Pediment plugin** (Plugins → Add New → Upload,
+   `pediment-plugin.zip` from the plugin's latest release).
+2. Install and activate **this theme** (Appearance → Add New → Upload,
+   `workation.zip` from this repo's latest release — *not* GitHub's
+   auto-generated "Source code" zip, which excludes the built blocks).
+3. Install and activate **Polylang**, then run the seed (below).
 
-To re-skin a client, add a `settings` block back to `theme.json`. WordPress
-merges child `theme.json` over the parent **per top-level subtree, not per
-slug**: a subtree you omit entirely (e.g. no `typography` key) keeps all its
-Pediment values, but any preset **array you declare — `color.palette`,
-`typography.fontFamilies`, `fontSizes`, … — replaces the parent's array
-wholesale**. So when you declare `palette`, copy the parent's full Pediment
-palette and edit only the entries you want; slugs you leave out (including
-`accent-tint`) disappear on that site. Web fonts additionally need a
-`fontFace` array with `src` on the family.
+There is no auto-updater. Updates are installed by uploading a new release zip
+in wp-admin.
 
-Abbreviated example (`theme.json`) — in practice paste the parent's complete
-`palette`/`fontFamilies` and change only the values you need:
+> `workation.zip` is what the release workflow attaches to each tag. Installing
+> the "Source code" zip instead leaves `build/` and `vendor/` missing, which
+> unregisters every block at once — the theme raises an admin notice saying so.
 
-```json
-{
-  "$schema": "https://schemas.wp.org/trunk/theme.json",
-  "version": 2,
-  "settings": {
-    "color": {
-      "palette": [
-        { "slug": "accent",       "color": "#B91C1C", "name": "Accent" },
-        { "slug": "accent-hover", "color": "#991B1B", "name": "Accent hover" }
-      ]
-    },
-    "typography": {
-      "fontFamilies": [
-        { "slug": "heading", "name": "Heading", "fontFamily": "Georgia, serif" }
-      ]
-    }
-  }
-}
+## Content
+
+The site's structure lives in [`seed/manifest.php`](seed/manifest.php): 18
+pages, 5 languages, and the two-level primary navigation. Each page's content
+comes from a pattern in `patterns/`. Seed or re-seed with:
+
+```bash
+wp pediment seed --dry-run   # read the plan first
+wp pediment seed
 ```
 
-Rule of thumb: omit a subtree to keep Pediment; declare an array and you own all of it.
+or from **Settings → Pediment → Seeding** in wp-admin, which is the only route
+on admin-only hosting.
 
-## First-fork rename checklist
+Seeding is idempotent and content-protected: a page someone has edited in the
+editor is never overwritten. Re-running a converged site reports every entry as
+`unchanged`.
 
-Grep-replace these tokens with your client's identity before first client ship:
+The **entry list and its per-language overrides in `seed/manifest.php` are
+generated** by `tools/manifest-from-wxr.mjs` from a WordPress XML export. Do not
+hand-edit them — fix the generator and regenerate, so re-running it against a
+fresh export stays a meaningful drift check. The `navs` section is hand-written,
+because it encodes a structure the export does not contain.
 
-- `workation` → your theme slug (also rename the repo/directory)
-- `Pediment Child Theme` → your theme's display name (`style.css` `Theme Name`)
-- `workation` → your text domain (in `style.css`, `functions.php`, `block.json`, `edit.tsx`, CSS classes)
-- `Workation` → your PHP `@package` tag
-- `workation_register_blocks` / `WORKATION_*` → your prefixed function/constant names
-- Update-token names in `inc/UpdateToken.php` (`inc/settings-updates.php` reads them via the class constants): `WORKATION_UPDATE_TOKEN` → your token constant/env var, `WORKATION_UPDATE_SECRET` → your encryption-key override constant, and the option key `workation_update_token` → your prefixed option. (In this fork: `WORKATION_CASTLE_UPDATE_TOKEN`, `WORKATION_CASTLE_UPDATE_SECRET`, `workation_castle_update_token`.)
+The photo library and the activities are seeded separately, because the manifest
+does not own them:
 
-Then **replace or delete** `src/blocks/promo-banner/` — it's a worked example, not production content.
+```bash
+wp workation content
+```
+
+## Temporary: the block-namespace rewrite
+
+[`inc/NamespaceRewrite.php`](inc/NamespaceRewrite.php) is a **cutover-only
+tool**. The theme's blocks moved from `pediment-child/*` to `workation/*` in
+1.0.0, so pages stored before that still name the old blocks. It is run once
+from **Tools → Rewrite block namespace** immediately after the theme is
+activated on the live site.
+
+**Delete it — and its test — in the release that follows the cutover.**
 
 ## Development
 
-`.wp-env.json` is configured for the **agency-dev workflow**: it points at the latest tagged release of `Bergert-Digital/pediment` (parent) and `Bergert-Digital/pediment-ai` (plugin) on GitHub. Running `npm run env:start` downloads those release zips into the container — no local clone of parent/plugin required, no auth required (both are public repos).
+`.wp-env.json` pins the published Pediment plugin release and Polylang. No local
+clone of the plugin is required.
 
 ```bash
 composer install
 npm install
-npm run env:setup            # boots wp-env, activates this child, seeds demo content
-npm run build                # build child blocks
-npm run e2e                  # Playwright
+npm run env:setup   # boot, activate, configure languages, seed everything
+npm run build       # build the client blocks
+npm run e2e         # Playwright
 npx wp-env run tests-wordpress --env-cwd=wp-content/themes/workation vendor/bin/phpunit
 composer lint
-npm run check:wpenv-deps     # verify .wp-env.json refs are at latest upstream tags
+npm run lint:js
 ```
 
-`env:start`/`env:setup` assign this workspace a **random free port** on first boot and persist it to the gitignored `.wp-env.override.json` (reused on every later boot, so the URL stays stable). This keeps parallel Conductor workspaces from all colliding on the default `8890`. The chosen URL is printed at boot; Playwright's `baseURL` reads the same file (override `WP_BASE_URL` to point elsewhere). Delete `.wp-env.override.json` to re-roll the port.
+Individual steps, all of which `env:setup` runs for you:
+
+```bash
+npm run env:start   # boot + activate theme and plugin
+npm run languages   # configure Polylang from the manifest's language list
+npm run seed:plan   # dry run
+npm run seed        # pages and navigations
+npm run seed:cpt    # the photo library and the activities
+npm run env:stop
+```
+
+### Conductor workspaces and the theme directory name
+
+wp-env mounts the theme at `wp-content/themes/<basename of the checkout>`. In a
+Conductor workspace that basename is the workspace name, not `workation` — and
+the slug matters, because the plugin seeds the branded header from the pattern
+named `<stylesheet>/header`. Under the wrong slug it seeds a generic header
+instead.
+
+Point the mount at the right name with a gitignored `.wp-env.override.json`:
+
+```json
+{
+  "themes": [],
+  "mappings": { "wp-content/themes/workation": "." }
+}
+```
+
+CI does not need this — it checks the repo out into a directory called
+`workation`.
+
+`env:start` also assigns this workspace a **random free port** on first boot and
+persists it to the same file, so parallel workspaces do not collide. The URL is
+printed at boot; Playwright's `baseURL` reads it too (`WP_BASE_URL` overrides).
+In CI the port is left at wp-env's default `8888`, which is what Pediment's
+reusable seed-check asserts against.
 
 ### Dev mode vs. publish mode
 
-The committed `.wp-env.json` always pins the published release zips (**publish mode**) — that's the push-ready config and the one CI's currency check validates. For parallel development across the three repos, switch to **dev mode**, which mounts the sibling working copies (`../pediment`, `../pediment-ai`) instead:
+The committed `.wp-env.json` pins the published plugin release (**publish
+mode**). To iterate against a local checkout of the Pediment monorepo's
+`plugin/` directory instead:
 
 ```bash
-npm run env:dev          # mount sibling working copies (fast local iteration)
-npm run env:publish      # back to the committed release-zip pins
-npm run env:mode         # report which mode is active
-npm run env:start        # restart to apply (required after switching)
+npm run env:dev       # mount ../pediment/plugin
+npm run env:publish   # back to the committed release pin
+npm run env:mode      # report which mode is active
+npm run env:start     # restart to apply
 ```
 
-These commands only toggle `themes`/`plugins` in `.wp-env.override.json` (gitignored; other keys like `ANTHROPIC_API_KEY` are preserved). Because the dev paths live only in the override, **the committed `.wp-env.json` can never accidentally pick up local paths — every push is publish-ready by default.** `wp-env` fully replaces the base `themes`/`plugins` arrays with the override's. CI uses the same trick — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
-
-### Keeping `.wp-env.json` current
-
-A scheduled workflow ([`.github/workflows/check-wpenv-deps.yml`](.github/workflows/check-wpenv-deps.yml)) runs every Monday, checks the upstream repos for newer tags, and opens a PR bumping the refs when they fall behind. You can also run the check manually any time:
-
-```bash
-npm run check:wpenv-deps
-```
+These only touch `.wp-env.override.json`, so the committed config is always
+push-ready.
 
 ## Check-in form (guest registration)
 

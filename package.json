@@ -11,7 +11,7 @@
     "build": "wp-scripts build --webpack-src-dir=src/blocks --output-path=build/blocks",
     "lint:js": "wp-scripts lint-js src/",
     "e2e": "playwright test",
-    "env:start": "node tools/ensure-port.mjs && wp-env start && wp-env run cli wp theme activate workation && wp-env run cli wp plugin activate pediment-plugin",
+    "env:start": "node tools/ensure-port.mjs && wp-env start && wp-env run cli wp theme activate workation && wp-env run cli wp plugin activate pediment-plugin && wp-env run cli wp rewrite structure '/%postname%/' --hard && node tools/free-wp-default-pages.mjs",
     "env:setup": "node tools/setup-env.mjs",
     "env:stop": "wp-env stop",
     "languages": "wp-env run cli wp pediment languages",
