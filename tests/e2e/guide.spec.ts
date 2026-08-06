@@ -82,22 +82,26 @@ test.describe('Guest Guide', () => {
     expect(linkBox!.height).toBeGreaterThan(cardBox!.height - 4);
   });
 
-  test('header has a Guest Guide dropdown with five items', async ({ page }) => {
+  // The menu is built from seed/manifest.php's `navs` now, so each item's label
+  // is the linked entry's own (per-language) post_title — "Guide", not the
+  // retired custom label "Guest Guide" — and there are four children, the
+  // fifth having been a link back to the parent page. The plugin's NavSeeder
+  // serializes absolute permalinks, hence the path-suffix matches.
+  test('header has a Guide dropdown with four items', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 900 });
     await page.goto('/guide/');
     const guideDropdown = page
       .locator('.site-header .wp-block-navigation-submenu')
-      .filter({ hasText: 'Guest Guide' });
+      .filter({ hasText: 'Guide' });
     const trigger = guideDropdown.locator('> a.wp-block-navigation-item__content');
-    await expect(trigger).toHaveAttribute('href', '/guide/');
-    await expect(trigger).toContainText('Guest Guide');
+    await expect(trigger).toHaveAttribute('href', /\/guide\/$/);
+    await expect(trigger).toContainText('Guide');
     const items = guideDropdown.locator('.wp-block-navigation__submenu-container a');
-    await expect(items).toHaveCount(5);
-    await expect(items.nth(0)).toHaveAttribute('href', '/guide/arrival/');
-    await expect(items.nth(1)).toHaveAttribute('href', '/check-in/');
-    await expect(items.nth(2)).toHaveAttribute('href', '/guide/map/');
-    await expect(items.nth(3)).toHaveAttribute('href', '/guide/faq/');
-    await expect(items.nth(4)).toHaveAttribute('href', '/guide/');
+    await expect(items).toHaveCount(4);
+    await expect(items.nth(0)).toHaveAttribute('href', /\/guide\/arrival\/$/);
+    await expect(items.nth(1)).toHaveAttribute('href', /\/check-in\/$/);
+    await expect(items.nth(2)).toHaveAttribute('href', /\/guide\/map\/$/);
+    await expect(items.nth(3)).toHaveAttribute('href', /\/guide\/faq\/$/);
   });
 
   test('dropdown links have dark, legible text on the cream panel', async ({ page }) => {
@@ -105,7 +109,7 @@ test.describe('Guest Guide', () => {
     await page.goto('/guide/');
     const guideDropdown = page
       .locator('.site-header .wp-block-navigation-submenu')
-      .filter({ hasText: 'Guest Guide' });
+      .filter({ hasText: 'Guide' });
     // Reveal the panel (CSS :hover/:focus-within) so the link is rendered.
     await guideDropdown.hover();
     const firstItem = guideDropdown.locator('.wp-block-navigation__submenu-container a').first();

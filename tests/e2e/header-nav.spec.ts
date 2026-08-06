@@ -12,8 +12,10 @@ test('desktop header renders the seeded navigation links', async ({ page }) => {
 	await expect(nav).toBeVisible();
 	await expect(nav.getByRole('link', { name: 'Activities' })).toBeVisible();
 	await expect(nav.getByRole('link', { name: 'Photos' })).toBeVisible();
-	await expect(nav.getByText('Ways to stay')).toBeVisible();
-	await expect(nav.getByText('Guest Guide')).toBeVisible();
+	// Labels come from each entry's own post_title in seed/manifest.php now, so
+	// they read "Ways to Stay" and "Guide" rather than the retired custom labels.
+	await expect(nav.getByText('Ways to Stay')).toBeVisible();
+	await expect(nav.getByText('Guide')).toBeVisible();
 });
 
 test('a submenu exposes its child links', async ({ page }) => {
@@ -21,7 +23,7 @@ test('a submenu exposes its child links', async ({ page }) => {
 	await page.goto('/');
 	const waysToStay = page
 		.locator('.site-header .wp-block-navigation-submenu')
-		.filter({ hasText: 'Ways to stay' });
+		.filter({ hasText: 'Ways to Stay' });
 	await waysToStay.hover();
 	await expect(page.getByRole('link', { name: 'Team retreats' })).toBeVisible();
 });
