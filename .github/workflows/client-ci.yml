@@ -1,0 +1,14 @@
+name: Client theme CI
+
+# Boots the plugin plus this theme and seeds the whole site from
+# seed/manifest.php. The checks live in the Pediment monorepo so a fix reaches
+# every client repo without anyone editing N copies of them.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  seed:
+    uses: Bergert-Digital/pediment/.github/workflows/client-theme.yml@main

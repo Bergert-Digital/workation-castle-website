@@ -17,7 +17,9 @@ function resolveBaseURL(): string {
       // File absent or portless — try the next source.
     }
   }
-  return 'http://localhost:8890';
+  // wp-env's own default, which is what CI boots on: `.wp-env.json` declares no
+  // port so Pediment's reusable seed-check action can assert against :8888.
+  return 'http://localhost:8888';
 }
 
 export default defineConfig({

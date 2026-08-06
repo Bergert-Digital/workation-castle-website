@@ -73,6 +73,14 @@ function reserveFreePorts( count ) {
  * @return {Promise<{ port: number, testsPort: number }>} Resolved ports.
  */
 export async function ensurePort() {
+	// CI runs one workspace per runner, so there is nothing to collide with —
+	// and Pediment's reusable seed-check action asserts against wp-env's
+	// default http://localhost:8888. Assigning a random port there would make
+	// every client repo's seed job curl the wrong host.
+	if ( process.env.CI ) {
+		return { port: 8888, testsPort: 8889 };
+	}
+
 	const override = existsSync( overridePath )
 		? JSON.parse( readFileSync( overridePath, 'utf8' ) )
 		: {};
