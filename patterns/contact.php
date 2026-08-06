@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Contact
- * Slug: workation/contact
+ * Slug: workation/contact-us
  * Categories: workation
  * Description: Contact page — form plus other ways to reach Workation Castle.
  * Inserter: no
