@@ -33,7 +33,7 @@ class PhotoSeedTest extends WP_UnitTestCase {
 	}
 
 	public function test_seed_terms_creates_categories() {
-		\PedimentChild\Seed::seed_photo_terms();
+		\PedimentChild\CptContent::seed_photo_terms();
 		$this->assertNotFalse( get_term_by( 'slug', 'casa-galbiga', 'wc_photo_category' ) );
 		$this->assertNotFalse( get_term_by( 'slug', 'casa-tremezzo', 'wc_photo_category' ) );
 		$this->assertNotFalse( get_term_by( 'slug', 'workspace', 'wc_photo_category' ) );
@@ -42,8 +42,8 @@ class PhotoSeedTest extends WP_UnitTestCase {
 	}
 
 	public function test_seed_photos_creates_posts_with_thumbnail_and_term() {
-		\PedimentChild\Seed::seed_photo_terms();
-		\PedimentChild\Seed::seed_photos( $this->manifest() );
+		\PedimentChild\CptContent::seed_photo_terms();
+		\PedimentChild\CptContent::seed_photos( $this->manifest() );
 
 		$photos = get_posts( array( 'post_type' => 'wc_photo', 'numberposts' => -1 ) );
 		$this->assertCount( 2, $photos );
@@ -54,9 +54,9 @@ class PhotoSeedTest extends WP_UnitTestCase {
 	}
 
 	public function test_seed_photos_is_idempotent() {
-		\PedimentChild\Seed::seed_photo_terms();
-		\PedimentChild\Seed::seed_photos( $this->manifest() );
-		\PedimentChild\Seed::seed_photos( $this->manifest() );
+		\PedimentChild\CptContent::seed_photo_terms();
+		\PedimentChild\CptContent::seed_photos( $this->manifest() );
+		\PedimentChild\CptContent::seed_photos( $this->manifest() );
 		$photos = get_posts( array( 'post_type' => 'wc_photo', 'numberposts' => -1 ) );
 		$this->assertCount( 2, $photos, 'Re-running must not duplicate photos' );
 	}

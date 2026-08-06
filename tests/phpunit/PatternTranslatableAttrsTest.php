@@ -85,9 +85,14 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 		$defaults     = $this->block_defaults();
 		$offenders    = array();
 
-		foreach ( \PedimentChild\Seed::PAGES as $slug => $info ) {
+		$patterns = glob( $this->theme_dir() . '/patterns/*.php' );
+		$this->assertNotEmpty( $patterns, 'No pattern files found — this test would pass vacuously.' );
+
+		foreach ( $patterns as $file ) {
+			$relative = 'patterns/' . basename( $file );
+
 			ob_start();
-			include $this->theme_dir() . '/' . $info['pattern_file'];
+			include $file;
 			$markup = (string) ob_get_clean();
 
 			foreach ( $this->flatten( parse_blocks( $markup ) ) as $block ) {
@@ -101,7 +106,7 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 						continue;
 					}
 					if ( ! array_key_exists( $key, (array) $block['attrs'] ) ) {
-						$offenders[] = "{$info['pattern_file']}: {$name}.{$key}";
+						$offenders[] = "{$relative}: {$name}.{$key}";
 					}
 				}
 			}
@@ -117,33 +122,32 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 
 	/**
 	 * The hero headline carries a <span class="hl"> highlight, which core
-	 * serializes as backslash-u escapes. wp_insert_post() unslashes what it is
-	 * given, so the seed has to slash the content or the escapes are eaten and
-	 * the stored headline reads "u003cspan".
+	 * serializes as backslash-u escapes inside the block comment's JSON. The
+	 * pattern file has to carry those escapes literally: unescaped markup makes
+	 * the attribute JSON unparseable, and an unslashed copy stores "u003cspan".
 	 */
-	public function test_seeded_headline_survives_the_database_round_trip() {
-		\PedimentChild\Seed::seed();
+	public function test_the_home_hero_headline_keeps_its_escaped_highlight() {
+		ob_start();
+		include $this->theme_dir() . '/patterns/home.php';
+		$markup = (string) ob_get_clean();
 
-		$page = get_page_by_path( 'home' );
-		$this->assertInstanceOf( \WP_Post::class, $page );
-
-		// The escapes must still carry their backslashes. Unslashed content
-		// would read `u003cspan` here instead. Single-quoted on purpose: the
+		// The escapes must still carry their backslashes. Unescaped markup
+		// would read `<span` here instead. Single-quoted on purpose: the
 		// backslashes are literal.
 		$this->assertStringContainsString(
 			'\u003cspan class=\u0022hl\u0022\u003e',
-			$page->post_content
+			$markup
 		);
 
 		$hero = null;
-		foreach ( $this->flatten( parse_blocks( $page->post_content ) ) as $block ) {
+		foreach ( $this->flatten( parse_blocks( $markup ) ) as $block ) {
 			if ( 'pediment-child/workation-hero' === $block['blockName'] ) {
 				$hero = $block;
 				break;
 			}
 		}
 
-		$this->assertNotNull( $hero, 'The seeded home page has no workation-hero block.' );
+		$this->assertNotNull( $hero, 'The home pattern has no workation-hero block.' );
 
 		// The headline no longer has a block.json default; the legacy copy map
 		// holds the same English string, so it doubles as the reference here
@@ -152,7 +156,7 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 		$this->assertSame(
 			$legacy['pediment-child/workation-hero']['headline'],
 			$hero['attrs']['headline'],
-			'The seeded headline and the legacy copy map have drifted apart.'
+			'The pattern headline and the legacy copy map have drifted apart.'
 		);
 		$this->assertStringContainsString( '<span class="hl">', $hero['attrs']['headline'] );
 	}
