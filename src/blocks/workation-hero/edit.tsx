@@ -27,14 +27,14 @@ type Attrs = {
 	secondaryUrl: string;
 };
 
-const ALLOWED = [ 'pediment-child/workation-chip' ];
+const ALLOWED = [ 'workation/workation-chip' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
-	[ 'pediment-child/workation-chip', { title: 'Up to 9 guests' } ],
-	[ 'pediment-child/workation-chip', { title: '2 vacation homes' } ],
-	[ 'pediment-child/workation-chip', { title: '5 bedrooms' } ],
-	[ 'pediment-child/workation-chip', { title: 'Co-working space' } ],
-	[ 'pediment-child/workation-chip', { title: 'By a nature reserve' } ],
-	[ 'pediment-child/workation-chip', { title: '~1h from Milan Malpensa' } ],
+	[ 'workation/workation-chip', { title: 'Up to 9 guests' } ],
+	[ 'workation/workation-chip', { title: '2 vacation homes' } ],
+	[ 'workation/workation-chip', { title: '5 bedrooms' } ],
+	[ 'workation/workation-chip', { title: 'Co-working space' } ],
+	[ 'workation/workation-chip', { title: 'By a nature reserve' } ],
+	[ 'workation/workation-chip', { title: '~1h from Milan Malpensa' } ],
 ];
 
 export default function Edit( {
@@ -62,9 +62,7 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Hero image & links', 'pediment-child' ) }
-				>
+				<PanelBody title={ __( 'Hero image & links', 'workation' ) }>
 					{ attributes.imageUrl && (
 						<img
 							src={ attributes.imageUrl }
@@ -86,25 +84,19 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __(
-												'Replace image',
-												'pediment-child'
-										  )
-										: __(
-												'Select image',
-												'pediment-child'
-										  ) }
+										? __( 'Replace image', 'workation' )
+										: __( 'Select image', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Secondary URL', 'pediment-child' ) }
+						label={ __( 'Secondary URL', 'workation' ) }
 						value={ attributes.secondaryUrl }
 						onChange={ ( v ) =>
 							setAttributes( { secondaryUrl: v } )
@@ -112,44 +104,41 @@ export default function Edit( {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'Booking link', 'pediment-child' ) }
+					title={ __( 'Booking link', 'workation' ) }
 					initialOpen={ false }
 				>
 					<TextControl
-						label={ __( 'Booking base URL', 'pediment-child' ) }
+						label={ __( 'Booking base URL', 'workation' ) }
 						help={ __(
 							'The “Check availability” form submits to this URL with the dates and guests appended as query parameters.',
-							'pediment-child'
+							'workation'
 						) }
 						value={ attributes.bookingUrl }
 						onChange={ ( v ) => setAttributes( { bookingUrl: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Arrival parameter', 'pediment-child' ) }
+						label={ __( 'Arrival parameter', 'workation' ) }
 						value={ attributes.checkInParam }
 						onChange={ ( v ) =>
 							setAttributes( { checkInParam: v } )
 						}
 					/>
 					<TextControl
-						label={ __( 'Departure parameter', 'pediment-child' ) }
+						label={ __( 'Departure parameter', 'workation' ) }
 						value={ attributes.checkOutParam }
 						onChange={ ( v ) =>
 							setAttributes( { checkOutParam: v } )
 						}
 					/>
 					<TextControl
-						label={ __( 'Guests parameter', 'pediment-child' ) }
+						label={ __( 'Guests parameter', 'workation' ) }
 						value={ attributes.adultsParam }
 						onChange={ ( v ) =>
 							setAttributes( { adultsParam: v } )
 						}
 					/>
 					<TextControl
-						label={ __(
-							'Children ages parameter',
-							'pediment-child'
-						) }
+						label={ __( 'Children ages parameter', 'workation' ) }
 						value={ attributes.childrenAgesParam }
 						onChange={ ( v ) =>
 							setAttributes( { childrenAgesParam: v } )
@@ -173,20 +162,20 @@ export default function Edit( {
 						className="eyebrow"
 						value={ attributes.eyebrow }
 						onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-						placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+						placeholder={ __( 'Eyebrow…', 'workation' ) }
 					/>
 					<RichText
 						tagName="h1"
 						value={ attributes.headline }
 						onChange={ ( v ) => setAttributes( { headline: v } ) }
-						placeholder={ __( 'Headline…', 'pediment-child' ) }
+						placeholder={ __( 'Headline…', 'workation' ) }
 					/>
 					<RichText
 						tagName="p"
 						className="lede"
 						value={ attributes.lead }
 						onChange={ ( v ) => setAttributes( { lead: v } ) }
-						placeholder={ __( 'Lead…', 'pediment-child' ) }
+						placeholder={ __( 'Lead…', 'workation' ) }
 					/>
 					<div className="avail">
 						<div className="avail-field">
@@ -218,10 +207,7 @@ export default function Edit( {
 								onChange={ ( v ) =>
 									setAttributes( { primaryText: v } )
 								}
-								placeholder={ __(
-									'Button…',
-									'pediment-child'
-								) }
+								placeholder={ __( 'Button…', 'workation' ) }
 							/>
 						</div>
 					</div>
@@ -232,7 +218,7 @@ export default function Edit( {
 							onChange={ ( v ) =>
 								setAttributes( { secondaryText: v } )
 							}
-							placeholder={ __( 'Secondary…', 'pediment-child' ) }
+							placeholder={ __( 'Secondary…', 'workation' ) }
 						/>
 					</div>
 					<div { ...chipProps } />

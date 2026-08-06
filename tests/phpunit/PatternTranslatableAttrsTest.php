@@ -141,7 +141,7 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 
 		$hero = null;
 		foreach ( $this->flatten( parse_blocks( $markup ) ) as $block ) {
-			if ( 'pediment-child/workation-hero' === $block['blockName'] ) {
+			if ( 'workation/workation-hero' === $block['blockName'] ) {
 				$hero = $block;
 				break;
 			}
@@ -152,9 +152,9 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 		// The headline no longer has a block.json default; the legacy copy map
 		// holds the same English string, so it doubles as the reference here
 		// and keeps the map and the patterns from drifting apart.
-		$legacy = pediment_child_legacy_block_copy();
+		$legacy = workation_legacy_block_copy();
 		$this->assertSame(
-			$legacy['pediment-child/workation-hero']['headline'],
+			$legacy['workation/workation-hero']['headline'],
 			$hero['attrs']['headline'],
 			'The pattern headline and the legacy copy map have drifted apart.'
 		);
@@ -199,7 +199,7 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 	 */
 	public function test_legacy_content_without_attributes_still_renders_its_copy() {
 		$rendered = do_blocks(
-			'<!-- wp:pediment-child/workation-spaces --><!-- /wp:pediment-child/workation-spaces -->'
+			'<!-- wp:workation/workation-spaces --><!-- /wp:workation/workation-spaces -->'
 		);
 
 		$this->assertStringContainsString( 'The spaces', $rendered );
@@ -209,7 +209,7 @@ class PatternTranslatableAttrsTest extends WP_UnitTestCase {
 	/** An attribute emptied on purpose hides its element and is not refilled. */
 	public function test_an_emptied_attribute_is_not_refilled() {
 		$rendered = do_blocks(
-			'<!-- wp:pediment-child/workation-spaces {"headline":""} --><!-- /wp:pediment-child/workation-spaces -->'
+			'<!-- wp:workation/workation-spaces {"headline":""} --><!-- /wp:workation/workation-spaces -->'
 		);
 
 		$this->assertStringNotContainsString( 'Room to work, and room to stay.', $rendered );

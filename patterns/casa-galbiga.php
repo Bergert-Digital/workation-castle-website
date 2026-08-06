@@ -1,14 +1,14 @@
 <?php
 /**
  * Title: Casa Galbiga
- * Slug: pediment-child/casa-galbiga
- * Categories: pediment-child
+ * Slug: workation/casa-galbiga
+ * Categories: workation
  * Description: Guest guide — how the heating and air-conditioning work in Casa Galbiga.
  * Inserter: no
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Casa Galbiga","lead":"How the heating, the room fan-heaters and the kitchen air-conditioner work.","imageUrl":"https://workationcastle.com/wp-content/uploads/2024/01/IMG_1728-scaled.jpeg","imageAlt":"The yellow facade of Casa Galbiga with green shutters and a painted sundial, seen from below between stone walls"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Casa Galbiga","lead":"How the heating, the room fan-heaters and the kitchen air-conditioner work.","imageUrl":"https://workationcastle.com/wp-content/uploads/2024/01/IMG_1728-scaled.jpeg","imageAlt":"The yellow facade of Casa Galbiga with green shutters and a painted sundial, seen from below between stone walls"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
@@ -103,4 +103,4 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-closing {"headline":"Ready to come and stay?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->
+<!-- wp:workation/workation-closing {"headline":"Ready to come and stay?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

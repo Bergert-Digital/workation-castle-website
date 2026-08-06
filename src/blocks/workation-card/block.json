@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-card",
+  "name": "workation/workation-card",
   "title": "Workation Audience Card",
   "category": "design",
   "description": "A single audience card: image, eyebrow, title, text, link.",
-  "parent": [ "pediment-child/workation-audience" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-audience" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },

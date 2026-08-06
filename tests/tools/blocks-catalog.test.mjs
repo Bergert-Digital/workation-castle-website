@@ -41,7 +41,7 @@ test('buildCatalog emits a section per block with attrs, class, source, preserve
     {
       source: 'child',
       blockJson: {
-        name: 'pediment-child/promo-banner', title: 'Promo Banner', description: 'Example.',
+        name: 'workation/promo-banner', title: 'Promo Banner', description: 'Example.',
         attributes: { headline: { type: 'string', default: '' } },
       },
     },
@@ -57,5 +57,5 @@ test('buildCatalog emits a section per block with attrs, class, source, preserve
   // preserved human note survives regeneration:
   assert.match(md, /\*\*Use when:\*\* leading headline with CTA\./);
   // new block with no prior note gets the editable marker:
-  assert.match(md, /## pediment-child\/promo-banner[\s\S]*\*\*Use when:\*\* _\(add guidance\)_/);
+  assert.match(md, /## workation\/promo-banner[\s\S]*\*\*Use when:\*\* _\(add guidance\)_/);
 });

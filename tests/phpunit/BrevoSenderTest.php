@@ -29,7 +29,7 @@ class BrevoSenderTest extends WP_UnitTestCase {
 
 	public function test_skips_when_no_api_key() {
 		putenv( 'BREVO_API_KEY' ); // unset
-		$result = \PedimentChild\Brevo::send_checkin_notification( $this->sample() );
+		$result = \Workation\Brevo::send_checkin_notification( $this->sample() );
 		$this->assertSame( 'skipped', $result['status'] );
 	}
 
@@ -44,7 +44,7 @@ class BrevoSenderTest extends WP_UnitTestCase {
 				);
 			}
 		);
-		$result = \PedimentChild\Brevo::send_checkin_notification( $this->sample() );
+		$result = \Workation\Brevo::send_checkin_notification( $this->sample() );
 		$this->assertSame( 'sent', $result['status'] );
 	}
 
@@ -59,7 +59,7 @@ class BrevoSenderTest extends WP_UnitTestCase {
 				);
 			}
 		);
-		$result = \PedimentChild\Brevo::send_checkin_notification( $this->sample() );
+		$result = \Workation\Brevo::send_checkin_notification( $this->sample() );
 		$this->assertSame( 'failed', $result['status'] );
 	}
 }

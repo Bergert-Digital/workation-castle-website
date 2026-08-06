@@ -29,7 +29,7 @@
 		'.wc-wrap > .space-row',
 		'.modes > .mode',
 		'.act-grid > .act',
-		'.gallery > .wp-block-pediment-child-workation-photo',
+		'.gallery > .wp-block-workation-workation-photo',
 		'.reviews-grid > .review',
 		'.gallery-foot',
 		'.closing-inner',

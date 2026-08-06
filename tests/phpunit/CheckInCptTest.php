@@ -4,15 +4,15 @@
 class CheckInCptTest extends WP_UnitTestCase {
 
 	public function test_cpt_is_registered_and_private() {
-		$this->assertTrue( post_type_exists( \PedimentChild\CheckIn::CPT ) );
-		$obj = get_post_type_object( \PedimentChild\CheckIn::CPT );
+		$this->assertTrue( post_type_exists( \Workation\CheckIn::CPT ) );
+		$obj = get_post_type_object( \Workation\CheckIn::CPT );
 		$this->assertFalse( $obj->public );
 		$this->assertFalse( $obj->publicly_queryable );
 		$this->assertTrue( $obj->show_ui );
 	}
 
 	public function test_cpt_is_admin_only() {
-		$cpt     = \PedimentChild\CheckIn::CPT;
+		$cpt     = \Workation\CheckIn::CPT;
 		$post_id = self::factory()->post->create(
 			array(
 				'post_type'   => $cpt,
@@ -45,7 +45,7 @@ class CheckInCptTest extends WP_UnitTestCase {
 	}
 
 	public function test_config_exposes_caps_and_allowlists() {
-		$config = \PedimentChild\CheckIn::config();
+		$config = \Workation\CheckIn::config();
 		$this->assertSame( 20, $config['caps']['maxGuests'] );
 		$this->assertSame( 1, $config['caps']['minGuests'] );
 		$this->assertSame( 10, $config['caps']['maxHouses'] );
@@ -55,6 +55,6 @@ class CheckInCptTest extends WP_UnitTestCase {
 		$this->assertContains( 'first_name', $genders );
 
 		$doc_values = array_column( $config['docTypes'], 'value' );
-		$this->assertSame( \PedimentChild\CheckIn::DOC_TYPES, $doc_values );
+		$this->assertSame( \Workation\CheckIn::DOC_TYPES, $doc_values );
 	}
 }

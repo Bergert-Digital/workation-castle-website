@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/photo-gallery",
+  "name": "workation/photo-gallery",
   "title": "Photo Gallery (filterable)",
   "category": "design",
   "description": "Filterable grid of all Photos, with category tabs and a lightbox.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "supports": { "html": false, "align": [ "full" ] },
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },

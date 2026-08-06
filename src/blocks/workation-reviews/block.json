@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-reviews",
+  "name": "workation/workation-reviews",
   "title": "Workation Reviews",
   "category": "design",
   "description": "Guest reviews card grid.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string" },
     "headline": { "type": "string" },

@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-activities",
+  "name": "workation/workation-activities",
   "title": "Workation Activities",
   "category": "design",
   "description": "Activities image-tile section.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string" },
     "headline": { "type": "string" },

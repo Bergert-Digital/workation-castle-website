@@ -7,7 +7,7 @@ class PageHeroBodyClassTest extends WP_UnitTestCase {
 			array(
 				'post_type'    => 'page',
 				'post_status'  => 'publish',
-				'post_content' => '<!-- wp:pediment-child/page-hero {"headline":"Hello"} /-->',
+				'post_content' => '<!-- wp:workation/page-hero {"headline":"Hello"} /-->',
 			)
 		);
 		$this->go_to( get_permalink( $id ) );

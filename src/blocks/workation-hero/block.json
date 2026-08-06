@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-hero",
+  "name": "workation/workation-hero",
   "title": "Workation Hero",
   "category": "design",
   "description": "Workation Castle homepage hero section.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string" },
     "headline": { "type": "string" },

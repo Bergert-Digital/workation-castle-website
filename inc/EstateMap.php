@@ -2,7 +2,7 @@
 /**
  * Estate map — POI data and section renderer for the /guide/map/ page.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 /**
@@ -10,7 +10,7 @@
  *
  * @return array<int,array<string,mixed>>
  */
-function pediment_child_estate_map_pois() {
+function workation_estate_map_pois() {
 	return array(
 		array(
 			'id'     => 'galbiga',
@@ -81,7 +81,7 @@ function pediment_child_estate_map_pois() {
  *
  * @return string
  */
-function pediment_child_estate_map_scenery() {
+function workation_estate_map_scenery() {
 	return <<<'SVG'
 <defs>
 <linearGradient id="wc-roof" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C67E5C"/><stop offset="1" stop-color="#A9583B"/></linearGradient>
@@ -132,8 +132,8 @@ SVG;
  * @param string $content    Inner blocks (unused).
  * @return string
  */
-function pediment_child_estate_map_chrome( $attributes = array(), $content = '' ) {
-	$pois    = pediment_child_estate_map_pois();
+function workation_estate_map_chrome( $attributes = array(), $content = '' ) {
+	$pois    = workation_estate_map_pois();
 	$wrapper = get_block_wrapper_attributes( array( 'class' => 'estate-map band' ) );
 
 	$pins = '';
@@ -161,14 +161,14 @@ function pediment_child_estate_map_chrome( $attributes = array(), $content = '' 
 		);
 	}
 
-	$scenery = pediment_child_estate_map_scenery();
+	$scenery = workation_estate_map_scenery();
 
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 		<div class="wc-wrap estate-map__inner">
 			<div class="estate-map__figure">
-				<svg class="estate-map__svg" viewBox="0 0 842 596" role="img" aria-label="<?php echo esc_attr__( 'Illustrated map of Workation Castle showing the guest houses, co-working space, bar and grounds', 'pediment-child' ); ?>">
+				<svg class="estate-map__svg" viewBox="0 0 842 596" role="img" aria-label="<?php echo esc_attr__( 'Illustrated map of Workation Castle showing the guest houses, co-working space, bar and grounds', 'workation' ); ?>">
 					<?php echo $scenery; // phpcs:ignore WordPress.Security.EscapeOutput ?>
 					<g class="estate-map__pins"><?php echo $pins; // phpcs:ignore WordPress.Security.EscapeOutput ?></g>
 				</svg>

@@ -31,7 +31,7 @@ export default function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Photo', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Photo', 'workation' ) }>
 					<MediaUploadCheck>
 						<MediaUpload
 							allowedTypes={ [ 'image' ] }
@@ -46,37 +46,31 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __(
-												'Replace image',
-												'pediment-child'
-										  )
-										: __(
-												'Select image',
-												'pediment-child'
-										  ) }
+										? __( 'Replace image', 'workation' )
+										: __( 'Select image', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 					<SelectControl
-						label={ __( 'Size', 'pediment-child' ) }
+						label={ __( 'Size', 'workation' ) }
 						value={ attributes.variant }
 						options={ [
 							{
-								label: __( 'Normal', 'pediment-child' ),
+								label: __( 'Normal', 'workation' ),
 								value: '',
 							},
 							{
-								label: __( 'Tall', 'pediment-child' ),
+								label: __( 'Tall', 'workation' ),
 								value: 'tall',
 							},
 							{
-								label: __( 'Wide', 'pediment-child' ),
+								label: __( 'Wide', 'workation' ),
 								value: 'wide',
 							},
 						] }
@@ -92,7 +86,7 @@ export default function Edit( {
 					/>
 				) : (
 					<span className="components-placeholder__label">
-						{ __( 'Select an image…', 'pediment-child' ) }
+						{ __( 'Select an image…', 'workation' ) }
 					</span>
 				) }
 			</span>

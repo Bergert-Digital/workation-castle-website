@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/page-hero",
+  "name": "workation/page-hero",
   "title": "Page Hero",
   "category": "design",
   "description": "Cinematic full-bleed hero for interior pages, defaulting to the homepage image.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },
     "headline": { "type": "string", "default": "" },

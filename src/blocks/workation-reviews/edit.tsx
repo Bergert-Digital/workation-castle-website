@@ -15,10 +15,10 @@ type Attrs = {
 	ctaUrl: string;
 };
 
-const ALLOWED = [ 'pediment-child/workation-review' ];
+const ALLOWED = [ 'workation/workation-review' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
-		'pediment-child/workation-review',
+		'workation/workation-review',
 		{
 			text: 'The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes from the location. The co-working space exceeds expectations.',
 			title: 'Alexander M.',
@@ -26,7 +26,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-review',
+		'workation/workation-review',
 		{
 			text: 'Ein toller und sehr entspannter Ort zum Arbeiten oder Urlaub machen. Das Haus und die gemeinsamen Arbeitsräume sind super ausgestattet.',
 			title: 'Simone S.',
@@ -34,7 +34,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-review',
+		'workation/workation-review',
 		{
 			text: 'Die Atmosphäre des alten Gemäuers, den Ausblick von der Terrasse. Tolles und durchdachtes Konzept, auch für größere Familien, Gruppen und zum Arbeiten.',
 			title: 'Manuelle B.',
@@ -67,14 +67,14 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Call to action', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Call to action', 'workation' ) }>
 					<TextControl
-						label={ __( 'Button label', 'pediment-child' ) }
+						label={ __( 'Button label', 'workation' ) }
 						value={ attributes.ctaText }
 						onChange={ ( v ) => setAttributes( { ctaText: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Button URL', 'pediment-child' ) }
+						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.ctaUrl }
 						onChange={ ( v ) => setAttributes( { ctaUrl: v } ) }
 					/>
@@ -86,13 +86,13 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<div className="wc-wrap">

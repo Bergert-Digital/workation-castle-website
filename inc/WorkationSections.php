@@ -2,7 +2,7 @@
 /**
  * Workation Castle section block render helpers.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_reviews_chrome( $attributes, $content ) {
+function workation_workation_reviews_chrome( $attributes, $content ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$cta_text = isset( $attributes['ctaText'] ) ? (string) $attributes['ctaText'] : '';
@@ -53,7 +53,7 @@ function pediment_child_workation_reviews_chrome( $attributes, $content ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_activities_chrome( $attributes, $content ) {
+function workation_workation_activities_chrome( $attributes, $content ) {
 	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead         = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
@@ -92,7 +92,7 @@ function pediment_child_workation_activities_chrome( $attributes, $content ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_gallery_chrome( $attributes, $content ) {
+function workation_workation_gallery_chrome( $attributes, $content ) {
 	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
@@ -127,7 +127,7 @@ function pediment_child_workation_gallery_chrome( $attributes, $content ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_audience_chrome( $attributes, $content ) {
+function workation_workation_audience_chrome( $attributes, $content ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-deep' ) );
@@ -160,7 +160,7 @@ function pediment_child_workation_audience_chrome( $attributes, $content ) {
  * @param string $content Rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_mark_reverse_rows( $content ) {
+function workation_workation_mark_reverse_rows( $content ) {
 	$index = -1;
 	return (string) preg_replace_callback(
 		'/class="([^"]*(?<![\w-])space-row(?![\w-])[^"]*)"/',
@@ -186,11 +186,11 @@ function pediment_child_workation_mark_reverse_rows( $content ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_spaces_chrome( $attributes, $content ) {
+function workation_workation_spaces_chrome( $attributes, $content ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead     = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$content  = pediment_child_workation_mark_reverse_rows( $content );
+	$content  = workation_workation_mark_reverse_rows( $content );
 	$wrapper  = get_block_wrapper_attributes( array( 'class' => 'band band-cream' ) );
 	ob_start();
 	?>
@@ -219,11 +219,11 @@ function pediment_child_workation_spaces_chrome( $attributes, $content ) {
  * @param string $content    Pre-rendered inner blocks.
  * @return string
  */
-function pediment_child_workation_location_chrome( $attributes, $content ) {
+function workation_workation_location_chrome( $attributes, $content ) {
 	$eyebrow      = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline     = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead         = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url    = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'location-map.png' );
+	$image_url    = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : workation_default_image( 'location-map.png' );
 	$image_alt    = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$primary_url  = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';
@@ -269,11 +269,11 @@ function pediment_child_workation_location_chrome( $attributes, $content ) {
  * @param string $content    Pre-rendered inner blocks (chips).
  * @return string
  */
-function pediment_child_workation_hero_chrome( $attributes, $content ) {
+function workation_workation_hero_chrome( $attributes, $content ) {
 	$eyebrow         = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline        = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead            = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url       = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'hero-default.jpg' );
+	$image_url       = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : workation_default_image( 'hero-default.jpg' );
 	$image_alt       = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text    = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$booking_url     = ! empty( $attributes['bookingUrl'] ) ? (string) $attributes['bookingUrl'] : 'https://workationcastle.holiduhost.com/';
@@ -301,7 +301,7 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
 					<p class="lede"><?php echo wp_kses_post( $lead ); ?></p>
 				<?php endif; ?>
 				<?php
-				echo pediment_child_render_availability_form( // phpcs:ignore WordPress.Security.EscapeOutput
+				echo workation_render_availability_form( // phpcs:ignore WordPress.Security.EscapeOutput
 					array(
 						'booking_url'     => $booking_url,
 						'check_in_param'  => $check_in_param,
@@ -327,7 +327,7 @@ function pediment_child_workation_hero_chrome( $attributes, $content ) {
  * @param array $attributes Block attributes.
  * @return string
  */
-function pediment_child_workation_intro_chrome( $attributes ) {
+function workation_workation_intro_chrome( $attributes ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead     = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
@@ -361,13 +361,13 @@ function pediment_child_workation_intro_chrome( $attributes ) {
  * @param array $attributes Block attributes (eyebrow, headline).
  * @return string
  */
-function pediment_child_photo_gallery_chrome( $attributes ) {
+function workation_photo_gallery_chrome( $attributes ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 
 	$query = new WP_Query(
 		array(
-			'post_type'      => PEDIMENT_CHILD_PHOTO_CPT,
+			'post_type'      => WORKATION_PHOTO_CPT,
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 			'orderby'        => 'menu_order',
@@ -384,7 +384,7 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 		if ( ! $full ) {
 			continue;
 		}
-		$terms     = get_the_terms( $post->ID, PEDIMENT_CHILD_PHOTO_TAX );
+		$terms     = get_the_terms( $post->ID, WORKATION_PHOTO_TAX );
 		$slugs     = array();
 		$cat_label = '';
 		if ( is_array( $terms ) ) {
@@ -447,8 +447,8 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
 			</div>
 		<?php endif; ?>
 		<div class="wc-wrap">
-			<div class="photo-tabs" role="group" aria-label="<?php esc_attr_e( 'Filter photos', 'pediment-child' ); ?>">
-				<button type="button" class="photo-tab is-active" data-filter="*" aria-pressed="true"><?php esc_html_e( 'All', 'pediment-child' ); ?></button>
+			<div class="photo-tabs" role="group" aria-label="<?php esc_attr_e( 'Filter photos', 'workation' ); ?>">
+				<button type="button" class="photo-tab is-active" data-filter="*" aria-pressed="true"><?php esc_html_e( 'All', 'workation' ); ?></button>
 				<?php foreach ( $used_terms as $slug => $name ) : ?>
 					<button type="button" class="photo-tab" data-filter="<?php echo esc_attr( $slug ); ?>" aria-pressed="false"><?php echo esc_html( $name ); ?></button>
 				<?php endforeach; ?>
@@ -468,13 +468,13 @@ function pediment_child_photo_gallery_chrome( $attributes ) {
  * @param array $attributes Block attributes (eyebrow, headline, align).
  * @return string
  */
-function pediment_child_activity_list_chrome( $attributes ) {
+function workation_activity_list_chrome( $attributes ) {
 	$eyebrow  = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 
 	$query = new WP_Query(
 		array(
-			'post_type'      => PEDIMENT_CHILD_ACTIVITY_CPT,
+			'post_type'      => WORKATION_ACTIVITY_CPT,
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 			'orderby'        => 'menu_order',
@@ -547,7 +547,7 @@ function pediment_child_activity_list_chrome( $attributes ) {
  * @param string $file File name under assets/images/.
  * @return string
  */
-function pediment_child_default_image( string $file ): string {
+function workation_default_image( string $file ): string {
 	return get_theme_file_uri( 'assets/images/' . $file );
 }
 
@@ -563,11 +563,11 @@ function pediment_child_default_image( string $file ): string {
  *                          imageAlt).
  * @return string
  */
-function pediment_child_page_hero_chrome( $attributes ) {
+function workation_page_hero_chrome( $attributes ) {
 	$eyebrow   = isset( $attributes['eyebrow'] ) ? (string) $attributes['eyebrow'] : '';
 	$headline  = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
 	$lead      = isset( $attributes['lead'] ) ? (string) $attributes['lead'] : '';
-	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'hero-default.jpg' );
+	$image_url = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : workation_default_image( 'hero-default.jpg' );
 	$image_alt = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 
 	$align       = isset( $attributes['align'] ) ? (string) $attributes['align'] : '';
@@ -599,9 +599,9 @@ function pediment_child_page_hero_chrome( $attributes ) {
  * @param array $attributes Block attributes.
  * @return string
  */
-function pediment_child_workation_closing_chrome( $attributes ) {
+function workation_workation_closing_chrome( $attributes ) {
 	$headline       = isset( $attributes['headline'] ) ? (string) $attributes['headline'] : '';
-	$image_url      = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : pediment_child_default_image( 'closing-default.jpg' );
+	$image_url      = ! empty( $attributes['imageUrl'] ) ? (string) $attributes['imageUrl'] : workation_default_image( 'closing-default.jpg' );
 	$image_alt      = isset( $attributes['imageAlt'] ) ? (string) $attributes['imageAlt'] : '';
 	$primary_text   = isset( $attributes['primaryText'] ) ? (string) $attributes['primaryText'] : '';
 	$primary_url    = isset( $attributes['primaryUrl'] ) ? (string) $attributes['primaryUrl'] : '';

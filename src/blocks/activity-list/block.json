@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/activity-list",
+  "name": "workation/activity-list",
   "title": "Activity List",
   "category": "design",
   "description": "Grid of all Activities, each linking to its single page.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "supports": { "html": false, "align": [ "full" ] },
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },

@@ -2,21 +2,24 @@
 /**
  * Workation Castle theme bootstrap.
  *
- * Fork target. Pediment (parent) is read-only; your blocks,
- * theme.json overrides and child-specific PHP live here.
+ * A standalone Pediment client theme. The Pediment plugin ships the design
+ * system, the shared blocks, the templates and the seeding engine; what lives
+ * here is what is specific to this client — 23 bespoke blocks under
+ * src/blocks/, the guest check-in flow, the photo and activity post types, and
+ * the stylesheet. Site structure is declared in seed/manifest.php.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'PEDIMENT_CHILD_DIR' ) ) {
-	define( 'PEDIMENT_CHILD_DIR', __DIR__ );
+if ( ! defined( 'WORKATION_DIR' ) ) {
+	define( 'WORKATION_DIR', __DIR__ );
 }
-if ( ! defined( 'PEDIMENT_CHILD_VERSION' ) ) {
-	define( 'PEDIMENT_CHILD_VERSION', '0.12.0' ); // Bumped on release; see x-release-please-version.
+if ( ! defined( 'WORKATION_VERSION' ) ) {
+	define( 'WORKATION_VERSION', '0.12.0' ); // Bumped on release; see x-release-please-version.
 }
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
@@ -40,7 +43,7 @@ require_once __DIR__ . '/inc/CptContent.php';
 
 // Check-in: private CPT + REST endpoint + Brevo email for guest registration.
 require_once __DIR__ . '/inc/CheckIn.php';
-\PedimentChild\CheckIn::register();
+\Workation\CheckIn::register();
 require_once __DIR__ . '/inc/Brevo.php';
 
 // Section block render helpers (also loaded by individual block render.php files,
@@ -58,21 +61,21 @@ require_once __DIR__ . '/inc/LegacyBlockCopy.php';
 // Legacy URL redirects: 301 retired paths (renamed/re-nested/removed pages) to
 // their new homes so old inbound links and search results keep working.
 require_once __DIR__ . '/inc/Redirects.php';
-\PedimentChild\Redirects::register();
+\Workation\Redirects::register();
 
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
- * Named distinctly from the parent's pediment_register_blocks() — both
- * functions.php files load for a child theme, so an identical name would
- * fatal-redeclare.
+ * Prefixed rather than named generically: the Pediment plugin registers its own
+ * blocks under its own prefix, and a shared name would collide the moment the
+ * two ever loaded in the same request.
  *
  * @param string|null $base_dir Directory containing block subfolders.
  */
-function pediment_child_register_blocks( $base_dir = null ) {
+function workation_register_blocks( $base_dir = null ) {
 	$is_default_dir = ( null === $base_dir || '' === $base_dir );
 	if ( $is_default_dir ) {
-		$base_dir = PEDIMENT_CHILD_DIR . '/build/blocks';
+		$base_dir = WORKATION_DIR . '/build/blocks';
 	}
 
 	if ( ! is_dir( $base_dir ) ) {
@@ -82,7 +85,7 @@ function pediment_child_register_blocks( $base_dir = null ) {
 		// rather than inferred from a blank page. Only the real build dir is
 		// flagged; callers passing an explicit path (tests) are not.
 		if ( $is_default_dir ) {
-			pediment_child_flag_missing_build();
+			workation_flag_missing_build();
 		}
 		return;
 	}
@@ -104,9 +107,24 @@ function pediment_child_register_blocks( $base_dir = null ) {
 add_action(
 	'init',
 	function () {
-		pediment_child_register_blocks();
+		workation_register_blocks();
 	}
 );
+
+/**
+ * Register the pattern category this theme's patterns declare.
+ *
+ * Previously done by the theme's own seeder, which the plugin's seeding engine
+ * replaced. Patterns whose category is not registered still work, but they are
+ * filed under "Uncategorized" in the inserter.
+ */
+function workation_register_pattern_category(): void {
+	register_block_pattern_category(
+		'workation',
+		array( 'label' => __( 'Workation Castle', 'workation' ) )
+	);
+}
+add_action( 'init', 'workation_register_pattern_category' );
 
 /**
  * Record that the theme's built blocks are missing, and surface it in wp-admin.
@@ -115,36 +133,36 @@ add_action(
  * update that installed GitHub's auto-generated source zip (which excludes the
  * gitignored `build/`) instead of the release asset.
  */
-function pediment_child_flag_missing_build() {
+function workation_flag_missing_build() {
 	// Idempotent: init can fire more than once in CLI/eval contexts, and two
 	// copies of the same notice help nobody.
-	if ( has_action( 'admin_notices', 'pediment_child_render_missing_build_notice' ) ) {
+	if ( has_action( 'admin_notices', 'workation_render_missing_build_notice' ) ) {
 		return;
 	}
-	add_action( 'admin_notices', 'pediment_child_render_missing_build_notice' );
+	add_action( 'admin_notices', 'workation_render_missing_build_notice' );
 }
 
 /**
  * Render the "no blocks are registered" notice.
  *
- * Kept separate from pediment_child_flag_missing_build() so the capability gate
+ * Kept separate from workation_flag_missing_build() so the capability gate
  * is exercisable on its own.
  */
-function pediment_child_render_missing_build_notice() {
+function workation_render_missing_build_notice() {
 	if ( ! current_user_can( 'switch_themes' ) ) {
 		return;
 	}
 	?>
 	<div class="notice notice-error">
 		<p>
-			<strong><?php esc_html_e( 'Workation Castle theme: no blocks are registered.', 'pediment-child' ); ?></strong>
+			<strong><?php esc_html_e( 'Workation Castle theme: no blocks are registered.', 'workation' ); ?></strong>
 		</p>
 		<p>
 			<?php
 			printf(
 				/* translators: %s: absolute path to the theme's build/blocks directory. */
-				esc_html__( 'The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation-castle-theme.zip release asset (not the "Source code" zip).', 'pediment-child' ),
-				'<code>' . esc_html( PEDIMENT_CHILD_DIR . '/build/blocks' ) . '</code>'
+				esc_html__( 'The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the "Source code" zip).', 'workation' ),
+				'<code>' . esc_html( WORKATION_DIR . '/build/blocks' ) . '</code>'
 			);
 			?>
 		</p>
@@ -153,12 +171,12 @@ function pediment_child_render_missing_build_notice() {
 }
 
 /**
- * Retire the generic parent `pediment/cta` block.
+ * Retire the generic `pediment/cta` block the plugin ships.
  *
  * The site uses one closing call-to-action everywhere: the branded
- * `pediment-child/workation-closing` section from the homepage bottom
+ * `workation/workation-closing` section from the homepage bottom
  * (full-bleed image, headline, Check availability / Ask for a custom offer,
- * Instagram link). The parent's plain `pediment/cta` band is off-brand, so it
+ * Instagram link). The plugin's plain `pediment/cta` band is off-brand, so it
  * is unregistered here to keep it out of the inserter and prevent accidental
  * reuse in new pages. Runs after registration (priority 20). No pattern ships
  * `wp:pediment/cta`, so nothing renders blank.
@@ -179,7 +197,7 @@ add_action(
 	function () {
 		$style_path = get_stylesheet_directory() . '/style.css';
 		wp_enqueue_style(
-			'pediment-child',
+			'workation',
 			get_stylesheet_directory_uri() . '/style.css',
 			array(),
 			file_exists( $style_path ) ? (string) filemtime( $style_path ) : wp_get_theme()->get( 'Version' )
@@ -238,7 +256,7 @@ add_action(
 			file_exists( $range_picker_js_path ) ? (string) filemtime( $range_picker_js_path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);
-		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', pediment_child_range_picker_l10n() );
+		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', workation_range_picker_l10n() );
 
 		$estate_map_js_path = get_stylesheet_directory() . '/assets/js/estate-map.js';
 		wp_enqueue_script(
@@ -250,7 +268,7 @@ add_action(
 		);
 
 		// Activity locator maps (Leaflet) — only on single activity pages.
-		if ( defined( 'PEDIMENT_CHILD_ACTIVITY_CPT' ) && is_singular( PEDIMENT_CHILD_ACTIVITY_CPT ) ) {
+		if ( defined( 'WORKATION_ACTIVITY_CPT' ) && is_singular( WORKATION_ACTIVITY_CPT ) ) {
 			wp_enqueue_style(
 				'leaflet',
 				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
@@ -305,17 +323,17 @@ add_action(
  * Emitted on the front end, the admin and the login screen so the brand mark
  * shows everywhere. Uses the SVG mark, which scales crisply at any size.
  */
-function pediment_child_favicon() {
+function workation_favicon() {
 	$href = get_theme_file_uri( 'assets/images/favicon.svg' );
 	printf(
 		'<link rel="icon" href="%1$s?v=%2$s" type="image/svg+xml">' . "\n",
 		esc_url( $href ),
-		esc_attr( PEDIMENT_CHILD_VERSION )
+		esc_attr( WORKATION_VERSION )
 	);
 }
-add_action( 'wp_head', 'pediment_child_favicon' );
-add_action( 'admin_head', 'pediment_child_favicon' );
-add_action( 'login_head', 'pediment_child_favicon' );
+add_action( 'wp_head', 'workation_favicon' );
+add_action( 'admin_head', 'workation_favicon' );
+add_action( 'login_head', 'workation_favicon' );
 
 /**
  * Flag pages that have no full-bleed hero behind the fixed header.
@@ -332,13 +350,13 @@ add_action( 'login_head', 'pediment_child_favicon' );
  * @param string[] $classes Body classes.
  * @return string[]
  */
-function pediment_child_body_class( $classes ) {
+function workation_body_class( $classes ) {
 	$has_hero = false;
 	if ( is_singular() ) {
 		$post = get_queried_object();
 		if ( $post instanceof WP_Post ) {
-			$has_hero = has_block( 'pediment-child/workation-hero', $post )
-				|| has_block( 'pediment-child/page-hero', $post );
+			$has_hero = has_block( 'workation/workation-hero', $post )
+				|| has_block( 'workation/page-hero', $post );
 		}
 	}
 	if ( ! $has_hero ) {
@@ -346,10 +364,10 @@ function pediment_child_body_class( $classes ) {
 	}
 	return $classes;
 }
-add_filter( 'body_class', 'pediment_child_body_class' );
+add_filter( 'body_class', 'workation_body_class' );
 
 /**
- * Resolve the %PEDIMENT_CHILD_THEME_URI% placeholder in static template parts.
+ * Resolve the %WORKATION_THEME_URI% placeholder in static template parts.
  *
  * Template-part HTML files (header, footer) can't run PHP, so they reference
  * theme assets such as the brand logo through this token. Swapping it for the
@@ -359,11 +377,11 @@ add_filter( 'body_class', 'pediment_child_body_class' );
 add_filter(
 	'render_block_core/html',
 	function ( $content ) {
-		if ( false === strpos( $content, '%PEDIMENT_CHILD_THEME_URI%' ) ) {
+		if ( false === strpos( $content, '%WORKATION_THEME_URI%' ) ) {
 			return $content;
 		}
 		return str_replace(
-			'%PEDIMENT_CHILD_THEME_URI%',
+			'%WORKATION_THEME_URI%',
 			esc_url( get_stylesheet_directory_uri() ),
 			$content
 		);

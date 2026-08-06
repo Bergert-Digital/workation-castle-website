@@ -51,7 +51,7 @@ class CheckInRestTest extends WP_UnitTestCase {
 	}
 
 	private function request( array $body ): \WP_REST_Response {
-		$req = new \WP_REST_Request( 'POST', '/pediment-child/v1/check-in' );
+		$req = new \WP_REST_Request( 'POST', '/workation/v1/check-in' );
 		$req->set_header( 'Content-Type', 'application/json' );
 		$req->set_header( 'X-WP-Nonce', wp_create_nonce( 'wp_rest' ) );
 		$req->set_body( wp_json_encode( $body ) );
@@ -66,7 +66,7 @@ class CheckInRestTest extends WP_UnitTestCase {
 
 		$posts = get_posts(
 			array(
-				'post_type'   => \PedimentChild\CheckIn::CPT,
+				'post_type'   => \Workation\CheckIn::CPT,
 				'post_status' => 'private',
 				'numberposts' => -1,
 			)
@@ -152,7 +152,7 @@ class CheckInRestTest extends WP_UnitTestCase {
 		$res = $this->request( $body );
 		$this->assertSame( 200, $res->get_status() );
 		$this->assertTrue( $res->get_data()['ok'] );
-		$posts = get_posts( array( 'post_type' => \PedimentChild\CheckIn::CPT, 'numberposts' => -1, 'post_status' => 'any' ) );
+		$posts = get_posts( array( 'post_type' => \Workation\CheckIn::CPT, 'numberposts' => -1, 'post_status' => 'any' ) );
 		$this->assertCount( 0, $posts );
 	}
 }

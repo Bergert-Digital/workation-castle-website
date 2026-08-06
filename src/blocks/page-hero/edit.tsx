@@ -32,11 +32,11 @@ export default function Edit( {
 	return (
 		<section { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Hero image', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Hero image', 'workation' ) }>
 					<p>
 						{ __(
 							'Defaults to the homepage image. Choose another to override it on this page.',
-							'pediment-child'
+							'workation'
 						) }
 					</p>
 					{ imageUrl && (
@@ -59,7 +59,7 @@ export default function Edit( {
 							}
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
-									{ __( 'Replace image', 'pediment-child' ) }
+									{ __( 'Replace image', 'workation' ) }
 								</Button>
 							) }
 						/>
@@ -77,14 +77,11 @@ export default function Edit( {
 							}
 							style={ { display: 'block', marginTop: 8 } }
 						>
-							{ __(
-								'Reset to homepage image',
-								'pediment-child'
-							) }
+							{ __( 'Reset to homepage image', 'workation' ) }
 						</Button>
 					) }
 					<TextControl
-						label={ __( 'Alt text', 'pediment-child' ) }
+						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
@@ -103,20 +100,20 @@ export default function Edit( {
 					className="eyebrow"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h1"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 				<RichText
 					tagName="p"
 					className="page-hero-lede"
 					value={ attributes.lead }
 					onChange={ ( v ) => setAttributes( { lead: v } ) }
-					placeholder={ __( 'Lead…', 'pediment-child' ) }
+					placeholder={ __( 'Lead…', 'workation' ) }
 				/>
 			</div>
 		</section>

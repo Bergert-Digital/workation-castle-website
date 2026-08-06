@@ -17,7 +17,7 @@ export default function Edit( {
 			tagName="span"
 			value={ attributes.title }
 			onChange={ ( v ) => setAttributes( { title: v } ) }
-			placeholder={ __( 'Pill…', 'pediment-child' ) }
+			placeholder={ __( 'Pill…', 'workation' ) }
 			allowedFormats={ [] }
 		/>
 	);

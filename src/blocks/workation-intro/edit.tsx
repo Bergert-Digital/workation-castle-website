@@ -19,19 +19,19 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 				<RichText
 					tagName="p"
 					value={ attributes.lead }
 					onChange={ ( v ) => setAttributes( { lead: v } ) }
-					placeholder={ __( 'Lead…', 'pediment-child' ) }
+					placeholder={ __( 'Lead…', 'workation' ) }
 				/>
 			</div>
 		</section>

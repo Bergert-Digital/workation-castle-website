@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-mode",
+  "name": "workation/workation-mode",
   "title": "Workation Travel Mode",
   "category": "design",
   "description": "A single way to get here: icon, label, detail.",
-  "parent": [ "pediment-child/workation-location" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-location" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "title": { "type": "string", "default": "" },

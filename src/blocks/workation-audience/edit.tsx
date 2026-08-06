@@ -8,10 +8,10 @@ import {
 
 type Attrs = { eyebrow: string; headline: string };
 
-const ALLOWED = [ 'pediment-child/workation-card' ];
+const ALLOWED = [ 'workation/workation-card' ];
 const TEMPLATE: [ string, Record< string, unknown > ][] = [
 	[
-		'pediment-child/workation-card',
+		'workation/workation-card',
 		{
 			eyebrow: '01 — Team retreats',
 			title: 'Team retreats',
@@ -23,7 +23,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-card',
+		'workation/workation-card',
 		{
 			eyebrow: '02 — Workations',
 			title: 'Workations',
@@ -35,7 +35,7 @@ const TEMPLATE: [ string, Record< string, unknown > ][] = [
 		},
 	],
 	[
-		'pediment-child/workation-card',
+		'workation/workation-card',
 		{
 			eyebrow: '03 — Family & groups',
 			title: 'Family & group stays',
@@ -77,13 +77,13 @@ export default function Edit( {
 					className="wc-kicker"
 					value={ attributes.eyebrow }
 					onChange={ ( v ) => setAttributes( { eyebrow: v } ) }
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<div className="wc-wrap">

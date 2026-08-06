@@ -4,7 +4,7 @@ class PhotoGalleryBlockTest extends WP_UnitTestCase {
 
 	public function test_block_is_registered() {
 		$this->assertTrue(
-			WP_Block_Type_Registry::get_instance()->is_registered( 'pediment-child/photo-gallery' )
+			WP_Block_Type_Registry::get_instance()->is_registered( 'workation/photo-gallery' )
 		);
 	}
 
@@ -19,7 +19,7 @@ class PhotoGalleryBlockTest extends WP_UnitTestCase {
 		);
 		set_post_thumbnail( $id, $att );
 
-		$html = do_blocks( '<!-- wp:pediment-child/photo-gallery /-->' );
+		$html = do_blocks( '<!-- wp:workation/photo-gallery /-->' );
 		$this->assertStringContainsString( 'photo-grid', $html );
 		$this->assertStringContainsString( 'photo-tabs', $html );
 	}

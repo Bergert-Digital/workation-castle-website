@@ -4,10 +4,10 @@
  * multi-step guest check-in form. The block render derives its JSON config
  * from CheckIn::config() so PHP stays the single source of truth.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
-namespace PedimentChild;
+namespace Workation;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -49,9 +49,9 @@ class CheckIn {
 			self::CPT,
 			array(
 				'labels'              => array(
-					'name'          => __( 'Check-ins', 'pediment-child' ),
-					'singular_name' => __( 'Check-in', 'pediment-child' ),
-					'menu_name'     => __( 'Check-ins', 'pediment-child' ),
+					'name'          => __( 'Check-ins', 'workation' ),
+					'singular_name' => __( 'Check-in', 'workation' ),
+					'menu_name'     => __( 'Check-ins', 'workation' ),
 				),
 				'public'              => false,
 				'show_ui'             => true,
@@ -105,57 +105,57 @@ class CheckIn {
 			'guestFields' => array(
 				array(
 					'key'      => 'first_name',
-					'label'    => __( 'First name', 'pediment-child' ),
+					'label'    => __( 'First name', 'workation' ),
 					'type'     => 'text',
 					'required' => true,
 				),
 				array(
 					'key'      => 'last_name',
-					'label'    => __( 'Last name', 'pediment-child' ),
+					'label'    => __( 'Last name', 'workation' ),
 					'type'     => 'text',
 					'required' => true,
 				),
 				array(
 					'key'      => 'nationality',
-					'label'    => __( 'Nationality', 'pediment-child' ),
+					'label'    => __( 'Nationality', 'workation' ),
 					'type'     => 'text',
 					'required' => true,
 				),
 				array(
 					'key'      => 'residence_city',
-					'label'    => __( 'City of residence', 'pediment-child' ),
+					'label'    => __( 'City of residence', 'workation' ),
 					'type'     => 'text',
 					'required' => true,
 				),
 				array(
 					'key'      => 'birthdate',
-					'label'    => __( 'Birthdate', 'pediment-child' ),
+					'label'    => __( 'Birthdate', 'workation' ),
 					'type'     => 'date',
 					'required' => true,
 				),
 				array(
 					'key'      => 'birth_city',
-					'label'    => __( 'City of birth', 'pediment-child' ),
+					'label'    => __( 'City of birth', 'workation' ),
 					'type'     => 'text',
 					'required' => true,
 				),
 				array(
 					'key'      => 'gender',
-					'label'    => __( 'Gender', 'pediment-child' ),
+					'label'    => __( 'Gender', 'workation' ),
 					'type'     => 'radio',
 					'required' => true,
 					'options'  => array(
 						array(
 							'value' => 'male',
-							'label' => __( 'Male', 'pediment-child' ),
+							'label' => __( 'Male', 'workation' ),
 						),
 						array(
 							'value' => 'female',
-							'label' => __( 'Female', 'pediment-child' ),
+							'label' => __( 'Female', 'workation' ),
 						),
 						array(
 							'value' => 'other',
-							'label' => __( 'Other', 'pediment-child' ),
+							'label' => __( 'Other', 'workation' ),
 						),
 					),
 				),
@@ -163,40 +163,40 @@ class CheckIn {
 			'docTypes'    => array(
 				array(
 					'value' => 'identity_card',
-					'label' => __( 'Identity card', 'pediment-child' ),
+					'label' => __( 'Identity card', 'workation' ),
 				),
 				array(
 					'value' => 'drivers_license',
-					'label' => __( 'Driver’s licence', 'pediment-child' ),
+					'label' => __( 'Driver’s licence', 'workation' ),
 				),
 				array(
 					'value' => 'passport',
-					'label' => __( 'Passport', 'pediment-child' ),
+					'label' => __( 'Passport', 'workation' ),
 				),
 			),
-			'consentText' => __( 'I agree that Workation Castle processes and forwards my personal data to the Italian authorities.', 'pediment-child' ),
+			'consentText' => __( 'I agree that Workation Castle processes and forwards my personal data to the Italian authorities.', 'workation' ),
 			'strings'     => array(
-				'countsHeading'  => __( 'Who’s checking in?', 'pediment-child' ),
-				'guestsLabel'    => __( 'How many guests are checking in (including children)?', 'pediment-child' ),
-				'housesLabel'    => __( 'How many accommodations did you book?', 'pediment-child' ),
+				'countsHeading'  => __( 'Who’s checking in?', 'workation' ),
+				'guestsLabel'    => __( 'How many guests are checking in (including children)?', 'workation' ),
+				'housesLabel'    => __( 'How many accommodations did you book?', 'workation' ),
 				/* translators: 1: current guest number, 2: total guests. */
-				'guestHeading'   => __( 'Guest %1$d of %2$d', 'pediment-child' ),
+				'guestHeading'   => __( 'Guest %1$d of %2$d', 'workation' ),
 				/* translators: 1: current accommodation number, 2: total accommodations. */
-				'houseHeading'   => __( 'Accommodation %1$d of %2$d', 'pediment-child' ),
-				'idIntro'        => __( 'We need one identity document for each accommodation you booked.', 'pediment-child' ),
-				'idGuestLabel'   => __( 'Which guest does this document belong to?', 'pediment-child' ),
-				'idTypeLabel'    => __( 'Type of identity document', 'pediment-child' ),
-				'idNumberLabel'  => __( 'Document number', 'pediment-child' ),
-				'reviewHeading'  => __( 'Review and submit', 'pediment-child' ),
-				'back'           => __( 'Back', 'pediment-child' ),
-				'next'           => __( 'Next', 'pediment-child' ),
-				'submit'         => __( 'Submit check-in', 'pediment-child' ),
-				'thankYou'       => __( 'Thank you — your check-in details have been received.', 'pediment-child' ),
-				'errorRequired'  => __( 'This field is required.', 'pediment-child' ),
-				'errorBirthdate' => __( 'Enter a valid birthdate (not in the future).', 'pediment-child' ),
-				'errorSubmit'    => __( 'Something went wrong submitting the form. Please try again or email info@workationcastle.com.', 'pediment-child' ),
-				'restoredNotice' => __( 'We restored your in-progress check-in.', 'pediment-child' ),
-				'startOver'      => __( 'Start over', 'pediment-child' ),
+				'houseHeading'   => __( 'Accommodation %1$d of %2$d', 'workation' ),
+				'idIntro'        => __( 'We need one identity document for each accommodation you booked.', 'workation' ),
+				'idGuestLabel'   => __( 'Which guest does this document belong to?', 'workation' ),
+				'idTypeLabel'    => __( 'Type of identity document', 'workation' ),
+				'idNumberLabel'  => __( 'Document number', 'workation' ),
+				'reviewHeading'  => __( 'Review and submit', 'workation' ),
+				'back'           => __( 'Back', 'workation' ),
+				'next'           => __( 'Next', 'workation' ),
+				'submit'         => __( 'Submit check-in', 'workation' ),
+				'thankYou'       => __( 'Thank you — your check-in details have been received.', 'workation' ),
+				'errorRequired'  => __( 'This field is required.', 'workation' ),
+				'errorBirthdate' => __( 'Enter a valid birthdate (not in the future).', 'workation' ),
+				'errorSubmit'    => __( 'Something went wrong submitting the form. Please try again or email info@workationcastle.com.', 'workation' ),
+				'restoredNotice' => __( 'We restored your in-progress check-in.', 'workation' ),
+				'startOver'      => __( 'Start over', 'workation' ),
 			),
 		);
 	}
@@ -204,7 +204,7 @@ class CheckIn {
 	/** Register the public (nonce-gated) submission route. */
 	public static function register_rest(): void {
 		register_rest_route(
-			'pediment-child/v1',
+			'workation/v1',
 			'/check-in',
 			array(
 				'methods'             => 'POST',
@@ -308,7 +308,7 @@ class CheckIn {
 			count( $guests ) !== $guest_count ||
 			count( $ids ) !== $house_count
 		) {
-			$errors['counts'] = __( 'Invalid number of guests or accommodations.', 'pediment-child' );
+			$errors['counts'] = __( 'Invalid number of guests or accommodations.', 'workation' );
 		}
 
 		$today = current_time( 'Y-m-d' );
@@ -318,20 +318,20 @@ class CheckIn {
 			foreach ( self::GUEST_TEXT_FIELDS as $field ) {
 				$val = isset( $g[ $field ] ) ? sanitize_text_field( (string) $g[ $field ] ) : '';
 				if ( '' === $val ) {
-					$errors[ "guests.$i.$field" ] = __( 'This field is required.', 'pediment-child' );
+					$errors[ "guests.$i.$field" ] = __( 'This field is required.', 'workation' );
 				}
 				$clean[ $field ] = $val;
 			}
 
 			$birthdate = isset( $g['birthdate'] ) ? sanitize_text_field( (string) $g['birthdate'] ) : '';
 			if ( ! self::is_valid_date( $birthdate ) || $birthdate > $today ) {
-				$errors[ "guests.$i.birthdate" ] = __( 'Enter a valid birthdate.', 'pediment-child' );
+				$errors[ "guests.$i.birthdate" ] = __( 'Enter a valid birthdate.', 'workation' );
 			}
 			$clean['birthdate'] = $birthdate;
 
 			$gender = isset( $g['gender'] ) ? sanitize_text_field( (string) $g['gender'] ) : '';
 			if ( ! in_array( $gender, self::GENDERS, true ) ) {
-				$errors[ "guests.$i.gender" ] = __( 'Select a gender.', 'pediment-child' );
+				$errors[ "guests.$i.gender" ] = __( 'Select a gender.', 'workation' );
 			}
 			$clean['gender'] = $gender;
 
@@ -343,15 +343,15 @@ class CheckIn {
 				? (int) $id['guest_index']
 				: -1;
 			if ( $guest_index < 0 || $guest_index >= $guest_count ) {
-				$errors[ "ids.$i.guest_index" ] = __( 'Select which guest this document belongs to.', 'pediment-child' );
+				$errors[ "ids.$i.guest_index" ] = __( 'Select which guest this document belongs to.', 'workation' );
 			}
 			$doc_type = isset( $id['doc_type'] ) ? sanitize_text_field( (string) $id['doc_type'] ) : '';
 			if ( ! in_array( $doc_type, self::DOC_TYPES, true ) ) {
-				$errors[ "ids.$i.doc_type" ] = __( 'Select a document type.', 'pediment-child' );
+				$errors[ "ids.$i.doc_type" ] = __( 'Select a document type.', 'workation' );
 			}
 			$doc_number = isset( $id['doc_number'] ) ? sanitize_text_field( (string) $id['doc_number'] ) : '';
 			if ( '' === $doc_number ) {
-				$errors[ "ids.$i.doc_number" ] = __( 'Enter the document number.', 'pediment-child' );
+				$errors[ "ids.$i.doc_number" ] = __( 'Enter the document number.', 'workation' );
 			}
 			$sanitized['ids'][] = array(
 				'guest_index' => $guest_index,
@@ -361,7 +361,7 @@ class CheckIn {
 		}
 
 		if ( empty( $raw['consent'] ) || true !== filter_var( $raw['consent'], FILTER_VALIDATE_BOOLEAN ) ) {
-			$errors['consent'] = __( 'Consent is required.', 'pediment-child' );
+			$errors['consent'] = __( 'Consent is required.', 'workation' );
 		}
 
 		$sanitized['counts']  = array(
@@ -384,9 +384,9 @@ class CheckIn {
 		foreach ( $cols as $key => $label ) {
 			$out[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$out['wc_guests'] = __( 'Guests', 'pediment-child' );
-				$out['wc_houses'] = __( 'Accommodations', 'pediment-child' );
-				$out['wc_email']  = __( 'Email', 'pediment-child' );
+				$out['wc_guests'] = __( 'Guests', 'workation' );
+				$out['wc_houses'] = __( 'Accommodations', 'workation' );
+				$out['wc_email']  = __( 'Email', 'workation' );
 			}
 		}
 		return $out;
@@ -418,7 +418,7 @@ class CheckIn {
 	public static function add_meta_box(): void {
 		add_meta_box(
 			'wc_checkin_data',
-			__( 'Check-in details', 'pediment-child' ),
+			__( 'Check-in details', 'workation' ),
 			array( __CLASS__, 'render_meta_box' ),
 			self::CPT,
 			'normal',
@@ -437,7 +437,7 @@ class CheckIn {
 		$guests = is_array( $guests ) ? $guests : array();
 		$ids    = is_array( $ids ) ? $ids : array();
 
-		echo '<h3>' . esc_html__( 'Guests', 'pediment-child' ) . '</h3><ol>';
+		echo '<h3>' . esc_html__( 'Guests', 'workation' ) . '</h3><ol>';
 		foreach ( $guests as $g ) {
 			printf(
 				'<li>%s %s — %s, %s, %s %s, %s %s</li>',
@@ -445,15 +445,15 @@ class CheckIn {
 				esc_html( $g['last_name'] ?? '' ),
 				esc_html( Brevo::gender_label( $g['gender'] ?? '' ) ),
 				esc_html( $g['nationality'] ?? '' ),
-				esc_html__( 'born', 'pediment-child' ) . ' ' . esc_html( $g['birthdate'] ?? '' ),
-				esc_html__( 'in', 'pediment-child' ) . ' ' . esc_html( $g['birth_city'] ?? '' ),
-				esc_html__( 'residing in', 'pediment-child' ),
+				esc_html__( 'born', 'workation' ) . ' ' . esc_html( $g['birthdate'] ?? '' ),
+				esc_html__( 'in', 'workation' ) . ' ' . esc_html( $g['birth_city'] ?? '' ),
+				esc_html__( 'residing in', 'workation' ),
 				esc_html( $g['residence_city'] ?? '' )
 			);
 		}
 		echo '</ol>';
 
-		echo '<h3>' . esc_html__( 'Identity documents (one per accommodation)', 'pediment-child' ) . '</h3><ol>';
+		echo '<h3>' . esc_html__( 'Identity documents (one per accommodation)', 'workation' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
 			$gi = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			printf(
@@ -491,7 +491,7 @@ class CheckIn {
 		$hc    = (int) $submission['counts']['houses'];
 		$title = sprintf(
 			/* translators: 1: guest count, 2: accommodation count, 3: date/time. */
-			__( 'Check-in — %1$d guests, %2$d accommodations — %3$s', 'pediment-child' ),
+			__( 'Check-in — %1$d guests, %2$d accommodations — %3$s', 'workation' ),
 			$gc,
 			$hc,
 			$submission['submitted_at']

@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-tile",
+  "name": "workation/workation-tile",
   "title": "Workation Activity Tile",
   "category": "design",
   "description": "A single activity image tile.",
-  "parent": [ "pediment-child/workation-activities" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-activities" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "title": { "type": "string", "default": "" },

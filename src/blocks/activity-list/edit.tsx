@@ -22,11 +22,11 @@ export default function Edit( {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
-				<PanelBody title={ __( 'Activity list', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Activity list', 'workation' ) }>
 					<p>
 						{ __(
 							'Displays every published Activity as a linked card, ordered by the Order field. Manage activities under Activities in the admin menu.',
-							'pediment-child'
+							'workation'
 						) }
 					</p>
 				</PanelBody>
@@ -39,7 +39,7 @@ export default function Edit( {
 					onChange={ ( eyebrow: string ) =>
 						setAttributes( { eyebrow } )
 					}
-					placeholder={ __( 'Eyebrow…', 'pediment-child' ) }
+					placeholder={ __( 'Eyebrow…', 'workation' ) }
 				/>
 				<RichText
 					tagName="h2"
@@ -47,13 +47,13 @@ export default function Edit( {
 					onChange={ ( headline: string ) =>
 						setAttributes( { headline } )
 					}
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 			</div>
 			<p className="activity-grid-placeholder">
 				{ __(
 					'Activity card grid renders here on the front end.',
-					'pediment-child'
+					'workation'
 				) }
 			</p>
 		</div>

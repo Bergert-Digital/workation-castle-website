@@ -7,7 +7,7 @@ class NoHeroBodyClassTest extends WP_UnitTestCase {
 			array(
 				'post_type'    => 'page',
 				'post_status'  => 'publish',
-				'post_content' => '<!-- wp:pediment-child/workation-hero /-->',
+				'post_content' => '<!-- wp:workation/workation-hero /-->',
 			)
 		);
 		$this->go_to( get_permalink( $id ) );

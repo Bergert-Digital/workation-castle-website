@@ -7,7 +7,7 @@ export default function Edit() {
 		<div { ...blockProps }>
 			{ __(
 				'🗺 Estate map — the illustrated map and legend render on the front end.',
-				'pediment-child'
+				'workation'
 			) }
 		</div>
 	);

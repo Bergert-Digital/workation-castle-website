@@ -1,11 +1,11 @@
 # Styling this site
 
-You are working in **`pediment-child-theme`**. The site stack has three layers:
+You are working in **`workation`**. The site stack has three layers:
 
 ```
 Site Editor edits  (DB: wp_global_styles, wp_template_part, …)   ← per-site, highest precedence
         ▲
-This child theme  (pediment-child-theme)                          ← per-client overrides
+This child theme  (workation)                          ← per-client overrides
         ▲
 Parent theme      (installed at wp-content/themes/pediment/)      ← framework defaults, read-only
 ```
@@ -191,7 +191,7 @@ and the block collapses to 720px under constrained `post-content`.
 
 ### The `.wc-wrap` container
 
-The bespoke full-bleed **band** blocks (`pediment-child/workation-*`,
+The bespoke full-bleed **band** blocks (`workation/workation-*`,
 `page-hero`, `photo-gallery`) render fixed HTML with an inner content zone — and
 the **header/footer** are raw `wp:html`, not blocks. Native constrained layout
 only caps a block's *direct* children, so these can't lean on it for their inner

@@ -26,7 +26,7 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 	 */
 	private function assert_child_theme_active() {
 		$this->assertSame(
-			'pediment-child',
+			'workation',
 			wp_get_theme()->get( 'TextDomain' ),
 			'These theme-json guards are only meaningful with this theme active.'
 		);

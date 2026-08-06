@@ -4,7 +4,7 @@
 class CheckInAdminTest extends WP_UnitTestCase {
 
 	private function make_post(): int {
-		$id = self::factory()->post->create( array( 'post_type' => \PedimentChild\CheckIn::CPT ) );
+		$id = self::factory()->post->create( array( 'post_type' => \Workation\CheckIn::CPT ) );
 		update_post_meta( $id, '_wc_guests', array(
 			array(
 				'first_name' => 'Jane', 'last_name' => 'Doe', 'nationality' => 'British',
@@ -18,7 +18,7 @@ class CheckInAdminTest extends WP_UnitTestCase {
 	}
 
 	public function test_columns_include_guest_and_house_counts() {
-		$cols = \PedimentChild\CheckIn::admin_columns( array( 'cb' => '', 'title' => 'Title', 'date' => 'Date' ) );
+		$cols = \Workation\CheckIn::admin_columns( array( 'cb' => '', 'title' => 'Title', 'date' => 'Date' ) );
 		$this->assertArrayHasKey( 'wc_guests', $cols );
 		$this->assertArrayHasKey( 'wc_houses', $cols );
 		$this->assertArrayHasKey( 'wc_email', $cols );
@@ -27,14 +27,14 @@ class CheckInAdminTest extends WP_UnitTestCase {
 	public function test_column_renders_guest_count() {
 		$id = $this->make_post();
 		ob_start();
-		\PedimentChild\CheckIn::render_column( 'wc_guests', $id );
+		\Workation\CheckIn::render_column( 'wc_guests', $id );
 		$this->assertSame( '1', trim( ob_get_clean() ) );
 	}
 
 	public function test_meta_box_lists_guest_and_id() {
 		$id  = $this->make_post();
 		ob_start();
-		\PedimentChild\CheckIn::render_meta_box( get_post( $id ) );
+		\Workation\CheckIn::render_meta_box( get_post( $id ) );
 		$out = ob_get_clean();
 		$this->assertStringContainsString( 'Jane', $out );
 		$this->assertStringContainsString( 'Doe', $out );

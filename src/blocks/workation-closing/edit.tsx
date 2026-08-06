@@ -33,7 +33,7 @@ export default function Edit( {
 		<section { ...blockProps }>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Background image & links', 'pediment-child' ) }
+					title={ __( 'Background image & links', 'workation' ) }
 				>
 					{ attributes.imageUrl && (
 						<img
@@ -56,37 +56,31 @@ export default function Edit( {
 							render={ ( { open }: { open: () => void } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ attributes.imageUrl
-										? __(
-												'Replace image',
-												'pediment-child'
-										  )
-										: __(
-												'Select image',
-												'pediment-child'
-										  ) }
+										? __( 'Replace image', 'workation' )
+										: __( 'Select image', 'workation' ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
-						label={ __( 'Image alt text', 'pediment-child' ) }
+						label={ __( 'Image alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Primary URL', 'pediment-child' ) }
+						label={ __( 'Primary URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
 					/>
 					<TextControl
-						label={ __( 'Secondary URL', 'pediment-child' ) }
+						label={ __( 'Secondary URL', 'workation' ) }
 						value={ attributes.secondaryUrl }
 						onChange={ ( v ) =>
 							setAttributes( { secondaryUrl: v } )
 						}
 					/>
 					<TextControl
-						label={ __( 'Instagram URL', 'pediment-child' ) }
+						label={ __( 'Instagram URL', 'workation' ) }
 						value={ attributes.linkUrl }
 						onChange={ ( v ) => setAttributes( { linkUrl: v } ) }
 					/>
@@ -105,7 +99,7 @@ export default function Edit( {
 					tagName="h2"
 					value={ attributes.headline }
 					onChange={ ( v ) => setAttributes( { headline: v } ) }
-					placeholder={ __( 'Headline…', 'pediment-child' ) }
+					placeholder={ __( 'Headline…', 'workation' ) }
 				/>
 				<div className="actions">
 					<RichText
@@ -115,10 +109,7 @@ export default function Edit( {
 						onChange={ ( v ) =>
 							setAttributes( { primaryText: v } )
 						}
-						placeholder={ __(
-							'Primary button…',
-							'pediment-child'
-						) }
+						placeholder={ __( 'Primary button…', 'workation' ) }
 					/>
 					<RichText
 						tagName="span"
@@ -127,10 +118,7 @@ export default function Edit( {
 						onChange={ ( v ) =>
 							setAttributes( { secondaryText: v } )
 						}
-						placeholder={ __(
-							'Secondary button…',
-							'pediment-child'
-						) }
+						placeholder={ __( 'Secondary button…', 'workation' ) }
 					/>
 				</div>
 				<RichText
@@ -138,10 +126,7 @@ export default function Edit( {
 					className="text-link insta"
 					value={ attributes.linkText }
 					onChange={ ( v ) => setAttributes( { linkText: v } ) }
-					placeholder={ __(
-						'Instagram link text…',
-						'pediment-child'
-					) }
+					placeholder={ __( 'Instagram link text…', 'workation' ) }
 				/>
 			</div>
 		</section>

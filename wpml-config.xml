@@ -18,38 +18,38 @@
 		Placed at the theme root; Polylang loads it automatically.
 	-->
 	<gutenberg-blocks>
-		<gutenberg-block type="pediment-child/activity-list" translate="1">
+		<gutenberg-block type="workation/activity-list" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/page-hero" translate="1">
+		<gutenberg-block type="workation/page-hero" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/photo-gallery" translate="1">
+		<gutenberg-block type="workation/photo-gallery" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/promo-banner" translate="1">
+		<gutenberg-block type="workation/promo-banner" translate="1">
 			<key name="headline"/>
 			<key name="body"/>
 			<key name="linkText"/>
 			<key name="linkUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-activities" translate="1">
+		<gutenberg-block type="workation/workation-activities" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
 			<key name="primaryText"/>
 			<key name="primaryUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-audience" translate="1">
+		<gutenberg-block type="workation/workation-audience" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-card" translate="1">
+		<gutenberg-block type="workation/workation-card" translate="1">
 			<key name="eyebrow"/>
 			<key name="title"/>
 			<key name="text"/>
@@ -57,10 +57,10 @@
 			<key name="linkUrl" type="link"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-chip" translate="1">
+		<gutenberg-block type="workation/workation-chip" translate="1">
 			<key name="title"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-closing" translate="1">
+		<gutenberg-block type="workation/workation-closing" translate="1">
 			<key name="headline"/>
 			<key name="imageAlt"/>
 			<key name="primaryText"/>
@@ -70,13 +70,13 @@
 			<key name="linkText"/>
 			<key name="linkUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-gallery" translate="1">
+		<gutenberg-block type="workation/workation-gallery" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="primaryText"/>
 			<key name="primaryUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-hero" translate="1">
+		<gutenberg-block type="workation/workation-hero" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
@@ -86,12 +86,12 @@
 			<key name="secondaryText"/>
 			<key name="secondaryUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-intro" translate="1">
+		<gutenberg-block type="workation/workation-intro" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-location" translate="1">
+		<gutenberg-block type="workation/workation-location" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
@@ -99,25 +99,25 @@
 			<key name="primaryText"/>
 			<key name="primaryUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-mode" translate="1">
+		<gutenberg-block type="workation/workation-mode" translate="1">
 			<key name="title"/>
 			<key name="text"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-photo" translate="1">
+		<gutenberg-block type="workation/workation-photo" translate="1">
 			<key name="imageAlt"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-review" translate="1">
+		<gutenberg-block type="workation/workation-review" translate="1">
 			<key name="text"/>
 			<key name="title"/>
 			<key name="role"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-reviews" translate="1">
+		<gutenberg-block type="workation/workation-reviews" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="ctaText"/>
 			<key name="ctaUrl" type="link"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-space" translate="1">
+		<gutenberg-block type="workation/workation-space" translate="1">
 			<key name="eyebrow"/>
 			<key name="title"/>
 			<key name="text"/>
@@ -125,12 +125,12 @@
 			<key name="linkUrl" type="link"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-spaces" translate="1">
+		<gutenberg-block type="workation/workation-spaces" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>
 			<key name="lead"/>
 		</gutenberg-block>
-		<gutenberg-block type="pediment-child/workation-tile" translate="1">
+		<gutenberg-block type="workation/workation-tile" translate="1">
 			<key name="title"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>

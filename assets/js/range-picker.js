@@ -7,7 +7,7 @@
  * in the DOM (hidden) as the only submitted fields and the no-JS fallback.
  *
  * All display text and month/weekday names come from the localized
- * `wcRangePicker` object (see functions.php / pediment_child_range_picker_l10n),
+ * `wcRangePicker` object (see functions.php / workation_range_picker_l10n),
  * so translation plugins localize the picker via WordPress's locale with no JS
  * changes. With JS disabled the native date inputs work as-is.
  */

@@ -6,7 +6,7 @@
  * Harvested from the live Elementor gallery at workationcastle.com/photos/.
  * Consumed by inc/seed.php; after seeding, photos are managed in wp-admin.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
 return array(

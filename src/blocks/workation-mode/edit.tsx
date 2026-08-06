@@ -46,21 +46,21 @@ export default function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Travel mode', 'pediment-child' ) }>
+				<PanelBody title={ __( 'Travel mode', 'workation' ) }>
 					<SelectControl
-						label={ __( 'Icon', 'pediment-child' ) }
+						label={ __( 'Icon', 'workation' ) }
 						value={ attributes.icon }
 						options={ [
 							{
-								label: __( 'Car', 'pediment-child' ),
+								label: __( 'Car', 'workation' ),
 								value: 'car',
 							},
 							{
-								label: __( 'Train', 'pediment-child' ),
+								label: __( 'Train', 'workation' ),
 								value: 'train',
 							},
 							{
-								label: __( 'Plane', 'pediment-child' ),
+								label: __( 'Plane', 'workation' ),
 								value: 'plane',
 							},
 						] }
@@ -87,13 +87,13 @@ export default function Edit( {
 						tagName="b"
 						value={ attributes.title }
 						onChange={ ( v ) => setAttributes( { title: v } ) }
-						placeholder={ __( 'Mode…', 'pediment-child' ) }
+						placeholder={ __( 'Mode…', 'workation' ) }
 					/>
 					<RichText
 						tagName="span"
 						value={ attributes.text }
 						onChange={ ( v ) => setAttributes( { text: v } ) }
-						placeholder={ __( 'Detail…', 'pediment-child' ) }
+						placeholder={ __( 'Detail…', 'workation' ) }
 					/>
 				</div>
 			</div>

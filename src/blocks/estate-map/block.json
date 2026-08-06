@@ -1,11 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/estate-map",
+  "name": "workation/estate-map",
   "title": "Estate Map",
   "category": "design",
   "description": "Illustrated map of the estate with a legend of the houses, workspace, bar and grounds.",
-  "textdomain": "pediment-child",
+  "textdomain": "workation",
   "supports": { "html": false, "align": [ "full" ] },
   "editorScript": "file:./index.js",
   "render": "file:./render.php"

@@ -22,11 +22,9 @@ function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Availability form', 'pediment-child' ) }
-				>
+				<PanelBody title={ __( 'Availability form', 'workation' ) }>
 					<TextControl
-						label={ __( 'Action URL', 'pediment-child' ) }
+						label={ __( 'Action URL', 'workation' ) }
 						value={ attributes.actionUrl }
 						onChange={ ( actionUrl ) =>
 							setAttributes( { actionUrl } )
@@ -35,11 +33,11 @@ function Edit( {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				<strong>{ __( 'Availability form', 'pediment-child' ) }</strong>
+				<strong>{ __( 'Availability form', 'workation' ) }</strong>
 				<p>
 					{ __(
 						'Renders arrival, departure, guests, and check availability controls on the front end.',
-						'pediment-child'
+						'workation'
 					) }
 				</p>
 			</div>

@@ -9,13 +9,13 @@ class MapPatternTest extends PatternTestCase {
 	public function test_the_pattern_declares_the_map_slug() {
 		$source = file_get_contents( $this->theme_dir() . '/patterns/map.php' );
 
-		$this->assertStringContainsString( 'Slug: pediment-child/map', $source );
+		$this->assertStringContainsString( 'Slug: workation/map', $source );
 	}
 
 	public function test_the_pattern_carries_the_estate_map_block() {
 		$markup = $this->render_pattern( 'map.php' );
 
-		$this->assertStringContainsString( 'wp:pediment-child/estate-map', $markup );
+		$this->assertStringContainsString( 'wp:workation/estate-map', $markup );
 	}
 
 	public function test_guide_card_links_internally() {

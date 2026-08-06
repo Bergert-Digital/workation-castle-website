@@ -141,8 +141,8 @@ template's.
 ### Step 6: Review-and-adopt the seeder framework
 
 The content-seeding framework ships as template PHP: `inc/media.php` (the
-`pediment_child_media_id()` resolver), `inc/seed.php` (the `wp pediment-child seed` core +
-Tools → "Seed content" button), `inc/seed-demo.php` (`wp pediment-child seed-demo` showcase),
+`workation_media_id()` resolver), `inc/seed.php` (the `wp workation seed` core +
+Tools → "Seed content" button), `inc/seed-demo.php` (`wp workation seed-demo` showcase),
 `inc/nav-seed.php` (default-nav seeding), and the `assets/seed/` demo assets. Diff and adopt
 the same way as blocks:
 

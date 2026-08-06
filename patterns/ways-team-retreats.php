@@ -1,14 +1,14 @@
 <?php
 /**
  * Title: Team retreats
- * Slug: pediment-child/ways-team-retreats
- * Categories: pediment-child
+ * Slug: workation/ways-team-retreats
+ * Categories: workation
  * Description: Ways to stay — bring the whole team for a retreat at the castle.
  * Inserter: no
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:pediment-child/page-hero {"align":"full","eyebrow":"Ways to stay","headline":"Team retreats","lead":"Bring the whole team to a 16th-century castle between Lake Como and Lake Lugano. Meeting rooms, focus spaces and beds for everyone — so you can work, eat and stay together in one place, an hour from Milan.","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2186.jpeg","imageAlt":"Meeting room at Workation Castle with a view over the landscape"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Ways to stay","headline":"Team retreats","lead":"Bring the whole team to a 16th-century castle between Lake Como and Lake Lugano. Meeting rooms, focus spaces and beds for everyone — so you can work, eat and stay together in one place, an hour from Milan.","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2186.jpeg","imageAlt":"Meeting room at Workation Castle with a view over the landscape"} /-->
 
 <!-- wp:group {"align":"full","className":"band band-deep","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull band band-deep">
@@ -31,10 +31,10 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-spaces {"align":"full","eyebrow":"What you get","headline":"Spaces to work, rooms to rest","lead":"Everything your team needs to focus by day and unwind by evening — under one roof, with no one else around."} -->
-<!-- wp:pediment-child/workation-space {"eyebrow":"01","title":"Spaces to think and decide","text":"A large meeting room for the full group, two quieter rooms for breakout work, a phone booth for calls, and a fireplace room for the conversations that matter. Fast, reliable Wi-Fi throughout, a community kitchen for coffee and lunch, and a south-facing garden for when the room needs air.","linkText":"See the co-working space","linkUrl":"/ways-to-stay/workations/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_1758.jpeg","imageAlt":"Vaulted co-working room at Workation Castle lit with warm string lights"} /-->
-<!-- wp:pediment-child/workation-space {"eyebrow":"02","title":"Beds, meals and downtime together","text":"Five bedrooms across two homes sleep up to nine guests, each house with its own kitchen, living room and garden access. Cook together or bring in a private chef, gather around one table, and end the day with the team instead of scattering to separate hotels across town.","linkText":"Explore the homes","linkUrl":"/ways-to-stay/family-and-groups/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of one of the castle homes with a bright yellow armchair"} /-->
-<!-- /wp:pediment-child/workation-spaces -->
+<!-- wp:workation/workation-spaces {"align":"full","eyebrow":"What you get","headline":"Spaces to work, rooms to rest","lead":"Everything your team needs to focus by day and unwind by evening — under one roof, with no one else around."} -->
+<!-- wp:workation/workation-space {"eyebrow":"01","title":"Spaces to think and decide","text":"A large meeting room for the full group, two quieter rooms for breakout work, a phone booth for calls, and a fireplace room for the conversations that matter. Fast, reliable Wi-Fi throughout, a community kitchen for coffee and lunch, and a south-facing garden for when the room needs air.","linkText":"See the co-working space","linkUrl":"/ways-to-stay/workations/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_1758.jpeg","imageAlt":"Vaulted co-working room at Workation Castle lit with warm string lights"} /-->
+<!-- wp:workation/workation-space {"eyebrow":"02","title":"Beds, meals and downtime together","text":"Five bedrooms across two homes sleep up to nine guests, each house with its own kitchen, living room and garden access. Cook together or bring in a private chef, gather around one table, and end the day with the team instead of scattering to separate hotels across town.","linkText":"Explore the homes","linkUrl":"/ways-to-stay/family-and-groups/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of one of the castle homes with a bright yellow armchair"} /-->
+<!-- /wp:workation/workation-spaces -->
 
 <!-- wp:group {"align":"full","className":"band band-deep","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull band band-deep">
@@ -57,10 +57,10 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment-child/workation-reviews {"align":"full","eyebrow":"What guests say","headline":"Teams and groups who've stayed"} -->
-<!-- wp:pediment-child/workation-review {"text":"The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes away. The co-working space exceeds expectations.","title":"Alexander M."} /-->
-<!-- wp:pediment-child/workation-review {"text":"A great, well-thought-out concept — for larger groups and for working. We loved the atmosphere of the old stone walls and the view from the terrace.","title":"Manuelle B."} /-->
-<!-- wp:pediment-child/workation-review {"text":"A wonderful and very relaxing place to work or take a holiday. The house and the shared workspaces are superbly equipped.","title":"Simone S."} /-->
-<!-- /wp:pediment-child/workation-reviews -->
+<!-- wp:workation/workation-reviews {"align":"full","eyebrow":"What guests say","headline":"Teams and groups who've stayed"} -->
+<!-- wp:workation/workation-review {"text":"The location is perfect — right between Lake Como and Lake Lugano, with a bonus small lake five minutes away. The co-working space exceeds expectations.","title":"Alexander M."} /-->
+<!-- wp:workation/workation-review {"text":"A great, well-thought-out concept — for larger groups and for working. We loved the atmosphere of the old stone walls and the view from the terrace.","title":"Manuelle B."} /-->
+<!-- wp:workation/workation-review {"text":"A wonderful and very relaxing place to work or take a holiday. The house and the shared workspaces are superbly equipped.","title":"Simone S."} /-->
+<!-- /wp:workation/workation-reviews -->
 
-<!-- wp:pediment-child/workation-closing {"headline":"Ready to plan your team retreat?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->
+<!-- wp:workation/workation-closing {"headline":"Ready to plan your team retreat?","imageAlt":"Garden terrace at Workation Castle","primaryText":"Check availability","primaryUrl":"https://workationcastle.holiduhost.com/","secondaryText":"Ask for a custom offer","secondaryUrl":"/contact-us/","linkText":"Follow on Instagram","align":"full"} /-->

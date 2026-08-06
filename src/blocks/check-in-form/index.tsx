@@ -7,11 +7,11 @@ function Edit() {
 	const blockProps = useBlockProps( { className: 'check-in-form-editor' } );
 	return (
 		<div { ...blockProps }>
-			<strong>{ __( 'Check-in form', 'pediment-child' ) }</strong>
+			<strong>{ __( 'Check-in form', 'workation' ) }</strong>
 			<p>
 				{ __(
 					'Renders the multi-step guest check-in wizard on the front end.',
-					'pediment-child'
+					'workation'
 				) }
 			</p>
 		</div>

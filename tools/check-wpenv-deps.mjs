@@ -93,7 +93,7 @@ function resolveToken() {
 }
 
 async function latestVersion(repo, token) {
-	const headers = { 'User-Agent': 'pediment-child-theme/check-wpenv-deps', Accept: 'application/vnd.github+json' };
+	const headers = { 'User-Agent': 'workation/check-wpenv-deps', Accept: 'application/vnd.github+json' };
 	if (token) headers.Authorization = `Bearer ${token}`;
 	const res = await fetch(`https://api.github.com/repos/${repo}/tags?per_page=1`, { headers });
 	if (!res.ok) throw new Error(`GitHub ${repo}: ${res.status} ${res.statusText}`);

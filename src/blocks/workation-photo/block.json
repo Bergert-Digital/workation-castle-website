@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "pediment-child/workation-photo",
+  "name": "workation/workation-photo",
   "title": "Workation Gallery Photo",
   "category": "design",
   "description": "A single gallery photo.",
-  "parent": [ "pediment-child/workation-gallery" ],
-  "textdomain": "pediment-child",
+  "parent": [ "workation/workation-gallery" ],
+  "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "imageUrl": { "type": "string", "default": "" },

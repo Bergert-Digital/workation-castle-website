@@ -3,7 +3,7 @@
 class PageHeroRenderTest extends WP_UnitTestCase {
 
 	public function test_renders_eyebrow_headline_and_lead() {
-		$html = pediment_child_page_hero_chrome(
+		$html = workation_page_hero_chrome(
 			array(
 				'eyebrow'  => 'Gallery',
 				'headline' => 'Every corner of the castle',
@@ -17,7 +17,7 @@ class PageHeroRenderTest extends WP_UnitTestCase {
 	}
 
 	public function test_renders_image_and_gradient() {
-		$html = pediment_child_page_hero_chrome(
+		$html = workation_page_hero_chrome(
 			array(
 				'headline' => 'Hi',
 				'imageUrl' => 'https://example.com/castle.jpg',
@@ -31,13 +31,13 @@ class PageHeroRenderTest extends WP_UnitTestCase {
 	}
 
 	public function test_falls_back_to_bundled_hero_image_when_none_set() {
-		$html = pediment_child_page_hero_chrome( array( 'headline' => 'Hi' ) );
+		$html = workation_page_hero_chrome( array( 'headline' => 'Hi' ) );
 		$this->assertStringContainsString( 'assets/images/hero-default.jpg', $html );
 		$this->assertStringContainsString( 'page-hero-img', $html );
 	}
 
 	public function test_does_not_render_stats_or_watermark() {
-		$html = pediment_child_page_hero_chrome(
+		$html = workation_page_hero_chrome(
 			array(
 				'headline' => 'Hi',
 				'stats'    => array( array( 'value' => '5', 'label' => 'spaces' ) ),
@@ -48,7 +48,7 @@ class PageHeroRenderTest extends WP_UnitTestCase {
 	}
 
 	public function test_escapes_image_url_and_alt() {
-		$html = pediment_child_page_hero_chrome(
+		$html = workation_page_hero_chrome(
 			array(
 				'headline' => 'Hi',
 				'imageUrl' => 'https://example.com/x.jpg" onerror="alert(1)',

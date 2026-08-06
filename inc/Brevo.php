@@ -5,10 +5,10 @@
  * Build_checkin_payload() is pure (no network) so it is unit-testable;
  * send_checkin_notification() (added in the next task) performs the HTTP call.
  *
- * @package PedimentChild
+ * @package Workation
  */
 
-namespace PedimentChild;
+namespace Workation;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,9 +30,9 @@ class Brevo {
 	 */
 	public static function doc_type_label( string $value ): string {
 		$map = array(
-			'identity_card'   => __( 'Identity card', 'pediment-child' ),
-			'drivers_license' => __( "Driver\u{2019}s licence", 'pediment-child' ),
-			'passport'        => __( 'Passport', 'pediment-child' ),
+			'identity_card'   => __( 'Identity card', 'workation' ),
+			'drivers_license' => __( "Driver\u{2019}s licence", 'workation' ),
+			'passport'        => __( 'Passport', 'workation' ),
 		);
 		return $map[ $value ] ?? $value;
 	}
@@ -45,9 +45,9 @@ class Brevo {
 	 */
 	public static function gender_label( string $value ): string {
 		$map = array(
-			'male'   => __( 'Male', 'pediment-child' ),
-			'female' => __( 'Female', 'pediment-child' ),
-			'other'  => __( 'Other', 'pediment-child' ),
+			'male'   => __( 'Male', 'workation' ),
+			'female' => __( 'Female', 'workation' ),
+			'other'  => __( 'Other', 'workation' ),
 		);
 		return $map[ $value ] ?? $value;
 	}
@@ -76,7 +76,7 @@ class Brevo {
 
 		$subject = sprintf(
 			/* translators: 1: guest count, 2: accommodation count. */
-			__( 'New check-in: %1$d guests, %2$d accommodations', 'pediment-child' ),
+			__( 'New check-in: %1$d guests, %2$d accommodations', 'workation' ),
 			$gc,
 			$hc
 		);
@@ -85,7 +85,7 @@ class Brevo {
 		$lines   = array();
 		$lines[] = $subject;
 		$lines[] = '';
-		$lines[] = __( 'Guests', 'pediment-child' );
+		$lines[] = __( 'Guests', 'workation' );
 		$lines[] = '------';
 		foreach ( $guests as $i => $g ) {
 			$lines[] = sprintf(
@@ -98,11 +98,11 @@ class Brevo {
 				$g['birthdate'] ?? '',
 				$g['birth_city'] ?? '',
 				/* translators: %s: city of residence. */
-				sprintf( __( 'residing in %s', 'pediment-child' ), $g['residence_city'] ?? '' )
+				sprintf( __( 'residing in %s', 'workation' ), $g['residence_city'] ?? '' )
 			);
 		}
 		$lines[] = '';
-		$lines[] = __( 'Identity documents (one per accommodation)', 'pediment-child' );
+		$lines[] = __( 'Identity documents (one per accommodation)', 'workation' );
 		$lines[] = '------';
 		foreach ( $ids as $i => $id ) {
 			$gi      = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
@@ -118,7 +118,7 @@ class Brevo {
 
 		// HTML body.
 		$html  = '<h2>' . esc_html( $subject ) . '</h2>';
-		$html .= '<h3>' . esc_html__( 'Guests', 'pediment-child' ) . '</h3><ol>';
+		$html .= '<h3>' . esc_html__( 'Guests', 'workation' ) . '</h3><ol>';
 		foreach ( $guests as $g ) {
 			$html .= '<li>' . esc_html(
 				sprintf(
@@ -133,7 +133,7 @@ class Brevo {
 				)
 			) . '</li>';
 		}
-		$html .= '</ol><h3>' . esc_html__( 'Identity documents (one per accommodation)', 'pediment-child' ) . '</h3><ol>';
+		$html .= '</ol><h3>' . esc_html__( 'Identity documents (one per accommodation)', 'workation' ) . '</h3><ol>';
 		foreach ( $ids as $id ) {
 			$gi    = isset( $id['guest_index'] ) ? (int) $id['guest_index'] : -1;
 			$html .= '<li>' . esc_html(
