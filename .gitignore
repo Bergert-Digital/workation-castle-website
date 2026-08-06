@@ -11,3 +11,4 @@
 /.context/
 /docs/superpowers/
 /.superpowers/
+*.log
