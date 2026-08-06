@@ -20,11 +20,15 @@ class ThemeJsonInheritsPedimentTest extends WP_UnitTestCase {
 		return WP_Theme_JSON_Resolver::get_merged_data()->get_settings();
 	}
 
+	/**
+	 * Identify the theme by its text domain, not its directory name — see the
+	 * note on SmokeTest::test_this_theme_is_active().
+	 */
 	private function assert_child_theme_active() {
-		$this->assertContains(
-			get_stylesheet(),
-			array( 'pediment-child-theme', 'accra', 'tacoma' ),
-			'These theme-json guards are only meaningful with this child theme active.'
+		$this->assertSame(
+			'pediment-child',
+			wp_get_theme()->get( 'TextDomain' ),
+			'These theme-json guards are only meaningful with this theme active.'
 		);
 	}
 

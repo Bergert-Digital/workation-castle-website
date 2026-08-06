@@ -30,3 +30,7 @@ tests_add_filter(
 );
 
 require $_tests_dir . '/includes/bootstrap.php';
+
+// Shared base classes. PHPUnit only autoloads files matching its *Test.php
+// suffix, so a base class has to be required explicitly.
+require_once __DIR__ . '/PatternTestCase.php';
