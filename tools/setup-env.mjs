@@ -9,10 +9,11 @@
  *   - `wp-env start` installs themes and plugins but does not reliably leave
  *     the right one active, and every `wp pediment …` command needs the plugin
  *     loaded.
- *   - The theme is mounted under its host directory's basename (that is how
- *     wp-env names the mount), which is the Conductor workspace name, not
- *     `workation`. Hard-coding a slug in package.json would break for anyone
- *     who clones into a differently-named folder, so it is resolved here.
+ *   - The theme is mounted at wp-content/themes/workation via the committed
+ *     `.wp-env.json` mapping, so it is always `workation` regardless of the
+ *     checkout directory name (the Conductor workspace locally, the repo name
+ *     in CI). That fixed slug is what gets activated below — matching the
+ *     `wp theme activate workation` in package.json's `env:start`.
  *
  * Order matters: languages before the seed. `wp pediment seed` crosses every
  * entry with every language Polylang reports, so seeding first would create the
@@ -26,11 +27,11 @@
  */
 
 import { execFileSync } from 'node:child_process';
-import { basename } from 'node:path';
 import process from 'node:process';
 import { ensurePort } from './ensure-port.mjs';
 
-const themeSlug = basename(process.cwd());
+// Mounted at a fixed name by the committed `.wp-env.json` mapping.
+const themeSlug = 'workation';
 
 const run = (label, cmd, args) => {
 	console.log(`\n› ${label}`);
