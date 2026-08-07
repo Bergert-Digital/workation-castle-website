@@ -25,7 +25,9 @@ parent theme now comes from the plugin, so there is no parent to install.
 2. Install and activate **this theme** (Appearance → Add New → Upload,
    `workation.zip` from this repo's latest release — *not* GitHub's
    auto-generated "Source code" zip, which excludes the built blocks).
-3. Install and activate **Polylang**, then run the seed (below).
+3. Install and activate **Polylang Pro** (the seed's translated front pages
+   share the slug `home`, which needs its shared-slug support), then run the
+   seed (below).
 
 There is no auto-updater. Updates are installed by uploading a new release zip
 in wp-admin.
@@ -77,8 +79,10 @@ activated on the live site.
 
 ## Development
 
-`.wp-env.json` pins the published Pediment plugin release and Polylang. No local
-clone of the plugin is required.
+`.wp-env.json` pins the published Pediment plugin release (downloaded on
+`env:start`) and loads Polylang Pro, vendored in `tools/vendor/polylang-pro/`
+so wp-env and CI match staging's shared-slug behaviour. No local clone of the
+plugin is required.
 
 ```bash
 composer install
