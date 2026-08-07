@@ -394,28 +394,3 @@ add_filter(
 		);
 	}
 );
-
-/**
- * Keep template parts out of Polylang so the shared header and footer render in
- * every language.
- *
- * Polylang Pro's full-site-editing module makes `wp_template_part` a translated
- * post type, which language-scopes it. This theme (like every Pediment client)
- * seeds ONE header and one footer, shared across all languages and tagged with
- * no language — the per-language content is the navigation, a `wp_navigation`
- * post Polylang does translate. Under Pro the language-less parts match no
- * language, so the `wp:template-part` block resolves to nothing and the header
- * (with its whole navigation) disappears on every front end. Polylang Free
- * never scoped template parts, which is why this only surfaced on the switch to
- * Pro. Removing `wp_template_part` here restores the shared-part behaviour while
- * leaving `wp_navigation` translated.
- */
-add_filter(
-	'pll_get_post_types',
-	function ( $post_types ) {
-		unset( $post_types['wp_template_part'] );
-		return $post_types;
-	},
-	10,
-	1
-);
