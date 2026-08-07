@@ -5,8 +5,8 @@
     "."
   ],
   "plugins": [
-    "https://github.com/Bergert-Digital/pediment/releases/download/v3.2.0/pediment-plugin.zip",
-    "https://downloads.wordpress.org/plugin/polylang.3.8.6.zip"
+    "https://github.com/Bergert-Digital/pediment/releases/download/v3.2.1/pediment-plugin.zip",
+    "./tools/vendor/polylang-pro"
   ],
   "config": {
     "WP_DEBUG": true,

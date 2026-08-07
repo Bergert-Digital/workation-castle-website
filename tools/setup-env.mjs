@@ -46,7 +46,7 @@ try {
 	run('wp-env start', 'npx', ['wp-env', 'start']);
 	wp(`activate theme (${themeSlug})`, 'theme', 'activate', themeSlug);
 	wp('activate the Pediment plugin', 'plugin', 'activate', 'pediment-plugin');
-	wp('activate Polylang', 'plugin', 'activate', 'polylang');
+	wp('activate Polylang', 'plugin', 'activate', 'polylang-pro');
 	wp('configure languages', 'pediment', 'languages');
 	wp('seed pages and navigations', 'pediment', 'seed');
 	wp('seed the photo library and activities', 'workation', 'content');

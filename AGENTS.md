@@ -101,7 +101,9 @@ catalog follows one split, and so must child blocks. Reference implementations:
 
 - **Local dev: wp-env**, started from this directory with `npm run env:setup` (boot,
   activate, configure languages, seed). `.wp-env.json` pins the published plugin release
-  and Polylang; `wp-env` downloads both on `env:start`. No auth required.
+  (downloaded on `env:start`) and loads Polylang Pro vendored in `tools/vendor/polylang-pro/`
+  (staging runs Pro; its shared-slug support is what lets the translated front pages share the
+  slug `home`). No auth required.
 - **The mount name matters.** wp-env mounts the theme at
   `wp-content/themes/<basename of the checkout>`, which in a Conductor workspace is the
   workspace name, not `workation` — and the plugin seeds the branded header from the
