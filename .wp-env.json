@@ -3,7 +3,7 @@
   "phpVersion": "8.1",
   "themes": [],
   "plugins": [
-    "https://github.com/Bergert-Digital/pediment/releases/download/v3.2.2/pediment-plugin.zip",
+    "https://github.com/Bergert-Digital/pediment/releases/download/v3.3.0/pediment-plugin.zip",
     "./tools/vendor/polylang-pro"
   ],
   "config": {
