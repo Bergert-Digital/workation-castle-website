@@ -162,6 +162,7 @@ return array(
 					),
 				),
 				array( 'entry' => 'contact-us' ),
+				array( 'language_switcher' => true ),
 			),
 		),
 	),
