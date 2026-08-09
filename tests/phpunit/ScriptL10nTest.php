@@ -16,7 +16,7 @@ class ScriptL10nTest extends WP_UnitTestCase {
 	public function test_activity_map_label_is_localized() {
 		$post_id = self::factory()->post->create(
 			array(
-				'post_type'   => PEDIMENT_CHILD_ACTIVITY_CPT,
+				'post_type'   => WORKATION_ACTIVITY_CPT,
 				'post_status' => 'publish',
 			)
 		);

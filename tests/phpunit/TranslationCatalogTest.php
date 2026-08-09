@@ -80,7 +80,7 @@ class TranslationCatalogTest extends WP_UnitTestCase {
 	}
 
 	public function test_the_template_exists_and_is_not_empty() {
-		$pot = $this->languages_dir() . '/pediment-child.pot';
+		$pot = $this->languages_dir() . '/workation.pot';
 		$this->assertFileExists( $pot, 'Run `npm run i18n:pot`.' );
 		$this->assertGreaterThan(
 			50,
@@ -91,7 +91,7 @@ class TranslationCatalogTest extends WP_UnitTestCase {
 
 	/** @dataProvider locales */
 	public function test_every_template_string_is_translated( string $locale ) {
-		$template = $this->parse_po( $this->languages_dir() . '/pediment-child.pot' );
+		$template = $this->parse_po( $this->languages_dir() . '/workation.pot' );
 		$po       = $this->languages_dir() . "/{$locale}.po";
 		$this->assertFileExists( $po );
 		$catalog = $this->parse_po( $po );

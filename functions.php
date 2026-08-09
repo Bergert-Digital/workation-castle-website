@@ -240,10 +240,10 @@ add_action(
 			'workation-castle-lightbox',
 			'wcLightbox',
 			array(
-				'viewer' => __( 'Image viewer', 'pediment-child' ),
-				'close'  => __( 'Close', 'pediment-child' ),
-				'prev'   => __( 'Previous image', 'pediment-child' ),
-				'next'   => __( 'Next image', 'pediment-child' ),
+				'viewer' => __( 'Image viewer', 'workation' ),
+				'close'  => __( 'Close', 'workation' ),
+				'prev'   => __( 'Previous image', 'workation' ),
+				'next'   => __( 'Next image', 'workation' ),
 			)
 		);
 
@@ -312,7 +312,7 @@ add_action(
 				'workation-castle-activity-map',
 				'wcActivityMap',
 				array(
-					'seeOnGoogleMaps' => __( 'See on Google Maps', 'pediment-child' ),
+					'seeOnGoogleMaps' => __( 'See on Google Maps', 'workation' ),
 				)
 			);
 		}
@@ -334,10 +334,10 @@ add_action(
  *
  * @return void
  */
-function pediment_child_load_textdomain(): void {
-	load_child_theme_textdomain( 'pediment-child', get_stylesheet_directory() . '/languages' );
+function workation_load_textdomain(): void {
+	load_child_theme_textdomain( 'workation', get_stylesheet_directory() . '/languages' );
 }
-add_action( 'after_setup_theme', 'pediment_child_load_textdomain' );
+add_action( 'after_setup_theme', 'workation_load_textdomain' );
 
 add_action(
 	'after_setup_theme',
