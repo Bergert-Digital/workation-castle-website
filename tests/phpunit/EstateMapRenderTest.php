@@ -54,7 +54,7 @@ class EstateMapRenderTest extends WP_UnitTestCase {
 
 	public function test_poi_names_and_subtitles_are_translatable() {
 		switch_to_locale( 'de_DE' );
-		$pois = pediment_child_estate_map_pois();
+		$pois = workation_estate_map_pois();
 
 		$by_id = array_column( $pois, null, 'id' );
 		$this->assertSame( 'Arbeitsraum', $by_id['coworking']['name'] );

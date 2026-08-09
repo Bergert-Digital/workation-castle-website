@@ -77,7 +77,7 @@ function workation_consent_provider_label( $src ) {
 	if ( false !== strpos( $host, 'maps.google.' ) ) {
 		return 'Google Maps';
 	}
-	return __( 'this provider', 'pediment-child' );
+	return __( 'this provider', 'workation' );
 }
 
 /**
@@ -175,30 +175,30 @@ add_filter( 'render_block', 'workation_consent_filter_block', 20, 2 );
  *
  * @return array<string,mixed>
  */
-function pediment_child_consent_l10n(): array {
+function workation_consent_l10n(): array {
 	return array(
-		'title'      => __( 'Your privacy', 'pediment-child' ),
-		'intro'      => __( 'We use cookies and external services. Choose what to allow. You can change this anytime via "Cookie settings" in the footer.', 'pediment-child' ),
-		'rejectAll'  => __( 'Reject all', 'pediment-child' ),
-		'customize'  => __( 'Customize', 'pediment-child' ),
-		'save'       => __( 'Save preferences', 'pediment-child' ),
-		'acceptAll'  => __( 'Accept all', 'pediment-child' ),
+		'title'      => __( 'Your privacy', 'workation' ),
+		'intro'      => __( 'We use cookies and external services. Choose what to allow. You can change this anytime via "Cookie settings" in the footer.', 'workation' ),
+		'rejectAll'  => __( 'Reject all', 'workation' ),
+		'customize'  => __( 'Customize', 'workation' ),
+		'save'       => __( 'Save preferences', 'workation' ),
+		'acceptAll'  => __( 'Accept all', 'workation' ),
 		'categories' => array(
 			'necessary'  => array(
-				'label' => __( 'Necessary', 'pediment-child' ),
-				'desc'  => __( 'Required for the site to work. Always on.', 'pediment-child' ),
+				'label' => __( 'Necessary', 'workation' ),
+				'desc'  => __( 'Required for the site to work. Always on.', 'workation' ),
 			),
 			'functional' => array(
-				'label' => __( 'Functional', 'pediment-child' ),
-				'desc'  => __( 'External maps and embeds (Komoot, Google Maps).', 'pediment-child' ),
+				'label' => __( 'Functional', 'workation' ),
+				'desc'  => __( 'External maps and embeds (Komoot, Google Maps).', 'workation' ),
 			),
 			'analytics'  => array(
-				'label' => __( 'Analytics', 'pediment-child' ),
-				'desc'  => __( 'Anonymous usage statistics (PostHog) to improve the site.', 'pediment-child' ),
+				'label' => __( 'Analytics', 'workation' ),
+				'desc'  => __( 'Anonymous usage statistics (PostHog) to improve the site.', 'workation' ),
 			),
 			'marketing'  => array(
-				'label' => __( 'Marketing', 'pediment-child' ),
-				'desc'  => __( 'Personalised content and ad measurement.', 'pediment-child' ),
+				'label' => __( 'Marketing', 'workation' ),
+				'desc'  => __( 'Personalised content and ad measurement.', 'workation' ),
 			),
 		),
 	);
@@ -232,7 +232,7 @@ function workation_consent_enqueue() {
 		'days'        => (int) WORKATION_CONSENT_DAYS,
 		'posthogKey'  => (string) WORKATION_POSTHOG_KEY,
 		'posthogHost' => (string) WORKATION_POSTHOG_HOST,
-		'strings'     => pediment_child_consent_l10n(),
+		'strings'     => workation_consent_l10n(),
 	);
 	wp_scripts()->add_data(
 		'workation-castle-consent',

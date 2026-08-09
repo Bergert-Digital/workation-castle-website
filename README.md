@@ -154,7 +154,7 @@ The theme's own UI strings live in `languages/`. Content (pages, block
 attributes) is translated by Polylang and is not affected by any of this.
 
 ```bash
-npm run i18n:pot   # re-extract languages/pediment-child.pot (needs wp-env running)
+npm run i18n:pot   # re-extract languages/workation.pot (needs wp-env running)
 npm run i18n:mo    # compile every .po to .mo — run after editing any .po, and commit both
 ```
 
@@ -163,12 +163,13 @@ translation in all four locales, if placeholders don't match, or if a `.mo` is
 stale. Adding a new `__()` string means running both commands and translating
 the new entry in four `.po` files.
 
-`inc/seed.php` and `inc/settings-updates.php` are deliberately excluded from
-extraction (see the `--exclude` list in `i18n:pot`): seeded content is
-Polylang's job, not gettext's, and the updater screen is admin-only. Their
-domain-tagged strings are permanently untranslatable and invisible to the
-gate — don't remove them from the exclude list expecting the gate to catch
-what's inside.
+`inc/seed.php`, `inc/settings-updates.php`, `inc/CptContent.php` and
+`inc/NamespaceRewrite.php` are deliberately excluded from extraction (see the
+`--exclude` list in `i18n:pot`): seeded content is Polylang's job, not
+gettext's, and the updater screen, the CPT-seeding screen and the one-shot
+block-namespace cutover tool are all admin-only. Their domain-tagged strings
+are permanently untranslatable and invisible to the gate — don't remove them
+from the exclude list expecting the gate to catch what's inside.
 
 ## Check-in form (guest registration)
 

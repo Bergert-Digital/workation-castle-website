@@ -9,7 +9,7 @@ class TextdomainLoadTest extends WP_UnitTestCase {
 
 	public function test_the_theme_textdomain_is_registered_on_after_setup_theme() {
 		$this->assertNotFalse(
-			has_action( 'after_setup_theme', 'pediment_child_load_textdomain' ),
+			has_action( 'after_setup_theme', 'workation_load_textdomain' ),
 			'Without this hook every gettext call falls through to English.'
 		);
 	}
@@ -24,7 +24,7 @@ class TextdomainLoadTest extends WP_UnitTestCase {
 
 	public function test_availability_form_labels_are_german_under_de_de() {
 		switch_to_locale( 'de_DE' );
-		$html = pediment_child_render_availability_form( array() );
+		$html = workation_render_availability_form( array() );
 
 		$this->assertStringContainsString( 'Anreise', $html );
 		$this->assertStringContainsString( 'Abreise', $html );
@@ -36,7 +36,7 @@ class TextdomainLoadTest extends WP_UnitTestCase {
 	}
 
 	public function test_english_is_untouched() {
-		$html = pediment_child_render_availability_form( array() );
+		$html = workation_render_availability_form( array() );
 
 		$this->assertStringContainsString( 'Arrival', $html );
 		$this->assertStringContainsString( 'Check availability', $html );

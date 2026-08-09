@@ -60,7 +60,7 @@ jobs:
         # -I ignores the POT-Creation-Date line, which `wp i18n make-pot`
         # rewrites to "now" on every run regardless of whether any string
         # actually changed; without it this step would fail on every build.
-        run: cd workation && npm run i18n:pot && git diff --exit-code -I'^"POT-Creation-Date:' -- languages/pediment-child.pot
+        run: cd workation && npm run i18n:pot && git diff --exit-code -I'^"POT-Creation-Date:' -- languages/workation.pot
       - if: always()
         run: cd workation && npm run env:stop
 

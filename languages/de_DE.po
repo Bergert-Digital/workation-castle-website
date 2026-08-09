@@ -40,8 +40,8 @@ msgstr "Workation-Castle-Theme: Es sind keine Blöcke registriert."
 #. translators: %s: absolute path to the theme's build/blocks directory.
 #: functions.php:165
 #, php-format
-msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation-castle-theme.zip release asset (not the \"Source code\" zip)."
-msgstr "Das gebaute Block-Verzeichnis %s fehlt, daher ist jeder Abschnitts-Block nicht verfügbar und Seiten, die sie verwenden, werden leer angezeigt. Installiere das Theme erneut aus dem Release-Asset workation-castle-theme.zip (nicht aus dem „Source code“-Zip)."
+msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
+msgstr "Das gebaute Block-Verzeichnis %s fehlt, daher ist jeder Abschnitts-Block nicht verfügbar und Seiten, die sie verwenden, werden leer angezeigt. Installiere das Theme erneut aus dem Release-Asset workation.zip (nicht aus dem „Source code“-Zip)."
 
 #: functions.php:237
 msgid "Image viewer"
