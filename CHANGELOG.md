@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.0.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.12.0...v1.0.0) (2026-08-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* the theme directory is now workation, so this installs beside the old theme rather than upgrading it.
+
+### Features
+
+* add the header language switcher, via pediment v3.3.0 ([5deeebc](https://github.com/Bergert-Digital/workation-castle-website/commit/5deeebc7e9c1fa19f51864272fbb4a7b1e0dd553))
+* add the one-shot block namespace rewrite ([10568d4](https://github.com/Bergert-Digital/workation-castle-website/commit/10568d419acf0bf196dbf1db3d0faee51b2968e4))
+* declare the site in a seed manifest ([5f2994f](https://github.com/Bergert-Digital/workation-castle-website/commit/5f2994f4c65833ecaa1076fbc4600fd70c94e531))
+* header language switcher (+ env:setup theme-name fix) ([#51](https://github.com/Bergert-Digital/workation-castle-website/issues/51)) ([f68f64d](https://github.com/Bergert-Digital/workation-castle-website/commit/f68f64d11df84e0f12aec242de655923f0c76a65))
+* **i18n:** add Dutch, French and Italian catalogs ([ec53d60](https://github.com/Bergert-Digital/workation-castle-website/commit/ec53d60b2cd5faf5758c4fbe59a9d2ae6ae0ccaf))
+* **i18n:** extract the string template and complete German ([09a3311](https://github.com/Bergert-Digital/workation-castle-website/commit/09a3311e337917442a8fcdb006aea6b481b496a7))
+* rename the theme to workation ([2b415b7](https://github.com/Bergert-Digital/workation-castle-website/commit/2b415b70d338d0c0ffc7a8a5c62fa46634f264e6))
+* **tools:** generate manifest entries from a WXR export ([97068d8](https://github.com/Bergert-Digital/workation-castle-website/commit/97068d8093a9bec8f5f8f03ccff0314875606918))
+
+
+### Bug Fixes
+
+* escape activity-map's L10N payload, align esc() char sets, tidy header ([dda7cd6](https://github.com/Bergert-Digital/workation-castle-website/commit/dda7cd6b2db638b3442a8e6fef954511ae9d32df))
+* **i18n:** correct the German fallback case and guard the brand names ([a81b944](https://github.com/Bergert-Digital/workation-castle-website/commit/a81b944d2d024551a46ef5c95b7a3be1dc69a228))
+* **i18n:** keep the untranslatable "Cookie settings" label in English ([49e9abb](https://github.com/Bergert-Digital/workation-castle-website/commit/49e9abb8b12ba4a37212c380c3d2f93e31dbbcfd))
+* **i18n:** load the child theme translation catalog ([1b03140](https://github.com/Bergert-Digital/workation-castle-website/commit/1b031408e239b29e1909bd140b0d57f93e8e6c6a))
+* **i18n:** localize the consent modal ([b46396b](https://github.com/Bergert-Digital/workation-castle-website/commit/b46396b02d5a543316b913bc095b44c6de499c7e))
+* **i18n:** localize the lightbox and activity-map labels ([4d85e3a](https://github.com/Bergert-Digital/workation-castle-website/commit/4d85e3a144119d9a16864cc8c0f23b747bd5f785))
+* **i18n:** wrap the estate map legend and consent fallback ([ffde9b0](https://github.com/Bergert-Digital/workation-castle-website/commit/ffde9b022daa3a5c98ddd84e5d8753cce9429aad))
+* **i18n:** write a spec-correct hash-table offset into compiled .mo files ([f6aebc5](https://github.com/Bergert-Digital/workation-castle-website/commit/f6aebc546a93285559b4c836e1f2f2556ff617bf))
+* keep template parts out of Polylang so the shared header renders under Pro ([5d34d19](https://github.com/Bergert-Digital/workation-castle-website/commit/5d34d197829d55ddec20cd3381cdafff06c62124))
+
+
+### Refactors
+
+* drop seeding, nav and updater code ([04e5635](https://github.com/Bergert-Digital/workation-castle-website/commit/04e563512fb8226222160e520884d874d4123ca8))
+
 ## [0.12.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.11.0...v0.12.0) (2026-07-29)
 
 
