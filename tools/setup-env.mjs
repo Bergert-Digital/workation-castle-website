@@ -48,6 +48,13 @@ try {
 	wp(`activate theme (${themeSlug})`, 'theme', 'activate', themeSlug);
 	wp('activate the Pediment plugin', 'plugin', 'activate', 'pediment-plugin');
 	wp('activate Polylang', 'plugin', 'activate', 'polylang-pro');
+	// Pretty permalinks must exist before the seed: Polylang Pro's share-slug
+	// module refuses to load on plain permalinks, and without it the manifest's
+	// shared "home" slugs uniquify to home-2/3/4.
+	wp('set permalink structure', 'rewrite', 'structure', '/%postname%/', '--hard');
+	// WordPress's own install-time placeholder pages squat slugs the manifest
+	// declares (draft "Privacy Policy" at privacy-policy); clear them first.
+	run('free WP placeholder pages', 'node', ['tools/free-wp-default-pages.mjs']);
 	wp('configure languages', 'pediment', 'languages');
 	wp('seed pages and navigations', 'pediment', 'seed');
 	wp('seed the photo library and activities', 'workation', 'content');
