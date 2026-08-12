@@ -35,6 +35,9 @@ require_once __DIR__ . '/inc/Photos.php';
 // Activities: public custom post type for the /activities/ page and its singles.
 require_once __DIR__ . '/inc/Activities.php';
 
+// Polylang: translate the client-owned activity and photo content libraries.
+require_once __DIR__ . '/inc/Polylang.php';
+
 // Photo library + activity content, sideloaded from the theme's manifests.
 // Must load after Photos.php and Activities.php, whose CPT/taxonomy constants
 // it writes to. Pages, navigations and languages belong to the Pediment
