@@ -9,14 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-12T11:11:04+00:00\n"
+"POT-Creation-Date: 2026-08-12T20:26:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: workation\n"
 
 #. Theme Name of the theme
 #: style.css
-#: functions.php:131
+#: functions.php:134
 msgid "Workation Castle"
 msgstr ""
 
@@ -40,34 +40,34 @@ msgstr ""
 msgid "https://bergert.digital"
 msgstr ""
 
-#: functions.php:165
+#: functions.php:168
 msgid "Workation Castle theme: no blocks are registered."
 msgstr ""
 
 #. translators: %s: absolute path to the theme's build/blocks directory.
-#: functions.php:171
+#: functions.php:174
 #, php-format
 msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
 msgstr ""
 
-#: functions.php:243
+#: functions.php:246
 msgid "Image viewer"
 msgstr ""
 
-#: functions.php:244
+#: functions.php:247
 #: inc/AvailabilityForm.php:112
 msgid "Close"
 msgstr ""
 
-#: functions.php:245
+#: functions.php:248
 msgid "Previous image"
 msgstr ""
 
-#: functions.php:246
+#: functions.php:249
 msgid "Next image"
 msgstr ""
 
-#: functions.php:315
+#: functions.php:318
 msgid "See on Google Maps"
 msgstr ""
 
