@@ -59,8 +59,10 @@ jobs:
       - name: Fail if the string template is stale
         # -I ignores the POT-Creation-Date line, which `wp i18n make-pot`
         # rewrites to "now" on every run regardless of whether any string
-        # actually changed; without it this step would fail on every build.
-        run: cd workation && npm run i18n:pot && git diff --exit-code -I'^"POT-Creation-Date:' -- languages/workation.pot
+        # actually changed, and the Project-Id-Version line, which carries the
+        # style.css version that release-please bumps — without both, this step
+        # would fail on every build or on every release PR.
+        run: cd workation && npm run i18n:pot && git diff --exit-code -I'^"POT-Creation-Date:' -I'^"Project-Id-Version:' -- languages/workation.pot
       - if: always()
         run: cd workation && npm run env:stop
 
