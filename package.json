@@ -25,7 +25,7 @@
     "env:link-local": "node tools/link-local-deps.mjs",
     "blocks:catalog": "node tools/blocks-catalog.mjs",
     "i18n:mo": "node tools/i18n-mo.mjs languages",
-    "i18n:pot": "wp-env run cli --env-cwd=wp-content/themes/$(basename $PWD) -- wp i18n make-pot . languages/workation.pot --domain=workation --skip-js --skip-block-json --skip-theme-json --exclude=node_modules,vendor,build,tests,tools,patterns,docs,inc/settings-updates.php,inc/seed.php,inc/CptContent.php,inc/NamespaceRewrite.php",
+    "i18n:pot": "wp-env run cli --env-cwd=wp-content/themes/workation -- wp i18n make-pot . languages/workation.pot --domain=workation --skip-js --skip-block-json --skip-theme-json --exclude=node_modules,vendor,build,tests,tools,patterns,docs,inc/settings-updates.php,inc/seed.php,inc/CptContent.php,inc/NamespaceRewrite.php",
     "test:tools": "node --test tests/tools/*.test.mjs"
   },
   "devDependencies": {
