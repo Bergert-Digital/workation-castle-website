@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.0.0...v1.1.0) (2026-08-13)
+
+
+### Features
+
+* translate client content with Polylang ([0717287](https://github.com/Bergert-Digital/workation-castle-website/commit/0717287f652de23341ef0f9bffa83d16bc7fd0e4))
+
 ## [1.0.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v0.12.0...v1.0.0) (2026-08-12)
 
 
