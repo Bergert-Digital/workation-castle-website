@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.1.0...v1.2.0) (2026-08-13)
+
+
+### Features
+
+* restore GitHub-release theme auto-updates ([411a0a1](https://github.com/Bergert-Digital/workation-castle-website/commit/411a0a1091d45523f2dc40bbfd1d029526b073fd))
+* restore GitHub-release theme auto-updates ([#56](https://github.com/Bergert-Digital/workation-castle-website/issues/56)) ([061a54a](https://github.com/Bergert-Digital/workation-castle-website/commit/061a54aff10516149574a37594cfe09f999700cd))
+
 ## [1.1.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.0.0...v1.1.0) (2026-08-13)
 
 
