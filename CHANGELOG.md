@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.0...v1.2.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* **activities:** localise the back link on activity singles ([c08dc8d](https://github.com/Bergert-Digital/workation-castle-website/commit/c08dc8dd3e9f7954992a6a3f27e234f6f5d47d85))
+* **activities:** localise the back link on activity singles ([#58](https://github.com/Bergert-Digital/workation-castle-website/issues/58)) ([56fc88d](https://github.com/Bergert-Digital/workation-castle-website/commit/56fc88d02d5a3e7d5e8e212fe54232ede7952fbd))
+
 ## [1.2.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.1.0...v1.2.0) (2026-08-13)
 
 
