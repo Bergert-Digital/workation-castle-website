@@ -440,3 +440,27 @@ add_filter(
 		);
 	}
 );
+
+/**
+ * Translate the header CTA label in the seeded header template part.
+ *
+ * The header is one language-less template part shared by every language
+ * (Polylang's template-part translation is deliberately disabled), so its
+ * static "Check availability" button can't be translated as content. Swap
+ * the label at render time instead, reusing the string the availability
+ * form already translates. The English markup is the msgid: if an editor
+ * rewrites the button text in the Site Editor, their text wins untouched.
+ */
+add_filter(
+	'render_block_core/html',
+	function ( $content ) {
+		if ( false === strpos( $content, 'header-cta' ) ) {
+			return $content;
+		}
+		return str_replace(
+			'>Check availability <span',
+			'>' . esc_html__( 'Check availability', 'workation' ) . ' <span',
+			$content
+		);
+	}
+);
