@@ -81,6 +81,10 @@ msgstr "Nieuwe activiteit toevoegen"
 msgid "Edit Activity"
 msgstr "Activiteit bewerken"
 
+#: inc/Activities.php:91
+msgid "Back to activities"
+msgstr "Terug naar activiteiten"
+
 #: inc/AvailabilityForm.php:39
 #: inc/AvailabilityForm.php:46
 msgid "Check availability"
