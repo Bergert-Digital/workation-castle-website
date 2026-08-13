@@ -85,6 +85,38 @@ msgstr "Modifier l’activité"
 msgid "Back to activities"
 msgstr "Retour aux activités"
 
+#: inc/Footer.php:133
+msgid "Vacation homes and co-working between Lake Lugano and Lake Como."
+msgstr "Locations de vacances et coworking entre le lac de Lugano et le lac de Côme."
+
+#: inc/Footer.php:137
+msgid "Explore"
+msgstr "Découvrir"
+
+#: inc/Footer.php:144
+msgid "Visit"
+msgstr "Visiter"
+
+#: inc/Footer.php:148
+msgid "Ask for a custom offer"
+msgstr "Demander une offre sur mesure"
+
+#: inc/Footer.php:152
+msgid "Languages"
+msgstr "Langues"
+
+#: inc/Footer.php:160
+msgid "Cookie settings"
+msgstr "Paramètres des cookies"
+
+#: inc/Footer.php:112
+msgid "Page not found"
+msgstr "Page introuvable"
+
+#: inc/Footer.php:114
+msgid "Back to the homepage"
+msgstr "Retour à l'accueil"
+
 #: inc/AvailabilityForm.php:39
 #: inc/AvailabilityForm.php:46
 msgid "Check availability"
@@ -417,13 +449,9 @@ msgstr "Charger le contenu externe"
 msgid "Your privacy"
 msgstr "Ta vie privée"
 
-#. The "Cookie settings" button is intentionally left in English: parts/footer.html
-#. (out of scope for this branch) still renders that label as literal English in
-#. every language. Translating it here would send users looking for a control
-#. that doesn't exist. Revisit once the footer i18n follow-up lands.
 #: inc/Consent.php:181
 msgid "We use cookies and external services. Choose what to allow. You can change this anytime via \"Cookie settings\" in the footer."
-msgstr "Nous utilisons des cookies et des services externes. Choisis ce que tu acceptes. Tu peux modifier ce choix à tout moment via « Cookie settings » dans le pied de page."
+msgstr "Nous utilisons des cookies et des services externes. Choisis ce que tu acceptes. Tu peux modifier ce choix à tout moment via « Paramètres des cookies » dans le pied de page."
 
 #: inc/Consent.php:182
 msgid "Reject all"

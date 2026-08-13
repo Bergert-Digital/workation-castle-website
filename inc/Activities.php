@@ -63,17 +63,7 @@ add_action( 'init', 'workation_register_activities' );
  * @return string
  */
 function workation_activities_page_url() {
-	$page = get_page_by_path( 'activities' );
-	if ( $page && function_exists( 'pll_get_post' ) ) {
-		$translated = pll_get_post( $page->ID );
-		if ( $translated ) {
-			$page = get_post( $translated );
-		}
-	}
-	if ( $page ) {
-		return (string) get_permalink( $page );
-	}
-	return home_url( '/activities/' );
+	return workation_localized_page_url( 'activities' );
 }
 
 /**

@@ -35,6 +35,9 @@ require_once __DIR__ . '/inc/Photos.php';
 // Activities: public custom post type for the /activities/ page and its singles.
 require_once __DIR__ . '/inc/Activities.php';
 
+// Footer: server-rendered so labels translate and links resolve per language.
+require_once __DIR__ . '/inc/Footer.php';
+
 // Polylang: translate the client-owned activity and photo content libraries.
 require_once __DIR__ . '/inc/Polylang.php';
 
