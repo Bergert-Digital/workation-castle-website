@@ -73,6 +73,12 @@ if ( is_admin() ) {
 	Workation\NamespaceRewrite::register_admin();
 }
 
+// GitHub-release auto-updates: offer one-click theme updates from this repo's
+// releases (public repo, no token). No-ops without the Pediment plugin's
+// bundled Plugin Update Checker and in local/dev — see inc/ThemeUpdater.php.
+require_once __DIR__ . '/inc/ThemeUpdater.php';
+\Workation\ThemeUpdater::register();
+
 /**
  * Register every block in the given directory (defaults to build/blocks).
  *
