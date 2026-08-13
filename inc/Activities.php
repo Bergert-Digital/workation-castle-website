@@ -51,3 +51,43 @@ function workation_register_activities() {
 	);
 }
 add_action( 'init', 'workation_register_activities' );
+
+/**
+ * URL of the activities landing page in the visitor's language.
+ *
+ * Under Polylang the four language versions of the page share the "activities"
+ * slug, so the file-based single template cannot hardcode /activities/ — that
+ * always lands on the default language. Resolve the page and map it to the
+ * current language instead.
+ *
+ * @return string
+ */
+function workation_activities_page_url() {
+	$page = get_page_by_path( 'activities' );
+	if ( $page && function_exists( 'pll_get_post' ) ) {
+		$translated = pll_get_post( $page->ID );
+		if ( $translated ) {
+			$page = get_post( $translated );
+		}
+	}
+	if ( $page ) {
+		return (string) get_permalink( $page );
+	}
+	return home_url( '/activities/' );
+}
+
+/**
+ * The "back to activities" anchor shown under an activity single.
+ *
+ * Lives here rather than in the pattern file so the label is scanned into
+ * the POT (i18n:pot excludes patterns/).
+ *
+ * @return string Escaped anchor markup.
+ */
+function workation_back_to_activities_link() {
+	return sprintf(
+		'<a class="text-link" href="%s"><span class="arr">←</span>%s</a>',
+		esc_url( workation_activities_page_url() ),
+		esc_html__( 'Back to activities', 'workation' )
+	);
+}
