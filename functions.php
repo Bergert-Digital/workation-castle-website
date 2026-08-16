@@ -56,6 +56,11 @@ require_once __DIR__ . '/inc/WorkationSections.php';
 require_once __DIR__ . '/inc/EstateMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 
+// Renders the static footer template part: translatable copy, language-aware
+// links and the Polylang switcher. See inc/Footer.php for why this can't live
+// in parts/footer.html.
+require_once __DIR__ . '/inc/Footer.php';
+
 // Section copy for pages stored before that copy moved into the pattern markup.
 // Must load after WorkationSections.php, whose render helpers consume the
 // attributes it supplies. Transitional — see the file header.
