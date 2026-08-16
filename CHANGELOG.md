@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.1...v1.2.2) (2026-08-16)
+
+
+### Bug Fixes
+
+* **footer:** translate and localise the footer ([3488629](https://github.com/Bergert-Digital/workation-castle-website/commit/34886297db7e6f0c417b4400e84fdabea077a49f))
+
 ## [1.2.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.0...v1.2.1) (2026-08-13)
 
 
