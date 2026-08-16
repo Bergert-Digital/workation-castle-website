@@ -39,6 +39,36 @@ test('mobile shows the native hamburger overlay with the items', async ({ page }
 	await expect(overlay.getByRole('link', { name: 'Activities' })).toBeVisible();
 });
 
+// Regression guard: the open overlay must keep its dark brand background. Core's
+// default paints it white via a `:not(.has-background)...:not(.disable-default-overlay)`
+// selector; WordPress 7.0 widened that selector, out-specifying the theme's old
+// override so the overlay went white while its links stayed #fff — white on white.
+test('mobile overlay keeps a dark background that contrasts its links', async ({
+	page,
+}) => {
+	await page.setViewportSize({ width: 480, height: 800 });
+	await page.goto('/');
+	await page.locator('.site-header .wp-block-navigation__responsive-container-open').click();
+	const overlay = page.locator('.site-header .wp-block-navigation__responsive-container.is-menu-open');
+	await expect(overlay).toBeVisible();
+
+	const { bg, brown, link } = await overlay.evaluate((el) => {
+		const links = el.querySelector('.wp-block-navigation-item__content');
+		return {
+			bg: getComputedStyle(el).backgroundColor,
+			link: links ? getComputedStyle(links).color : '',
+			brown: getComputedStyle(document.documentElement)
+				.getPropertyValue('--wc-brown')
+				.trim(),
+		};
+	});
+	// The overlay resolves --wc-brown (#3A2616) rather than core's default white.
+	expect(bg).toBe('rgb(58, 38, 22)');
+	expect(brown.toUpperCase()).toBe('#3A2616');
+	// And the links are legible against it (not the same colour as the background).
+	expect(link).not.toBe(bg);
+});
+
 // Regression guard: the parent theme puts backdrop-filter on the header once it
 // turns solid (.scrolled). backdrop-filter makes the header the containing block
 // for position:fixed descendants, so the core overlay's inset:0 resolved against
