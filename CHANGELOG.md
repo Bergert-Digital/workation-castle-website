@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.2...v1.2.3) (2026-08-16)
+
+
+### Bug Fixes
+
+* **nav:** keep the mobile menu overlay dark on WordPress 7.0 ([8d1301a](https://github.com/Bergert-Digital/workation-castle-website/commit/8d1301a3d9a42f216c093d12c310e55148844450))
+* **nav:** keep the mobile menu overlay dark on WordPress 7.0 ([#63](https://github.com/Bergert-Digital/workation-castle-website/issues/63)) ([342758e](https://github.com/Bergert-Digital/workation-castle-website/commit/342758e17a4e4b97ce3729fb2d2ff956b9449277))
+
 ## [1.2.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.1...v1.2.2) (2026-08-16)
 
 
