@@ -546,3 +546,76 @@ msgstr "Alle"
 #: src/blocks/check-in-form/render.php:30
 msgid "This check-in form needs JavaScript. Please enable it, or email your details to info@workationcastle.com."
 msgstr "Dieses Check-in-Formular benötigt JavaScript. Bitte aktiviere es oder sende deine Daten per E-Mail an info@workationcastle.com."
+
+#: inc/Footer.php
+msgid "Castello di Carlazzo — vacation homes and co-working between Lake Lugano and Lake Como."
+msgstr "Castello di Carlazzo – Ferienhäuser und Co-Working zwischen Luganer See und Comer See."
+
+#: inc/Footer.php
+msgid "Explore"
+msgstr "Entdecken"
+
+#: inc/Footer.php
+msgid "Visit"
+msgstr "Besuchen"
+
+#: inc/Footer.php
+msgid "Languages"
+msgstr "Sprachen"
+
+#: inc/Footer.php
+msgid "Ways to stay"
+msgstr "Unterkünfte"
+
+#: inc/Footer.php
+msgid "Co-working"
+msgstr "Co-Working"
+
+#: inc/Footer.php
+msgid "Gallery"
+msgstr "Galerie"
+
+#: inc/Footer.php
+msgid "Reviews"
+msgstr "Bewertungen"
+
+#: inc/Footer.php
+msgid "Getting here"
+msgstr "Anreise"
+
+#: inc/Footer.php
+msgid "Things to do"
+msgstr "Aktivitäten"
+
+#: inc/Footer.php
+msgid "Check availability"
+msgstr "Verfügbarkeit prüfen"
+
+#: inc/Footer.php
+msgid "Ask for a custom offer"
+msgstr "Individuelles Angebot anfragen"
+
+#: inc/Footer.php
+msgid "Contact"
+msgstr "Kontakt"
+
+#: inc/Footer.php
+msgid "Feedback"
+msgstr "Feedback"
+
+#: inc/Footer.php
+msgid "Imprint"
+msgstr "Impressum"
+
+#: inc/Footer.php
+msgid "Privacy Policy"
+msgstr "Datenschutz"
+
+#: inc/Footer.php
+msgid "Cookie settings"
+msgstr "Cookie-Einstellungen"
+
+#. translators: %d: current year.
+#: inc/Footer.php
+msgid "© %d Workation Castle · Castello di Carlazzo, Italy"
+msgstr "© %d Workation Castle · Castello di Carlazzo, Italien"
