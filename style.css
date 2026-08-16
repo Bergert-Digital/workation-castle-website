@@ -2629,11 +2629,15 @@ body.no-hero .site-header .wp-block-navigation__responsive-container-open {
 	color: var(--wc-ink);
 }
 
-/* Specificity note: core's block-library CSS ships
-   `.wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open`
-   (four classes). Match that specificity here (`.is-menu-open` doubled) so this
-   override applies regardless of stylesheet load order. */
-.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open {
+/* Specificity note: core's block-library CSS paints the default mobile overlay
+   white via
+   `.wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open:not(.disable-default-overlay)`.
+   WordPress 7.0 added the `:not(.disable-default-overlay)` clause, taking that
+   selector to five classes — so the old four-class override lost and the overlay
+   reverted to white (white-on-white, as the links below are #fff). Mirror core's
+   current selector (`.is-menu-open` doubled plus the same `:not()`) to match its
+   specificity; our stylesheet loads after core's, so the tie resolves our way. */
+.site-header .wp-block-navigation__responsive-container.is-menu-open.is-menu-open:not(.disable-default-overlay) {
 	background: var(--wc-brown);
 }
 
