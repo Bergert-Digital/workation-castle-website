@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.4](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.3...v1.2.4) (2026-08-17)
+
+
+### Performance
+
+* **images:** lazy-load and serve responsive block images ([#65](https://github.com/Bergert-Digital/workation-castle-website/issues/65)) ([d21f155](https://github.com/Bergert-Digital/workation-castle-website/commit/d21f1559e88988fbdfd903c308a07972386b093d))
+* **images:** lazy-load block images and serve responsive srcset ([ba24e7d](https://github.com/Bergert-Digital/workation-castle-website/commit/ba24e7df7a4fa544adcb35839395fcea41dcfe7f))
+
 ## [1.2.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.2...v1.2.3) (2026-08-16)
 
 
