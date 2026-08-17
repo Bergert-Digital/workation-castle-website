@@ -19,7 +19,7 @@ if ( ! defined( 'WORKATION_DIR' ) ) {
 	define( 'WORKATION_DIR', __DIR__ );
 }
 if ( ! defined( 'WORKATION_VERSION' ) ) {
-	define( 'WORKATION_VERSION', '1.2.3' ); // Bumped on release by x-release-please-version.
+	define( 'WORKATION_VERSION', '1.2.4' ); // Bumped on release by x-release-please-version.
 }
 
 if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
