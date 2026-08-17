@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.5](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.4...v1.2.5) (2026-08-17)
+
+
+### Performance
+
+* **scripts:** defer front-end JavaScript so text and consent banner paint promptly ([aba0039](https://github.com/Bergert-Digital/workation-castle-website/commit/aba0039d769afd6ee43e253d32a6f5f131dad40d))
+* **scripts:** defer front-end JavaScript so text and consent banner paint promptly ([#67](https://github.com/Bergert-Digital/workation-castle-website/issues/67)) ([b83196a](https://github.com/Bergert-Digital/workation-castle-website/commit/b83196adb91db422664eef138871385ba886affe))
+
 ## [1.2.4](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.3...v1.2.4) (2026-08-17)
 
 
