@@ -22,7 +22,7 @@ $wrapper = get_block_wrapper_attributes( array( 'class' => 'space-row' ) );
 ob_start();
 ?>
 <div <?php echo $wrapper; ?>>
-	<div class="space-photo"><?php if ( '' !== $image_url ) : ?><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"><?php endif; ?></div>
+	<div class="space-photo"><?php echo workation_responsive_image( $image_url, $image_alt, array( 'sizes' => '(max-width: 700px) 92vw, 50vw' ) ); ?></div>
 	<div class="space-text">
 		<?php if ( '' !== $eyebrow ) : ?><span class="num"><?php echo wp_kses_post( $eyebrow ); ?></span><?php endif; ?>
 		<?php if ( '' !== $title ) : ?><h3><?php echo wp_kses_post( $title ); ?></h3><?php endif; ?>

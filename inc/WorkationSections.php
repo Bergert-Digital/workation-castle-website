@@ -242,9 +242,13 @@ function workation_workation_location_chrome( $attributes, $content ) {
 		<div class="wc-wrap">
 			<div class="loc-grid">
 				<div class="loc-map">
-					<?php if ( '' !== $image_url ) : ?>
-						<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>">
-					<?php endif; ?>
+					<?php
+					echo workation_responsive_image( // phpcs:ignore WordPress.Security.EscapeOutput
+						$image_url,
+						$image_alt,
+						array( 'sizes' => '(max-width: 900px) 100vw, 50vw' )
+					);
+					?>
 				</div>
 				<div class="loc-text">
 					<?php if ( '' !== $lead ) : ?>
@@ -287,7 +291,18 @@ function workation_workation_hero_chrome( $attributes, $content ) {
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?> id="book">
-		<div class="hero-img"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></div>
+		<div class="hero-img">
+		<?php
+		echo workation_responsive_image(
+			$image_url,
+			$image_alt,
+			array(
+				'sizes' => '100vw',
+				'eager' => true,
+			)
+		); // phpcs:ignore WordPress.Security.EscapeOutput 
+		?>
+								</div>
 		<div class="hero-grad"></div>
 		<div class="hero-content">
 			<div class="wc-wrap">
@@ -552,6 +567,73 @@ function workation_default_image( string $file ): string {
 }
 
 /**
+ * Build a responsive <img> tag for an image stored as a plain URL.
+ *
+ * The section blocks store their imagery as a `imageUrl` string rather than an
+ * attachment ID, which means a hand-rolled `<img src>` bypasses core's
+ * responsive-image pipeline entirely — no `srcset`, no `sizes`, no lazy
+ * loading. This helper puts those back:
+ *
+ * - It resolves the URL back to an attachment so `wp_get_attachment_image()`
+ *   can emit `srcset`/`sizes` and the browser downloads a right-sized variant.
+ *   (Resolution only succeeds when the URL is on this site's own uploads host;
+ *   an external/production URL viewed on staging simply falls back to a bare
+ *   tag, which still gets the loading hints below.)
+ * - It always applies loading hints: below-the-fold images defer with
+ *   `loading="lazy"`, while an above-the-fold hero stays eager and is flagged
+ *   `fetchpriority="high"` so it is not delayed by the deferred images.
+ *
+ * @param string $image_url Stored image URL.
+ * @param string $image_alt Alt text.
+ * @param array  $args {
+ *     Optional. Extra options.
+ *
+ *     @type string $class CSS class for the <img>. Default ''.
+ *     @type string $sizes The `sizes` attribute value, describing the image's
+ *                         rendered footprint so the browser can pick a candidate.
+ *                         Only applied when the attachment resolves. Default ''.
+ *     @type bool   $eager True for the above-the-fold/LCP image (eager load,
+ *                         high fetch priority). Default false (lazy).
+ * }
+ * @return string HTML <img> tag, or '' when no URL is given.
+ */
+function workation_responsive_image( string $image_url, string $image_alt = '', array $args = array() ): string {
+	if ( '' === $image_url ) {
+		return '';
+	}
+
+	$class = isset( $args['class'] ) ? (string) $args['class'] : '';
+	$sizes = isset( $args['sizes'] ) ? (string) $args['sizes'] : '';
+	$eager = ! empty( $args['eager'] );
+
+	$attr = array( 'alt' => $image_alt );
+	if ( '' !== $class ) {
+		$attr['class'] = $class;
+	}
+	$attr['decoding'] = 'async';
+	if ( $eager ) {
+		$attr['loading']       = 'eager';
+		$attr['fetchpriority'] = 'high';
+	} else {
+		$attr['loading'] = 'lazy';
+	}
+
+	$attachment_id = attachment_url_to_postid( $image_url );
+	if ( $attachment_id ) {
+		if ( '' !== $sizes ) {
+			$attr['sizes'] = $sizes;
+		}
+		return wp_get_attachment_image( $attachment_id, 'full', false, $attr );
+	}
+
+	$attr_html = '';
+	foreach ( $attr as $name => $value ) {
+		$attr_html .= sprintf( ' %s="%s"', esc_attr( $name ), esc_attr( $value ) );
+	}
+	return sprintf( '<img src="%s"%s>', esc_url( $image_url ), $attr_html );
+}
+
+/**
  * Render the interior-page hero from attributes.
  *
  * A reusable cinematic hero for non-home pages: a full-bleed photo with the
@@ -575,7 +657,18 @@ function workation_page_hero_chrome( $attributes ) {
 	ob_start();
 	?>
 	<section class="page-hero<?php echo esc_attr( $align_class ); ?>">
-		<div class="page-hero-img"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"></div>
+		<div class="page-hero-img">
+		<?php
+		echo workation_responsive_image(
+			$image_url,
+			$image_alt,
+			array(
+				'sizes' => '100vw',
+				'eager' => true,
+			)
+		); // phpcs:ignore WordPress.Security.EscapeOutput 
+		?>
+		</div>
 		<div class="page-hero-grad"></div>
 		<div class="page-hero-inner wc-wrap">
 			<?php if ( '' !== $eyebrow ) : ?>
@@ -613,7 +706,16 @@ function workation_workation_closing_chrome( $attributes ) {
 	ob_start();
 	?>
 	<section <?php echo $wrapper; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
-		<img class="bg" src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>">
+		<?php
+		echo workation_responsive_image(
+			$image_url,
+			$image_alt,
+			array(
+				'class' => 'bg',
+				'sizes' => '100vw',
+			)
+		); // phpcs:ignore WordPress.Security.EscapeOutput 
+		?>
 		<div class="grad"></div>
 		<div class="closing-inner">
 			<?php if ( '' !== $headline ) : ?>

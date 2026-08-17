@@ -18,7 +18,7 @@ $wrapper = get_block_wrapper_attributes( array( 'class' => 'act' ) );
 ob_start();
 ?>
 <article <?php echo $wrapper; ?>>
-	<?php if ( '' !== $image_url ) : ?><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>"><?php endif; ?>
+	<?php echo workation_responsive_image( $image_url, $image_alt, array( 'sizes' => '(max-width: 700px) 45vw, 25vw' ) ); ?>
 	<b><?php echo wp_kses_post( $title ); ?></b>
 </article>
 <?php
