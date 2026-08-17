@@ -230,7 +230,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/header.js',
 			array(),
 			file_exists( $header_js_path ) ? (string) filemtime( $header_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 
 		$reveal_js_path = get_stylesheet_directory() . '/assets/js/reveal.js';
@@ -239,7 +242,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/reveal.js',
 			array(),
 			file_exists( $reveal_js_path ) ? (string) filemtime( $reveal_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 
 		$lightbox_js_path = get_stylesheet_directory() . '/assets/js/lightbox.js';
@@ -248,7 +254,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/lightbox.js',
 			array(),
 			file_exists( $lightbox_js_path ) ? (string) filemtime( $lightbox_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 		wp_localize_script(
 			'workation-castle-lightbox',
@@ -267,7 +276,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/photo-filter.js',
 			array(),
 			file_exists( $photo_filter_js_path ) ? (string) filemtime( $photo_filter_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 
 		$booking_newtab_js_path = get_stylesheet_directory() . '/assets/js/booking-newtab.js';
@@ -276,7 +288,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/booking-newtab.js',
 			array(),
 			file_exists( $booking_newtab_js_path ) ? (string) filemtime( $booking_newtab_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 
 		$range_picker_js_path = get_stylesheet_directory() . '/assets/js/range-picker.js';
@@ -285,7 +300,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/range-picker.js',
 			array(),
 			file_exists( $range_picker_js_path ) ? (string) filemtime( $range_picker_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 		wp_localize_script( 'workation-castle-range-picker', 'wcRangePicker', workation_range_picker_l10n() );
 
@@ -295,7 +313,10 @@ add_action(
 			get_stylesheet_directory_uri() . '/assets/js/estate-map.js',
 			array(),
 			file_exists( $estate_map_js_path ) ? (string) filemtime( $estate_map_js_path ) : wp_get_theme()->get( 'Version' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 
 		// Activity locator maps (Leaflet) — only on single activity pages.
@@ -320,7 +341,10 @@ add_action(
 				get_stylesheet_directory_uri() . '/assets/js/activity-map.js',
 				array( 'leaflet' ),
 				file_exists( $activity_map_js_path ) ? (string) filemtime( $activity_map_js_path ) : wp_get_theme()->get( 'Version' ),
-				true
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
 			);
 			wp_localize_script(
 				'workation-castle-activity-map',
@@ -330,6 +354,13 @@ add_action(
 				)
 			);
 		}
+
+		// The parent Pediment theme enqueues its own reveal.js with no loading
+		// strategy, leaving it the last render-blocking script on the page. Defer
+		// it too (nothing depends on it) so no front-end script blocks parsing or
+		// DOMContentLoaded — which is what gates the entrance-animation reveal and
+		// the consent banner. Handle is a no-op if the parent ever renames it.
+		wp_script_add_data( 'pediment-reveal', 'strategy', 'defer' );
 	}
 );
 
