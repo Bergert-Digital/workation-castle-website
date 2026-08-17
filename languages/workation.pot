@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-17T08:47:17+00:00\n"
+"POT-Creation-Date: 2026-08-17T10:06:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: workation\n"
@@ -50,24 +50,24 @@ msgstr ""
 msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
 msgstr ""
 
-#: functions.php:257
+#: functions.php:266
 msgid "Image viewer"
 msgstr ""
 
-#: functions.php:258
+#: functions.php:267
 #: inc/AvailabilityForm.php:112
 msgid "Close"
 msgstr ""
 
-#: functions.php:259
+#: functions.php:268
 msgid "Previous image"
 msgstr ""
 
-#: functions.php:260
+#: functions.php:269
 msgid "Next image"
 msgstr ""
 
-#: functions.php:329
+#: functions.php:353
 msgid "See on Google Maps"
 msgstr ""
 

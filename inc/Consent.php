@@ -223,7 +223,10 @@ function workation_consent_enqueue() {
 		get_stylesheet_directory_uri() . '/assets/js/consent.js',
 		array(),
 		file_exists( $js_path ) ? (string) filemtime( $js_path ) : wp_get_theme()->get( 'Version' ),
-		true
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
 	);
 
 	$config = array(
