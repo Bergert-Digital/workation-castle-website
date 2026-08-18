@@ -619,3 +619,11 @@ msgstr "Cookie-instellingen"
 #: inc/Footer.php
 msgid "© %d Workation Castle · Castello di Carlazzo, Italy"
 msgstr "© %d Workation Castle · Castello di Carlazzo, Italië"
+
+#: inc/Footer.php
+msgid "Page not found"
+msgstr "Pagina niet gevonden"
+
+#: inc/Footer.php
+msgid "Back to the homepage"
+msgstr "Terug naar de homepage"

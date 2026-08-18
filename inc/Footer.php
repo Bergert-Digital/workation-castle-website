@@ -164,3 +164,23 @@ function workation_footer_render_tokens( $content ) {
 	return $content;
 }
 add_filter( 'render_block_core/html', 'workation_footer_render_tokens' );
+
+/**
+ * The 404 message markup, for the workation/not-found pattern.
+ *
+ * Lives here rather than in the pattern file so the strings are scanned into
+ * the POT (i18n:pot excludes patterns/).
+ *
+ * @return string
+ */
+function workation_not_found_markup() {
+	return sprintf(
+		'<div class="wc-wrap not-found">
+	<h1>%s</h1>
+	<p><a class="text-link" href="%s"><span class="arr">←</span>%s</a></p>
+</div>',
+		esc_html__( 'Page not found', 'workation' ),
+		esc_url( home_url( '/' ) ),
+		esc_html__( 'Back to the homepage', 'workation' )
+	);
+}
