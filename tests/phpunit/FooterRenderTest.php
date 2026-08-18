@@ -65,6 +65,15 @@ class FooterRenderTest extends PatternTestCase {
 		$this->assertSame( $html, workation_footer_render_tokens( $html ) );
 	}
 
+	public function test_not_found_markup_links_home_with_translatable_copy() {
+		$markup = workation_not_found_markup();
+
+		$this->assertStringContainsString( '>Page not found<', $markup );
+		$this->assertStringContainsString( 'Back to the homepage', $markup );
+		$this->assertStringContainsString( 'href="' . esc_url( home_url( '/' ) ) . '"', $markup );
+		$this->assertStringContainsString( 'class="wc-wrap not-found"', $markup );
+	}
+
 	public function test_footer_part_uses_tokens_not_hardcoded_english() {
 		$footer = file_get_contents( $this->theme_dir() . '/parts/footer.html' );
 
