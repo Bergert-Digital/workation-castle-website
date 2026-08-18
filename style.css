@@ -1416,6 +1416,7 @@ body.parent-pageid-179 .starter-steps {
 	display: flex;
 	overflow: hidden;
 	position: relative;
+	text-decoration: none;
 	transition: transform .5s var(--wc-ease), box-shadow .5s var(--wc-ease);
 }
 

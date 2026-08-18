@@ -6,7 +6,8 @@ import {
 	RichText,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	eyebrow: string;
@@ -77,7 +78,7 @@ export default function Edit( {
 		<section { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Activities button', 'workation' ) }>
-					<TextControl
+					<UrlField
 						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }

@@ -7,6 +7,7 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	headline: string;
@@ -67,12 +68,12 @@ export default function Edit( {
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
-					<TextControl
+					<UrlField
 						label={ __( 'Primary URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
 					/>
-					<TextControl
+					<UrlField
 						label={ __( 'Secondary URL', 'workation' ) }
 						value={ attributes.secondaryUrl }
 						onChange={ ( v ) =>

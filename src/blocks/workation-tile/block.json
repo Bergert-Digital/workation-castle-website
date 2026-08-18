@@ -10,6 +10,7 @@
   "supports": { "html": false },
   "attributes": {
     "title": { "type": "string", "default": "" },
+    "linkUrl": { "type": "string", "default": "" },
     "imageUrl": { "type": "string", "default": "" },
     "imageAlt": { "type": "string", "default": "" },
     "imageId": { "type": "number", "default": 0 }

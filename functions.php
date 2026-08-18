@@ -393,6 +393,33 @@ add_action(
 );
 
 /**
+ * Style the theme's block-editor sidebar controls.
+ *
+ * The editor canvas is covered by add_editor_style(), but InspectorControls
+ * render in the outer editor document, which that stylesheet does not reach.
+ * The shared UrlField (a core URLInput) sizes to its popover default width, so
+ * it overflows the narrow settings sidebar unless constrained to 100%.
+ *
+ * @return void
+ */
+function workation_block_editor_ui_styles(): void {
+	wp_register_style( 'workation-editor-ui', false, array(), '1' );
+	wp_enqueue_style( 'workation-editor-ui' );
+	wp_add_inline_style(
+		'workation-editor-ui',
+		'.wc-url-field{display:block;width:100%}'
+		// URLInput uses a flex-based InputControl; every item in the chain keeps
+		// min-width:auto by default, so it refuses to shrink and overflows the
+		// narrow sidebar. Force the chain (and the input) to shrink to 100%.
+		. '.wc-url-field .block-editor-url-input{display:block;width:100%;min-width:0}'
+		. '.wc-url-field .components-input-base,'
+		. '.wc-url-field .components-input-control__container{width:100%!important;min-width:0!important}'
+		. '.wc-url-field .components-input-control__input{width:100%!important;min-width:0!important;box-sizing:border-box}'
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'workation_block_editor_ui_styles' );
+
+/**
  * Mark the document as JS-enabled before paint so entrance animations can hide
  * their targets without a flash of content. Printed early in <head>; the
  * reveal stylesheet only hides elements under `html.js`, and reveal.js removes

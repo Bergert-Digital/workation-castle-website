@@ -7,6 +7,7 @@ import {
 	InspectorControls,
 } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	eyebrow: string;
@@ -73,7 +74,7 @@ export default function Edit( {
 						value={ attributes.ctaText }
 						onChange={ ( v ) => setAttributes( { ctaText: v } ) }
 					/>
-					<TextControl
+					<UrlField
 						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.ctaUrl }
 						onChange={ ( v ) => setAttributes( { ctaUrl: v } ) }

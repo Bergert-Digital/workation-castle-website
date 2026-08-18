@@ -9,6 +9,7 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	eyebrow: string;
@@ -96,7 +97,7 @@ export default function Edit( {
 					/>
 				</PanelBody>
 				<PanelBody title={ __( 'Arrival button', 'workation' ) }>
-					<TextControl
+					<UrlField
 						label={ __( 'Button URL', 'workation' ) }
 						value={ attributes.primaryUrl }
 						onChange={ ( v ) => setAttributes( { primaryUrl: v } ) }
