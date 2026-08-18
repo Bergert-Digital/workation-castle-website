@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.5...v1.3.0) (2026-08-18)
+
+
+### Features
+
+* **blocks:** editable tile links and site-aware URL fields ([ce27298](https://github.com/Bergert-Digital/workation-castle-website/commit/ce272989eca6b38ab8d741301ab7a0259cafd75e))
+
 ## [1.2.5](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.4...v1.2.5) (2026-08-17)
 
 
