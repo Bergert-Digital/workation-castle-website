@@ -7,6 +7,7 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	eyebrow: string;
@@ -63,7 +64,7 @@ export default function Edit( {
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
 					/>
-					<TextControl
+					<UrlField
 						label={ __( 'Link URL', 'workation' ) }
 						value={ attributes.linkUrl }
 						onChange={ ( v ) => setAttributes( { linkUrl: v } ) }

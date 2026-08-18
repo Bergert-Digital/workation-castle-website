@@ -4,7 +4,8 @@ import {
 	RichText,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	headline: string;
@@ -27,7 +28,7 @@ export default function Edit( {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Promo banner', 'workation' ) }>
-					<TextControl
+					<UrlField
 						label={ __( 'Link URL', 'workation' ) }
 						value={ attributes.linkUrl }
 						onChange={ ( v ) => setAttributes( { linkUrl: v } ) }

@@ -7,9 +7,11 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { PanelBody, Button, TextControl } from '@wordpress/components';
+import UrlField from '../shared/url-field';
 
 type Attrs = {
 	title: string;
+	linkUrl: string;
 	imageUrl: string;
 	imageAlt: string;
 	imageId: number;
@@ -26,7 +28,7 @@ export default function Edit( {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Activity image', 'workation' ) }>
+				<PanelBody title={ __( 'Activity image & link', 'workation' ) }>
 					{ attributes.imageUrl && (
 						<img
 							src={ attributes.imageUrl }
@@ -58,6 +60,11 @@ export default function Edit( {
 						label={ __( 'Alt text', 'workation' ) }
 						value={ attributes.imageAlt }
 						onChange={ ( v ) => setAttributes( { imageAlt: v } ) }
+					/>
+					<UrlField
+						label={ __( 'Link URL', 'workation' ) }
+						value={ attributes.linkUrl }
+						onChange={ ( v ) => setAttributes( { linkUrl: v } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
