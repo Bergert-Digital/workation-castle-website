@@ -580,6 +580,14 @@ msgstr ""
 msgid "© %d Workation Castle · Castello di Carlazzo, Italy"
 msgstr ""
 
+#: inc/Footer.php:182
+msgid "Page not found"
+msgstr ""
+
+#: inc/Footer.php:184
+msgid "Back to the homepage"
+msgstr ""
+
 #: inc/Photos.php:31
 #: inc/Photos.php:35
 msgid "Photos"
@@ -619,12 +627,4 @@ msgstr ""
 
 #: src/blocks/check-in-form/render.php:30
 msgid "This check-in form needs JavaScript. Please enable it, or email your details to info@workationcastle.com."
-msgstr ""
-
-#: inc/Footer.php:182
-msgid "Page not found"
-msgstr ""
-
-#: inc/Footer.php:184
-msgid "Back to the homepage"
 msgstr ""
