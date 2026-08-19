@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.3.0...v1.4.0) (2026-08-19)
+
+
+### Features
+
+* **footer:** render the real footer on regular pages and the 404 ([b225d40](https://github.com/Bergert-Digital/workation-castle-website/commit/b225d4002b3c0010ed275568282080dee37cd2dd))
+
+
+### Bug Fixes
+
+* **i18n:** order the new footer strings in the POT as make-pot emits them ([4df4eb8](https://github.com/Bergert-Digital/workation-castle-website/commit/4df4eb82abb76d9bdb42421321cefbd1da698e01))
+
 ## [1.3.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.2.5...v1.3.0) (2026-08-18)
 
 
