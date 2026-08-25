@@ -1,6 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractWrapperClass, parsePreservedNotes, buildCatalog } from '../../tools/blocks-catalog.mjs';
+import {
+  extractWrapperClass,
+  parsePreservedNotes,
+  buildCatalog,
+  parentBlocksScript,
+  parseParentBlocks,
+} from '../../tools/blocks-catalog.mjs';
 
 test('extractWrapperClass finds the starter- wrapper class', () => {
   const php = `$w = get_block_wrapper_attributes( array( 'class' => 'starter-hero' ) );`;
@@ -58,4 +64,38 @@ test('buildCatalog emits a section per block with attrs, class, source, preserve
   assert.match(md, /\*\*Use when:\*\* leading headline with CTA\./);
   // new block with no prior note gets the editable marker:
   assert.match(md, /## workation\/promo-banner[\s\S]*\*\*Use when:\*\* _\(add guidance\)_/);
+});
+
+test('parentBlocksScript reads the plugin paths, not the retired theme path', () => {
+  const script = parentBlocksScript();
+  // Publish mode: the release zip installs as `pediment-plugin`.
+  assert.match(script, /wp-content\/plugins\/pediment-plugin\/build\/blocks/);
+  // Dev mode: wp-env mounts ../pediment/plugin under its basename, `plugin`.
+  assert.match(script, /wp-content\/plugins\/plugin\/build\/blocks/);
+  // Pediment stopped shipping as a theme; reading this path finds nothing.
+  assert.doesNotMatch(script, /wp-content\/themes\/pediment/);
+});
+
+test('parseParentBlocks parses delimited block.json + render.php chunks', () => {
+  const raw = [
+    'wp-env banner noise',
+    '@@@FILE:wp-content/plugins/pediment-plugin/build/blocks/hero/',
+    '{"name":"pediment/hero","title":"Hero"}',
+    '@@@RENDER:wp-content/plugins/pediment-plugin/build/blocks/hero/',
+    `$w = get_block_wrapper_attributes( array( 'class' => 'starter-hero' ) );`,
+    // Unmatched shell glob: FILE chunk with no JSON must be skipped, not fatal.
+    '@@@FILE:wp-content/plugins/plugin/build/blocks/*/',
+    '',
+    '@@@RENDER:wp-content/plugins/plugin/build/blocks/*/',
+    '',
+  ].join('\n');
+  const records = parseParentBlocks(raw);
+  assert.equal(records.length, 1);
+  assert.equal(records[0].source, 'parent');
+  assert.equal(records[0].blockJson.name, 'pediment/hero');
+  assert.match(records[0].renderPhp, /starter-hero/);
+});
+
+test('parseParentBlocks returns no records from noise-only output', () => {
+  assert.deepEqual(parseParentBlocks('✔ Ran sh in cli.\n'), []);
 });

@@ -75,24 +75,26 @@ export function buildCatalog(records, existingDoc) {
   return out.join('\n');
 }
 
-const PARENT_GLOB = 'wp-content/themes/pediment/build/blocks';
+// Pediment ships as a plugin. Publish mode installs the release zip as
+// `pediment-plugin`; dev mode (`npm run env:dev`) mounts the sibling working
+// copy, which wp-env names after its directory basename, `plugin`. Probe both:
+// an unmatched glob stays literal in sh and its `cat` just prints nothing.
+const PARENT_DIRS = [
+  'wp-content/plugins/pediment-plugin/build/blocks',
+  'wp-content/plugins/plugin/build/blocks',
+];
 const DELIM_FILE = '@@@FILE:';
 const DELIM_RENDER = '@@@RENDER:';
 
-// Read parent block.json + render.php out of the running wp-env (read-only).
-function gatherParentRecords() {
-  const script =
-    `for d in ${PARENT_GLOB}/*/; do ` +
+export function parentBlocksScript() {
+  return (
+    `for d in ${PARENT_DIRS.map((p) => `${p}/*/`).join(' ')}; do ` +
     `echo "${DELIM_FILE}$d"; cat "$d/block.json" 2>/dev/null; ` +
-    `echo; echo "${DELIM_RENDER}$d"; cat "$d/render.php" 2>/dev/null; echo; done`;
-  let raw;
-  try {
-    raw = execFileSync('npx', ['wp-env', 'run', 'cli', 'sh', '-c', script],
-      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
-  } catch (e) {
-    throw new Error('Could not read parent blocks from wp-env. Is it running? ' +
-      'Run `npm run env:start` first.\n' + (e.stderr || e.message));
-  }
+    `echo; echo "${DELIM_RENDER}$d"; cat "$d/render.php" 2>/dev/null; echo; done`
+  );
+}
+
+export function parseParentBlocks(raw) {
   const records = [];
   // Split on the FILE delimiter; ignore wp-env banner text before the first one.
   const chunks = raw.split(DELIM_FILE).slice(1);
@@ -104,6 +106,28 @@ function gatherParentRecords() {
       const blockJson = JSON.parse(jsonPart.trim());
       records.push({ source: 'parent', blockJson, renderPhp });
     } catch { /* skip non-JSON noise */ }
+  }
+  return records;
+}
+
+// Read parent block.json + render.php out of the running wp-env (read-only).
+function gatherParentRecords() {
+  let raw;
+  try {
+    raw = execFileSync('npx', ['wp-env', 'run', 'cli', 'sh', '-c', parentBlocksScript()],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) {
+    throw new Error('Could not read parent blocks from wp-env. Is it running? ' +
+      'Run `npm run env:start` first.\n' + (e.stderr || e.message));
+  }
+  const records = parseParentBlocks(raw);
+  // The plugin always ships blocks; zero means the path probe found nothing.
+  // Abort instead of writing a catalog with every pediment/* entry dropped.
+  if (!records.length) {
+    throw new Error(
+      `No parent blocks found under ${PARENT_DIRS.join(' or ')} — ` +
+      'is the Pediment plugin installed in wp-env? Aborting so the ' +
+      "catalog's pediment/* entries are not clobbered.");
   }
   return records;
 }
