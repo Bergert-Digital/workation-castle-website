@@ -43,7 +43,19 @@ msgstr "Workation-Castle-Theme: Es sind keine Blöcke registriert."
 msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
 msgstr "Das gebaute Block-Verzeichnis %s fehlt, daher ist jeder Abschnitts-Block nicht verfügbar und Seiten, die sie verwenden, werden leer angezeigt. Installiere das Theme erneut aus dem Release-Asset workation.zip (nicht aus dem „Source code“-Zip)."
 
-#: functions.php:237
+#: functions.php:240
+msgid "Left aligned"
+msgstr "Linksbündig"
+
+#: functions.php:248
+msgid "Centered"
+msgstr "Zentriert"
+
+#: functions.php:255
+msgid "Right aligned"
+msgstr "Rechtsbündig"
+
+#: functions.php:311
 msgid "Image viewer"
 msgstr "Bildansicht"
 
