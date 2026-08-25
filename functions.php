@@ -220,6 +220,44 @@ add_action(
 	20
 );
 
+/**
+ * Alignment styles for the parent's feature card.
+ *
+ * The theme restyles `pediment/feature` to left-aligned content globally (see
+ * style.css), overriding the plugin's centred default. These block styles put
+ * that choice in the editor's Styles panel per card: Left stays the default
+ * (no class, so every existing card keeps rendering as before), Centered and
+ * Right are opt-in via `is-style-align-center` / `is-style-align-right`,
+ * which style.css styles for both the icon tile and the text.
+ */
+add_action(
+	'init',
+	function () {
+		register_block_style(
+			'pediment/feature',
+			array(
+				'name'       => 'align-left',
+				'label'      => __( 'Left aligned', 'workation' ),
+				'is_default' => true,
+			)
+		);
+		register_block_style(
+			'pediment/feature',
+			array(
+				'name'  => 'align-center',
+				'label' => __( 'Centered', 'workation' ),
+			)
+		);
+		register_block_style(
+			'pediment/feature',
+			array(
+				'name'  => 'align-right',
+				'label' => __( 'Right aligned', 'workation' ),
+			)
+		);
+	}
+);
+
 add_action(
 	'wp_enqueue_scripts',
 	function () {
