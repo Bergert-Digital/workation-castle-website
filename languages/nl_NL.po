@@ -43,7 +43,19 @@ msgstr "Workation Castle-thema: er zijn geen blokken geregistreerd."
 msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
 msgstr "De build-map met blokken %s ontbreekt, waardoor elk sectieblok niet beschikbaar is en pagina's die deze gebruiken leeg worden weergegeven. Installeer het thema opnieuw via het release-bestand workation.zip (niet de \"Source code\"-zip)."
 
-#: functions.php:237
+#: functions.php:240
+msgid "Left aligned"
+msgstr "Links uitgelijnd"
+
+#: functions.php:248
+msgid "Centered"
+msgstr "Gecentreerd"
+
+#: functions.php:255
+msgid "Right aligned"
+msgstr "Rechts uitgelijnd"
+
+#: functions.php:311
 msgid "Image viewer"
 msgstr "Afbeeldingsviewer"
 
