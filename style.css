@@ -882,6 +882,17 @@ body.no-hero .wp-site-blocks > main {
 	max-inline-size: 54ch;
 }
 
+/* The pattern markup wraps `.sec-head` in a constrained-layout group, so WP core
+   gives every child `margin-inline: auto`. In this vertical flex column that
+   centres each item by its own width — the short kicker looks centred while the
+   wide copy looks roughly left, so nothing lines up. Cancel it: the container
+   already centres itself and caps its width, so the header reads left-aligned.
+   WP prints that centring as `margin-left/right: auto !important`, so we match it
+   with `!important`; the extra `.is-layout-constrained` class keeps us above it. */
+.sec-head.is-layout-constrained > * {
+	margin-inline: 0 !important;
+}
+
 .intro {
 	text-align: center;
 }
