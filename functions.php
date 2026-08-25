@@ -192,22 +192,29 @@ function workation_render_missing_build_notice() {
 }
 
 /**
- * Retire the generic `pediment/cta` block the plugin ships.
+ * Retire the generic plugin blocks that duplicate a branded theme section.
  *
- * The site uses one closing call-to-action everywhere: the branded
- * `workation/workation-closing` section from the homepage bottom
- * (full-bleed image, headline, Check availability / Ask for a custom offer,
- * Instagram link). The plugin's plain `pediment/cta` band is off-brand, so it
- * is unregistered here to keep it out of the inserter and prevent accidental
- * reuse in new pages. Runs after registration (priority 20). No pattern ships
- * `wp:pediment/cta`, so nothing renders blank.
+ * Each of these ships a plain, off-brand version of a section the theme already
+ * provides, so leaving both registered puts two look-alike blocks in the
+ * inserter and invites picking the wrong one (e.g. `pediment/hero` renders dark
+ * text on a light band with no eyebrow, unlike the theme's image-backed hero).
+ * Unregistering the generics keeps a single obvious choice per section:
+ *
+ *   - `pediment/cta`  → use `workation/workation-closing` (the closing CTA).
+ *   - `pediment/hero` → use `workation/page-hero` (sub-pages) or
+ *                       `workation/workation-hero` (homepage).
+ *
+ * Runs after registration (priority 20). No pattern ships these generics, so
+ * nothing renders blank.
  */
 add_action(
 	'init',
 	function () {
 		$registry = WP_Block_Type_Registry::get_instance();
-		if ( $registry->is_registered( 'pediment/cta' ) ) {
-			unregister_block_type( 'pediment/cta' );
+		foreach ( array( 'pediment/cta', 'pediment/hero' ) as $block ) {
+			if ( $registry->is_registered( $block ) ) {
+				unregister_block_type( $block );
+			}
 		}
 	},
 	20
