@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.4.0...v1.5.0) (2026-08-25)
+
+
+### Features
+
+* **editor:** retire the generic pediment/hero block ([5977f55](https://github.com/Bergert-Digital/workation-castle-website/commit/5977f55a0d6f2f36d3ec0594166d40bc706ded26))
+* **footer:** remove the co-working link from the explore column ([da62aa7](https://github.com/Bergert-Digital/workation-castle-website/commit/da62aa784a7fb7f117c840b992c680789d775298))
+
+
+### Bug Fixes
+
+* **sections:** left-align section headers in constrained bands ([0a6f550](https://github.com/Bergert-Digital/workation-castle-website/commit/0a6f5508fc22de20af22de1ffa034cfdda3358a8))
+
 ## [1.4.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.3.0...v1.4.0) (2026-08-19)
 
 
