@@ -427,9 +427,37 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 	margin-inline: 0;
 }
 
+/* Cards can carry an image instead of the icon tile (pediment ≥ v3.8.0);
+   pull it out of the parent's centred default the same way. */
+.starter-feature__img {
+	margin-inline: 0;
+}
+
 /* Restore the title→text gap the global heading/paragraph margin reset flattens. */
 .wp-site-blocks .starter-feature__text {
 	margin-top: 10px;
+}
+
+/* Per-card alignment styles (registered in functions.php). Left is the
+   default above; these two are the opt-in variants. The icon tile and the
+   image are fixed-width blocks, so they follow via margin-inline, not
+   text-align. */
+.starter-feature.is-style-align-center {
+	text-align: center;
+}
+
+.starter-feature.is-style-align-center .starter-feature__ic,
+.starter-feature.is-style-align-center .starter-feature__img {
+	margin-inline: auto;
+}
+
+.starter-feature.is-style-align-right {
+	text-align: right;
+}
+
+.starter-feature.is-style-align-right .starter-feature__ic,
+.starter-feature.is-style-align-right .starter-feature__img {
+	margin-inline: auto 0;
 }
 
 /* Whole card is the click target. The parent block renders a `__more` link;
