@@ -32,7 +32,6 @@ function workation_footer_labels() {
 		'%WC_T_VISIT%'        => esc_html__( 'Visit', 'workation' ),
 		'%WC_T_LANGUAGES%'    => esc_html__( 'Languages', 'workation' ),
 		'%WC_T_WAYS%'         => esc_html__( 'Ways to stay', 'workation' ),
-		'%WC_T_COWORKING%'    => esc_html__( 'Co-working', 'workation' ),
 		'%WC_T_GALLERY%'      => esc_html__( 'Gallery', 'workation' ),
 		'%WC_T_REVIEWS%'      => esc_html__( 'Reviews', 'workation' ),
 		'%WC_T_GETTING_HERE%' => esc_html__( 'Getting here', 'workation' ),
