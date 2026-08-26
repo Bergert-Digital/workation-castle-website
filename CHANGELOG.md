@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.6.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.5.0...v1.6.0) (2026-08-26)
+
+
+### Features
+
+* **blocks:** add per-card alignment styles to the feature card ([dea1179](https://github.com/Bergert-Digital/workation-castle-website/commit/dea11792daee3b5dcdeee7afffcbbed84a8e1688))
+
+
+### Bug Fixes
+
+* **i18n:** add the feature-card style labels to the POT ([457c4fd](https://github.com/Bergert-Digital/workation-castle-website/commit/457c4fdfcdcbf8f8500c7356561cfb48bbe684ce))
+* **i18n:** translate the feature-card style labels in all catalogs ([5b06968](https://github.com/Bergert-Digital/workation-castle-website/commit/5b06968245ada465a37c50aada6e2ceed1d62bd2))
+* **tools:** read parent blocks from the plugin path in blocks:catalog ([f03c482](https://github.com/Bergert-Digital/workation-castle-website/commit/f03c48233d8e6242e71b703a172ee87fcc0fd8e8))
+
 ## [1.5.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.4.0...v1.5.0) (2026-08-25)
 
 
