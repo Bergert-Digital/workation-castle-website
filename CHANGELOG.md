@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.0...v1.6.1) (2026-08-26)
+
+
+### Bug Fixes
+
+* **i18n:** localise the site logo home link per language ([8a84bb9](https://github.com/Bergert-Digital/workation-castle-website/commit/8a84bb9bd90ca77781eb1a7a82b3030e70b5facc))
+* **styles:** keep the feature-card CTA link in the accent colour on the frontend ([e99caa0](https://github.com/Bergert-Digital/workation-castle-website/commit/e99caa0dec867cd3a78042c16ef68373214f0907))
+
 ## [1.6.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.5.0...v1.6.0) (2026-08-26)
 
 
