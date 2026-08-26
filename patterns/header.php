@@ -13,7 +13,7 @@
 	<!-- wp:group {"className":"wc-wrap header-inner","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"nowrap"}} -->
 	<div class="wp-block-group wc-wrap header-inner">
 		<!-- wp:html -->
-		<a class="brand" href="/" aria-label="Workation Castle home">
+		<a class="brand" href="%WORKATION_HOME_URL%" aria-label="Workation Castle home">
 			<img src="%WORKATION_THEME_URI%/assets/images/logo-wordmark.svg" alt="Workation Castle">
 		</a>
 		<!-- /wp:html -->

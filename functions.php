@@ -528,23 +528,33 @@ function workation_body_class( $classes ) {
 add_filter( 'body_class', 'workation_body_class' );
 
 /**
- * Resolve the %WORKATION_THEME_URI% placeholder in static template parts.
+ * Resolve the %WORKATION_THEME_URI% and %WORKATION_HOME_URL% placeholders in
+ * static template parts.
  *
  * Template-part HTML files (header, footer) can't run PHP, so they reference
- * theme assets such as the brand logo through this token. Swapping it for the
- * real stylesheet URI at render time keeps the markup portable: the theme
- * directory is named after the deploy, never hard-coded.
+ * dynamic values through tokens resolved at render time:
+ *
+ * - %WORKATION_THEME_URI% keeps asset URLs (the brand logo) portable, since the
+ *   theme directory is named after the deploy and never hard-coded.
+ * - %WORKATION_HOME_URL% keeps the logo/home link language-aware. The header is
+ *   a single template part shared across every Polylang language (parts are not
+ *   translated), so a literal "/" would always point at the default-language
+ *   home. home_url() is filtered by Polylang per request, so the token resolves
+ *   to the current language's home instead.
  */
 add_filter(
 	'render_block_core/html',
 	function ( $content ) {
-		if ( false === strpos( $content, '%WORKATION_THEME_URI%' ) ) {
+		if ( false === strpos( $content, '%WORKATION_THEME_URI%' )
+			&& false === strpos( $content, '%WORKATION_HOME_URL%' ) ) {
 			return $content;
 		}
-		return str_replace(
-			'%WORKATION_THEME_URI%',
-			esc_url( get_stylesheet_directory_uri() ),
-			$content
+		return strtr(
+			$content,
+			array(
+				'%WORKATION_THEME_URI%' => esc_url( get_stylesheet_directory_uri() ),
+				'%WORKATION_HOME_URL%'  => esc_url( home_url( '/' ) ),
+			)
 		);
 	}
 );
