@@ -167,6 +167,19 @@ body {
 	text-decoration: none;
 }
 
+/* The feature-card call-to-action is painted in the accent colour by the parent
+   block (`.starter-feature__more`, 0,1,0). In the editor that RichText renders as
+   a <span>, so no link rule touches it and it stays yellow. On the frontend it is
+   a real <a>, where both the reset above (`.wp-site-blocks a`, 0,1,1) and the
+   theme.json link colour outrank the block rule and turn it near-black. Restore
+   the accent here. `a.starter-feature__more` (0,1,1) beats the theme.json link
+   rule outright and wins the tie with the reset by source order, yet still loses
+   to the `.guide-cards` whole-card override (0,2,0). Hover already works via the
+   parent block's `.starter-feature__more:hover` (0,2,0). */
+a.starter-feature__more {
+	color: var(--wp--preset--color--accent);
+}
+
 .workation-editor-preview__loading {
 	display: grid;
 	min-block-size: 180px;
