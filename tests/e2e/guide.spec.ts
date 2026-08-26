@@ -57,13 +57,16 @@ test.describe('Guest Guide', () => {
   test('topic links point at the live sub-pages', async ({ page }) => {
     await page.goto('/guide/');
     const links = page.locator('.starter-feature-grid .starter-feature__more');
-    await expect(links.nth(0)).toHaveAttribute('href', '/guide/arrival/');
-    await expect(links.nth(1)).toHaveAttribute('href', '/check-in/');
-    await expect(links.nth(2)).toHaveAttribute('href', '/guide/map/');
-    await expect(links.nth(3)).toHaveAttribute('href', '/guide/casa-galbiga/');
-    await expect(links.nth(4)).toHaveAttribute('href', '/catering/');
-    await expect(links.nth(5)).toHaveAttribute('href', '/guide/waste-disposal/');
-    await expect(links.nth(6)).toHaveAttribute('href', '/guide/faq/');
+    // Links are localized to absolute permalinks at render time (see
+    // inc/LocalizeLinks.php), so assert on the resolved path, not a bare
+    // root-relative slug. The stale /catering/ resolves to /guide/catering/.
+    await expect(links.nth(0)).toHaveAttribute('href', /\/guide\/arrival\/$/);
+    await expect(links.nth(1)).toHaveAttribute('href', /\/check-in\/$/);
+    await expect(links.nth(2)).toHaveAttribute('href', /\/guide\/map\/$/);
+    await expect(links.nth(3)).toHaveAttribute('href', /\/guide\/casa-galbiga\/$/);
+    await expect(links.nth(4)).toHaveAttribute('href', /\/guide\/catering\/$/);
+    await expect(links.nth(5)).toHaveAttribute('href', /\/guide\/waste-disposal\/$/);
+    await expect(links.nth(6)).toHaveAttribute('href', /\/guide\/faq\/$/);
   });
 
   test('whole card is the click target, with no visible "Open" button', async ({ page }) => {

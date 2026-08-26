@@ -61,6 +61,11 @@ require_once __DIR__ . '/inc/AvailabilityForm.php';
 // in parts/footer.html.
 require_once __DIR__ . '/inc/Footer.php';
 
+// Localize hardcoded root-relative internal links in body content to the
+// current language at render time, so translated pages stop leaking to the
+// English page. Mirrors the footer's link handling — see inc/LocalizeLinks.php.
+require_once __DIR__ . '/inc/LocalizeLinks.php';
+
 // Section copy for pages stored before that copy moved into the pattern markup.
 // Must load after WorkationSections.php, whose render helpers consume the
 // attributes it supplies. Transitional — see the file header.

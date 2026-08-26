@@ -28,9 +28,11 @@ test.describe('Ways to Stay', () => {
   test('cards link to the three sub-pages', async ({ page }) => {
     await page.goto('/ways-to-stay/');
     const links = page.locator('.ways-grid .way a.link');
-    await expect(links.nth(0)).toHaveAttribute('href', '/ways-to-stay/team-retreats/');
-    await expect(links.nth(1)).toHaveAttribute('href', '/ways-to-stay/workations/');
-    await expect(links.nth(2)).toHaveAttribute('href', '/ways-to-stay/family-and-groups/');
+    // Links are localized to absolute permalinks at render time (see
+    // inc/LocalizeLinks.php), so match the resolved path suffix.
+    await expect(links.nth(0)).toHaveAttribute('href', /\/ways-to-stay\/team-retreats\/$/);
+    await expect(links.nth(1)).toHaveAttribute('href', /\/ways-to-stay\/workations\/$/);
+    await expect(links.nth(2)).toHaveAttribute('href', /\/ways-to-stay\/family-and-groups\/$/);
   });
 
   test('each sub-page resolves and renders its hero', async ({ page }) => {
@@ -70,9 +72,10 @@ test.describe('Ways to Stay', () => {
   test('homepage cards point at the Ways to Stay sub-pages', async ({ page }) => {
     await page.goto('/');
     const links = page.locator('.ways-grid .way a.link');
-    await expect(links.nth(0)).toHaveAttribute('href', '/ways-to-stay/team-retreats/');
-    await expect(links.nth(1)).toHaveAttribute('href', '/ways-to-stay/workations/');
-    await expect(links.nth(2)).toHaveAttribute('href', '/ways-to-stay/family-and-groups/');
+    // Localized to absolute permalinks at render time — match the path suffix.
+    await expect(links.nth(0)).toHaveAttribute('href', /\/ways-to-stay\/team-retreats\/$/);
+    await expect(links.nth(1)).toHaveAttribute('href', /\/ways-to-stay\/workations\/$/);
+    await expect(links.nth(2)).toHaveAttribute('href', /\/ways-to-stay\/family-and-groups\/$/);
   });
 
   // The label is the entry's own post_title from seed/manifest.php, and the
