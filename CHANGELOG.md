@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.2...v1.6.3) (2026-08-27)
+
+
+### Bug Fixes
+
+* **seo:** add language-aware 301 map for retired URLs ([de1b5d2](https://github.com/Bergert-Digital/workation-castle-website/commit/de1b5d2af2412ddac3b7aba35463788591bffb31))
+* **seo:** language-aware 301 redirects for retired URLs ([#81](https://github.com/Bergert-Digital/workation-castle-website/issues/81)) ([b4528a2](https://github.com/Bergert-Digital/workation-castle-website/commit/b4528a223a7fc648360e4414db4c7bba5c3cbb02))
+
 ## [1.6.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.1...v1.6.2) (2026-08-26)
 
 
