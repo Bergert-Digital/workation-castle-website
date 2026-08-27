@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.1...v1.6.2) (2026-08-26)
+
+
+### Bug Fixes
+
+* **i18n:** localize hardcoded internal body links per language ([2b83315](https://github.com/Bergert-Digital/workation-castle-website/commit/2b833150895170bb9f808cb03e967b7ee1169d0a))
+* **i18n:** localize hardcoded internal body links per language ([#79](https://github.com/Bergert-Digital/workation-castle-website/issues/79)) ([125b2b5](https://github.com/Bergert-Digital/workation-castle-website/commit/125b2b5cd271b4b972af989ebc6d59a33f36188d))
+
 ## [1.6.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.0...v1.6.1) (2026-08-26)
 
 
