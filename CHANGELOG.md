@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.3...v1.7.0) (2026-08-27)
+
+
+### Features
+
+* **i18n:** translate header CTA and language-tag booking links ([e31ae4b](https://github.com/Bergert-Digital/workation-castle-website/commit/e31ae4ba7ad541b4f9ba6e46e314433d74128f2f))
+
+
+### Bug Fixes
+
+* **hero:** mobile lead readability and German title wrapping ([b214503](https://github.com/Bergert-Digital/workation-castle-website/commit/b21450310775525cfb0ac84237c2913d6a63cfa4))
+* **images:** point patterns and seed manifests at current media URLs ([f7296af](https://github.com/Bergert-Digital/workation-castle-website/commit/f7296af11f4847be81a4883667601a24cd2f129a))
+
 ## [1.6.3](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.2...v1.6.3) (2026-08-27)
 
 
