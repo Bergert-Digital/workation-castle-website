@@ -8,7 +8,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:workation/page-hero {"align":"full","eyebrow":"Get in touch","headline":"Contact","lead":"Questions about a stay, a team retreat or a custom offer? We're happy to help.","imageUrl":"https://workationcastle.com/wp-content/uploads/2022/12/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Get in touch","headline":"Contact","lead":"Questions about a stay, a team retreat or a custom offer? We're happy to help.","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"},"style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">

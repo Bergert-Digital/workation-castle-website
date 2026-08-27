@@ -8,7 +8,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Frequently asked questions","lead":"Here we collected a few topics that help you getting started at the Workation Castle.","imageUrl":"https://workationcastle.com/wp-content/uploads/2025/08/F7488FF3-FCC2-4D46-8AB9-6CAD0FCA765E_1_105_c.jpeg","imageAlt":"Lounge inside the castle with sofas and armchairs"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Frequently asked questions","lead":"Here we collected a few topics that help you getting started at the Workation Castle.","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/F7488FF3-FCC2-4D46-8AB9-6CAD0FCA765E_1_105_c.jpeg","imageAlt":"Lounge inside the castle with sofas and armchairs"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">

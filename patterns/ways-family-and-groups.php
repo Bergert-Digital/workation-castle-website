@@ -8,7 +8,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:workation/page-hero {"align":"full","eyebrow":"Ways to stay","headline":"Family & group stays","lead":"Two homes, five bedrooms and a swimmable lake within walking distance — room for the whole family or a group of friends. A 16th-century castle between Lake Como and Lake Lugano, all to yourselves.","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2263.jpeg","imageAlt":"Living room of a castle home with a bright yellow armchair"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Ways to stay","headline":"Family & group stays","lead":"Two homes, five bedrooms and a swimmable lake within walking distance — room for the whole family or a group of friends. A 16th-century castle between Lake Como and Lake Lugano, all to yourselves.","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/IMG_2263-scaled-1.jpeg","imageAlt":"Living room of a castle home with a bright yellow armchair"} /-->
 
 <!-- wp:group {"align":"full","className":"band band-deep","layout":{"type":"constrained"}} -->
 <div class="wp-block-group alignfull band band-deep">
@@ -32,8 +32,8 @@
 <!-- /wp:group -->
 
 <!-- wp:workation/workation-spaces {"align":"full","eyebrow":"The homes","headline":"Two houses, one castle","lead":"Five bedrooms, two kitchens and two gardens inside the old walls — comfortable, modern, and yours for the stay."} -->
-<!-- wp:workation/workation-space {"eyebrow":"01","title":"Five bedrooms across two homes","text":"Casa Galbiga and Casa Tremezzo sleep up to nine guests between them, each with its own kitchen, living room and access to a garden. Book one for a family, or both for a larger group — modern, comfortable interiors tucked inside centuries-old stone.","linkText":"See the photos","linkUrl":"/photos/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2152.jpeg","imageAlt":"Bright bedroom inside Workation Castle"} /-->
-<!-- wp:workation/workation-space {"eyebrow":"02","title":"Gardens, terrace and a lake to swim in","text":"Each home opens onto a garden, the terrace looks out over the hills, and a swimmable lake sits a few minutes' walk away. There's a full kitchen for big group dinners, and space outside for kids and grown-ups to spread out.","linkText":"Things to do nearby","linkUrl":"/activities/","imageUrl":"https://workationcastle.com/wp-content/uploads/2023/08/IMG_2019.jpeg","imageAlt":"Terrace and garden view from Workation Castle"} /-->
+<!-- wp:workation/workation-space {"eyebrow":"01","title":"Five bedrooms across two homes","text":"Casa Galbiga and Casa Tremezzo sleep up to nine guests between them, each with its own kitchen, living room and access to a garden. Book one for a family, or both for a larger group — modern, comfortable interiors tucked inside centuries-old stone.","linkText":"See the photos","linkUrl":"/photos/","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/IMG_2152-scaled.jpeg","imageAlt":"Bright bedroom inside Workation Castle"} /-->
+<!-- wp:workation/workation-space {"eyebrow":"02","title":"Gardens, terrace and a lake to swim in","text":"Each home opens onto a garden, the terrace looks out over the hills, and a swimmable lake sits a few minutes' walk away. There's a full kitchen for big group dinners, and space outside for kids and grown-ups to spread out.","linkText":"Things to do nearby","linkUrl":"/activities/","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/IMG_2019-scaled.jpeg","imageAlt":"Terrace and garden view from Workation Castle"} /-->
 <!-- /wp:workation/workation-spaces -->
 
 <!-- wp:group {"align":"full","className":"band band-deep","layout":{"type":"constrained"}} -->

@@ -8,7 +8,7 @@
  */
 // phpcs:ignoreFile -- block pattern content (verbatim block markup).
 ?>
-<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Arrival","lead":"How to reach Workation Castle — by car, plane, train, bus or taxi. The address is Via Castello 12, Carlazzo, Italy.","imageUrl":"https://workationcastle.com/wp-content/uploads/2022/12/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
+<!-- wp:workation/page-hero {"align":"full","eyebrow":"Guest Guide","headline":"Arrival","lead":"How to reach Workation Castle — by car, plane, train, bus or taxi. The address is Via Castello 12, Carlazzo, Italy.","imageUrl":"https://workationcastle.com/wp-content/uploads/2026/07/Castello-towards-Lugano.jpg","imageAlt":"View from Castello Carlazzo over the valley towards Lugano"} /-->
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
@@ -87,7 +87,7 @@
 <!-- /wp:pediment/prose -->
 
 <!-- wp:image {"className":"wc-map-img","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image has-custom-border wc-map-img"><img src="https://workationcastle.com/wp-content/uploads/2023/04/Lugano-Station.png" alt="Aerial map of Lugano station marking where bus C112 departs" style="border-radius:16px"/><figcaption class="wp-element-caption">Where the bus departs in Lugano.</figcaption></figure>
+<figure class="wp-block-image has-custom-border wc-map-img"><img src="https://workationcastle.com/wp-content/uploads/2026/07/Lugano-Station.png" alt="Aerial map of Lugano station marking where bus C112 departs" style="border-radius:16px"/><figcaption class="wp-element-caption">Where the bus departs in Lugano.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:pediment/prose -->
@@ -125,7 +125,7 @@
 <!-- /wp:pediment/prose -->
 
 <!-- wp:image {"className":"wc-map-img","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image has-custom-border wc-map-img"><img src="https://workationcastle.com/wp-content/uploads/2023/04/The-bus-comes-from-here.png" alt="Aerial map of Carlazzo marking the Ghiacciata bus stop where you get off" style="border-radius:16px"/><figcaption class="wp-element-caption">The Ghiacciata stop in Carlazzo — where to get off for the castle.</figcaption></figure>
+<figure class="wp-block-image has-custom-border wc-map-img"><img src="https://workationcastle.com/wp-content/uploads/2026/07/The-bus-comes-from-here.png" alt="Aerial map of Carlazzo marking the Ghiacciata bus stop where you get off" style="border-radius:16px"/><figcaption class="wp-element-caption">The Ghiacciata stop in Carlazzo — where to get off for the castle.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:pediment/prose -->
