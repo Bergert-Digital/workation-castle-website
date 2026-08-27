@@ -66,6 +66,10 @@ require_once __DIR__ . '/inc/Footer.php';
 // English page. Mirrors the footer's link handling — see inc/LocalizeLinks.php.
 require_once __DIR__ . '/inc/LocalizeLinks.php';
 
+// Append the current language to every Holidu "Check availability" booking
+// link so the booking flow opens in the visitor's language. See inc/Booking.php.
+require_once __DIR__ . '/inc/Booking.php';
+
 // Section copy for pages stored before that copy moved into the pattern markup.
 // Must load after WorkationSections.php, whose render helpers consume the
 // attributes it supplies. Transitional — see the file header.

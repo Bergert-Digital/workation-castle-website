@@ -38,6 +38,10 @@ function workation_render_availability_form( array $args ): string {
 	$children_param  = ! empty( $args['children_param'] ) ? (string) $args['children_param'] : 'childrenAges';
 	$submit_text     = ! empty( $args['submit_text'] ) ? (string) $args['submit_text'] : __( 'Check availability', 'workation' );
 
+	// A GET form discards its action's query string on submit, so the current
+	// language rides along as a field instead. See inc/Booking.php.
+	$language = function_exists( 'workation_booking_language' ) ? workation_booking_language() : '';
+
 	$arrival_id   = wp_unique_id( 'wc-arrival-' );
 	$departure_id = wp_unique_id( 'wc-departure-' );
 
@@ -73,6 +77,9 @@ function workation_render_availability_form( array $args ): string {
 			</select>
 		</div>
 		<input type="hidden" name="<?php echo esc_attr( $children_param ); ?>" value="">
+		<?php if ( '' !== $language ) : ?>
+			<input type="hidden" name="language" value="<?php echo esc_attr( $language ); ?>">
+		<?php endif; ?>
 		<div class="avail-submit"><button type="submit" class="wc-btn wc-btn-yellow"><?php echo esc_html( $submit_text ); ?> <span class="arr" aria-hidden="true">&rarr;</span></button></div>
 	</form>
 	<?php

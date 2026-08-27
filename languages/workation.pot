@@ -2,21 +2,21 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Workation Castle 1.6.0\n"
+"Project-Id-Version: Workation Castle 1.6.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/workation\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-08-26T13:14:08+00:00\n"
+"POT-Creation-Date: 2026-08-27T12:39:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: workation\n"
 
 #. Theme Name of the theme
 #: style.css
-#: functions.php:150
+#: functions.php:154
 msgid "Workation Castle"
 msgstr ""
 
@@ -40,46 +40,46 @@ msgstr ""
 msgid "https://bergert.digital"
 msgstr ""
 
-#: functions.php:184
+#: functions.php:188
 msgid "Workation Castle theme: no blocks are registered."
 msgstr ""
 
 #. translators: %s: absolute path to the theme's build/blocks directory.
-#: functions.php:190
+#: functions.php:194
 #, php-format
 msgid "The built block directory %s is missing, so every section block is unavailable and pages using them render empty. Reinstall the theme from the workation.zip release asset (not the \"Source code\" zip)."
 msgstr ""
 
-#: functions.php:245
+#: functions.php:249
 msgid "Left aligned"
 msgstr ""
 
-#: functions.php:253
+#: functions.php:257
 msgid "Centered"
 msgstr ""
 
-#: functions.php:260
+#: functions.php:264
 msgid "Right aligned"
 msgstr ""
 
-#: functions.php:316
+#: functions.php:320
 msgid "Image viewer"
 msgstr ""
 
-#: functions.php:317
-#: inc/AvailabilityForm.php:112
+#: functions.php:321
+#: inc/AvailabilityForm.php:119
 msgid "Close"
 msgstr ""
 
-#: functions.php:318
+#: functions.php:322
 msgid "Previous image"
 msgstr ""
 
-#: functions.php:319
+#: functions.php:323
 msgid "Next image"
 msgstr ""
 
-#: functions.php:403
+#: functions.php:407
 msgid "See on Google Maps"
 msgstr ""
 
@@ -105,25 +105,25 @@ msgid "Back to activities"
 msgstr ""
 
 #: inc/AvailabilityForm.php:39
-#: inc/AvailabilityForm.php:46
+#: inc/AvailabilityForm.php:50
 #: inc/Footer.php:39
 msgid "Check availability"
 msgstr ""
 
-#: inc/AvailabilityForm.php:50
+#: inc/AvailabilityForm.php:54
 msgid "Arrival"
 msgstr ""
 
-#: inc/AvailabilityForm.php:54
+#: inc/AvailabilityForm.php:58
 msgid "Departure"
 msgstr ""
 
-#: inc/AvailabilityForm.php:59
-#: inc/AvailabilityForm.php:110
+#: inc/AvailabilityForm.php:63
+#: inc/AvailabilityForm.php:117
 msgid "Select dates"
 msgstr ""
 
-#: inc/AvailabilityForm.php:63
+#: inc/AvailabilityForm.php:67
 #: inc/Brevo.php:88
 #: inc/Brevo.php:121
 #: inc/CheckIn.php:387
@@ -131,63 +131,63 @@ msgstr ""
 msgid "Guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:64
+#: inc/AvailabilityForm.php:68
 msgid "2 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:65
+#: inc/AvailabilityForm.php:69
 msgid "1 guest"
 msgstr ""
 
-#: inc/AvailabilityForm.php:66
+#: inc/AvailabilityForm.php:70
 msgid "3 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:67
+#: inc/AvailabilityForm.php:71
 msgid "4 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:68
+#: inc/AvailabilityForm.php:72
 msgid "5 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:69
+#: inc/AvailabilityForm.php:73
 msgid "6 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:70
+#: inc/AvailabilityForm.php:74
 msgid "7 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:71
+#: inc/AvailabilityForm.php:75
 msgid "8 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:72
+#: inc/AvailabilityForm.php:76
 msgid "9 guests"
 msgstr ""
 
-#: inc/AvailabilityForm.php:111
+#: inc/AvailabilityForm.php:118
 msgid "Clear"
 msgstr ""
 
-#: inc/AvailabilityForm.php:113
+#: inc/AvailabilityForm.php:120
 msgid "Choose your dates"
 msgstr ""
 
-#: inc/AvailabilityForm.php:114
+#: inc/AvailabilityForm.php:121
 msgid "Next month"
 msgstr ""
 
-#: inc/AvailabilityForm.php:115
+#: inc/AvailabilityForm.php:122
 msgid "night"
 msgstr ""
 
-#: inc/AvailabilityForm.php:116
+#: inc/AvailabilityForm.php:123
 msgid "nights"
 msgstr ""
 
-#: inc/AvailabilityForm.php:117
+#: inc/AvailabilityForm.php:124
 msgid "Previous month"
 msgstr ""
 

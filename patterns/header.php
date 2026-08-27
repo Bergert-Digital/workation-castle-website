@@ -20,7 +20,7 @@
 		<!-- wp:navigation {"overlayMenu":"mobile","className":"main-nav"} -->
 		<!-- /wp:navigation -->
 		<!-- wp:html -->
-		<a class="wc-btn wc-btn-yellow header-cta" href="https://workationcastle.holiduhost.com/">Check availability <span class="arr">→</span></a>
+		<a class="wc-btn wc-btn-yellow header-cta" href="https://workationcastle.holiduhost.com/">%WC_T_CHECK_AVAIL% <span class="arr">→</span></a>
 		<!-- /wp:html -->
 	</div>
 	<!-- /wp:group -->
