@@ -620,7 +620,7 @@ body.no-hero .wp-site-blocks > main {
 
 .hero-grad {
 	background:
-		linear-gradient(180deg, rgba(36, 20, 8, .55) 0%, rgba(36, 20, 8, .05) 30%, rgba(58, 30, 12, .2) 52%, rgba(58, 28, 10, .9) 100%),
+		linear-gradient(180deg, rgba(36, 20, 8, .55) 0%, rgba(36, 20, 8, .12) 26%, rgba(48, 26, 10, .5) 60%, rgba(58, 28, 10, .92) 100%),
 		radial-gradient(120% 90% at 18% 110%, rgba(169, 98, 31, .78) 0%, rgba(169, 98, 31, 0) 55%);
 	z-index: 1;
 }
@@ -654,14 +654,19 @@ body.no-hero .wp-site-blocks > main {
 
 .hero h1 {
 	font-size: clamp(2.5rem, 10vw, 5.4rem);
+	/* Long German compounds (e.g. "Zusammenkommen") are wider than a phone
+	   viewport; let them hyphenate/break instead of overflowing and being
+	   clipped by the hero's overflow:hidden. lang="de" (set by Polylang)
+	   drives the hyphenation dictionary. */
+	hyphens: auto;
 	max-inline-size: 14ch;
+	overflow-wrap: break-word;
 	text-shadow: 0 2px 30px rgba(20, 10, 2, .35);
 	text-wrap: balance;
 }
 
 .hl {
 	position: relative;
-	white-space: nowrap;
 }
 
 .hl::after {
@@ -678,11 +683,15 @@ body.no-hero .wp-site-blocks > main {
 }
 
 .hero p.lede {
-	color: rgba(255, 255, 255, .92);
+	color: #fff;
 	font-size: clamp(1rem, 2.3vw, 1.2rem);
 	font-weight: 300;
 	margin-top: 20px;
 	max-inline-size: 48ch;
+	/* Tight halo keeps the lede legible where it floats over the bright,
+	   sunlit lower half of the photo — most acute on mobile, where the
+	   longer wrapped headline pushes this text up into the brightest zone. */
+	text-shadow: 0 1px 2px rgba(0, 0, 0, .6), 0 2px 20px rgba(20, 10, 2, .5);
 }
 
 .avail {
@@ -2078,6 +2087,13 @@ body.parent-pageid-179 .starter-steps {
 
 	.hero h1 {
 		font-size: clamp(3.6rem, 6.4vw, 5.6rem);
+		hyphens: manual;
+	}
+
+	/* Desktop has room, so keep the highlighted phrase on one line for a
+	   single clean underline (the mobile fix above relaxes this). */
+	.hl {
+		white-space: nowrap;
 	}
 
 	.avail {
