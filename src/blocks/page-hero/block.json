@@ -18,7 +18,10 @@
     "html": false,
     "align": [
       "full"
-    ]
+    ],
+    "pediment": {
+      "section": true
+    }
   },
   "editorScript": "file:./index.js",
   "render": "file:./render.php"

@@ -6,7 +6,7 @@
   "category": "design",
   "description": "Grid of all Activities, each linking to its single page.",
   "textdomain": "workation",
-  "supports": { "html": false, "align": [ "full" ] },
+  "supports": { "html": false, "align": [ "full" ], "pediment": { "section": true } },
   "attributes": {
     "eyebrow": { "type": "string", "default": "" },
     "headline": { "type": "string", "default": "" }
