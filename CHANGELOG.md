@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.7.0...v1.8.0) (2026-08-31)
+
+
+### Features
+
+* **blocks:** mark hero and activity-list as pediment sections ([3af6f9b](https://github.com/Bergert-Digital/workation-castle-website/commit/3af6f9b42d5717c56e8bfd48112ce987a01618d9))
+
 ## [1.7.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.3...v1.7.0) (2026-08-27)
 
 
