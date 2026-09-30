@@ -181,10 +181,16 @@ via the Brevo transactional API.
 
 **Required configuration (production):**
 
-- Define the Brevo API key in `wp-config.php`:
-  `define( 'WORKATION_BREVO_API_KEY', 'xkeysib-…' );`
-  (or set the `BREVO_API_KEY` environment variable).
+- Save the Brevo API key in wp-admin: **Settings → Pediment Theme → Secrets**,
+  name `brevo_api_key`. The Pediment plugin stores it encrypted; the theme only
+  reads it. (`define( 'WORKATION_BREVO_API_KEY', 'xkeysib-…' );` in
+  `wp-config.php` overrides it; the `BREVO_API_KEY` environment variable is the
+  last fallback.)
 - Verify `noreply@workationcastle.com` as a sender in Brevo.
+
+The submit route takes no nonce. Guests are logged out, so a nonce protects
+nothing, and a page cache serves the markup for longer than a nonce lives —
+which turned every submit from a stale cached page into a 403.
 
 If the key is absent the form still works and stores the submission; the email
 is skipped and logged (the submission's "Email" column shows `skipped`).

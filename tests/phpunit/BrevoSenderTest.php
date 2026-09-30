@@ -21,8 +21,18 @@ class BrevoSenderTest extends WP_UnitTestCase {
 		);
 	}
 
+	public function setUp(): void {
+		parent::setUp();
+		// The harness boots the theme without the Pediment plugin, so load its
+		// secret store (Form submissions → Settings → Secrets) directly.
+		if ( ! function_exists( 'pediment_form_secret_get' ) ) {
+			require_once WP_PLUGIN_DIR . '/pediment-plugin/inc/forms-secrets.php';
+		}
+	}
+
 	public function tearDown(): void {
 		putenv( 'BREVO_API_KEY' );
+		delete_option( PEDIMENT_FORM_SECRETS_OPTION );
 		remove_all_filters( 'pre_http_request' );
 		parent::tearDown();
 	}
@@ -31,6 +41,18 @@ class BrevoSenderTest extends WP_UnitTestCase {
 		putenv( 'BREVO_API_KEY' ); // unset
 		$result = \Workation\Brevo::send_checkin_notification( $this->sample() );
 		$this->assertSame( 'skipped', $result['status'] );
+	}
+
+	public function test_reads_key_from_pediment_form_secret() {
+		putenv( 'BREVO_API_KEY' ); // unset
+		pediment_form_secret_set( 'brevo_api_key', 'secret-key' );
+		$this->assertSame( 'secret-key', \Workation\Brevo::api_key() );
+	}
+
+	public function test_form_secret_wins_over_environment() {
+		putenv( 'BREVO_API_KEY=env-key' );
+		pediment_form_secret_set( 'brevo_api_key', 'secret-key' );
+		$this->assertSame( 'secret-key', \Workation\Brevo::api_key() );
 	}
 
 	public function test_sent_on_2xx() {
