@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.7.0...v1.8.0) (2026-09-30)
+
+
+### Features
+
+* **blocks:** mark hero and activity-list as pediment sections ([3af6f9b](https://github.com/Bergert-Digital/workation-castle-website/commit/3af6f9b42d5717c56e8bfd48112ce987a01618d9))
+* **check-in:** read Brevo key from Pediment secrets ([a3cfa2e](https://github.com/Bergert-Digital/workation-castle-website/commit/a3cfa2e8e7e1c552ea83430da211f0b16e7daf85))
+
+
+### Bug Fixes
+
+* **check-in:** drop nonce so cached pages can submit ([54e07cd](https://github.com/Bergert-Digital/workation-castle-website/commit/54e07cdc2a63d1359a3efe0328f156534e4ce05b))
+* **check-in:** show document type label in review step ([6c6b928](https://github.com/Bergert-Digital/workation-castle-website/commit/6c6b9289a23794e163771fdbe16db04119984824))
+
 ## [1.7.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.6.3...v1.7.0) (2026-08-27)
 
 
