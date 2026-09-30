@@ -157,10 +157,20 @@ class Brevo {
 		);
 	}
 
-	/** Resolve the Brevo API key: constant first, then environment. */
+	/**
+	 * Resolve the Brevo API key: constant first, then the Pediment plugin's
+	 * encrypted secret store (Settings → Pediment Theme → Secrets, name
+	 * `brevo_api_key`), then environment.
+	 */
 	public static function api_key(): string {
 		if ( defined( 'WORKATION_BREVO_API_KEY' ) && WORKATION_BREVO_API_KEY ) {
 			return (string) WORKATION_BREVO_API_KEY;
+		}
+		if ( function_exists( 'pediment_form_secret_get' ) ) {
+			$secret = pediment_form_secret_get( 'brevo_api_key' );
+			if ( '' !== $secret ) {
+				return $secret;
+			}
 		}
 		$env = getenv( 'BREVO_API_KEY' );
 		return $env ? (string) $env : '';
