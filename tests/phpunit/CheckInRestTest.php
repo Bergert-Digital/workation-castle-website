@@ -81,6 +81,36 @@ class CheckInRestTest extends WP_UnitTestCase {
 		$this->assertSame( 'skipped', $meta['email_status'] );
 	}
 
+	public function test_two_ids_are_each_saved_with_own_guest_type_and_number() {
+		$body                     = $this->valid_body();
+		$body['counts']['houses'] = 2;
+		$body['ids']              = array(
+			array( 'guest_index' => '1', 'doc_type' => 'passport', 'doc_number' => '00123456789012345678' ),
+			array( 'guest_index' => '0', 'doc_type' => 'identity_card', 'doc_number' => 'CA 00000-xy' ),
+		);
+
+		$res = $this->request( $body );
+		$this->assertSame( 200, $res->get_status() );
+
+		$posts = get_posts(
+			array(
+				'post_type'   => \Workation\CheckIn::CPT,
+				'post_status' => 'private',
+				'numberposts' => -1,
+			)
+		);
+		$this->assertCount( 1, $posts );
+		$this->assertSame(
+			array(
+				array( 'guest_index' => 1, 'doc_type' => 'passport', 'doc_number' => '00123456789012345678' ),
+				array( 'guest_index' => 0, 'doc_type' => 'identity_card', 'doc_number' => 'CA 00000-xy' ),
+			),
+			get_post_meta( $posts[0]->ID, '_wc_ids', true )
+		);
+		$meta = get_post_meta( $posts[0]->ID, '_wc_meta', true );
+		$this->assertSame( 2, $meta['house_count'] );
+	}
+
 	public function test_rejects_out_of_range_guest_index() {
 		$body = $this->valid_body();
 		$body['ids'][0]['guest_index'] = 5; // only 2 guests (valid 0-1)

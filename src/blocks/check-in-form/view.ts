@@ -477,9 +477,12 @@ class Wizard {
 		const il = el( 'ol', { class: 'wc-checkin-review-ids' } );
 		this.ids.forEach( ( id ) => {
 			const who = this.guestLabel( Number( id.guest_index ) );
+			const docType =
+				this.cfg.docTypes.find( ( d ) => d.value === id.doc_type )
+					?.label || id.doc_type;
 			il.appendChild(
 				el( 'li', {}, [
-					`${ who }: ${ id.doc_type } — ${ id.doc_number }`,
+					`${ who }: ${ docType } — ${ id.doc_number }`,
 				] )
 			);
 		} );

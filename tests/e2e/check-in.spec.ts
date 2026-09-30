@@ -97,6 +97,71 @@ test( 'associates an ID with a chosen guest and shows it in review', async ( { p
 	await expect( reviewIds ).toContainText( 'P999' );
 } );
 
+test( 'keeps two IDs separate and submits both', async ( { page } ) => {
+	let capturedBody: { ids: unknown[] } | null = null;
+
+	await page.route( '**/workation/v1/check-in', async ( route ) => {
+		capturedBody = route.request().postDataJSON();
+		await route.fulfill( {
+			status: 200,
+			contentType: 'application/json',
+			body: JSON.stringify( { ok: true } ),
+		} );
+	} );
+
+	await page.goto( '/check-in/' );
+	await page.fill( 'input[name="guest_count"]', '2' );
+	await page.fill( 'input[name="house_count"]', '2' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Alice', 'Anderson' );
+	await page.click( '.wc-checkin-next' );
+	await fillGuest( page, 'Bob', 'Brown' );
+	await page.click( '.wc-checkin-next' );
+
+	// Accommodation 1 → Bob, passport.
+	await page.selectOption( 'select[name="guest_index"]', '1' );
+	await page.selectOption( 'select[name="doc_type"]', 'passport' );
+	await page.fill( 'input[name="doc_number"]', '0012345' );
+	await page.click( '.wc-checkin-next' );
+
+	// Accommodation 2 → Alice, identity card. The step starts empty.
+	await expect( page.locator( '.wc-checkin-step h2' ) ).toHaveText(
+		'Accommodation 2 of 2'
+	);
+	await expect( page.locator( 'input[name="doc_number"]' ) ).toHaveValue( '' );
+	await page.selectOption( 'select[name="guest_index"]', '0' );
+	await page.selectOption( 'select[name="doc_type"]', 'identity_card' );
+	await page.fill( 'input[name="doc_number"]', 'CA 00000-xy' );
+	await page.click( '.wc-checkin-next' );
+
+	// Review lists both documents, with the document type as its label.
+	await expect( page.locator( '.wc-checkin-review-ids li' ) ).toHaveText( [
+		'Bob Brown: Passport — 0012345',
+		'Alice Anderson: Identity card — CA 00000-xy',
+	] );
+
+	// Going back shows each step's own values.
+	await page.click( '.wc-checkin-back' );
+	await page.click( '.wc-checkin-back' );
+	await expect( page.locator( 'input[name="doc_number"]' ) ).toHaveValue(
+		'0012345'
+	);
+	await page.click( '.wc-checkin-next' );
+	await expect( page.locator( 'input[name="doc_number"]' ) ).toHaveValue(
+		'CA 00000-xy'
+	);
+	await page.click( '.wc-checkin-next' );
+
+	await page.check( '.wc-checkin-consent input[type="checkbox"]' );
+	await page.click( '.wc-checkin-submit' );
+	await expect( page.locator( '.wc-checkin-done' ) ).toBeVisible();
+
+	expect( capturedBody!.ids ).toEqual( [
+		{ guest_index: '1', doc_type: 'passport', doc_number: '0012345' },
+		{ guest_index: '0', doc_type: 'identity_card', doc_number: 'CA 00000-xy' },
+	] );
+} );
+
 test( 'truncates stale guest data when count is reduced after going Back', async ( { page } ) => {
 	let capturedBody: { counts: { guests: number; houses: number }; guests: unknown[] } | null = null;
 
