@@ -26,7 +26,6 @@ type Config = {
 	consentText: string;
 	strings: Record< string, string >;
 	restUrl: string;
-	nonce: string;
 };
 
 type Guest = Record< string, string >;
@@ -710,10 +709,7 @@ class Wizard {
 		try {
 			const res = await fetch( this.cfg.restUrl, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': this.cfg.nonce,
-				},
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify( payload ),
 			} );
 			const data = await res.json();

@@ -12,6 +12,13 @@ class CheckInBlockRenderTest extends WP_UnitTestCase {
 		$this->assertStringContainsString( '"maxGuests":20', $html );
 	}
 
+	public function test_block_emits_no_nonce() {
+		// A page cache serves this markup for longer than a nonce lives, so a
+		// baked-in nonce turns into a 403 on submit.
+		$html = do_blocks( '<!-- wp:workation/check-in-form /-->' );
+		$this->assertStringNotContainsString( '"nonce"', $html );
+	}
+
 	public function test_config_includes_draft_resume_strings() {
 		$config = \Workation\CheckIn::config();
 		$this->assertArrayHasKey( 'restoredNotice', $config['strings'] );
