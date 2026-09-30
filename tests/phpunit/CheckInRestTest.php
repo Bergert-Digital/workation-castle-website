@@ -53,7 +53,6 @@ class CheckInRestTest extends WP_UnitTestCase {
 	private function request( array $body ): \WP_REST_Response {
 		$req = new \WP_REST_Request( 'POST', '/workation/v1/check-in' );
 		$req->set_header( 'Content-Type', 'application/json' );
-		$req->set_header( 'X-WP-Nonce', wp_create_nonce( 'wp_rest' ) );
 		$req->set_body( wp_json_encode( $body ) );
 		return $this->server->dispatch( $req );
 	}

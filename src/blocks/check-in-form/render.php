@@ -2,7 +2,7 @@
 /**
  * Server-side render for workation/check-in-form.
  *
- * Prints a lightweight shell plus a JSON config blob (REST URL, nonce, field
+ * Prints a lightweight shell plus a JSON config blob (REST URL, field
  * definitions, caps, i18n strings from CheckIn::config()) that the view.js
  * wizard reads to build the adaptive multi-step form.
  *
@@ -15,7 +15,6 @@ if ( ! class_exists( '\Workation\CheckIn' ) ) {
 
 $config            = \Workation\CheckIn::config();
 $config['restUrl'] = esc_url_raw( rest_url( 'workation/v1/check-in' ) );
-$config['nonce']   = wp_create_nonce( 'wp_rest' );
 
 $wrapper = get_block_wrapper_attributes( array( 'class' => 'wc-checkin wc-wrap' ) );
 ?>

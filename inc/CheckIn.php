@@ -201,7 +201,11 @@ class CheckIn {
 		);
 	}
 
-	/** Register the public (nonce-gated) submission route. */
+	/**
+	 * Register the public submission route. No nonce: guests are logged out,
+	 * so a wp_rest nonce protects nothing, and a page cache serves the markup
+	 * for longer than a nonce lives — every submit from a stale page got a 403.
+	 */
 	public static function register_rest(): void {
 		register_rest_route(
 			'workation/v1',
@@ -209,19 +213,9 @@ class CheckIn {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( __CLASS__, 'handle_submit' ),
-				'permission_callback' => array( __CLASS__, 'verify_nonce' ),
+				'permission_callback' => '__return_true',
 			)
 		);
-	}
-
-	/**
-	 * Nonce gate. Guests aren't logged in, so we verify the wp_rest nonce.
-	 *
-	 * @param \WP_REST_Request $request Incoming REST request.
-	 * @return bool
-	 */
-	public static function verify_nonce( \WP_REST_Request $request ): bool {
-		return (bool) wp_verify_nonce( (string) $request->get_header( 'X-WP-Nonce' ), 'wp_rest' );
 	}
 
 	/**
