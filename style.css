@@ -137,12 +137,16 @@ body {
 	font-weight: 700;
 	line-height: 1.04;
 	letter-spacing: 0;
-	margin: 0;
 }
 
-.wp-site-blocks p,
-.workation-editor-preview p,
-.wc-footer p {
+/* Margin reset for headings and paragraphs. The direct children of the
+   is-style-card and is-style-prose named styles are left out: those styles set
+   their own spacing (styles/blocks/*.json), and a style's selectors sit inside
+   :where(), so this (0,1,1) reset would otherwise flatten it. The :where()
+   inside :not() keeps the reset's specificity unchanged for everything else. */
+.wp-site-blocks :is(h1, h2, h3, p):not(:where(.is-style-card, .is-style-prose) > *),
+.workation-editor-preview :is(h1, h2, h3, p),
+.wc-footer :is(h4, p) {
 	margin: 0;
 }
 
@@ -178,6 +182,42 @@ body {
    parent block's `.starter-feature__more:hover` (0,2,0). */
 a.starter-feature__more {
 	color: var(--wp--preset--color--accent);
+}
+
+/* Converted markup: the card's call-to-action is p.pediment-card-link > a, and
+   the converter drops the legacy arrow icon, so draw it as a masked
+   currentColor box. Same accent colour and hover as `.starter-feature__more`;
+   `.wp-site-blocks` lifts it over the global link reset (0,1,1). The
+   whole-card variant (`.guide-cards`, below) hides it. */
+.wp-site-blocks .pediment-card-link a {
+	align-items: center;
+	color: var(--wp--preset--color--accent);
+	display: inline-flex;
+	font-size: .92rem;
+	font-weight: 700;
+	gap: 8px;
+	/* On the inline-flex link, as on the legacy `__more` link, so the line
+	   box (and the card height) comes out the same. */
+	margin-block-start: 18px;
+}
+
+.wp-site-blocks .pediment-card-link a::after {
+	background: currentColor;
+	block-size: 16px;
+	content: "";
+	flex: none;
+	inline-size: 16px;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z'/%3E%3C/svg%3E") center / contain no-repeat;
+	transition: transform .18s ease;
+}
+
+.wp-site-blocks .pediment-card-link a:hover {
+	color: var(--wp--preset--color--accent-hover);
+}
+
+.wp-site-blocks .pediment-card-link a:hover::after {
+	transform: translateX(3px);
 }
 
 .workation-editor-preview__loading {
@@ -451,8 +491,10 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 	margin-top: 10px;
 }
 
-/* Per-card alignment styles (registered in functions.php). Left is the
-   default above; these two are the opt-in variants. The icon tile and the
+/* Per-card alignment styles for the legacy pediment/feature block (their
+   registration is gone; no page uses them, the rules stay with the other
+   legacy CSS). Left is the default above; these two are the opt-in
+   variants. The icon tile and the
    image are fixed-width blocks, so they follow via margin-inline, not
    text-align. */
 .starter-feature.is-style-align-center {
@@ -492,6 +534,78 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 
 .guide-cards .starter-feature__more svg {
 	display: none;
+}
+
+/* Converted markup (core/group .guide-cards grid of is-style-card groups, each
+   ending in a p.pediment-card-link): the same whole-card link. The anchor
+   itself is stretched over the card, so its box is the click target and its
+   text stays the accessible name. */
+.guide-cards .is-style-card {
+	position: relative;
+}
+
+.guide-cards .is-style-card > .pediment-card-link {
+	margin: 0;
+}
+
+.guide-cards .pediment-card-link a {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	border-radius: inherit;
+	/* Invisible but still the accessible name of the link. */
+	color: transparent;
+	font-size: 0;
+}
+
+.guide-cards .pediment-card-link a::after {
+	content: none;
+}
+
+/* Converted feature grids (a core/group grid whose children are is-style-card
+   groups — .guide-cards and the grids on DB pages such as /guide/catering/):
+   the legacy feature grid's layout instead of the auto-fill minimum column
+   width the converter wrote. Up to three cards per row with a 22px gap; a
+   leftover row is centred, and one column up to 781px — except four cards,
+   which read as 2 + 2 at every width (the legacy 4-card rule outranked its
+   own mobile rule; the 4-card rule here does the same). Six tracks with
+   each card spanning two let a leftover card or pair sit in the middle, as
+   the legacy flex row did. */
+.wp-site-blocks .is-layout-grid:has(> .is-style-card) {
+	gap: 22px;
+	grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.wp-site-blocks .is-layout-grid:has(> .is-style-card) > .is-style-card {
+	grid-column: span 2;
+}
+
+.wp-site-blocks .is-layout-grid:has(> .is-style-card) > .is-style-card:nth-child(3n + 1):last-child {
+	grid-column: 3 / span 2;
+}
+
+.wp-site-blocks .is-layout-grid:has(> .is-style-card) > .is-style-card:nth-child(3n + 1):nth-last-child(2) {
+	grid-column: 2 / span 2;
+}
+
+.wp-site-blocks .is-layout-grid:has(> .is-style-card:nth-child(4):last-child) {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wp-site-blocks .is-layout-grid:has(> .is-style-card:nth-child(4):last-child) > .is-style-card {
+	grid-column: auto;
+}
+
+@media (max-width: 781px) {
+	.wp-site-blocks .is-layout-grid:has(> .is-style-card) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	/* :nth-child(n):nth-last-child(n) matches every card; it only lifts the
+	   rule to the specificity of the leftover-row rules above. */
+	.wp-site-blocks .is-layout-grid:has(> .is-style-card) > .is-style-card:nth-child(n):nth-last-child(n) {
+		grid-column: auto;
+	}
 }
 
 .header-cta {
@@ -983,6 +1097,40 @@ body.no-hero .wp-site-blocks > main {
 	max-inline-size: 54ch;
 }
 
+/* Converted section heads (core/group.pediment-section-head: an is-style-eyebrow
+   paragraph, a heading and an is-style-lead paragraph) — the same look as the
+   .starter-section-head* rules above. The eyebrow drops the plugin style's
+   leading line and takes the amber kicker colour; the lead and headline take
+   the legacy sizes and measures. The converter writes a spacing-60 inline
+   bottom margin, which collapses with the next block's 16px gap; the padding
+   makes up the rest of the legacy head gap (head-gap padding + 16px gap). */
+.wp-site-blocks .pediment-section-head {
+	padding-bottom: calc(var(--head-gap, clamp(40px, 5vw, 60px)) - 20px);
+	padding-inline: var(--wc-gutter);
+}
+
+.wp-site-blocks .pediment-section-head > .is-style-eyebrow {
+	color: var(--wc-amber);
+	font-size: .8rem;
+	line-height: 1.65;
+}
+
+.wp-site-blocks .pediment-section-head > .is-style-eyebrow::before {
+	content: none;
+}
+
+.wp-site-blocks .pediment-section-head > h2 {
+	font-size: clamp(1.9rem, 4.6vw, 3rem);
+	max-inline-size: 20ch;
+}
+
+.wp-site-blocks .pediment-section-head > .is-style-lead {
+	color: var(--wc-ink-soft);
+	font-size: 1.05rem;
+	line-height: 1.6;
+	max-inline-size: 54ch;
+}
+
 /* pediment/prose — restore the vertical rhythm and link affordance that the
    global .wp-site-blocks heading/paragraph reset (margin:0) otherwise flattens.
    Scoped to .starter-prose so the bespoke .wc-* blocks keep their own spacing. */
@@ -1012,6 +1160,21 @@ body.no-hero .wp-site-blocks > main {
 }
 
 .wp-site-blocks .starter-prose a:hover {
+	text-decoration-color: currentColor;
+}
+
+/* Converted prose (core/group.is-style-prose): the rhythm lives in
+   styles/blocks/prose.json; the link look stays here, because the global
+   `.wp-site-blocks a` reset (0,1,1) beats any named-style link rule. */
+.wp-site-blocks .is-style-prose a {
+	color: var(--wc-ink);
+	text-decoration: underline;
+	text-decoration-color: var(--wc-amber);
+	text-decoration-thickness: 2px;
+	text-underline-offset: .18em;
+}
+
+.wp-site-blocks .is-style-prose a:hover {
 	text-decoration-color: currentColor;
 }
 
@@ -1059,7 +1222,8 @@ html:has(body.parent-pageid-179) {
 }
 
 body.parent-pageid-179 .starter-band,
-body.parent-pageid-179 .starter-prose [id] {
+body.parent-pageid-179 .starter-prose [id],
+body.parent-pageid-179 .is-style-prose [id] {
 	scroll-margin-top: 96px;
 }
 
@@ -1076,13 +1240,39 @@ body.parent-pageid-179 .guide-cards {
 }
 
 /* Lift the app-purchase steps into a cream card (matching the mode cards' chrome)
-   so the numbered flow reads as a distinct module, not run-on body copy. */
-body.parent-pageid-179 .starter-steps {
+   so the numbered flow reads as a distinct module, not run-on body copy.
+   The converted steps (.is-style-steps) get the same rule. Note: 179 is not the
+   guide's page ID on production (201) or in wp-env, so neither selector
+   matches today; the guide sub-pages render the steps without the card. */
+body.parent-pageid-179 .starter-steps,
+body.parent-pageid-179 .is-style-steps {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
 	border-radius: 20px;
 	padding: clamp(1.5rem, 3.5vw, 2.25rem);
 	margin-block: var(--wp--preset--spacing--50);
+}
+
+/* Converted steps (core/group.is-style-steps grid; the numbers and type are in
+   styles/blocks/steps.json): the legacy steps grid — auto-fit 200px columns,
+   22px gap, one column up to 781px — instead of the converter's minimum
+   column width. */
+.is-style-steps.is-layout-grid {
+	align-items: start;
+	gap: 22px;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+@media (max-width: 781px) {
+	.is-style-steps.is-layout-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Converted FAQ (a vertical flex group of core/details.is-style-accordion):
+   the legacy item gap. */
+.is-layout-flex:has(> .is-style-accordion) {
+	gap: 14px;
 }
 
 /* Embedded Google Maps inside guide bands. */
