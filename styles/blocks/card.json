@@ -1,0 +1,14 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Card",
+	"slug": "card",
+	"blockTypes": [ "core/group" ],
+	"styles": {
+		"color": { "background": "var:preset|color|surface-elevated" },
+		"border": { "radius": "var(--wp--custom--radius--xl)", "width": "1px", "style": "solid", "color": "transparent" },
+		"shadow": "var:preset|shadow|card",
+		"typography": { "textAlign": "left" },
+		"css": "padding:32px;transition:box-shadow .18s ease,transform .18s ease;&:hover{box-shadow:var(--wp--preset--shadow--card-hover);transform:translateY(-3px)}&>*{margin-block-start:0}&>.wp-block-pediment-icon{margin-block-end:20px}&>.wp-block-image{margin-block-end:20px}&>h3{font-size:1.15rem;color:var(--wp--preset--color--foreground)}&>h3+p{margin-block-start:10px}&>p:not(.pediment-card-link){color:var(--wp--preset--color--foreground-muted);font-size:.97rem;line-height:1.55}"
+	}
+}
