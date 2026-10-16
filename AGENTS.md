@@ -72,7 +72,7 @@ Two docs orient you before you touch anything:
 | Scope | Layer | How |
 |---|---|---|
 | Per-page / per-template content | **DB** | Site Editor (Appearance → Editor) |
-| Site structure (a new page, the menu) | **This repo** | `seed/manifest.php` plus `patterns/<key>.php`, then `npm run seed:plan` and `npm run seed` (adds what is missing, never changes a page, menu, translation or setting a person made) |
+| Site structure (a new page, the menu) | **This repo** | A new page's manifest entry: regenerate `seed/manifest.php`'s `pages` section with `tools/manifest-from-wxr.mjs` from a fresh WordPress XML export (never hand-edit it), plus a hand-written `patterns/<key>.php`. Menu changes: the hand-written `navs` section. Then `npm run seed:plan` and `npm run seed` (adds what is missing, never changes a page, menu, translation or setting a person made) |
 | Page content of a page that exists | **DB**, then adopted | The `pediment-write-page` MCP tool (validate with client-kit's `validate-blocks` first) or the block editor; then `npm run adopt -- <key>` writes it into `patterns/<key>.php` so new environments match. Never copy markup out of the database by hand |
 | Page content of a new page | **This repo** | `patterns/<key>.php` |
 | Design tokens (color, type scale, etc.) | **This repo** | `theme.json` |

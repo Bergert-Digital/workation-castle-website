@@ -88,7 +88,11 @@ Plugin default styles: `band`, `band-alt`, `card`, `eyebrow`, `lead`, `pill`,
 `pill-ghost`, `media-card`, `stat`, `steps`, `panel`, `quote-card`, `accordion`,
 `media-row`, `pull-quote`, `framed`, `logos`, `prose`. A `grid` collapses on phones when
 you set `minimumColumnWidth` (for example `max(10rem, 30%)`) and leave `columnCount`
-unset.
+unset. On this site, `style.css` overrides the column layout of card grids
+(`.wp-site-blocks .is-layout-grid:has(> .is-style-card)`, which covers
+`.guide-cards`) and of `is-style-steps` grids (`.is-style-steps.is-layout-grid`)
+to keep the pre-conversion layout, so the editor's column setting has no effect
+on those grids on the front end.
 
 **Never type design values into a block** (no literal colours, sizes, spacing, radius).
 Use a preset (`var:preset|…`) or a named style. Pediment rejects a page that breaks

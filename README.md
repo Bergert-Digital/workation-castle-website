@@ -29,8 +29,11 @@ parent theme now comes from the plugin, so there is no parent to install.
    share the slug `home`, which needs its shared-slug support), then run the
    seed (below).
 
-There is no auto-updater. Updates are installed by uploading a new release zip
-in wp-admin.
+Later releases arrive through wp-admin's normal update flow (Dashboard →
+Updates, or Appearance → Themes → **Update**): the theme checks this repo's
+GitHub releases and installs the attached `workation.zip`. The version it
+compares comes from the `Version:` header of the committed `style.css`, which
+release-please bumps. The check is off in `local` environments (wp-env, CI).
 
 > `workation.zip` is what the release workflow attaches to each tag. Installing
 > the "Source code" zip instead leaves `build/` and `vendor/` missing, which
@@ -42,8 +45,11 @@ The site's structure lives in [`seed/manifest.php`](seed/manifest.php): 18
 pages, 5 languages, and the two-level primary navigation. Each page's content
 comes from a pattern in `patterns/`.
 
-A new page goes in `seed/manifest.php` plus `patterns/<key>.php`; `npm run seed`
-creates it. Run `npm run seed:plan` before `npm run seed`, always. A seed only
+A new page needs two things. Its manifest entry comes from regenerating the
+`pages` section with `tools/manifest-from-wxr.mjs` from a fresh WordPress XML
+export (see below); its content is a hand-written `patterns/<key>.php`. Menu
+changes go in the hand-written `navs` section of `seed/manifest.php`. Then run
+`npm run seed:plan` and `npm run seed`, always in that order. A seed only
 adds what is missing and never changes a page, menu, translation or setting a
 person made:
 
@@ -52,7 +58,7 @@ npm run seed:plan   # read the plan first (wp pediment seed --dry-run)
 npm run seed        # wp pediment seed
 ```
 
-or from **Settings → Pediment → Seeding** in wp-admin, which is the only route
+or from **Settings → Pediment Theme → Seeding** in wp-admin, which is the only route
 on admin-only hosting.
 
 Change a page that exists with the `pediment-write-page` MCP tool (validate the
@@ -64,7 +70,8 @@ entry as `unchanged`.
 The **entry list and its per-language overrides in `seed/manifest.php` are
 generated** by `tools/manifest-from-wxr.mjs` from a WordPress XML export. Do not
 hand-edit them — fix the generator and regenerate, so re-running it against a
-fresh export stays a meaningful drift check. The `navs` section is hand-written,
+fresh export stays a meaningful drift check. Usage:
+`node tools/manifest-from-wxr.mjs export.xml > /tmp/entries.php`. The `navs` section is hand-written,
 because it encodes a structure the export does not contain.
 
 The photo library and the activities are seeded separately, because the manifest

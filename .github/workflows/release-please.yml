@@ -7,10 +7,12 @@ name: Release Please
 # Release PR creates the GitHub Release and its tag; the chained job then
 # builds workation.zip and attaches it.
 #
-# The release is NOT drafted. It used to be, so the theme's own update checker
-# never saw a release without an asset — but the updater was retired when this
-# became a standalone client theme (updates are admin zip uploads now), and a
-# draft has no tag for the release workflow to check out.
+# The release is NOT drafted. A draft has no tag for the release workflow to
+# check out, and the theme's update checker (inc/ThemeUpdater.php) would not
+# see it. That checker offers the update in wp-admin from the GitHub release
+# and reads the version from the committed style.css header, which
+# release-please bumps; it requires the attached workation.zip asset, so a
+# release without the asset yet is reported as "no update".
 #
 # The zip job is chained here rather than left to client-release.yml's own
 # `push: tags` trigger, because release-please creates the tag with
