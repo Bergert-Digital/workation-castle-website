@@ -9,7 +9,7 @@ test.describe('Guest Guide', () => {
   test('guide page renders hero and seven topic cards', async ({ page }) => {
     await page.goto('/guide/');
     await expect(page.locator('.page-hero h1')).toHaveText('Everything for your stay');
-    const cards = page.locator('.starter-feature-grid .starter-feature');
+    const cards = page.locator('.guide-cards .is-style-card');
     await expect(cards).toHaveCount(7);
     await expect(cards.nth(0)).toContainText('How to get here');
     await expect(cards.nth(5)).toContainText('Sorting the waste');
@@ -18,7 +18,7 @@ test.describe('Guest Guide', () => {
 
   test('card icons are solid amber tiles with a dark glyph', async ({ page }) => {
     await page.goto('/guide/');
-    const tile = page.locator('.guide-cards .starter-feature__ic').first();
+    const tile = page.locator('.guide-cards .wp-block-pediment-icon__glyph').first();
     const { bg, glyph } = await tile.evaluate((el) => ({
       bg: getComputedStyle(el).backgroundColor,
       glyph: getComputedStyle(el.querySelector('svg')!).color,
@@ -56,7 +56,7 @@ test.describe('Guest Guide', () => {
 
   test('topic links point at the live sub-pages', async ({ page }) => {
     await page.goto('/guide/');
-    const links = page.locator('.starter-feature-grid .starter-feature__more');
+    const links = page.locator('.guide-cards .pediment-card-link a');
     // Links are localized to absolute permalinks at render time (see
     // inc/LocalizeLinks.php), so assert on the resolved path, not a bare
     // root-relative slug. The stale /catering/ resolves to /guide/catering/.
@@ -73,8 +73,8 @@ test.describe('Guest Guide', () => {
     await page.goto('/guide/');
     // No visible "Open" call-to-action anywhere in the grid.
     await expect(page.locator('.guide-cards')).not.toContainText('Open');
-    const card = page.locator('.guide-cards .starter-feature').first();
-    const link = card.locator('.starter-feature__more');
+    const card = page.locator('.guide-cards .is-style-card').first();
+    const link = card.locator('.pediment-card-link a');
     // The link has a distinct, descriptive accessible name (not "Open").
     await expect(link).toHaveAccessibleName('How to get here');
     // The link is stretched to overlay (essentially) the whole card.

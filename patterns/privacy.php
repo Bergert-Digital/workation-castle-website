@@ -12,8 +12,8 @@
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
-<!-- wp:pediment/prose -->
-<!-- wp:paragraph -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>This policy explains what personal data Workation Castle processes when you visit this website, book a stay or complete your guest check-in, why we process it, and the rights you have. It reflects the data processing actually carried out by this website.</p>
 <!-- /wp:paragraph -->
 
@@ -173,7 +173,7 @@
 
 <!-- wp:paragraph -->
 <p>We may update this policy to reflect changes to our practices or legal requirements. The current version is always available on this page.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 </div>
 <!-- /wp:group -->

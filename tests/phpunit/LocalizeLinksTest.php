@@ -112,11 +112,11 @@ class LocalizeLinksTest extends PatternTestCase {
 	 */
 	public function test_patterns_use_the_canonical_catering_path() {
 		$faq = file_get_contents( $this->theme_dir() . '/patterns/faq.php' );
-		$this->assertStringNotContainsString( 'href=\"/catering/\"', $faq );
-		$this->assertStringContainsString( 'href=\"/guide/catering/\"', $faq );
+		$this->assertStringNotContainsString( 'href="/catering/"', $faq );
+		$this->assertStringContainsString( 'href="/guide/catering/"', $faq );
 
 		$guide = file_get_contents( $this->theme_dir() . '/patterns/guide.php' );
-		$this->assertStringNotContainsString( '"linkUrl":"/catering/"', $guide );
-		$this->assertStringContainsString( '"linkUrl":"/guide/catering/"', $guide );
+		$this->assertStringNotContainsString( 'href="/catering/"', $guide );
+		$this->assertStringContainsString( 'href="/guide/catering/"', $guide );
 	}
 }

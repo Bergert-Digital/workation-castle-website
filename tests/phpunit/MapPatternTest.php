@@ -20,7 +20,7 @@ class MapPatternTest extends PatternTestCase {
 
 	public function test_guide_card_links_internally() {
 		$guide = file_get_contents( $this->theme_dir() . '/patterns/guide.php' );
-		$this->assertStringContainsString( '"linkUrl":"/guide/map/"', $guide );
+		$this->assertStringContainsString( 'href="/guide/map/"', $guide );
 		$this->assertStringNotContainsString( 'workationcastle.com/guide/map/', $guide );
 	}
 }

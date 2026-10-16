@@ -12,15 +12,15 @@
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"},"style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
-<!-- wp:pediment/prose -->
-<!-- wp:heading -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:heading -->
 <h2 class="wp-block-heading">Share your feedback</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>A sentence or two is plenty — praise, gripes, or ideas all welcome. See how we handle your details in our <a href="/privacy-policy/">Privacy Policy</a>.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:group {"className":"wc-form-card","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-form-card is-layout-constrained wp-block-group-is-layout-constrained">

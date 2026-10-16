@@ -12,14 +12,15 @@
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
-<!-- wp:pediment/prose -->
-<!-- wp:heading -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:heading -->
 <h2 class="wp-block-heading">Heating</h2>
 <!-- /wp:heading -->
+
 <!-- wp:paragraph -->
 <p>In Winter make sure to turn on the heating quickly, so the bathrooms can heat up before you need them. First, turn on the thermostat in the bathroom on the ground floor. It activates the heaters in all bathrooms.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
@@ -35,11 +36,11 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:pediment/prose -->
-<!-- wp:paragraph -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>After that, open the valves on the heaters in each bathroom.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
@@ -55,37 +56,73 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 
-<!-- wp:pediment/prose -->
-<!-- wp:paragraph -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>The fans in the rooms can only be used for heating and not for cooling. Each room has a remote control.</p>
 <!-- /wp:paragraph -->
+
 <!-- wp:paragraph -->
 <p>To turn on heating, follow these steps:</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
-<!-- wp:pediment/steps -->
-<!-- wp:pediment/step {"title":"Set the temperature","text":"Use the + and – buttons."} /-->
-<!-- wp:pediment/step {"title":"Set the fan speed to “A”","text":"Press the “Fan” button until it shows “A”."} /-->
-<!-- wp:pediment/step {"title":"Set the mode to heating","text":"Press the “mode” button until it shows the heating symbol."} /-->
-<!-- wp:pediment/step {"title":"Submit","text":"Press “On / Send” — you should hear a beep as confirmation."} /-->
-<!-- /wp:pediment/steps -->
+<!-- wp:group {"className":"is-style-steps","layout":{"type":"grid","minimumColumnWidth":"max(12.5rem, 45%)"},"metadata":{"name":"Steps"}} -->
+<div class="wp-block-group is-style-steps"><!-- wp:group {"layout":{"type":"constrained"},"metadata":{"name":"Step"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Set the temperature</h3>
+<!-- /wp:heading -->
 
-<!-- wp:pediment/prose -->
 <!-- wp:paragraph -->
+<p>Use the + and – buttons.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"layout":{"type":"constrained"},"metadata":{"name":"Step"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Set the fan speed to “A”</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Press the “Fan” button until it shows “A”.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"layout":{"type":"constrained"},"metadata":{"name":"Step"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Set the mode to heating</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Press the “mode” button until it shows the heating symbol.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"layout":{"type":"constrained"},"metadata":{"name":"Step"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Submit</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Press “On / Send” — you should hear a beep as confirmation.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>It can take up to 1 hour for warm air to come out.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:image {"width":"380px","sizeSlug":"large","align":"center","style":{"border":{"radius":"16px"}}} -->
 <figure class="wp-block-image aligncenter size-large is-resized has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/Guide-Aushang-1.png" alt="Printed remote-control reference sheet for the room fan-heaters" style="border-radius:16px;width:380px"/><figcaption class="wp-element-caption">The remote-control reference sheet posted in each room.</figcaption></figure>
 <!-- /wp:image -->
 
-<!-- wp:pediment/prose -->
-<!-- wp:paragraph -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>The kitchen has a wall-mounted thermostat to control the air conditioner. Set the temperature on the wheel, then move the lower switch to the left and press the button next to it once.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
