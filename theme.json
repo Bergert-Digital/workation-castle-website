@@ -81,9 +81,13 @@
       ]
     },
     "custom": {
+      "spacing": {
+        "card": "32px"
+      },
       "radius": {
         "sm": "10px",
         "md": "12px",
+        "md-lg": "16px",
         "lg": "20px",
         "xl": "24px",
         "pill": "999px"
