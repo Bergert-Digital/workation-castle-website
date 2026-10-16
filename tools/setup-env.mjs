@@ -46,7 +46,7 @@ try {
 	console.log(`\n› wp-env port ${port} → http://localhost:${port}`);
 	run('wp-env start', 'npx', ['wp-env', 'start']);
 	wp(`activate theme (${themeSlug})`, 'theme', 'activate', themeSlug);
-	wp('activate the Pediment plugin', 'plugin', 'activate', 'pediment-plugin');
+	wp('activate the Pediment plugin', 'plugin', 'activate', 'pediment-plugin', 'mcp-adapter');
 	wp('activate Polylang', 'plugin', 'activate', 'polylang-pro');
 	// Pretty permalinks must exist before the seed: Polylang Pro's share-slug
 	// module refuses to load on plain permalinks, and without it the manifest's

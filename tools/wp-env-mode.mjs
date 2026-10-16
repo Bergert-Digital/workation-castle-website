@@ -5,7 +5,7 @@
  *
  *   dev      — mount the sibling working copy of the Pediment plugin for fast
  *              iteration:
- *                plugins: ["../pediment/plugin"]
+ *                plugins: ["../pediment/plugin", <mcp-adapter zip>]
  *   publish  — drop the override refs so the *committed* `.wp-env.json`
  *              release-zip URLs take effect (the push-ready config).
  *
@@ -46,7 +46,11 @@ const overridePath = resolve(here, '..', '.wp-env.override.json');
 // zip installs under is `pediment-plugin`, so `npm run env:start`'s activate
 // step has to be told which one it is looking at.
 const DEV_THEMES = ['.'];
-const DEV_PLUGINS = ['../pediment/plugin'];
+// mcp-adapter ships with the pinned list in .wp-env.json, but the override
+// replaces that array wholesale, so dev mode must carry it too: `env:start`
+// activates it next to the Pediment plugin.
+const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.0.zip';
+const DEV_PLUGINS = ['../pediment/plugin', MCP_ADAPTER];
 
 const FIELDS = ['themes', 'plugins'];
 
