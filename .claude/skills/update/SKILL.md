@@ -140,7 +140,7 @@ template's.
 
 ### Step 6: Seeding is the plugin's job — nothing to adopt
 
-The seeding engine ships in the **Pediment plugin** (`wp pediment seed`, Settings → Pediment
+The seeding engine ships in the **Pediment plugin** (`wp pediment seed`, Settings → Pediment Theme
 → Seeding). This client theme owns only its inputs: `seed/manifest.php` and `patterns/`. Do
 **not** adopt `inc/media.php`, `inc/seed.php`, `inc/seed-demo.php` or `inc/nav-seed.php` from
 an older template: they belong to the retired in-theme seeder.

@@ -27,7 +27,7 @@
 **Form** — A form that collects visitor input and delivers it to a configured destination. Add Form Field child blocks for each input. Use for contact, booking, registration, feedback, or signup forms.
 
 **Source:** parent
-**Use when:** any visitor form (contact, booking, feedback). Not legacy. Pediment rejects raw `<form>` markup, so this is the only way to add a form to a page.
+**Use when:** any visitor form (contact, booking, feedback). Not legacy. Pages written through Pediment's MCP tools reject raw `<form>` markup, so use this block for forms.
 
 **Attributes:**
   - `destination` (string)
