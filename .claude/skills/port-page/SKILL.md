@@ -1,11 +1,12 @@
 ---
 name: port-page
-description: Rebuild an existing (Elementor) page live in wp-env using Pediment blocks, looping on an independent fidelity critic until every section matches the source. Requires a branded theme.json (run /port-site first if absent). Produces a live draft page + final.html export, then optionally persists it to version control as a seed pattern so it survives a DB reset.
+description: Rebuild an existing (Elementor) page live in wp-env from core blocks and named styles, looping on an independent fidelity critic until every section matches the source. Requires a branded theme.json (run /port-site first if absent). Produces a live draft page + final.html export, then optionally persists it to version control as a seed pattern so it survives a DB reset.
 ---
 
 # Port a page to Pediment (fidelity-first, build-in-wp-env)
 
-Rebuild ONE existing public page as native Pediment blocks, then iterate under an
+Rebuild ONE existing public page from core blocks and Pediment named styles (plus this
+theme's own `workation/*` blocks), then iterate under an
 independent visual fidelity critic until every section faithfully matches the source.
 Content, information architecture, and visual treatment are all preserved.
 
@@ -53,7 +54,7 @@ Load the source URL in the browser. Under `.context/port/<slug>/`:
 - **`screenshots/sec-NN.png`** — one screenshot per distinct visual band,
   top to bottom (`sec-01.png`, `sec-02.png`, …).
 - **`inventory.md`** — an **ordered** list of every section. For each, record:
-  - **label** (hero / stats-band / feature-grid / testimonials / pricing / cta /
+  - **label** (hero / stats-band / feature-cards / testimonials / pricing / cta /
     faq / contact / …) — this label is used verbatim by the fidelity critic
   - **purpose** — one sentence
   - **literal copy** — all visible text
@@ -78,31 +79,39 @@ regenerated `docs/PEDIMENT-BLOCKS.md`, then re-run `/port-page`.
 
 Read `docs/PEDIMENT-BLOCKS.md` — this is the authoritative block inventory
 (names, attributes, wrapper classes, "use when" guidance). Do not invent block
-names or attributes that are not in it.
+names or attributes that are not in it. Blocks under "Legacy blocks (do not use)"
+(`pediment/hero`, `cta`, `feature-grid`, `faq`, …) are hidden from the inserter and
+deleted in Pediment 5: never put them in a port.
+
+Then read "Compose sections from core blocks" in `docs/STYLING.md`: it maps each
+section type (hero, cards, stats, steps, FAQ, quote, logos, CTA panel) to a core-block
+composition with a named style (`band`, `card`, `panel`, `stat`, `accordion`, …).
 
 ---
 
 ### 4. Map (fidelity ladder)
 
-**The design target is the original — never Pediment's defaults.** Recolored
-parent blocks left at their Pediment shapes are what make a port "scream
-Pediment." So there are only two acceptable outcomes per section, and **a
-Pediment/core block is NEVER used as-is**:
+**The design target is the original — never Pediment's defaults.** Core blocks
+left at the plugin's default named styles are what make a port "scream Pediment."
+So there are only two acceptable outcomes per section, and **a core block with a
+default Pediment style is NEVER used as-is**:
 
-1. **Adapt an existing block** — ONLY when the block's *structure* already
-   matches the source section (same layout skeleton). You must STILL adapt it to
-   the original's design via a child-theme block-style variant / `style.css`
-   override (spacing, colour bands, card chrome, type, decoration). An existing
-   block at its Pediment defaults is never an acceptable result — every reused
-   block is adapted.
+1. **Adapt a core-block composition** — ONLY when the composition's *structure*
+   (the core-block tree from the table in `docs/STYLING.md`) already matches the
+   source section (same layout skeleton). You must STILL adapt it to the original's
+   design with a client-theme named style (`styles/blocks/<slug>.json`, which
+   overrides the plugin style of the same slug, or a new slug) or a `theme.json`
+   `styles.css` rule (spacing, colour bands, card chrome, type, decoration).
+   A composition at the plugin's default style is never an acceptable result —
+   every reused composition is adapted.
 2. **NEW BLOCK** — the default for any **distinctive** section, and **mandatory**
-   whenever the block's structure differs from the source. Build it in the child
+   whenever no core-block tree matches the source's structure. Build it in this
    theme (worked patterns below).
 
-**Forbidden:** force-fitting a structurally-wrong block with CSS — e.g. dropping
-Pediment `feature` cards onto a navy band and recolouring them produced white
-cards on navy. If the structure doesn't match the source, it is a NEW BLOCK, not
-a CSS patch.
+**Forbidden:** force-fitting a structurally-wrong composition with CSS — e.g.
+dropping the default `card` groups onto a navy band and recolouring them produced
+white cards on navy. If the structure doesn't match the source, it is a NEW BLOCK,
+not a CSS patch. Also forbidden: any legacy `pediment/*` presentation block.
 
 **Worked bespoke patterns already in `src/blocks/` — reuse / extend, don't
 reinvent:** `workation/site-hero` (full-bleed band + edge media + CTA),
@@ -111,11 +120,11 @@ reinvent:** `workation/site-hero` (full-bleed band + edge media + CTA),
 "signature" section are almost always NEW BLOCK.
 
 Write `.context/port/<slug>/mapping.md`: a table of
-`section label → decision (ADAPT <block> | NEW BLOCK <name>) → rationale`.
+`section label → decision (ADAPT <core blocks + named style> | NEW BLOCK <name>) → rationale`.
 
 The rationale MUST cite the **visual treatment** from `inventory.md`. For ADAPT,
-name the specific child-theme overrides that bring the block to the original's
-design (it is never left as-is). For NEW BLOCK, state which source structure it
+name the core-block tree and the specific client-theme style overrides that bring
+it to the original's design (it is never left as-is). For NEW BLOCK, state which source structure it
 reproduces.
 
 ---
@@ -126,7 +135,7 @@ If `mapping.md` contains any `NEW BLOCK` rows, STOP and present **all proposals
 at once** to the user. For each proposed block:
 
 - Proposed name (`workation/<name>`)
-- Why tier 1 and tier 2 cannot match the section's visual treatment
+- Why no adapted core-block composition can match the section's visual treatment
 - Proposed attributes and inner slots (referencing the `promo-banner` shape:
   `block.json` + `render.php` + `edit.tsx` + `index.tsx` + `style.scss`)
 
@@ -174,12 +183,17 @@ Collect a map of `source URL → attachment ID` for use in markup composition.
 Build the serialized `<!-- wp:… -->` block markup for the full page:
 
 - Reference real attachment IDs (from 6a) for all images.
-- Apply brand bands: use `is-style-band-navy` only for `stat`, `pull-quote`,
-  and `social-links` blocks. Text bands (`section-head`, `prose`, `feature`)
-  must use `surface` or `elevated` band styles — **never `is-style-band-navy`
-  on a text band**.
-- Match the attribute-JSON shape and inner HTML each block expects (cross-check
-  against `docs/PEDIMENT-BLOCKS.md` and a known-good page if needed).
+- Compose sections from core blocks with named styles (`className`
+  `is-style-<slug>`), never from legacy `pediment/*` presentation blocks. No literal
+  colours, sizes or spacing in block attributes: use presets (`var:preset|…`) or a
+  named style.
+- Section backgrounds: `band` / `band-alt` groups for light bands, a `panel` group
+  for a dark call-to-action. Do not put text-heavy content on a dark background
+  unless the style sets a readable light text colour; check contrast in the render.
+- Match the attribute-JSON shape and inner HTML each block expects. Validate the
+  markup with client-kit's `validate-blocks` (a core block whose saved HTML differs
+  from its comment shows as invalid in the editor), and cross-check against
+  `docs/PEDIMENT-BLOCKS.md` and a known-good pattern if needed.
 
 #### 6c. Create / update the page in wp-env
 
@@ -194,7 +208,7 @@ npx wp-env run cli wp post create \
   --porcelain
 # → prints the new post ID
 
-# Activate the child theme if not already active:
+# Activate the theme if not already active:
 npx wp-env run cli wp theme activate <theme-slug>
 ```
 
@@ -222,7 +236,7 @@ The critic evaluates blind against the rubric in
 
 **Capture rules (enforced by the critic, also enforced here when re-rendering):**
 - After navigating to a section, **wait ≥ 1.5 s** after it enters the viewport
-  before any screenshot — Pediment fades sections in on scroll and an early
+  before any screenshot — sections can fade in on scroll and an early
   capture appears blank or grey.
 
 **After each critic run:**
@@ -265,45 +279,30 @@ Once `overallPass: true`:
 The built page lives only in the wp-env database — a fresh environment
 (`npm run env:setup`, after `wp-env clean all`) builds its pages from
 `patterns/*.php` and does not have this one. A seed only adds what is missing;
-it never rewrites a page that exists, so re-seeding does not copy this page
-anywhere. To make the port survive, add it to the seed:
+it never rewrites a page that exists. To make the port survive:
 
-1. **Write `patterns/<slug>.php`** — the final block markup, adapted to be
-   **seed-safe** (a fresh seed has no Media Library, and the WP-CLI seed runs
-   with no user, so KSES is active):
-   - **Images by remote URL, not attachment ID.** `page-hero` → `imageUrl` (the
-     original source URL) with **no** `imageId`. Replace every
-     `pediment/image-caption {"mediaId":N}` with a `core/image` block whose
-     `<img src>` is the remote source URL (keep the caption + a rounded style to
-     match). Any block that *only* renders from an attachment ID must be swapped
-     for a URL-based equivalent — it renders blank when seeded otherwise.
-   - **Keep raw-HTML blocks** (`wp:html` map `<iframe>`s, etc.) verbatim.
-   - File header: `Title`, `Slug: workation/<slug>`,
-     `Categories: workation`, `Inserter: no`, then
-     `// phpcs:ignoreFile` and the markup (mirror `patterns/guide.php`).
-2. **Register it in `inc/seed.php`** — add to the `PAGES` map:
-   `'<slug>' => [ 'title' => '<Title>', 'pattern_file' => 'patterns/<slug>.php',
-   'parent' => '<parent-slug>' ]`. The `parent` key is optional (omit for a
-   top-level page); a nested page lands at `/<parent>/<slug>/`. **List a child
-   after its parent** in the map — the parent's ID must already be resolved.
-3. **Ensure the seed supports your page.** `upsert_pages()` must:
-   - honour `post_parent` (look the existing page up by full path
-     `"<parent>/<slug>"`, set `post_parent`), and
-   - wrap the upsert loop in `kses_remove_filters()` / `kses_init_filters()` so
-     trusted pattern HTML (iframes) survives a CLI seed.
-   Add these if missing (both are small, idempotent additions).
-4. **Update any linking pattern** — e.g. point the hub/index card from the
-   remote source URL to the local path (`/<parent>/<slug>/`).
-5. **Confirm `tools/setup-env.mjs` seeds via `wp workation seed`** (the
-   child command), not a stale `wp pediment seed`.
-6. **Verify the from-scratch path:** delete the page, run
-   `npx wp-env run cli wp workation seed`, and confirm it is **re-created**
-   at the right URL with images and iframes intact. Then re-render and eyeball.
-7. **Commit** the pattern + `inc/seed.php` (+ any linking pattern / setup-env)
-   per the commit convention.
+1. **Declare the page** in `seed/manifest.php` with a `pattern` slug
+   (`workation/<slug>`). The `pages` section of the manifest is **generated** by
+   `tools/manifest-from-wxr.mjs` from a WordPress XML export — never hand-edit it.
+   If the page is not in the export, stop and ask the user how to proceed
+   (re-export and regenerate, or extend the generator).
+2. **Export the page into its pattern file:** `npm run adopt -- <key>` writes
+   `patterns/<key>.php` from the live page and turns attachment references into the
+   seeder's `{{media_id:…}}` / `{{media_url:…}}` placeholders. Never copy markup out
+   of the database by hand. The file keeps the standard pattern header (`Title`,
+   `Slug: workation/<key>`, `Categories: workation`, `Inserter: no`, then
+   `// phpcs:ignoreFile`; mirror `patterns/guide.php`).
+3. **Update any linking pattern** — e.g. point a hub/index card from the remote
+   source URL to the local path (`/<parent>/<slug>/`).
+4. **Verify the from-scratch path:** `npm run seed:plan` must list one create for
+   the page. Delete the page, run `npm run seed`, and confirm it is **re-created**
+   at the right URL with images and any raw-HTML blocks (`wp:html` map `<iframe>`s)
+   intact. Then re-render and eyeball. The WP-CLI seed runs with no user, so
+   check that content KSES would strip still survives.
+5. **Commit** the pattern and manifest per the commit convention.
 
 > The `final.html` export from step 8 stays as the verbatim record of what was
-> built; `patterns/<slug>.php` is its seed-safe (remote-URL) twin.
+> built; `patterns/<slug>.php` is its seed-safe twin.
 
 ---
 
@@ -311,12 +310,13 @@ anywhere. To make the port survive, add it to the seed:
 
 | Rule | Detail |
 |---|---|
-| **Never use a block as-is** | Pediment/core blocks are NEVER output at their defaults — every reused block is adapted to the original's design (child-theme variant/`style.css`). The design target is the original, never Pediment. Distinctive sections are bespoke child blocks. |
-| **No CSS force-fit** | Never patch a structurally-wrong block with CSS to fake the source (that produced white cards on navy). Structure mismatch ⇒ NEW BLOCK, not a CSS patch. |
-| **Entrance animation delay** | Pediment fades sections in on scroll. Always wait ≥ 1.5 s after a section enters the viewport before any screenshot or capture. An early capture appears blank or grey. |
-| **`is-style-band-navy` scope** | Only valid on `stat`, `pull-quote`, and `social-links` blocks. Text bands (`section-head`, `prose`, `feature`) must use `surface` or `elevated` — never `is-style-band-navy` on a text band. |
-| **Media references** | In the **live wp-env build**, import every image via `npx wp-env run cli wp media import --porcelain` and reference it by the returned attachment ID — don't hotlink the source URL. In the **seed pattern** (step 9) it is the opposite: reference images by their remote source URL, since a fresh seed has no Media Library to import into. |
-| **CSS token discipline** | Any new block CSS must use `var(--wp--preset--…)` only. No color literals, no hard-coded hex values. |
+| **Core blocks + named styles** | Pages are composed from core blocks and named styles. Never use the legacy `pediment/*` presentation blocks (`hero`, `cta`, `feature-grid`, `faq`, …): they are hidden from the inserter and deleted in Pediment 5. |
+| **Never use a style as-is** | A composition at the plugin's default named style is NEVER the final result — adapt it to the original's design (client-theme `styles/blocks/*.json` / `theme.json`). The design target is the original, never Pediment. Distinctive sections are bespoke `workation/*` blocks. |
+| **No CSS force-fit** | Never patch a structurally-wrong composition with CSS to fake the source (that produced white cards on navy). Structure mismatch ⇒ NEW BLOCK, not a CSS patch. |
+| **Entrance animation delay** | Sections can fade in on scroll. Always wait ≥ 1.5 s after a section enters the viewport before any screenshot or capture. An early capture appears blank or grey. |
+| **Dark bands** | Use a `panel` group (or a client-theme style) for dark sections and check text contrast in the render. Text-heavy content on a dark band needs a style that sets readable light text. |
+| **Media references** | In the **live wp-env build**, import every image via `npx wp-env run cli wp media import --porcelain` and reference it by the returned attachment ID — don't hotlink the source URL. `npm run adopt` (step 9) turns those references into seeder placeholders for the pattern file; confirm images render after a from-scratch seed. |
+| **CSS token discipline** | Any new block CSS and any named style must use `var(--wp--preset--…)` / `var:preset|…` tokens only. No color literals, no hard-coded hex values. |
 | **Theme slug** | Resolve dynamically: `basename $(pwd)`. Do not hard-code. |
 | **Commit convention** | Conventional commit, ≤ 60-char summary, stage files by name, trailer: `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>` |
 
