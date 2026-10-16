@@ -256,16 +256,17 @@ Once `overallPass: true`:
    - Fidelity-gate summary: rounds taken, any sections that required > 1 round
    - Any declined-section TODOs from `coverage.md`
    - Offer step 9: the page so far lives only in the wp-env DB and is lost on a
-     DB reset / re-seed. Ask whether to persist it to version control.
+     DB reset. Ask whether to persist it to version control.
 
 ---
 
 ### 9. Persist to version control (make it permanent)
 
-The built page lives only in the wp-env database — a re-seed (`npm run
-env:setup`, or `wp workation seed`, which runs on env setup) rebuilds every
-page from `patterns/*.php` and **overwrites/loses** DB-only edits. To make the
-port survive, add it to the seed:
+The built page lives only in the wp-env database — a fresh environment
+(`npm run env:setup`, after `wp-env clean all`) builds its pages from
+`patterns/*.php` and does not have this one. A seed only adds what is missing;
+it never rewrites a page that exists, so re-seeding does not copy this page
+anywhere. To make the port survive, add it to the seed:
 
 1. **Write `patterns/<slug>.php`** — the final block markup, adapted to be
    **seed-safe** (a fresh seed has no Media Library, and the WP-CLI seed runs

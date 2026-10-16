@@ -40,19 +40,26 @@ in wp-admin.
 
 The site's structure lives in [`seed/manifest.php`](seed/manifest.php): 18
 pages, 5 languages, and the two-level primary navigation. Each page's content
-comes from a pattern in `patterns/`. Seed or re-seed with:
+comes from a pattern in `patterns/`.
+
+A new page goes in `seed/manifest.php` plus `patterns/<key>.php`; `npm run seed`
+creates it. Run `npm run seed:plan` before `npm run seed`, always. A seed only
+adds what is missing and never changes a page, menu, translation or setting a
+person made:
 
 ```bash
-wp pediment seed --dry-run   # read the plan first
-wp pediment seed
+npm run seed:plan   # read the plan first (wp pediment seed --dry-run)
+npm run seed        # wp pediment seed
 ```
 
 or from **Settings → Pediment → Seeding** in wp-admin, which is the only route
 on admin-only hosting.
 
-Seeding is idempotent and content-protected: a page someone has edited in the
-editor is never overwritten. Re-running a converged site reports every entry as
-`unchanged`.
+Change a page that exists with the `pediment-write-page` MCP tool (validate the
+markup with client-kit's `validate-blocks` first) or in the block editor. To make
+new environments match it, run `npm run adopt -- <key>` — never copy markup out
+of the database by hand. Re-running a seed on a converged site reports every
+entry as `unchanged`.
 
 The **entry list and its per-language overrides in `seed/manifest.php` are
 generated** by `tools/manifest-from-wxr.mjs` from a WordPress XML export. Do not

@@ -14,8 +14,10 @@
  * silently blank the hero, the section headers and the closing call to action
  * on a live site. This supplies the old text for those pages only.
  *
- * Transitional: once every site has re-seeded (Tools -> Seed content), nothing
- * reaches this map and the whole file can be deleted.
+ * Transitional: a re-seed never rewrites a page that exists, so this copy stays
+ * needed until each live page carries it, for example after its next save in the
+ * editor or a `pediment-write-page` write. Then nothing reaches this map and the
+ * whole file can be deleted.
  *
  * @package Workation
  */
