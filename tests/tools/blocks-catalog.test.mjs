@@ -6,6 +6,8 @@ import {
   buildCatalog,
   parentBlocksScript,
   parseParentBlocks,
+  parseLegacyBlocks,
+  legacyScript,
 } from '../../tools/blocks-catalog.mjs';
 
 test('extractWrapperClass finds the starter- wrapper class', () => {
@@ -98,4 +100,44 @@ test('parseParentBlocks parses delimited block.json + render.php chunks', () => 
 
 test('parseParentBlocks returns no records from noise-only output', () => {
   assert.deepEqual(parseParentBlocks('✔ Ran sh in cli.\n'), []);
+});
+
+test('parseLegacyBlocks reads Policy::LEGACY and ignores the other lists', () => {
+  const php = `
+	public const FUNCTIONAL = array(
+		'pediment/form',
+	);
+
+	public const LEGACY = array(
+		'pediment/hero',
+		'pediment/faq-item',
+	);
+
+	public const RULES = array(
+		'Use only the blocks in allowedBlocks.',
+	);`;
+  assert.deepEqual(parseLegacyBlocks(php), ['pediment/hero', 'pediment/faq-item']);
+  assert.deepEqual(parseLegacyBlocks('<?php // no policy'), []);
+});
+
+test('legacyScript reads Policy.php from both plugin roots', () => {
+  const script = legacyScript();
+  assert.match(script, /plugins\/pediment-plugin\/src\/Content\/Policy\.php/);
+  assert.match(script, /plugins\/plugin\/src\/Content\/Policy\.php/);
+});
+
+test('buildCatalog moves legacy blocks into a do-not-use part without attributes', () => {
+  const records = [
+    { source: 'parent', blockJson: { name: 'pediment/hero', title: 'Hero', description: 'Old.',
+      attributes: { heading: { type: 'string' } } }, renderPhp: `'class' => 'starter-hero'` },
+    { source: 'parent', blockJson: { name: 'pediment/form', title: 'Form', description: 'Forms.' } },
+  ];
+  const existing = '## pediment/hero\n\n**Use when:** leading headline with CTA.\n';
+  const md = buildCatalog(records, existing, ['pediment/hero']);
+  const legacyPart = md.slice(md.indexOf('# Legacy blocks'));
+  assert.ok(md.indexOf('## pediment/form') < md.indexOf('# Legacy blocks'));
+  assert.match(legacyPart, /## pediment\/hero[\s\S]*\*\*Status:\*\* legacy/);
+  assert.match(legacyPart, /\*\*Use when:\*\* Do not use\./);
+  assert.doesNotMatch(md, /leading headline with CTA/);
+  assert.doesNotMatch(legacyPart, /Attributes|starter-hero/);
 });
