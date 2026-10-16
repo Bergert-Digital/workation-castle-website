@@ -128,4 +128,27 @@ test.describe('Converted pediment blocks', () => {
       expect(overlapX && overlapY, `step titles ${i} and ${i + 1} overlap`).toBe(false);
     }
   });
+
+  test('FAQ accordion keeps its rounded panel and opens to show the answer', async ({ page }) => {
+    await page.goto('/guide/faq/');
+    const item = page.locator('details.is-style-accordion').first();
+    const summary = item.locator('> summary');
+
+    const style = await item.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { radius: cs.borderTopLeftRadius, background: cs.backgroundColor };
+    });
+    // --wp--custom--radius--md-lg
+    expect(style.radius).toBe('16px');
+    expect(style.background).toBe(await tokenColor(page, '--wp--preset--color--surface-elevated'));
+    // The legacy accordion's tall, easy-to-tap question row.
+    expect(await summary.evaluate((el) => getComputedStyle(el).minHeight)).toBe('78px');
+
+    const answer = item.locator('> :not(summary)').first();
+    await expect(item).not.toHaveAttribute('open', '');
+    await summary.click();
+    await expect(item).toHaveAttribute('open', '');
+    await expect(answer).toBeVisible();
+    expect((await answer.innerText()).trim()).not.toBe('');
+  });
 });
