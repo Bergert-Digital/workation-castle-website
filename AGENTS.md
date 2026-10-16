@@ -72,8 +72,9 @@ Two docs orient you before you touch anything:
 | Scope | Layer | How |
 |---|---|---|
 | Per-page / per-template content | **DB** | Site Editor (Appearance → Editor) |
-| Site structure (which pages exist, the menu) | **This repo** | `seed/manifest.php`, then `wp pediment seed` |
-| Page content | **This repo** | `patterns/<page>.php` |
+| Site structure (a new page, the menu) | **This repo** | `seed/manifest.php` plus `patterns/<key>.php`, then `npm run seed:plan` and `npm run seed` (adds what is missing, never changes a page, menu, translation or setting a person made) |
+| Page content of a page that exists | **DB**, then adopted | The `pediment-write-page` MCP tool (validate with client-kit's `validate-blocks` first) or the block editor; then `npm run adopt -- <key>` writes it into `patterns/<key>.php` so new environments match. Never copy markup out of the database by hand |
+| Page content of a new page | **This repo** | `patterns/<key>.php` |
 | Design tokens (color, type scale, etc.) | **This repo** | `theme.json` |
 | Site-specific CSS rule | **This repo** | `theme.json` `styles.css`, or a stylesheet enqueued from `functions.php` |
 | New client-specific block | **This repo** | `src/blocks/<block>/` (worked example: `src/blocks/promo-banner/`) |
@@ -101,7 +102,8 @@ catalog follows one split, and so must child blocks. Reference implementations:
 
 - **Local dev: wp-env**, started from this directory with `npm run env:setup` (boot,
   activate, configure languages, seed). `.wp-env.json` pins the published plugin release
-  (downloaded on `env:start`) and loads Polylang Pro vendored in `tools/vendor/polylang-pro/`
+  (downloaded on `env:start`), installs the MCP Adapter plugin (`mcp-adapter`, which serves
+  Pediment's MCP tools) and loads Polylang Pro vendored in `tools/vendor/polylang-pro/`
   (staging runs Pro; its shared-slug support is what lets the translated front pages share the
   slug `home`). No auth required.
 - **The mount name matters.** wp-env mounts the theme at
