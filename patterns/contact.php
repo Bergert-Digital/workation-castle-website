@@ -12,15 +12,15 @@
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"},"style":{"spacing":{"blockGap":"var:preset|spacing|60"}}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
-<!-- wp:pediment/prose -->
-<!-- wp:heading -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:heading -->
 <h2 class="wp-block-heading">Send us a message</h2>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
 <p>Tell us a little about your plans — your dates, group size and what you have in mind — and we'll get back to you. See how we handle your details in our <a href="/privacy-policy/">Privacy Policy</a>.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 
 <!-- wp:group {"className":"wc-form-card","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-form-card is-layout-constrained wp-block-group-is-layout-constrained">
@@ -33,8 +33,8 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:pediment/prose -->
-<!-- wp:heading -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:heading -->
 <h2 class="wp-block-heading">Other ways to reach us</h2>
 <!-- /wp:heading -->
 
@@ -60,7 +60,7 @@
 
 <!-- wp:paragraph -->
 <p>See the castle on <a href="https://www.instagram.com/workation_castle/" target="_blank" rel="noreferrer noopener">Instagram</a>. Company and legal details are on our <a href="/imprint/">Imprint</a>.</p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 </div>
 <!-- /wp:group -->

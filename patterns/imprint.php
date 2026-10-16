@@ -12,8 +12,8 @@
 
 <!-- wp:group {"className":"wc-wrap","layout":{"type":"constrained"}} -->
 <div class="wp-block-group wc-wrap is-layout-constrained wp-block-group-is-layout-constrained">
-<!-- wp:pediment/prose -->
-<!-- wp:paragraph -->
+<!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
+<div class="wp-block-group is-style-prose"><!-- wp:paragraph -->
 <p>The Workation Castle is operated by:</p>
 <!-- /wp:paragraph -->
 
@@ -69,7 +69,7 @@
 
 <!-- wp:paragraph -->
 <p><a href="/privacy-policy/">Privacy Policy →</a></p>
-<!-- /wp:paragraph -->
-<!-- /wp:pediment/prose -->
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 </div>
 <!-- /wp:group -->
