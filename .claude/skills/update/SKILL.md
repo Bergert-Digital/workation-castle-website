@@ -1,9 +1,9 @@
 ---
 name: update
-description: Refresh this Pediment client child theme from the upstream template. Syncs the skills themselves, pulls new framework docs and starter blocks (review-and-adopt, never overwriting the client's own blocks or their curated docs), regenerates the block catalog from the client's own copy, optionally refreshes AGENTS.md, and warns if the installed parent is older than the latest blocks require. Run anytime.
+description: Refresh this Pediment client theme from the upstream template. Syncs the skills themselves, pulls new framework docs and starter blocks (review-and-adopt, never overwriting the client's own blocks or their curated docs), regenerates the block catalog from the client's own copy, optionally refreshes AGENTS.md, and warns if the pinned Pediment plugin is older than the template's. Run anytime.
 ---
 
-# Update a client child theme from the Pediment template
+# Update a client theme from the Pediment template
 
 Pull the latest skills, framework docs, and starter blocks from the upstream template into this
 client repo, without touching the client's own customizations. Run this **anytime** the
@@ -138,25 +138,16 @@ git checkout pediment-template/main -- src/blocks/<name> # adopt (only on approv
 show the diff and ask — the client's version wins unless the user explicitly takes the
 template's.
 
-### Step 6: Review-and-adopt the seeder framework
+### Step 6: Seeding is the plugin's job — nothing to adopt
 
-The content-seeding framework ships as template PHP: `inc/media.php` (the
-`workation_media_id()` resolver), `inc/seed.php` (the `wp workation seed` core +
-Tools → "Seed content" button), `inc/seed-demo.php` (`wp workation seed-demo` showcase),
-`inc/nav-seed.php` (default-nav seeding), and the `assets/seed/` demo assets. Diff and adopt
-the same way as blocks:
+The seeding engine ships in the **Pediment plugin** (`wp pediment seed`, Settings → Pediment
+→ Seeding). This client theme owns only its inputs: `seed/manifest.php` and `patterns/`. Do
+**not** adopt `inc/media.php`, `inc/seed.php`, `inc/seed-demo.php` or `inc/nav-seed.php` from
+an older template: they belong to the retired in-theme seeder.
 
-```bash
-git diff HEAD pediment-template/main -- inc/media.php inc/seed.php inc/seed-demo.php inc/nav-seed.php assets/seed/
-git checkout pediment-template/main -- inc/media.php inc/seed.php inc/seed-demo.php inc/nav-seed.php assets/seed/  # adopt (only on approval)
-```
-
-**Never clobber a client's customized `inc/seed.php` or `patterns/`.** `patterns/` is
-client-owned content (frozen by the `create-seed-content` skill) — this skill never touches
-it. If `inc/seed.php` differs because the client extended it, show the diff and ask; the
-client's version wins unless the user explicitly takes the template's. If the client requires
-the seeder, ensure `functions.php` wires up the new files (require + CLI/admin registration) —
-show that diff against the template too.
+**Never clobber the client's `seed/manifest.php` or `patterns/`.** They are client-owned
+content — this skill never touches them. If the template's manifest differs, show the diff
+for information only; the client's version wins.
 
 ### Step 7: Regenerate the catalog from the client's own copy
 
@@ -165,7 +156,8 @@ npx wp-env run cli wp option get siteurl >/dev/null 2>&1 || npm run env:start
 npm run blocks:catalog
 ```
 
-The generator rewrites `docs/PEDIMENT-BLOCKS.md` from the installed parent's blocks plus this
+The generator rewrites `docs/PEDIMENT-BLOCKS.md` from the installed Pediment plugin's blocks
+(and its `Policy::LEGACY` list, which it files under "Legacy blocks (do not use)") plus this
 client's `src/blocks/`, **carrying over every "Use when" note it finds in the file already
 there**. Because Step 3 left that file alone, the client's curated notes survive; blocks that
 are genuinely new get `_(add guidance)_`.
@@ -250,15 +242,16 @@ If the user approves, write the template payload over `AGENTS.md`
 (`git show pediment-template/main:templates/downstream/AGENTS.md > AGENTS.md`) and re-apply the
 client's name in the first heading.
 
-### Step 11: Parent-version check
+### Step 11: Plugin-version check
 
 ```bash
-echo "template parent pin:"; git show pediment-template/main:.wp-env.json | grep -o 'pediment/releases/download/v[0-9.]*'
-echo "client parent pin:";   grep -o 'pediment/releases/download/v[0-9.]*' .wp-env.json
+echo "template plugin pin:"; git show pediment-template/main:.wp-env.json | grep -o 'pediment/releases/download/v[0-9.]*'
+echo "client plugin pin:";   grep -o 'pediment/releases/download/v[0-9.]*' .wp-env.json
 ```
 
-If the client's parent is older than the template's, warn that newly-documented blocks may
-not render until the parent pin is bumped (and wp-env restarted). Do not bump it silently.
+If the client's Pediment plugin is older than the template's, warn that newly-documented blocks
+and named styles may not render until the plugin pin is bumped (and wp-env restarted). Do not
+bump it silently.
 
 ### Step 12: Report
 
@@ -271,7 +264,7 @@ exactly the failure this report exists to catch:
 - **`docs/STYLING.md`:** skipped (template adds nothing) / merged which sections / untouched.
 - **Skills:** which were synced from the template, which were kept because the client had
   customized them.
-- Blocks adopted or skipped, seeder framework adopted or skipped, `AGENTS.md` refreshed or
-  left as-is, and any parent-version warning.
+- Blocks adopted or skipped, `AGENTS.md` refreshed or left as-is, and any
+  plugin-version warning.
 
 Then remind the user to review and commit.

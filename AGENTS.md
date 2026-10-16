@@ -62,10 +62,10 @@ Two docs orient you before you touch anything:
 
 - **Building a page, or picking which block to use?** Read
   [docs/PEDIMENT-BLOCKS.md](./docs/PEDIMENT-BLOCKS.md) — the generated catalog of every
-  available block (parent + child), each with a "Use when" note and its attributes. It's
-  the source of truth for *what blocks exist*; an agent that skips it hand-rolls markup
-  instead of composing Pediment blocks. Regenerate it after adding or changing a block:
-  `npm run blocks:catalog`.
+  available block (plugin + client; legacy blocks listed apart and marked do-not-use), each
+  with a "Use when" note and its attributes. It's the source of truth for *what blocks
+  exist*; an agent that skips it hand-rolls markup instead of composing Pediment blocks.
+  Regenerate it after adding or changing a block: `npm run blocks:catalog`.
 - **Styling, or "which layer owns this?"** Read [docs/STYLING.md](./docs/STYLING.md) —
   the decision tree. Short version:
 
@@ -83,9 +83,14 @@ Two docs orient you before you touch anything:
 
 ## Authoring a block editor
 
-Match the parent library's editing UX — don't invent your own. The whole Pediment
-catalog follows one split, and so must child blocks. Reference implementations:
-`src/blocks/promo-banner/` (single block) and any parent `*-grid` (collection).
+Pages are composed from **core blocks and named block styles** (group, columns, cover,
+heading, buttons, …). Never use the legacy `pediment/*` presentation blocks (`hero`, `cta`,
+`feature-grid`, `faq`, … — hidden from the inserter, deleted in Pediment 5). See
+"Compose sections from core blocks" in [docs/STYLING.md](./docs/STYLING.md).
+
+Match the Pediment plugin's editing UX when you build a client block — don't invent your
+own. Reference implementations: `src/blocks/promo-banner/` (single block) and the plugin's
+`pediment/form` → `pediment/form-field` (collection).
 
 - **Visible text → edit in the canvas** with `RichText` (headings, body, quotes, labels).
   Rule of thumb: if the client reads it on the page, they edit it on the page.
@@ -94,9 +99,9 @@ catalog follows one split, and so must child blocks. Reference implementations:
   (`ToggleControl`/`SelectControl`). Don't put media pickers or URL fields inline.
 - **Repeating items → native `InnerBlocks`**, never hand-rolled add/remove buttons.
   Use `useInnerBlocksProps` with `allowedBlocks` + `template` + `templateLock: false`,
-  and make each item its own child block (as `testimonial-grid` → `testimonial`,
-  `stat-grid` → `stat`, `steps` → `step` do). You get the `+` appender, drag-reorder,
-  per-item selection, and Site-Editor styling for free — a custom repeater loses all of it.
+  and make each item its own child block (as `form` → `form-field` does). You get the
+  `+` appender, drag-reorder, per-item selection, and Site-Editor styling for free — a
+  custom repeater loses all of it.
 
 ## Environment
 

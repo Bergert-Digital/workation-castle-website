@@ -15,7 +15,7 @@ diverges from the original; they are not independent goals.
 ## Inputs per section
 
 1. **Rendered section** — scroll the built page to the section, **wait out the entrance
-   animation** (Pediment fades sections in on scroll; capture too early and it reads as
+   animation** (sections can fade in on scroll; capture too early and it reads as
    blank/grey — wait ≥1.5 s after it enters the viewport), screenshot the full section.
 2. **Source section** — the matching screenshot/region from the source page for this
    section. This is the ground truth.
@@ -24,11 +24,11 @@ diverges from the original; they are not independent goals.
 
 | Category | What FAILs it |
 |---|---|
-| **Fidelity to original** | The rendered section diverges visibly from the source section — different layout rhythm, missing content blocks, wrong visual weight, or the overall impression does not match. **Also fails if the section looks like a recolored stock Pediment block rather than the source** (e.g. Pediment's bordered white feature cards with peach icon-squares, the stat-card hero, the default band rhythm) — recognisable Pediment defaults are a fidelity FAIL even when colors/fonts are on-brand. This is the primary category. |
-| **Spacing & padding** | Content touching edges; no vertical breathing room; cramped or collapsed band. (e.g. `hero media-bg` has no `padding-block` — must be added.) |
+| **Fidelity to original** | The rendered section diverges visibly from the source section — different layout rhythm, missing content blocks, wrong visual weight, or the overall impression does not match. **Also fails if the section looks like a recolored stock Pediment style rather than the source** (e.g. the default `card` look with its bordered white cards, the default `stat` or `panel` look, the default `band` rhythm) — recognisable Pediment defaults are a fidelity FAIL even when colors/fonts are on-brand. This is the primary category. |
+| **Spacing & padding** | Content touching edges; no vertical breathing room; cramped or collapsed band. (e.g. a `media-card` cover with no vertical padding — must be added.) |
 | **Image sizing & aspect** | Images rendered far larger or smaller than the source; portrait images ballooning a column; no max-width/height constraint. |
-| **Block-usage correctness** | Wrong block for the job — e.g. a `pediment/cta` band (title+body+buttons) used as a lone button. A single link → `core/button`. A conversion band → `cta`. |
-| **Contrast & readability** | Text low-contrast on its band (`is-style-band-navy` only lightens `stat`/`pull-quote`/`social-links`; never put `section-head`/`prose`/`feature` on navy). |
+| **Block-usage correctness** | Wrong block for the job — e.g. a `panel` group (title+body+buttons) used for a lone button. A single link → `core/button`. A conversion band → a `panel` group with heading, text and buttons. Any legacy `pediment/*` presentation block (`hero`, `cta`, `feature-grid`, `faq`, …) is an automatic FAIL: compose it from core blocks and named styles (`docs/STYLING.md`). |
+| **Contrast & readability** | Text low-contrast on its band (a dark `panel` or client-theme band must set light text; never put text-heavy groups such as `prose` or `card` on a dark background that does not). |
 | **Alignment & hierarchy** | Misaligned columns; heading/lead/body hierarchy unclear; orphaned/empty containers. |
 | **Content fidelity** | Source copy or imagery for this section is missing or wrong. |
 

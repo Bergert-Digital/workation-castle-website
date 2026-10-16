@@ -1,11 +1,11 @@
 ---
 name: port-site
-description: Capture a client's brand from their live homepage (colors, fonts, radii), re-skin the child theme.json, and verify the brand renders correctly. Run once per client before using /port-page. Produces assets/fonts/<font>.woff2 and a re-skinned theme.json in the repo.
+description: Capture a client's brand from their live homepage (colors, fonts, radii), re-skin this theme's theme.json, and verify the brand renders correctly. Run once per client before using /port-page. Produces assets/fonts/<font>.woff2 and a re-skinned theme.json in the repo.
 ---
 
 # Port a site's brand to Pediment (phase 1)
 
-Re-skin the child theme to match a client's visual brand. Extract colors, fonts,
+Re-skin the client theme to match a client's visual brand. Extract colors, fonts,
 and radii from their live homepage; normalize them through `tools/brand-extract.mjs`;
 download the webfont; patch `theme.json` via `tools/theme-reskin.mjs`; verify the
 result with the shared fidelity critic. Phase 2 (header/footer template parts) is a
@@ -34,18 +34,20 @@ All per-run scratch files go under `.context/port-site/` (gitignored).
 
 ### Step 1: Resolve the theme slug
 
-The child-theme slug is the basename of the current working directory — never
+The theme slug is the basename of the current working directory — never
 hard-code it. Resolve it once and use it throughout:
 
 ```bash
 THEME_SLUG=$(basename "$PWD")
 ```
 
-The child-theme lives in the wp-env container at:
+The theme lives in the wp-env container at:
 `wp-content/themes/$THEME_SLUG/`
 
-The parent theme.json lives at:
-`wp-content/themes/pediment/theme.json`
+This theme is standalone: its own `theme.json` is complete (palette, type scale,
+spacing scale) and is the base for the re-skin. There is no parent theme. The Pediment
+plugin's named styles (`band`, `card`, `panel`, …) read the palette slugs, so the
+re-skin keeps every slug and changes only values.
 
 ---
 
@@ -167,10 +169,9 @@ Verify the file exists and is > 1 KB before continuing.
 
 ### Step 5: Re-skin theme.json
 
-**5a. Read the parent theme.json from the container:**
+**5a. Take the current theme.json as the base:**
 ```bash
-wp-env run cli cat wp-content/themes/pediment/theme.json \
-  > .context/port-site/parent-theme.json
+cp theme.json .context/port-site/base-theme.json
 ```
 
 **5b. Call `reskin` with the brand and font file:**
@@ -180,25 +181,30 @@ import { readFileSync, writeFileSync } from 'fs';
 import { reskin } from './tools/theme-reskin.mjs';
 
 const brand   = JSON.parse(readFileSync('.context/port-site/brand.json', 'utf8'));
-const parent  = JSON.parse(readFileSync('.context/port-site/parent-theme.json', 'utf8'));
+const base    = JSON.parse(readFileSync('.context/port-site/base-theme.json', 'utf8'));
 const FONT_FILE = process.env.FONT_FILE;
 
-const child = reskin(brand, parent, FONT_FILE);
-writeFileSync('theme.json', JSON.stringify(child, null, 2) + '\n');
-console.log('theme.json written — palette slots:', child.settings.color.palette.length);
+const skin = reskin(brand, base, FONT_FILE);
+// Merge only the two re-skinned arrays into the full theme.json.
+base.settings.color.palette = skin.settings.color.palette;
+base.settings.typography.fontFamilies = skin.settings.typography.fontFamilies;
+writeFileSync('theme.json', JSON.stringify(base, null, 2) + '\n');
+console.log('theme.json written — palette slots:', base.settings.color.palette.length);
 EOF
 ```
 (Pass `FONT_FILE` in the environment, e.g. `FONT_FILE=plus-jakarta-sans.woff2 node ...`)
 
 **What `reskin` does (do not duplicate this logic):**
-- Forks the full parent `settings.color.palette` array — preserving every slot,
+- Forks the full `settings.color.palette` array of the base — preserving every slot,
   overwriting only the named brand slots by slug.
-- Forks the full parent `settings.typography.fontFamilies` array — overwriting
+- Forks the full `settings.typography.fontFamilies` array — overwriting
   the `body` and `heading` entries with the new family + `@font-face` pointing
   to `file:./assets/fonts/<FONT_FILE>`.
-- Emits a minimal child `theme.json` (only `settings.color.palette` and
-  `settings.typography.fontFamilies`) so WordPress merges it with the parent
-  for all other settings. Do NOT write a full copy of every parent setting.
+- Returns a minimal object (only `settings.color.palette` and
+  `settings.typography.fontFamilies`). Merge those two arrays into the complete
+  `theme.json` as shown above. Never write the minimal object over `theme.json`:
+  this theme has no parent to supply the rest, so it would delete the type scale,
+  spacing, shadows and block styles.
 
 **5c. Clear WordPress transients** so WP re-parses the updated theme.json:
 ```bash
@@ -219,7 +225,7 @@ wp-env run --env-cwd=/var/www/html cli wp transient delete --all
 `http://localhost:8900/`
 
 Let the page fully load. **Wait at least 1.5 s after each section enters the
-viewport before capturing** — Pediment fades sections in on scroll and an early
+viewport before capturing** — sections can fade in on scroll and an early
 screenshot will appear blank or grey.
 
 Capture three screenshots:
@@ -270,25 +276,25 @@ under `.context/` (gitignored).
 
 Tell the user:
 
-> Brand established. The child theme.json carries the client's color palette
+> Brand established. The theme.json carries the client's color palette
 > and `<FamilyName>` webfont. You can now run `/port-page <url>` for each page.
 >
 > **Not yet done:** header, footer, and nav template parts are a later phase
-> and will be tackled separately — the site will render with the default
-> Pediment header/footer until those are ported.
+> and will be tackled separately — the site will render with the current
+> header/footer until those are ported.
 
 ---
 
 ## Constraint reminders
 
-- **Fork, do not copy-paste.** `reskin` forks the full parent palette and
-  fontFamilies arrays. Never hand-write color values into theme.json — always
+- **Fork, do not copy-paste.** `reskin` forks the full palette and
+  fontFamilies arrays of the base `theme.json`. Never hand-write color values into theme.json — always
   go through `normalizeBrand` + `reskin`.
 - **Clear transients after every theme.json write.** `wp transient delete --all`
   is mandatory; skipping it means WP serves stale cached tokens.
 - **Theme slug is dynamic.** Always derive it from `basename "$PWD"`. Never
   hard-code `bozeman` or any other client name.
-- **Entrance animations.** Always wait ≥ 1.5 s after a Pediment section enters
+- **Entrance animations.** Always wait ≥ 1.5 s after a section enters
   the viewport before screenshotting. Capturing early will produce a blank/grey
   frame and fool the fidelity critic into reporting missing content.
 - **One font file.** `reskin` wires a single `file:` `@font-face` entry.
