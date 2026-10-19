@@ -99,14 +99,18 @@ test.describe('Converted pediment blocks', () => {
     expect(deco.color).toBe(await tokenColor(page, '--wc-amber'));
   });
 
-  test('arrival steps keep the legacy number badges and their titles do not overlap', async ({ page }) => {
+  test('arrival steps sit in a card, keep the number badges and their titles do not overlap', async ({ page }) => {
     await page.goto('/guide/arrival/');
     const steps = page.locator('.is-style-steps').first();
-    // No cream card around the steps: the legacy card rule is scoped to
-    // body.parent-pageid-179, which matches no guide page (production's guide
-    // is page 201), so the legacy steps rendered on the band background.
-    const background = await steps.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(background).toBe('rgba(0, 0, 0, 0)');
+    // On a guide sub-page (body.wc-guide-subpage) the steps are lifted into a
+    // cream card: surface background, border, 20px radius.
+    const card = await steps.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { background: cs.backgroundColor, radius: cs.borderTopLeftRadius, border: cs.borderTopWidth };
+    });
+    expect(card.background).toBe(await tokenColor(page, '--wp--preset--color--surface'));
+    expect(card.radius).toBe('20px');
+    expect(card.border).toBe('1px');
 
     // Each step's number badge: a surface-coloured tile with the legacy 10px radius.
     const badge = await steps.locator('> *').first().evaluate((el) => {

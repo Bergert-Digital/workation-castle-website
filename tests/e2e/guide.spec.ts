@@ -28,6 +28,27 @@ test.describe('Guest Guide', () => {
     expect(glyph).toBe('rgb(36, 28, 18)');
   });
 
+  test('guide sub-pages carry the body class and clear the fixed header on anchor jumps', async ({ page }) => {
+    await page.goto('/guide/arrival/');
+    await expect(page.locator('body')).toHaveClass(/\bwc-guide-subpage\b/);
+    // The mode cards jump to #by-car …; the band stops below the 76px header.
+    await expect(page.locator('#by-car')).toHaveCSS('scroll-margin-top', '96px');
+    await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
+    // The sub-page spacing pads the content wrap, not the header's .wc-wrap row.
+    await expect(page.locator('.wp-block-post-content > .wc-wrap').first()).toHaveCSS('padding-top', '56px');
+    const headerPad = await page.locator('.header-inner').evaluate((el) => getComputedStyle(el).paddingTop);
+
+    // The guide itself is not a sub-page; its header row is padded the same.
+    await page.goto('/guide/');
+    await expect(page.locator('body')).not.toHaveClass(/\bwc-guide-subpage\b/);
+    await expect(page.locator('.header-inner')).toHaveCSS('padding-top', headerPad);
+  });
+
+  test('translated guide sub-pages carry the body class too', async ({ page }) => {
+    await page.goto('/de/guide-de/arrival-de/');
+    await expect(page.locator('body')).toHaveClass(/\bwc-guide-subpage\b/);
+  });
+
   test('cards are width-constrained and centered, not full-bleed', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1100 });
     await page.goto('/guide/');
