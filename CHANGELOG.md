@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.9.0...v1.9.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* **guide:** keep the default gap on non-arrival sub-pages ([ac19c84](https://github.com/Bergert-Digital/workation-castle-website/commit/ac19c84c0ea31862dbc1a8359a6eaabb2b455c83))
+* **guide:** scope the guide sub-page rules by body class ([312f0ff](https://github.com/Bergert-Digital/workation-castle-website/commit/312f0ff06c016eda5888f00d1379b893be8c06ac))
+
+
+### Refactors
+
+* **styles:** drop the legacy starter CSS ([a8aa725](https://github.com/Bergert-Digital/workation-castle-website/commit/a8aa72536d7714575e4d4a088013d960654e0c56))
+
 ## [1.9.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.8.0...v1.9.0) (2026-10-19)
 
 
