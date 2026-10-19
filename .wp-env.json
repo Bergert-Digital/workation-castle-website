@@ -3,7 +3,7 @@
   "phpVersion": "8.1",
   "themes": [],
   "plugins": [
-    "https://github.com/Bergert-Digital/pediment/releases/download/v4.2.0/pediment-plugin.zip",
+    "https://github.com/Bergert-Digital/pediment/releases/download/v4.3.0/pediment-plugin.zip",
     "./tools/vendor/polylang-pro",
     "https://downloads.wordpress.org/plugin/mcp-adapter.0.7.0.zip"
   ],

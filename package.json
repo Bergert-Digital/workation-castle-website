@@ -4,7 +4,7 @@
   "private": true,
   "pediment": {
     "template": "3.2.0",
-    "plugin": "3.2.0"
+    "plugin": "4.3.0"
   },
   "scripts": {
     "start": "wp-scripts start --webpack-src-dir=src/blocks --output-path=build/blocks",
