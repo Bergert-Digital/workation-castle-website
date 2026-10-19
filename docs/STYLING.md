@@ -58,7 +58,10 @@ Pages are built from **core blocks plus named block styles** (a style is the
 in `Policy::LEGACY` (`pediment/hero, cta, feature, feature-grid, stat, stat-grid, step,
 steps, section-head, media-text, testimonial, testimonial-grid, logo-cloud, pull-quote,
 image-caption, prose, faq, faq-item`). They still render old content, but the inserter
-hides them and Pediment 5 deletes them. Never use them in new markup.
+hides them and Pediment 5 deletes them. Never use them in new markup. Every page on
+this site is converted, so this theme no longer styles their `.starter-*` markup: a
+legacy block renders with the plugin's defaults only. (`.starter-band` is not legacy; its
+rules stay.)
 
 Not legacy: `pediment/form`, `form-field`, `slider`, `mega-menu`, `social-links`,
 `blog-index`. From Pediment 4.3.0 there is also `pediment/icon` (a Phosphor icon; the

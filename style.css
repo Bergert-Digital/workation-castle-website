@@ -171,24 +171,10 @@ body {
 	text-decoration: none;
 }
 
-/* The feature-card call-to-action is painted in the accent colour by the parent
-   block (`.starter-feature__more`, 0,1,0). In the editor that RichText renders as
-   a <span>, so no link rule touches it and it stays yellow. On the frontend it is
-   a real <a>, where both the reset above (`.wp-site-blocks a`, 0,1,1) and the
-   theme.json link colour outrank the block rule and turn it near-black. Restore
-   the accent here. `a.starter-feature__more` (0,1,1) beats the theme.json link
-   rule outright and wins the tie with the reset by source order, yet still loses
-   to the `.guide-cards` whole-card override (0,2,0). Hover already works via the
-   parent block's `.starter-feature__more:hover` (0,2,0). */
-a.starter-feature__more {
-	color: var(--wp--preset--color--accent);
-}
-
-/* Converted markup: the card's call-to-action is p.pediment-card-link > a, and
-   the converter drops the legacy arrow icon, so draw it as a masked
-   currentColor box. Same accent colour and hover as `.starter-feature__more`;
-   `.wp-site-blocks` lifts it over the global link reset (0,1,1). The
-   whole-card variant (`.guide-cards`, below) hides it. */
+/* Card call-to-action (p.pediment-card-link > a): accent colour, with the
+   arrow drawn as a masked currentColor box. `.wp-site-blocks` lifts it over
+   the global link reset (0,1,1). The whole-card variant (`.guide-cards`,
+   below) hides it. */
 .wp-site-blocks .pediment-card-link a {
 	align-items: center;
 	color: var(--wp--preset--color--accent);
@@ -196,8 +182,8 @@ a.starter-feature__more {
 	font-size: .92rem;
 	font-weight: 700;
 	gap: 8px;
-	/* On the inline-flex link, as on the legacy `__more` link, so the line
-	   box (and the card height) comes out the same. */
+	/* On the inline-flex link, not on the paragraph, so the line box (and
+	   the card height) comes out as designed. */
 	margin-block-start: 18px;
 }
 
@@ -457,87 +443,8 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 	padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
-/* Feature cards (global): a white panel with a soft drop shadow, left-aligned
-   content and a solid-amber icon tile with a dark glyph (matching the homepage
-   travel-mode icons) instead of the parent block's centred, cream, light-tint
-   default. */
-.starter-feature {
-	background: var(--wp--preset--color--surface-elevated);
-	border-color: transparent;
-	border-radius: 24px;
-	box-shadow: 0 18px 40px -22px rgba(58, 38, 22, .4);
-	text-align: left;
-}
-
-.starter-feature:hover {
-	border-color: transparent;
-	box-shadow: 0 24px 50px -20px rgba(58, 38, 22, .5);
-}
-
-.starter-feature__ic {
-	background: var(--wc-yellow);
-	color: var(--wc-ink);
-	margin-inline: 0;
-}
-
-/* Cards can carry an image instead of the icon tile (pediment ≥ v3.8.0);
-   pull it out of the parent's centred default the same way. */
-.starter-feature__img {
-	margin-inline: 0;
-}
-
-/* Restore the title→text gap the global heading/paragraph margin reset flattens. */
-.wp-site-blocks .starter-feature__text {
-	margin-top: 10px;
-}
-
-/* Per-card alignment styles for the legacy pediment/feature block (their
-   registration is gone; no page uses them, the rules stay with the other
-   legacy CSS). Left is the default above; these two are the opt-in
-   variants. The icon tile and the
-   image are fixed-width blocks, so they follow via margin-inline, not
-   text-align. */
-.starter-feature.is-style-align-center {
-	text-align: center;
-}
-
-.starter-feature.is-style-align-center .starter-feature__ic,
-.starter-feature.is-style-align-center .starter-feature__img {
-	margin-inline: auto;
-}
-
-.starter-feature.is-style-align-right {
-	text-align: right;
-}
-
-.starter-feature.is-style-align-right .starter-feature__ic,
-.starter-feature.is-style-align-right .starter-feature__img {
-	margin-inline: auto 0;
-}
-
-/* Whole card is the click target. The parent block renders a `__more` link;
-   stretch it to cover the card and hide its visible "Open →" text — the link
-   text stays as the anchor's accessible name (per-card, so each link is
-   distinct). */
-.guide-cards .starter-feature {
-	position: relative;
-}
-
-.guide-cards .starter-feature__more {
-	position: absolute;
-	inset: 0;
-	margin: 0;
-	/* Invisible but still the accessible name of the link. */
-	color: transparent;
-	font-size: 0;
-}
-
-.guide-cards .starter-feature__more svg {
-	display: none;
-}
-
-/* Converted markup (core/group .guide-cards grid of is-style-card groups, each
-   ending in a p.pediment-card-link): the same whole-card link. The anchor
+/* Whole card is the click target (core/group .guide-cards grid of
+   is-style-card groups, each ending in a p.pediment-card-link). The anchor
    itself is stretched over the card, so its box is the click target and its
    text stays the accessible name. */
 .guide-cards .is-style-card {
@@ -562,15 +469,13 @@ body header.site-header:has(.wp-block-navigation__responsive-container.is-menu-o
 	content: none;
 }
 
-/* Converted feature grids (a core/group grid whose children are is-style-card
-   groups — .guide-cards and the grids on DB pages such as /guide/catering/):
-   the legacy feature grid's layout instead of the auto-fill minimum column
-   width the converter wrote. Up to three cards per row with a 22px gap; a
-   leftover row is centred, and one column up to 781px — except four cards,
-   which read as 2 + 2 at every width (the legacy 4-card rule outranked its
-   own mobile rule; the 4-card rule here does the same). Six tracks with
-   each card spanning two let a leftover card or pair sit in the middle, as
-   the legacy flex row did. */
+/* Card grids (a core/group grid whose children are is-style-card groups —
+   .guide-cards and the grids on DB pages such as /guide/catering/), instead
+   of the auto-fill minimum column width the converter wrote. Up to three
+   cards per row with a 22px gap; a leftover row is centred, and one column
+   up to 781px — except four cards, which read as 2 + 2 at every width (the
+   4-card rule outranks the mobile rule). Six tracks with each card spanning
+   two let a leftover card or pair sit in the middle. */
 .wp-site-blocks .is-layout-grid:has(> .is-style-card) {
 	gap: 22px;
 	grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1061,49 +966,13 @@ body.no-hero .wp-site-blocks > main {
 	text-align: center;
 }
 
-.intro .starter-section-head {
-	margin-inline: auto;
-	max-inline-size: 760px;
-}
-
-.starter-section-head {
-	margin-inline: auto;
-	max-inline-size: var(--wc-maxw);
-	padding-inline: var(--wc-gutter);
-}
-
-.starter-section-head__eyebrow {
-	color: var(--wc-amber);
-	font-size: .8rem;
-	font-weight: 700;
-	margin: 0 0 12px;
-	text-transform: uppercase;
-}
-
-.starter-section-head__headline {
-	font-size: clamp(1.9rem, 4.6vw, 3rem);
-	max-inline-size: 20ch;
-}
-
-.starter-section-head.is-alignment-center .starter-section-head__headline,
-.starter-section-head.is-alignment-center .starter-section-head__lead {
-	margin-inline: auto;
-}
-
-.starter-section-head__lead {
-	color: var(--wc-ink-soft);
-	font-size: 1.05rem;
-	margin-top: 16px;
-	max-inline-size: 54ch;
-}
-
-/* Converted section heads (core/group.pediment-section-head: an is-style-eyebrow
-   paragraph, a heading and an is-style-lead paragraph) — the same look as the
-   .starter-section-head* rules above. The eyebrow drops the plugin style's
-   leading line and takes the amber kicker colour; the lead and headline take
-   the legacy sizes and measures. The converter writes a spacing-60 inline
-   bottom margin, which collapses with the next block's 16px gap; the padding
-   makes up the rest of the legacy head gap (head-gap padding + 16px gap). */
+/* Section heads (core/group.pediment-section-head: an is-style-eyebrow
+   paragraph, a heading and an is-style-lead paragraph). The eyebrow drops the
+   plugin style's leading line and takes the amber kicker colour; the lead and
+   headline take the site's sizes and measures. The converter writes a
+   spacing-60 inline bottom margin, which collapses with the next block's 16px
+   gap; the padding makes up the rest of the head gap (head-gap padding + 16px
+   gap). */
 .wp-site-blocks .pediment-section-head {
 	padding-bottom: calc(var(--head-gap, clamp(40px, 5vw, 60px)) - 20px);
 	padding-inline: var(--wc-gutter);
@@ -1131,39 +1000,7 @@ body.no-hero .wp-site-blocks > main {
 	max-inline-size: 54ch;
 }
 
-/* pediment/prose — restore the vertical rhythm and link affordance that the
-   global .wp-site-blocks heading/paragraph reset (margin:0) otherwise flattens.
-   Scoped to .starter-prose so the bespoke .wc-* blocks keep their own spacing. */
-.wp-site-blocks .starter-prose > * + * {
-	margin-block-start: var(--wp--preset--spacing--30);
-}
-
-.wp-site-blocks .starter-prose > h2,
-.wp-site-blocks .starter-prose > h3 {
-	margin-block-start: var(--wp--preset--spacing--60);
-}
-
-.wp-site-blocks .starter-prose > :first-child {
-	margin-block-start: 0;
-}
-
-.wp-site-blocks .starter-prose li + li {
-	margin-block-start: .35rem;
-}
-
-.wp-site-blocks .starter-prose a {
-	color: var(--wc-ink);
-	text-decoration: underline;
-	text-decoration-color: var(--wc-amber);
-	text-decoration-thickness: 2px;
-	text-underline-offset: .18em;
-}
-
-.wp-site-blocks .starter-prose a:hover {
-	text-decoration-color: currentColor;
-}
-
-/* Converted prose (core/group.is-style-prose): the rhythm lives in
+/* Prose (core/group.is-style-prose): the rhythm lives in
    styles/blocks/prose.json; the link look stays here, because the global
    `.wp-site-blocks a` reset (0,1,1) beats any named-style link rule. */
 .wp-site-blocks .is-style-prose a {
@@ -1189,25 +1026,6 @@ body.no-hero .wp-site-blocks > main {
 	padding: clamp(1.75rem, 4vw, 2.75rem);
 }
 
-/* pediment/cta — make the block legible outside the homepage .closing wrapper:
-   the global .wp-site-blocks a{color:inherit} reset otherwise flattens the
-   button label to the band colour (cream on cream). Values match the .closing
-   treatment, so the homepage CTA is unaffected. */
-.wp-site-blocks .starter-cta__body {
-	color: rgba(250, 246, 238, .82);
-	margin-inline: auto;
-}
-
-.wp-site-blocks .starter-cta__btn--primary,
-.wp-site-blocks .starter-cta__btn--primary:hover {
-	background: var(--wc-yellow);
-	color: var(--wc-ink);
-}
-
-.wp-site-blocks .starter-cta__btn--secondary {
-	color: #fff;
-}
-
 /* Deep-cream band variant (surface-sunken), so guide pages can alternate
    between two cream tones like the homepage instead of cream-and-white. */
 .is-style-band-sunken {
@@ -1222,7 +1040,6 @@ html:has(body.parent-pageid-179) {
 }
 
 body.parent-pageid-179 .starter-band,
-body.parent-pageid-179 .starter-prose [id],
 body.parent-pageid-179 .is-style-prose [id] {
 	scroll-margin-top: 96px;
 }
@@ -1241,10 +1058,9 @@ body.parent-pageid-179 .guide-cards {
 
 /* Lift the app-purchase steps into a cream card (matching the mode cards' chrome)
    so the numbered flow reads as a distinct module, not run-on body copy.
-   The converted steps (.is-style-steps) get the same rule. Note: 179 is not the
-   guide's page ID on production (201) or in wp-env, so neither selector
-   matches today; the guide sub-pages render the steps without the card. */
-body.parent-pageid-179 .starter-steps,
+   Note: 179 is not the guide's page ID on production (201) or in wp-env, so
+   this selector matches nothing today; the guide sub-pages render the steps
+   without the card. */
 body.parent-pageid-179 .is-style-steps {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
@@ -1253,10 +1069,9 @@ body.parent-pageid-179 .is-style-steps {
 	margin-block: var(--wp--preset--spacing--50);
 }
 
-/* Converted steps (core/group.is-style-steps grid; the numbers and type are in
-   styles/blocks/steps.json): the legacy steps grid — auto-fit 200px columns,
-   22px gap, one column up to 781px — instead of the converter's minimum
-   column width. */
+/* Steps (core/group.is-style-steps grid; the numbers and type are in
+   styles/blocks/steps.json): auto-fit 200px columns, 22px gap, one column up
+   to 781px — instead of the converter's minimum column width. */
 .is-style-steps.is-layout-grid {
 	align-items: start;
 	gap: 22px;
@@ -1269,8 +1084,8 @@ body.parent-pageid-179 .is-style-steps {
 	}
 }
 
-/* Converted FAQ (a vertical flex group of core/details.is-style-accordion):
-   the legacy item gap. */
+/* FAQ (a vertical flex group of core/details.is-style-accordion): a 14px
+   gap between the items. */
 .is-layout-flex:has(> .is-style-accordion) {
 	gap: 14px;
 }
@@ -1601,55 +1416,6 @@ body.parent-pageid-179 .is-style-steps {
 	font-size: .9rem;
 }
 
-.starter-feature-grid.modes {
-	display: grid;
-	gap: 14px;
-	grid-template-columns: 1fr;
-	margin-top: 26px;
-	padding: 0;
-}
-
-.starter-feature-grid.modes .starter-feature {
-	align-items: center;
-	background: #fff;
-	border: 1px solid rgba(58, 38, 22, .08);
-	border-radius: 16px;
-	box-shadow: 0 14px 30px -24px rgba(58, 38, 22, .5);
-	display: flex;
-	gap: 16px;
-	padding: 16px 18px;
-	text-align: left;
-}
-
-.starter-feature-grid.modes .starter-feature__ic {
-	align-items: center;
-	background: var(--wc-yellow);
-	border-radius: 13px;
-	color: var(--wc-ink);
-	display: inline-flex;
-	flex: 0 0 auto;
-	inline-size: 46px;
-	justify-content: center;
-	block-size: 46px;
-}
-
-.starter-feature-grid.modes .starter-feature__ic svg {
-	block-size: 24px;
-	inline-size: 24px;
-}
-
-.starter-feature-grid.modes .starter-feature__title {
-	color: var(--wc-ink);
-	font-size: 1rem;
-	margin: 0;
-}
-
-.starter-feature-grid.modes .starter-feature__text {
-	color: var(--wc-ink-soft);
-	font-size: .9rem;
-	margin: 2px 0 0;
-}
-
 .act-grid {
 	display: grid;
 	gap: 16px;
@@ -1958,8 +1724,7 @@ body.parent-pageid-179 .is-style-steps {
 	margin-top: 34px;
 }
 
-.review,
-.starter-testimonial {
+.review {
 	background: #fff;
 	border: 1px solid rgba(58, 38, 22, .08);
 	border-radius: var(--wc-radius);
@@ -1968,54 +1733,6 @@ body.parent-pageid-179 .is-style-steps {
 	flex-direction: column;
 	padding: 28px 26px;
 	transition: transform .4s var(--wc-ease), box-shadow .4s var(--wc-ease);
-}
-
-.starter-testimonial__mark {
-	color: var(--wc-yellow);
-	font-family: "Inria Serif", serif;
-	font-size: 1.4rem;
-	line-height: 1;
-}
-
-.starter-testimonial__quote {
-	color: var(--wc-ink);
-	flex: 1;
-	font-size: 1rem;
-	font-style: italic;
-	line-height: 1.62;
-	margin: 0;
-}
-
-.starter-testimonial__by {
-	align-items: center;
-	display: flex;
-	gap: 14px;
-	margin-top: 22px;
-}
-
-.starter-testimonial__initials {
-	background: var(--wc-yellow);
-	border-radius: 50%;
-	color: var(--wc-ink);
-	display: grid;
-	flex: 0 0 auto;
-	font-family: "Inria Serif", serif;
-	font-size: 1.05rem;
-	font-weight: 700;
-	inline-size: 44px;
-	place-items: center;
-	block-size: 44px;
-}
-
-.starter-testimonial__name {
-	color: var(--wc-ink);
-	display: block;
-	font-size: .98rem;
-}
-
-.starter-testimonial__role {
-	color: var(--wc-ink-soft);
-	font-size: .82rem;
 }
 
 .stars {
@@ -2069,52 +1786,6 @@ body.parent-pageid-179 .is-style-steps {
 	overflow: hidden;
 	position: relative;
 	text-align: center;
-}
-
-.closing .starter-cta {
-	background: rgba(58, 38, 22, .78);
-	border-radius: var(--wc-radius-lg);
-	margin-inline: auto;
-	max-inline-size: 720px;
-	padding: 72px 48px;
-}
-
-.closing .starter-cta__title {
-	color: #fff;
-	font-size: clamp(2rem, 5.4vw, 3.4rem);
-	margin: 0 auto;
-	max-inline-size: 14ch;
-	text-wrap: balance;
-}
-
-.closing .starter-cta__actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 14px;
-	justify-content: center;
-	margin-top: 24px;
-}
-
-.closing .starter-cta__btn {
-	align-items: center;
-	border-radius: 999px;
-	display: inline-flex;
-	font-weight: 700;
-	justify-content: center;
-	min-block-size: 48px;
-	padding: .85em 1.5em;
-	text-decoration: none;
-}
-
-.closing .starter-cta__btn--primary {
-	background: var(--wc-yellow);
-	color: var(--wc-ink);
-}
-
-.closing .starter-cta__btn--secondary {
-	background: transparent;
-	border: 1px solid rgba(255, 255, 255, .55);
-	color: #fff;
 }
 
 .closing img.bg {
@@ -2332,10 +2003,6 @@ body.parent-pageid-179 .is-style-steps {
 	}
 
 	.modes {
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	.starter-feature-grid.modes {
 		grid-template-columns: repeat(3, 1fr);
 	}
 
