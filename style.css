@@ -1051,8 +1051,10 @@ body.wc-guide-subpage .is-style-prose [id] {
    of block padding to sit under the hero on /guide; here it follows an intro
    paragraph, so even that out: breathing room below the hero, the cards close
    to the intro they belong to, and a calmer gap before the first band.
-   Scoped to the post content: the header's inner row is a .wc-wrap group too. */
-body.wc-guide-subpage .wp-block-post-content > .wp-block-group.wc-wrap {
+   Only the content wrap that holds the mode cards (Arrival): on sub-pages
+   whose wrap is the whole page body the closing band follows it, so they keep
+   the default wrap padding. The header's inner row is a .wc-wrap group too. */
+body.wc-guide-subpage .wp-block-post-content > .wp-block-group.wc-wrap:has(> .guide-cards) {
 	padding-block: 3.5rem 0;
 }
 
