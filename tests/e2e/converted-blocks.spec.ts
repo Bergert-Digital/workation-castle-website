@@ -151,4 +151,22 @@ test.describe('Converted pediment blocks', () => {
     await expect(answer).toBeVisible();
     expect((await answer.innerText()).trim()).not.toBe('');
   });
+
+  test('converted cards take part in the scroll reveal', async ({ page }) => {
+    // reveal.js marks the converted selectors (.is-style-card, ...) with
+    // data-reveal and adds is-in once they scroll into view. The CSS that hides
+    // them is gated behind html.anim and turned off by prefers-reduced-motion,
+    // so this test asks for motion explicitly.
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    await page.goto('/guide/');
+    await expect(page.locator('html')).toHaveClass(/\banim\b/);
+
+    const cards = page.locator('.guide-cards .is-style-card');
+    const card = cards.last();
+    await expect(card).toHaveAttribute('data-reveal', '');
+
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveClass(/\bis-in\b/);
+    await expect(card).toHaveCSS('opacity', '1');
+  });
 });
