@@ -1032,36 +1032,37 @@ body.no-hero .wp-site-blocks > main {
 	background: var(--wp--preset--color--surface-sunken);
 }
 
-/* Guide sub-page in-page anchors (e.g. the Arrival mode cards → #by-car …):
-   the site header is fixed (76px), and the theme's global smooth scroll stalls
-   on long jumps. Jump instantly and clear the header so the heading is visible. */
-html:has(body.parent-pageid-179) {
+/* Guide sub-pages: body.wc-guide-subpage is added in functions.php to every
+   child of the guide, in every language.
+
+   In-page anchors (e.g. the Arrival mode cards → #by-car …): the site header
+   is fixed (76px), and the theme's global smooth scroll stalls on long jumps.
+   Jump instantly and clear the header so the heading is visible. */
+html:has(body.wc-guide-subpage) {
 	scroll-behavior: auto;
 }
 
-body.parent-pageid-179 .starter-band,
-body.parent-pageid-179 .is-style-prose [id] {
+body.wc-guide-subpage .starter-band,
+body.wc-guide-subpage .is-style-prose [id] {
 	scroll-margin-top: 96px;
 }
 
 /* Intro + mode-card grid spacing. The shared .guide-cards block reserves 112px
    of block padding to sit under the hero on /guide; here it follows an intro
    paragraph, so even that out: breathing room below the hero, the cards close
-   to the intro they belong to, and a calmer gap before the first band. */
-body.parent-pageid-179 .wp-block-group.wc-wrap {
+   to the intro they belong to, and a calmer gap before the first band.
+   Scoped to the post content: the header's inner row is a .wc-wrap group too. */
+body.wc-guide-subpage .wp-block-post-content > .wp-block-group.wc-wrap {
 	padding-block: 3.5rem 0;
 }
 
-body.parent-pageid-179 .guide-cards {
+body.wc-guide-subpage .guide-cards {
 	padding-block: 2.5rem 4rem;
 }
 
 /* Lift the app-purchase steps into a cream card (matching the mode cards' chrome)
-   so the numbered flow reads as a distinct module, not run-on body copy.
-   Note: 179 is not the guide's page ID on production (201) or in wp-env, so
-   this selector matches nothing today; the guide sub-pages render the steps
-   without the card. */
-body.parent-pageid-179 .is-style-steps {
+   so the numbered flow reads as a distinct module, not run-on body copy. */
+body.wc-guide-subpage .is-style-steps {
 	background: var(--wp--preset--color--surface);
 	border: 1px solid var(--wp--preset--color--border);
 	border-radius: 20px;

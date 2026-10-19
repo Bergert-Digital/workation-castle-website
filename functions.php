@@ -499,6 +499,60 @@ function workation_body_class( $classes ) {
 add_filter( 'body_class', 'workation_body_class' );
 
 /**
+ * Whether a page is the guide, in any language.
+ *
+ * Every language has its own guide page, with its own ID and slug. The guide is
+ * the page whose default-language translation has the slug `guide`. Without
+ * Polylang, that is the page itself.
+ *
+ * @param int $page_id Page ID.
+ * @return bool
+ */
+function workation_is_guide_page( $page_id ) {
+	$source_id = $page_id;
+	if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_default_language' ) ) {
+		$translation = (int) pll_get_post( $page_id, pll_default_language() );
+		if ( $translation ) {
+			$source_id = $translation;
+		}
+	}
+
+	/**
+	 * Filter the default-language translation of a page.
+	 *
+	 * Defaults to Polylang's translation in the default language, or to the
+	 * page itself when Polylang is inactive or the page has no such translation.
+	 *
+	 * @param int $source_id ID of the default-language translation.
+	 * @param int $page_id   ID of the page.
+	 */
+	$source_id = (int) apply_filters( 'workation_default_language_page_id', $source_id, $page_id );
+
+	return 'guide' === get_post_field( 'post_name', $source_id );
+}
+
+/**
+ * Flag the guide's sub-pages (Arrival, Map, Casa Galbiga, FAQ, …) in every
+ * language with a `wc-guide-subpage` body class. The stylesheet keys their
+ * anchor offsets, spacing and the steps card off it; the core
+ * `parent-pageid-<id>` class cannot, because the guide's ID differs per
+ * language and per site.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function workation_guide_subpage_body_class( $classes ) {
+	if ( is_page() ) {
+		$parent_id = wp_get_post_parent_id( get_queried_object_id() );
+		if ( $parent_id && workation_is_guide_page( $parent_id ) ) {
+			$classes[] = 'wc-guide-subpage';
+		}
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'workation_guide_subpage_body_class' );
+
+/**
  * Resolve the %WORKATION_THEME_URI% and %WORKATION_HOME_URL% placeholders in
  * static template parts.
  *
