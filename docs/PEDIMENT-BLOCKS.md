@@ -52,6 +52,17 @@
   - `helpText` (string)
   - `options` (array)
 
+## pediment/icon
+
+**Icon** — One icon from the Pediment icon set; decorative, or announced to screen readers when it has a label.
+
+**Source:** parent
+**Use when:** an icon on a card or a list item. Set the Phosphor slug in `icon` and add a `label` when the icon carries meaning, so screen readers announce it. Leave `label` empty for a decorative icon. The default style is `tile`.
+
+**Attributes:**
+  - `icon` (string)
+  - `label` (string)
+
 ## pediment/mega-menu
 
 **Mega Menu** — A mega-menu dropdown for the navigation: columns of icon links.
