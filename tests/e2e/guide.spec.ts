@@ -44,6 +44,17 @@ test.describe('Guest Guide', () => {
     await expect(page.locator('.header-inner')).toHaveCSS('padding-top', headerPad);
   });
 
+  test('sub-pages without mode cards keep the default content padding', async ({ page }) => {
+    // The tighter 3.5rem/0 padding is only for the Arrival intro + mode cards;
+    // a page whose content wrap ends right above the closing band keeps the
+    // default .wp-block-post-content > .wc-wrap padding on both sides.
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/guide/casa-galbiga/');
+    const wrap = page.locator('.wp-block-post-content > .wc-wrap').first();
+    await expect(wrap).toHaveCSS('padding-top', '112px');
+    await expect(wrap).toHaveCSS('padding-bottom', '112px');
+  });
+
   test('translated guide sub-pages carry the body class too', async ({ page }) => {
     await page.goto('/de/guide-de/arrival-de/');
     await expect(page.locator('body')).toHaveClass(/\bwc-guide-subpage\b/);
