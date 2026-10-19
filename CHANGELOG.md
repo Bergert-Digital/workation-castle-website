@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.9.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.8.0...v1.9.0) (2026-10-19)
+
+
+### Features
+
+* **styles:** style the converted pediment blocks ([cf19982](https://github.com/Bergert-Digital/workation-castle-website/commit/cf199820578da24d4499e6c0fc27e5392e7da2b0))
+
+
+### Bug Fixes
+
+* **styles:** carry radius and padding as tokens ([a624f46](https://github.com/Bergert-Digital/workation-castle-website/commit/a624f465e3121457b32ebe068921dab86d4c8b18))
+* **tools:** mark legacy blocks in the block catalog ([aa86f79](https://github.com/Bergert-Digital/workation-castle-website/commit/aa86f79dc5f0641c4ea2bf706059ea43bdada3d4))
+
+
+### Refactors
+
+* drop the feature card alignment styles ([770c6d6](https://github.com/Bergert-Digital/workation-castle-website/commit/770c6d64c8ce918ff6cd322dba41fb4843fb34d7))
+* **patterns:** convert legacy pediment blocks ([ce64070](https://github.com/Bergert-Digital/workation-castle-website/commit/ce6407012ff5a3704bfec077a5cd95a463630b91))
+
 ## [1.8.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.7.0...v1.8.0) (2026-09-30)
 
 
