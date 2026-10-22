@@ -3,8 +3,10 @@
  *
  * Clicking a tab (.photo-tab[data-filter]) shows only the photos whose
  * data-category includes that slug; the "*" tab shows everything. Hidden
- * photos get .is-hidden (CSS fades them out). Progressive enhancement: with
- * no JS, all photos and the plain image links remain available.
+ * photos get .is-hidden (CSS fades them out). The active filter is mirrored
+ * in the URL (?filter=<slug>) so a filtered view can be shared or reloaded.
+ * Progressive enhancement: with no JS, all photos and the plain image links
+ * remain available.
  */
 ( function () {
 	'use strict';
@@ -20,6 +22,18 @@
 			var show = '*' === filter || cats.indexOf( filter ) !== -1;
 			photo.classList.toggle( 'is-hidden', ! show );
 		} );
+	}
+
+	// Mirror the filter in the query string without adding a history entry;
+	// the "*" (all) tab removes the parameter.
+	function syncUrl( filter ) {
+		var url = new URL( window.location.href );
+		if ( '*' === filter ) {
+			url.searchParams.delete( 'filter' );
+		} else {
+			url.searchParams.set( 'filter', filter );
+		}
+		window.history.replaceState( window.history.state, '', url );
 	}
 
 	function init() {
@@ -40,7 +54,9 @@
 			}
 			tabs.forEach( function ( tab ) {
 				tab.addEventListener( 'click', function () {
-					apply( tabs, photos, tab.getAttribute( 'data-filter' ) );
+					var filter = tab.getAttribute( 'data-filter' );
+					apply( tabs, photos, filter );
+					syncUrl( filter );
 				} );
 			} );
 			// Only apply the URL filter when a matching tab exists, so a bogus
