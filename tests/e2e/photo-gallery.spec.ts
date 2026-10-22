@@ -32,6 +32,17 @@ test( 'photo gallery filters and opens lightbox', async ( { page } ) => {
 	);
 	expect( await mismatched.count() ).toBe( 0 );
 
+	// The active filter is mirrored in the URL, and a reload restores it.
+	await expect( page ).toHaveURL( new RegExp( `[?&]filter=${ slug }(&|$)` ) );
+	await page.reload();
+	await expect( tabs.nth( 1 ) ).toHaveClass( /is-active/ );
+	expect( await visible.count() ).toBe( visibleCount );
+
+	// The "All" tab clears the parameter.
+	await tabs.first().click();
+	await expect( page ).not.toHaveURL( /[?&]filter=/ );
+	await expect( page.locator( '.photo.is-hidden' ) ).toHaveCount( 0 );
+
 	// Open the lightbox on the first visible photo.
 	await page.locator( '.photo-grid .photo:not(.is-hidden)' ).first().click();
 	await expect( page.locator( '.wc-lightbox.is-open' ) ).toBeVisible();
