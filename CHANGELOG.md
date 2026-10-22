@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.9.1...v1.10.0) (2026-10-22)
+
+
+### Features
+
+* **photos:** mirror the active filter in the URL ([f52142e](https://github.com/Bergert-Digital/workation-castle-website/commit/f52142e697bfe9fbce66ec8f506e454111ac901d))
+
 ## [1.9.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.9.0...v1.9.1) (2026-10-19)
 
 
