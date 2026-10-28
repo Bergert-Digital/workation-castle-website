@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.10.0...v1.11.0) (2026-10-28)
+
+
+### Features
+
+* **activities:** add activity map block, enable revisions ([70b6061](https://github.com/Bergert-Digital/workation-castle-website/commit/70b6061f685978b3b32010a8042d36a618c3542a))
+
 ## [1.10.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.9.1...v1.10.0) (2026-10-22)
 
 
