@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.11.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.0...v1.11.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **activities:** castle logo and extra pins on activity maps ([#98](https://github.com/Bergert-Digital/workation-castle-website/issues/98)) ([8788f2c](https://github.com/Bergert-Digital/workation-castle-website/commit/8788f2c92d8ef565db61e241a007c9268a317fb3))
+* **activities:** show castle logo and extra pins on maps ([cd2b600](https://github.com/Bergert-Digital/workation-castle-website/commit/cd2b6000b061806413ce7af9da0205d84bc87b58))
+
 ## [1.11.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.10.0...v1.11.0) (2026-10-28)
 
 
