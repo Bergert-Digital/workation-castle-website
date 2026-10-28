@@ -46,7 +46,7 @@ function workation_register_activities() {
 			'has_archive'        => false,
 			'rewrite'            => array( 'slug' => 'activities' ),
 			'menu_icon'          => 'dashicons-palmtree',
-			'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes' ),
+			'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'page-attributes', 'revisions' ),
 		)
 	);
 }

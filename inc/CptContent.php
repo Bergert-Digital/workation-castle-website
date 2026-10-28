@@ -137,14 +137,15 @@ class CptContent {
 			// manifest carries destination coordinates, mirroring the
 			// wp-map-block maps on the live activity pages.
 			if ( isset( $item['dest_lat'], $item['dest_lng'] ) ) {
-				$content .= "\n\n<!-- wp:html -->\n"
-					. sprintf(
-						'<div class="wc-activity-map" data-lat="%1$s" data-lng="%2$s" data-title="%3$s"></div>',
-						esc_attr( (string) $item['dest_lat'] ),
-						esc_attr( (string) $item['dest_lng'] ),
-						esc_attr( isset( $item['dest_title'] ) ? (string) $item['dest_title'] : '' )
-					)
-					. "\n<!-- /wp:html -->";
+				$content .= "\n\n" . get_comment_delimited_block_content(
+					'workation/activity-map',
+					array(
+						'lat'   => (string) $item['dest_lat'],
+						'lng'   => (string) $item['dest_lng'],
+						'title' => isset( $item['dest_title'] ) ? (string) $item['dest_title'] : '',
+					),
+					''
+				);
 			}
 
 			$post_id = wp_insert_post(

@@ -116,6 +116,18 @@
 
 **Align:** full
 
+## workation/activity-map
+
+**Activity Map** — Locator map on an activity page: the castle and the activity's destination.
+
+**Source:** child
+**Use when:** at the end of a `wc_activity` single, to show the castle and the destination on a Leaflet map. Replaces the old `core/html` `.wc-activity-map` div, which Pediment's MCP tools reject.
+
+**Attributes:**
+  - `lat` (string)
+  - `lng` (string)
+  - `title` (string)
+
 ## workation/availability-form
 
 **Availability Form** — Compact Workation Castle availability form with arrival, departure, and guest fields.
