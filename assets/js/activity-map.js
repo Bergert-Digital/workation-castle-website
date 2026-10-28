@@ -25,7 +25,7 @@
 		lat: 46.03897378894044,
 		lng: 9.149152651631791,
 		title: 'Workation Castle',
-		icon: 'https://workationcastle.com/wp-content/uploads/2023/08/cropped-Logo.png',
+		icon: L10N.castleIcon,
 	};
 
 	function init() {
@@ -65,19 +65,24 @@
 				.addTo( map )
 				.bindPopup( CASTLE.title );
 
-			// Destination — default Leaflet pin, popup links to Google Maps.
-			var gmaps = 'https://www.google.com/maps/search/?api=1&query=' + lat + ',' + lng;
-			var popup = ( title ? '<strong>' + title + '</strong><br>' : '' ) +
-				'<a href="' + gmaps + '" target="_blank" rel="noopener">' +
-				esc( L10N.seeOnGoogleMaps || 'See on Google Maps' ) +
-				'</a>';
-			window.L.marker( [ lat, lng ] ).addTo( map ).bindPopup( popup );
-
-			// Frame both markers so the castle is always visible.
-			map.fitBounds(
-				[ [ CASTLE.lat, CASTLE.lng ], [ lat, lng ] ],
-				{ padding: [ 40, 40 ], maxZoom: 13 }
+			// Destinations — default Leaflet pins, popups link to Google Maps.
+			var points = [ { lat: lat, lng: lng, title: title } ].concat(
+				JSON.parse( el.dataset.pins || '[]' )
 			);
+
+			var bounds = [ [ CASTLE.lat, CASTLE.lng ] ];
+			points.forEach( function ( point ) {
+				var gmaps = 'https://www.google.com/maps/search/?api=1&query=' + point.lat + ',' + point.lng;
+				var popup = ( point.title ? '<strong>' + esc( point.title ) + '</strong><br>' : '' ) +
+					'<a href="' + gmaps + '" target="_blank" rel="noopener">' +
+					esc( L10N.seeOnGoogleMaps || 'See on Google Maps' ) +
+					'</a>';
+				window.L.marker( [ point.lat, point.lng ] ).addTo( map ).bindPopup( popup );
+				bounds.push( [ point.lat, point.lng ] );
+			} );
+
+			// Frame every marker so the castle is always visible.
+			map.fitBounds( bounds, { padding: [ 40, 40 ], maxZoom: 13 } );
 		} );
 	}
 

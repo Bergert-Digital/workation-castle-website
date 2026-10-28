@@ -128,6 +128,18 @@
   - `lng` (string)
   - `title` (string)
 
+## workation/activity-map-pin
+
+**Activity Map Pin** — An extra destination marker on an activity map.
+
+**Source:** child
+**Use when:** inside `workation/activity-map`, once per additional place the activity names (for example a second beach or school). The parent's own lat/lng stays the main destination.
+
+**Attributes:**
+  - `lat` (string)
+  - `lng` (string)
+  - `title` (string)
+
 ## workation/availability-form
 
 **Availability Form** — Compact Workation Castle availability form with arrival, departure, and guest fields.
@@ -445,153 +457,4 @@
   - `imageUrl` (string)
   - `imageAlt` (string)
   - `imageId` (number)
-
-# Legacy blocks (do not use)
-
-> `Policy::LEGACY` in the Pediment plugin. Hidden from the inserter, deleted in
-> Pediment 5. Convert existing uses with `wp pediment convert`.
-
-## pediment/cta
-
-**Call to Action** — Inline call-to-action with title, body, and one or two buttons.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/faq
-
-**FAQ** — A list of frequently asked questions. Contains FAQ Item child blocks.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/faq-item
-
-**FAQ Item** — A single question and answer in an FAQ list.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/feature
-
-**Feature** — A single icon + title + text + optional link card.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/feature-grid
-
-**Feature Grid** — A responsive grid of feature cards. Contains Feature child blocks.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/hero
-
-**Hero** — A page-opening hero with headline, subheadline, and primary CTA. Variants: default, centered, media-bg, stat-card.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/image-caption
-
-**Image with caption** — A figure block with image, optional caption, and optional alt-text override.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/logo-cloud
-
-**Logo Cloud** — A “trusted by” strip of client or partner logos.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/media-text
-
-**Media & Text** — A section that pairs a column of copy with an image side by side. Put the heading, paragraphs and lists in innerBlocks; set mediaPosition to left or right.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/prose
-
-**Prose** — Long-form prose with constrained content width and typographic defaults. Contains paragraphs, headings, and lists.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/pull-quote
-
-**Pull Quote** — An emphasized quotation with optional citation.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/section-head
-
-**Section Head** — Eyebrow + headline + lead intro for a section/band. Use at align:wide above content blocks.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/stat
-
-**Stat** — A prominent number or short value with a label and optional context line.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/stat-grid
-
-**Stat Grid** — A responsive row of key figures. Use for a 'numbers & facts' / Zahlen & Fakten / stats section. Contains Stat child blocks laid out side by side.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/step
-
-**Step** — A single numbered step (number auto-generated).
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/steps
-
-**Steps** — An ordered list of numbered steps. Contains Step child blocks.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/testimonial
-
-**Testimonial** — A single customer testimonial card: quote, author name, role, and optional avatar.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
-
-## pediment/testimonial-grid
-
-**Testimonial Grid** — A responsive grid of customer testimonial cards. Use for 'what our clients say' / Kundenstimmen sections. Contains Testimonial child blocks.
-
-**Source:** parent
-**Status:** legacy
-**Use when:** Do not use. Legacy block: hidden from the inserter, deleted in Pediment 5. Compose it from core blocks and named styles (see `docs/STYLING.md`, "Compose sections from core blocks").
 

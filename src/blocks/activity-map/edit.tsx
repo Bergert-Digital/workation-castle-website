@@ -1,5 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import {
+	ButtonBlockAppender,
+	useBlockProps,
+	useInnerBlocksProps,
+	InspectorControls,
+} from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 
 type Attrs = {
@@ -8,14 +13,28 @@ type Attrs = {
 	title: string;
 };
 
+const ALLOWED = [ 'workation/activity-map-pin' ];
+
 export default function Edit( {
 	attributes,
 	setAttributes,
+	clientId,
 }: {
 	attributes: Attrs;
 	setAttributes: ( a: Partial< Attrs > ) => void;
+	clientId: string;
 } ) {
 	const blockProps = useBlockProps( { className: 'activity-map-editor' } );
+	const innerProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: ALLOWED,
+			templateLock: false,
+			renderAppender: () => (
+				<ButtonBlockAppender rootClientId={ clientId } />
+			),
+		}
+	);
 	return (
 		<>
 			<InspectorControls>
@@ -41,17 +60,21 @@ export default function Edit( {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				{ attributes.lat && attributes.lng
-					? `📍 ${
-							attributes.title || __( 'Destination', 'workation' )
-					  } — ${ __(
-							'the map renders on the front end.',
-							'workation'
-					  ) }`
-					: __(
-							'📍 Activity map — set the destination in the sidebar.',
-							'workation'
-					  ) }
+				<p>
+					{ attributes.lat && attributes.lng
+						? `📍 ${
+								attributes.title ||
+								__( 'Destination', 'workation' )
+						  } — ${ __(
+								'the map renders on the front end.',
+								'workation'
+						  ) }`
+						: __(
+								'📍 Activity map — set the destination in the sidebar.',
+								'workation'
+						  ) }
+				</p>
+				<div { ...innerProps } />
 			</div>
 		</>
 	);

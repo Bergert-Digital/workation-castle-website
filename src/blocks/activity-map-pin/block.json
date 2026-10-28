@@ -1,0 +1,18 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "workation/activity-map-pin",
+  "title": "Activity Map Pin",
+  "category": "design",
+  "description": "An extra destination marker on an activity map.",
+  "parent": [ "workation/activity-map" ],
+  "textdomain": "workation",
+  "supports": { "html": false },
+  "attributes": {
+    "lat":   { "type": "string", "default": "" },
+    "lng":   { "type": "string", "default": "" },
+    "title": { "type": "string", "default": "" }
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

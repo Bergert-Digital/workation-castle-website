@@ -26,5 +26,6 @@ class ScriptL10nTest extends WP_UnitTestCase {
 		$data = wp_scripts()->get_data( 'workation-castle-activity-map', 'data' );
 		$this->assertIsString( $data, 'The activity map has no localized payload.' );
 		$this->assertStringContainsString( 'See on Google Maps', $data );
+		$this->assertStringContainsString( 'assets/images/logo-mark-512.png', $data, 'The castle marker must use the theme logo, not an uploads URL.' );
 	}
 }
