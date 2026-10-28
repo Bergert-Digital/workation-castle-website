@@ -367,6 +367,7 @@ add_action(
 				'wcActivityMap',
 				array(
 					'seeOnGoogleMaps' => __( 'See on Google Maps', 'workation' ),
+					'castleIcon'      => get_theme_file_uri( 'assets/images/logo-mark-512.png' ),
 				)
 			);
 		}
