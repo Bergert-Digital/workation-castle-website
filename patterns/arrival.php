@@ -128,7 +128,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Bus C112 runs from Lugano to Menaggio — ticket about 6 €, around 30 minutes.</p>
+<p>Bus C112 runs from Lugano to Menaggio — ticket about 7 €, around 30 minutes.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
@@ -139,7 +139,7 @@
 <!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
 <div class="wp-block-group is-style-prose"><!-- wp:list -->
 <ul class="wp-block-list"><!-- wp:list-item -->
-<li><strong>Ticket:</strong> ca. 6 € · <strong>Duration:</strong> ca. 30 min</li>
+<li><strong>Ticket:</strong> about 7 € · <strong>Duration:</strong> ca. 30 min</li>
 <!-- /wp:list-item -->
 <!-- wp:list-item -->
 <li><strong>Afternoon departures:</strong> 15:50, 17:20 (not on Sundays!), 18:45</li>
