@@ -54,6 +54,7 @@ require_once __DIR__ . '/inc/Brevo.php';
 // e.g. in unit tests and direct template includes).
 require_once __DIR__ . '/inc/WorkationSections.php';
 require_once __DIR__ . '/inc/EstateMap.php';
+require_once __DIR__ . '/inc/GoogleMap.php';
 require_once __DIR__ . '/inc/AvailabilityForm.php';
 
 // Renders the static footer template part: translatable copy, language-aware

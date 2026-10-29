@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "workation/google-map",
+  "title": "Google Map",
+  "category": "embed",
+  "description": "Embedded Google Map (a place, a route or a My Maps map), loaded only after the visitor allows external content.",
+  "textdomain": "workation",
+  "attributes": {
+    "url": { "type": "string", "default": "" },
+    "title": { "type": "string", "default": "" }
+  },
+  "supports": { "html": false },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

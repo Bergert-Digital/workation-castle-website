@@ -24,14 +24,14 @@
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0786-1024x768-2.jpeg" alt="Bathroom wall thermostat on the ground floor" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0786-1024x768-2.jpeg" alt="Bathroom wall thermostat on the ground floor" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0788-1024x768-1.jpeg" alt="Bathroom interior showing the mirror and towel rail beside the thermostat" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0788-1024x768-1.jpeg" alt="Bathroom interior showing the mirror and towel rail beside the thermostat" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -44,14 +44,14 @@
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0791-scaled-e1735044636999-1024x768-1.jpeg" alt="Heater valve on a bathroom radiator" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0791-scaled-e1735044636999-1024x768-1.jpeg" alt="Heater valve on a bathroom radiator" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0792-scaled-e1735044626723-1024x768-1.jpeg" alt="Second heater valve, opened" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0792-scaled-e1735044626723-1024x768-1.jpeg" alt="Second heater valve, opened" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -114,8 +114,8 @@
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 
-<!-- wp:image {"width":"380px","sizeSlug":"large","align":"center","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image aligncenter size-large is-resized has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/Guide-Aushang-1.png" alt="Printed remote-control reference sheet for the room fan-heaters" style="border-radius:16px;width:380px"/><figcaption class="wp-element-caption">The remote-control reference sheet posted in each room.</figcaption></figure>
+<!-- wp:image {"width":"380px","sizeSlug":"large","align":"center","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image aligncenter size-large is-resized has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/Guide-Aushang-1.png" alt="Printed remote-control reference sheet for the room fan-heaters" style="border-radius:var(--wp--custom--radius--md-lg);width:380px"/><figcaption class="wp-element-caption">The remote-control reference sheet posted in each room.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"className":"is-style-prose","layout":{"type":"constrained"},"metadata":{"name":"Prose"}} -->
@@ -126,14 +126,14 @@
 
 <!-- wp:columns {"className":"guide-photos"} -->
 <div class="wp-block-columns guide-photos"><!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0789-1024x768-1.jpeg" alt="Wall-mounted kitchen thermostat controlling the air conditioner" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0789-1024x768-1.jpeg" alt="Wall-mounted kitchen thermostat controlling the air conditioner" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
 <!-- wp:column -->
-<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0790-1024x768-1.jpeg" alt="A finger pressing the button on the kitchen thermostat" style="border-radius:16px"/></figure>
+<div class="wp-block-column"><!-- wp:image {"sizeSlug":"large","style":{"border":{"radius":"var(\u002d\u002dwp\u002d\u002dcustom\u002d\u002dradius\u002d\u002dmd-lg)"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="https://workationcastle.com/wp-content/uploads/2026/07/IMG_0790-1024x768-1.jpeg" alt="A finger pressing the button on the kitchen thermostat" style="border-radius:var(--wp--custom--radius--md-lg)"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
