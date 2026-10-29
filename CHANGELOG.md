@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.2...v1.12.0) (2026-10-29)
+
+
+### Features
+
+* **activity-map:** use the locator map on any page ([0d484bc](https://github.com/Bergert-Digital/workation-castle-website/commit/0d484bcf852782f2fc1ca569c5e95c546e56006e))
+
+
+### Bug Fixes
+
+* **arrival:** set the bus fare to about 7 € ([c814f72](https://github.com/Bergert-Digital/workation-castle-website/commit/c814f723d253a87a1ded57a0636444feffba43fe))
+
 ## [1.11.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.1...v1.11.2) (2026-10-29)
 
 
