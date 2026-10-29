@@ -81,8 +81,12 @@
 				bounds.push( [ point.lat, point.lng ] );
 			} );
 
-			// Frame every marker so the castle is always visible.
-			map.fitBounds( bounds, { padding: [ 40, 40 ], maxZoom: 13 } );
+			// Frame every marker so the castle is always visible. maxZoom keeps
+			// a nearby destination from zooming in to street level.
+			map.fitBounds( bounds, {
+				padding: [ 40, 40 ],
+				maxZoom: parseInt( el.dataset.zoom, 10 ) || 13,
+			} );
 		} );
 	}
 

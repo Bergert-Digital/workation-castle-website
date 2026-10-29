@@ -28,6 +28,12 @@
 			<key name="lead"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>
+		<gutenberg-block type="workation/activity-map" translate="1">
+			<key name="title"/>
+		</gutenberg-block>
+		<gutenberg-block type="workation/activity-map-pin" translate="1">
+			<key name="title"/>
+		</gutenberg-block>
 		<gutenberg-block type="workation/google-map" translate="1">
 			<key name="title"/>
 		</gutenberg-block>

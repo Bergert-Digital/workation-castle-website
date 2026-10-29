@@ -4,13 +4,14 @@
   "name": "workation/activity-map",
   "title": "Activity Map",
   "category": "design",
-  "description": "Locator map on an activity page: the castle and the activity's destination.",
+  "description": "Locator map: the castle, a destination and optional extra pins (activity pages, guide pages).",
   "textdomain": "workation",
   "supports": { "html": false },
   "attributes": {
     "lat":   { "type": "string", "default": "" },
     "lng":   { "type": "string", "default": "" },
-    "title": { "type": "string", "default": "" }
+    "title": { "type": "string", "default": "" },
+    "maxZoom": { "type": "number", "default": 13 }
   },
   "editorScript": "file:./index.js",
   "render": "file:./render.php"
