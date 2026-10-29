@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.2](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.1...v1.11.2) (2026-10-29)
+
+
+### Bug Fixes
+
+* **guide:** make guide pages pass the content rules ([a83fae7](https://github.com/Bergert-Digital/workation-castle-website/commit/a83fae7325d77013e11dd87c7a8bcd04ee215b27))
+
 ## [1.11.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.0...v1.11.1) (2026-10-28)
 
 
