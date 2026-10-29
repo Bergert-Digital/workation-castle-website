@@ -19,5 +19,11 @@ class ActivityMapBlockTest extends WP_UnitTestCase {
 		$html = do_blocks( '<!-- wp:workation/activity-map {"lat":"46.0315","lng":"9.1501","title":"La Rivetta Beach"} /-->' );
 
 		$this->assertStringContainsString( 'data-pins="[]"', $html );
+		$this->assertStringContainsString( 'data-zoom="13"', $html );
+	}
+
+	public function test_max_zoom_reaches_the_map() {
+		$html = do_blocks( '<!-- wp:workation/activity-map {"lat":"46.0389","lng":"9.1419","maxZoom":15} /-->' );
+		$this->assertStringContainsString( 'data-zoom="15"', $html );
 	}
 }

@@ -118,7 +118,7 @@
 
 ## workation/activity-map
 
-**Activity Map** — Locator map on an activity page: the castle and the activity's destination.
+**Activity Map** — Locator map: the castle, a destination and optional extra pins (activity pages, guide pages).
 
 **Source:** child
 **Use when:** at the end of a `wc_activity` single, to show the castle and the destination on a Leaflet map. Replaces the old `core/html` `.wc-activity-map` div, which Pediment's MCP tools reject.
@@ -127,6 +127,7 @@
   - `lat` (string)
   - `lng` (string)
   - `title` (string)
+  - `maxZoom` (number)
 
 ## workation/activity-map-pin
 

@@ -5,12 +5,13 @@ import {
 	useInnerBlocksProps,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, RangeControl, TextControl } from '@wordpress/components';
 
 type Attrs = {
 	lat: string;
 	lng: string;
 	title: string;
+	maxZoom: number;
 };
 
 const ALLOWED = [ 'workation/activity-map-pin' ];
@@ -55,6 +56,20 @@ export default function Edit( {
 						label={ __( 'Longitude', 'workation' ) }
 						value={ attributes.lng }
 						onChange={ ( v ) => setAttributes( { lng: v } ) }
+						__nextHasNoMarginBottom
+					/>
+					<RangeControl
+						label={ __( 'Maximum zoom', 'workation' ) }
+						help={ __(
+							'Raise it when all points are close together.',
+							'workation'
+						) }
+						value={ attributes.maxZoom }
+						onChange={ ( v ) =>
+							setAttributes( { maxZoom: v ?? 13 } )
+						}
+						min={ 10 }
+						max={ 18 }
 						__nextHasNoMarginBottom
 					/>
 				</PanelBody>

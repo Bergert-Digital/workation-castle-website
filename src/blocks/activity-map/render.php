@@ -33,6 +33,7 @@ $wrapper = get_block_wrapper_attributes(
 		'data-lng'   => $lng,
 		'data-title' => $dest_title,
 		'data-pins'  => (string) wp_json_encode( $pins ),
+		'data-zoom'  => (string) (int) ( $attributes['maxZoom'] ?? 13 ),
 	)
 );
 

@@ -336,8 +336,12 @@ add_action(
 			)
 		);
 
-		// Activity locator maps (Leaflet) — only on single activity pages.
-		if ( defined( 'WORKATION_ACTIVITY_CPT' ) && is_singular( WORKATION_ACTIVITY_CPT ) ) {
+		// Leaflet locator maps — on activity pages and any page with the block
+		// (the Waste Disposal guide page shows its collection points with it).
+		if (
+			( defined( 'WORKATION_ACTIVITY_CPT' ) && is_singular( WORKATION_ACTIVITY_CPT ) )
+			|| ( is_singular() && has_block( 'workation/activity-map', get_queried_object() ) )
+		) {
 			wp_enqueue_style(
 				'leaflet',
 				'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
