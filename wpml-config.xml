@@ -28,6 +28,9 @@
 			<key name="lead"/>
 			<key name="imageAlt"/>
 		</gutenberg-block>
+		<gutenberg-block type="workation/google-map" translate="1">
+			<key name="title"/>
+		</gutenberg-block>
 		<gutenberg-block type="workation/photo-gallery" translate="1">
 			<key name="eyebrow"/>
 			<key name="headline"/>

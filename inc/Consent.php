@@ -44,12 +44,34 @@ function workation_consent_gated_hosts() {
 }
 
 /**
+ * Whether a URL is a Google Maps page or embed.
+ *
+ * Covers maps.google.* and the /maps paths on google.* (My Maps embeds live at
+ * www.google.com/maps/d/embed), which a host match alone misses. The host must
+ * be Google's own, so the map block cannot be pointed at a lookalike domain.
+ *
+ * @param string $src URL.
+ * @return bool
+ */
+function workation_consent_is_google_maps( $src ) {
+	$host = strtolower( (string) wp_parse_url( $src, PHP_URL_HOST ) );
+	if ( ! preg_match( '/^(?:www\.|maps\.)?google\.(?:com|[a-z]{2}|co\.[a-z]{2}|com\.[a-z]{2})$/', $host ) ) {
+		return false;
+	}
+	$path = (string) wp_parse_url( $src, PHP_URL_PATH );
+	return 0 === strpos( $host, 'maps.' ) || '/maps' === $path || 0 === strpos( $path, '/maps/' );
+}
+
+/**
  * Whether an iframe src points at a gated third-party provider.
  *
  * @param string $src Iframe src URL.
  * @return bool
  */
 function workation_consent_is_external_embed( $src ) {
+	if ( workation_consent_is_google_maps( $src ) ) {
+		return true;
+	}
 	$host = wp_parse_url( $src, PHP_URL_HOST );
 	if ( ! $host ) {
 		return false;
@@ -74,7 +96,7 @@ function workation_consent_provider_label( $src ) {
 	if ( false !== strpos( $host, 'komoot.' ) ) {
 		return 'Komoot';
 	}
-	if ( false !== strpos( $host, 'maps.google.' ) ) {
+	if ( workation_consent_is_google_maps( $src ) ) {
 		return 'Google Maps';
 	}
 	return __( 'this provider', 'workation' );

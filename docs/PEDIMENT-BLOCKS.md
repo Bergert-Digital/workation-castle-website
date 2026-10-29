@@ -166,6 +166,17 @@
 
 **Align:** full
 
+## workation/google-map
+
+**Google Map** — Embedded Google Map (a place, a route or a My Maps map), loaded only after the visitor allows external content.
+
+**Source:** child
+**Use when:** a page needs an interactive Google Map (a place, a driving route, or a My Maps map). Paste the embed URL into `url` — never an `<iframe>` in a Custom HTML block, which the content rules reject.
+
+**Attributes:**
+  - `url` (string)
+  - `title` (string)
+
 ## workation/page-hero
 
 **Page Hero** — Cinematic full-bleed hero for interior pages, defaulting to the homepage image.
