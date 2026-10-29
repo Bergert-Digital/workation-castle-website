@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "pediment-prod": {
+    "workation-prod": {
       "type": "http",
       "url": "https://workationcastle.com/wp-json/pediment/v1/mcp",
       "headers": { "Authorization": "Basic ${WORKATION_MCP_AUTH}" }
