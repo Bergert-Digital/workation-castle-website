@@ -1002,8 +1002,10 @@ body.no-hero .wp-site-blocks > main {
 
 /* Prose (core/group.is-style-prose): the rhythm lives in
    styles/blocks/prose.json; the link look stays here, because the global
-   `.wp-site-blocks a` reset (0,1,1) beats any named-style link rule. */
-.wp-site-blocks .is-style-prose a {
+   `.wp-site-blocks a` reset (0,1,1) beats any named-style link rule.
+   Activity writeups are plain paragraphs, so they share the same look. */
+.wp-site-blocks .is-style-prose a,
+.wp-site-blocks .activity-single-content :is(p, li) a {
 	color: var(--wc-ink);
 	text-decoration: underline;
 	text-decoration-color: var(--wc-amber);
@@ -1011,7 +1013,8 @@ body.no-hero .wp-site-blocks > main {
 	text-underline-offset: .18em;
 }
 
-.wp-site-blocks .is-style-prose a:hover {
+.wp-site-blocks .is-style-prose a:hover,
+.wp-site-blocks .activity-single-content :is(p, li) a:hover {
 	text-decoration-color: currentColor;
 }
 
