@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.12.0...v1.12.1) (2026-10-30)
+
+
+### Bug Fixes
+
+* **activities:** underline links in activity text ([0bdbbeb](https://github.com/Bergert-Digital/workation-castle-website/commit/0bdbbeb1bc0713294c4619c77eb12dd629a393b7))
+
 ## [1.12.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.11.2...v1.12.0) (2026-10-29)
 
 
