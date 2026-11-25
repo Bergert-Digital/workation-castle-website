@@ -109,6 +109,9 @@ composer lint
 npm run lint:js
 ```
 
+In T3 Code, click **Dev**. Each worktree gets its own port; set `PORT=<n>` to override.
+(`scripts/dev-worktree.sh`: ports 8900–9799, boots and seeds wp-env, then runs the block watcher.)
+
 Individual steps, all of which `env:setup` runs for you:
 
 ```bash
