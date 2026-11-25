@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.13.0](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.12.1...v1.13.0) (2026-11-25)
+
+
+### Features
+
+* **forms:** adopt Pediment 6.6 form success panel ([ae3d429](https://github.com/Bergert-Digital/workation-castle-website/commit/ae3d4296fc960882d7bad4c5561fa26c47db0242))
+* **forms:** adopt Pediment 6.6 form success panel ([#107](https://github.com/Bergert-Digital/workation-castle-website/issues/107)) ([d21a726](https://github.com/Bergert-Digital/workation-castle-website/commit/d21a726fc1381f43af525bfd1e8304e2994381fd))
+
 ## [1.12.1](https://github.com/Bergert-Digital/workation-castle-website/compare/v1.12.0...v1.12.1) (2026-10-30)
 
 
