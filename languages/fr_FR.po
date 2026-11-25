@@ -627,3 +627,11 @@ msgstr "Page introuvable"
 #: inc/Footer.php
 msgid "Back to the homepage"
 msgstr "Retour à l'accueil"
+
+#: inc/FormStrings.php
+msgid "Message sent"
+msgstr "Message envoyé"
+
+#: inc/FormStrings.php
+msgid "Send another message"
+msgstr "Envoyer un autre message"

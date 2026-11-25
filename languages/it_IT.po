@@ -627,3 +627,11 @@ msgstr "Pagina non trovata"
 #: inc/Footer.php
 msgid "Back to the homepage"
 msgstr "Torna alla home"
+
+#: inc/FormStrings.php
+msgid "Message sent"
+msgstr "Messaggio inviato"
+
+#: inc/FormStrings.php
+msgid "Send another message"
+msgstr "Invia un altro messaggio"

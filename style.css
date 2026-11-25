@@ -1029,6 +1029,28 @@ body.no-hero .wp-site-blocks > main {
 	padding: clamp(1.75rem, 4vw, 2.75rem);
 }
 
+/* Pediment's form success panel draws the check and the "Send another
+   message" link in the accent yellow, which is unreadable on the white card
+   (about 1.6:1). Use the site's link treatment instead: dark ink with an
+   amber underline, and a dark check on the pale amber disc. */
+.pediment-form__success-icon {
+	color: var(--wp--preset--color--primary);
+}
+
+.pediment-form__reset {
+	color: var(--wc-ink);
+	text-decoration: underline;
+	text-decoration-color: var(--wc-amber);
+	text-decoration-thickness: 2px;
+	text-underline-offset: .18em;
+}
+
+.pediment-form__reset:hover,
+.pediment-form__reset:focus-visible {
+	color: var(--wc-ink);
+	text-decoration-color: currentColor;
+}
+
 /* Guide sub-pages: body.wc-guide-subpage is added in functions.php to every
    child of the guide, in every language.
 
