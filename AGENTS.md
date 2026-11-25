@@ -111,6 +111,9 @@ own. Reference implementations: `src/blocks/promo-banner/` (single block) and th
   Pediment's MCP tools) and loads Polylang Pro vendored in `tools/vendor/polylang-pro/`
   (staging runs Pro; its shared-slug support is what lets the translated front pages share the
   slug `home`). No auth required.
+- **In T3 Code, click Dev.** Each worktree gets its own port; set `PORT=<n>` to override
+  (`scripts/dev-worktree.sh`). It writes that port into `.wp-env.override.json` in place of
+  the random one, and rewrites the stored menu URLs when the port changes.
 - **The mount name matters.** wp-env mounts the theme at
   `wp-content/themes/<basename of the checkout>`, which in a Conductor workspace is the
   workspace name, not `workation` — and the plugin seeds the branded header from the
