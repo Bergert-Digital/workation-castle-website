@@ -20,5 +20,3 @@ run_mode = "nonconcurrent"
 # Stop this workspace's wp-env containers when archiving. `|| true` so a
 # not-running env never blocks archival. Avoids `wp-env destroy` (interactive).
 archive = "npm run env:stop || true"
-[environment_variables.local]
-WORKATION_MCP_AUTH = "YmVyZ2pzOnQ3ajEgcDhNbCAwY3lKIENaZUcgOVdZSSBVUW1p"
