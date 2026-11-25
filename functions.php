@@ -62,6 +62,10 @@ require_once __DIR__ . '/inc/AvailabilityForm.php';
 // in parts/footer.html.
 require_once __DIR__ . '/inc/Footer.php';
 
+// Translates the Pediment form's success-panel heading and reset button,
+// which Pediment ships in English only. See inc/FormStrings.php.
+require_once __DIR__ . '/inc/FormStrings.php';
+
 // Localize hardcoded root-relative internal links in body content to the
 // current language at render time, so translated pages stop leaking to the
 // English page. Mirrors the footer's link handling — see inc/LocalizeLinks.php.
